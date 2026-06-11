@@ -1,0 +1,52 @@
+version: "3.9"
+
+# ══════════════════════════════════════════════════════════
+#  MALTG Architecture Validator — Docker Compose
+#  UI UX Pro Max Skill integrado — Glassmorphism Dashboard
+#  ► Edita ./data/MALTG_onto.owl  → Tab 02 se actualiza en 5s
+#  ► Edita ./data/dt_arch.json    → Tab 03 se actualiza en 5s
+# ══════════════════════════════════════════════════════════
+
+services:
+
+  maltg:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: maltg-v2-validator
+    ports:
+      - "8080:8080"
+    volumes:
+      # Data files mounted as volumes → edit on host, instant effect
+      - ./data:/data:ro
+      # Frontend mounted too → edit HTML without rebuild
+      - ./frontend:/frontend:ro
+      # Backend mounted too → edit main.py without rebuild (uvicorn --reload)
+      - ./backend/main.py:/app/main.py:ro
+    # Override image CMD to enable hot-reload on backend edits
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080", "--reload"]
+    restart: unless-stopped
+    environment:
+      - PYTHONUNBUFFERED=1
+      # UI UX Pro Max — font preload hint for CDN
+      - DASHBOARD_STYLE=glassmorphism
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request; urllib.request.urlopen('http://localhost:8080/api/health')"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    labels:
+      - "com.maltg.version=2.5.0"
+      - "com.maltg.description=MALTG Architecture Validator"
+      - "com.maltg.owl=MALTG_onto.owl"
+      - "com.maltg.dt=dt_arch.json"
+      - "com.maltg.ui=glassmorphism"
+      - "com.maltg.fonts=Outfit+Space+Grotesk+DM+Mono"
+      - "com.maltg.skill=ui-ux-pro-max@v2.5.0"
+
+networks:
+  default:
+    name: maltg-net
+    driver: bridge

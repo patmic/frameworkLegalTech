@@ -1,0 +1,183 @@
+{
+  "@context": {
+    "@vocab": "https://maltg.arch/onto#",
+    "schema": "http://schema.org/",
+    "name": "schema:name",
+    "title": "schema:name",
+    "subtitle": "schema:alternateName",
+    "description": "schema:description",
+    "layers": { "@id": "hasLayer", "@container": "@list" },
+    "components": { "@id": "hasComponent", "@container": "@list" },
+    "sublayers": { "@id": "hasSublayer", "@container": "@list" },
+    "items": { "@id": "hasItem", "@container": "@list" },
+    "transitions": { "@id": "hasTransition", "@container": "@list" },
+    "crossCutting": { "@id": "hasCrossCuttingConcern", "@container": "@list" },
+    "dimensions": { "@id": "hasDimension", "@container": "@list" },
+    "impactLegend": { "@id": "hasImpactLevel", "@container": "@list" }
+  },
+  "@id": "maltg:MultidimensionalArchitecture",
+  "@type": "Architecture",
+  "title": "Multidimensional Architecture for LegalTech Governance",
+  "layers": [
+    {
+      "@id": "maltg:StrategicLayer",
+      "@type": "Layer",
+      "order": 1,
+      "name": "Strategic Layer",
+      "components": ["Planning", "Portfolio", "Risk", "Metrics"],
+      "description": "Enterprise Strategic Alignment",
+      "role": "Executive",
+      "impact": "Critical",
+      "fill": "#e4e6f1",
+      "stroke": "#9aa0c0",
+      "roleColor": "#e8765a"
+    },
+    {
+      "@id": "maltg:GovernanceComplianceLayer",
+      "@type": "Layer",
+      "order": 2,
+      "name": "Governance & Compliance Layer",
+      "components": ["GDPR", "Ethics", "Regulation", "Audit"],
+      "description": "Regulatory Compliance & Ethics",
+      "role": "Enterprise",
+      "impact": "Critical",
+      "fill": "#fbe4e6",
+      "stroke": "#e3a3ab",
+      "roleColor": "#e8922a"
+    },
+    {
+      "@id": "maltg:OperationalLayer",
+      "@type": "Layer",
+      "order": 3,
+      "name": "Operational Layer",
+      "components": ["Workflows", "Services", "Incidents", "Changes"],
+      "description": "Process Management & Service Delivery",
+      "role": "Tactical",
+      "impact": "Medium",
+      "fill": "#fbf6cf",
+      "stroke": "#dcd17f",
+      "roleColor": "#f2d024"
+    },
+    {
+      "@id": "maltg:TechnologyIntegrationLayer",
+      "@type": "Layer",
+      "order": 4,
+      "name": "Technology Integration Layer",
+      "components": ["AI", "Blockchain", "Open Data", "Security"],
+      "description": "Technology Stack & Integration Patterns",
+      "role": "Implementation",
+      "impact": "Medium",
+      "fill": "#f7f4d3",
+      "stroke": "#d8d290",
+      "roleColor": "#2e8b3d"
+    },
+    {
+      "@id": "maltg:FoundationLayer",
+      "@type": "Layer",
+      "order": 5,
+      "name": "Foundation Layer",
+      "components": ["TOGAF", "COBIT", "ITIL", "NIST CSF"],
+      "description": "Enterprise Standards & Frameworks",
+      "role": "Standards",
+      "impact": "Low",
+      "fill": "#d9eef0",
+      "stroke": "#8fc6cc",
+      "roleColor": "#3bb9c4",
+      "drillable": true,
+      "detail": {
+        "@id": "maltg:FoundationLayerArchitecture",
+        "@type": "LayerDetail",
+        "title": "Foundation Layer Architecture",
+        "subtitle": "Principles → Strategic Objectives → Architecture → Services → Security",
+        "crossLayer": "NIST CSF - Cross-layer Security",
+        "sublayers": [
+          {
+            "@id": "maltg:FL-Layer1",
+            "@type": "Sublayer",
+            "order": 1,
+            "name": "Governance Principles",
+            "standard": "ISO/IEC 38500",
+            "items": ["Responsibility", "Strategy", "Acquisition", "Performance", "Conformance", "Human Behavior"],
+            "tag": "EDM Cycle",
+            "fill": "#ead9f2",
+            "stroke": "#9b59b6",
+            "titleColor": "#7b3fa0"
+          },
+          {
+            "@id": "maltg:FL-Layer2",
+            "@type": "Sublayer",
+            "order": 2,
+            "name": "Strategic Governance",
+            "standard": "COBIT 2019",
+            "items": ["EDM01-05", "APO02/03/12/13", "BAI02/03/06", "DSS05/06", "MEA01/02/03"],
+            "tag": "What to achieve",
+            "fill": "#d6e4f7",
+            "stroke": "#3f6fb0",
+            "titleColor": "#1f4e96"
+          },
+          {
+            "@id": "maltg:FL-Layer3",
+            "@type": "Sublayer",
+            "order": 3,
+            "name": "Enterprise Architecture",
+            "standard": "TOGAF 10",
+            "items": ["ADM: Vision", "Business Arch", "IS Arch", "Tech Arch", "Opportunities", "Migration", "Governance", "Change"],
+            "tag": "How to design",
+            "fill": "#d9efdd",
+            "stroke": "#4a9a5a",
+            "titleColor": "#2e7d3a"
+          },
+          {
+            "@id": "maltg:FL-Layer4",
+            "@type": "Sublayer",
+            "order": 4,
+            "name": "Service Operations",
+            "standard": "ITIL 4",
+            "items": ["Plan", "Improve", "Engage", "Design & Transition", "Obtain/Build", "Deliver & Support"],
+            "tag": "How to execute",
+            "fill": "#fbe8cf",
+            "stroke": "#e0922a",
+            "titleColor": "#c2410c"
+          },
+          {
+            "@id": "maltg:FL-Layer5",
+            "@type": "Sublayer",
+            "order": 5,
+            "name": "Cybersecurity Overlay",
+            "standard": "NIST CSF 2.0",
+            "items": ["GOVERN", "IDENTIFY", "PROTECT", "DETECT", "RESPOND", "RECOVER"],
+            "note": "cross-layer integration",
+            "tag": "How to secure",
+            "fill": "#e7e9ec",
+            "stroke": "#8a9099",
+            "titleColor": "#d9480f"
+          }
+        ],
+        "transitions": [
+          "Principles → Strategic Objectives",
+          "Objectives → Architecture",
+          "Architecture → Services",
+          "Services → Security"
+        ]
+      }
+    }
+  ],
+  "crossCutting": [
+    "AI Analytics",
+    "Cybersecurity (NIST CSF)",
+    "Blockchain Immutability",
+    "Open Data Transparency"
+  ],
+  "governanceCouncil": {
+    "@id": "maltg:DigitalGovernanceCouncil",
+    "@type": "GovernanceBody",
+    "name": "Digital Governance Council",
+    "anchor": "Vision and Mission",
+    "dimensions": ["Technological", "Ethical", "Operational", "Regulatory"]
+  },
+  "impactLegend": [
+    { "level": "Critical", "color": "#e8765a" },
+    { "level": "Medium", "color": "#f2d024" },
+    { "level": "Low", "color": "#3bb9c4" }
+  ]
+}

@@ -1,0 +1,738 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+  xmlns:maltg="http://maltg.arch/onto#"
+  xml:base="http://maltg.arch/onto">
+
+  <!-- ==========================================
+       MALTG MASTER ONTOLOGY — MALTG_onto.owl
+       Multi-layer Architecture Ledger
+       Technology Governance
+       Version: 2.4.0
+       ========================================== -->
+
+  <owl:Ontology rdf:about="http://maltg.arch/onto">
+    <rdfs:label>MALTG Master Ontology — LegalTech Edition</rdfs:label>
+    <rdfs:comment>Ontología Maestra para la Arquitectura MALTG — Foundation Layer (TOGAF + COBIT + NIST), Technology Integration Layer (IA, Blockchain, Open Data, Security) y LegalTech Domain Layer (Contract Lifecycle, eDiscovery, DLT Notarization, Regulatory Compliance, Smart Legal Contracts)</rdfs:comment>
+    <owl:versionInfo>3.0.0-legaltech</owl:versionInfo>
+  </owl:Ontology>
+
+  <!-- ==========================================
+       ANNOTATION PROPERTIES
+       Visual metadata for dashboard rendering
+       ========================================== -->
+
+  <owl:AnnotationProperty rdf:about="http://maltg.arch/onto#layer">
+    <rdfs:label>layer</rdfs:label>
+    <rdfs:comment>Visual layer type: core | togaf | cobit | nist | ai | blockchain | opendata | security</rdfs:comment>
+  </owl:AnnotationProperty>
+
+  <owl:AnnotationProperty rdf:about="http://maltg.arch/onto#radius">
+    <rdfs:label>node radius</rdfs:label>
+    <rdfs:comment>Visual node radius in pixels (integer)</rdfs:comment>
+  </owl:AnnotationProperty>
+
+  <owl:AnnotationProperty rdf:about="http://maltg.arch/onto#description">
+    <rdfs:label>description</rdfs:label>
+    <rdfs:comment>Human-readable description shown in tooltips</rdfs:comment>
+  </owl:AnnotationProperty>
+
+  <owl:AnnotationProperty rdf:about="http://maltg.arch/onto#score">
+    <rdfs:label>maturity score</rdfs:label>
+    <rdfs:comment>Implementation maturity score (0-100)</rdfs:comment>
+  </owl:AnnotationProperty>
+
+  <owl:AnnotationProperty rdf:about="http://maltg.arch/onto#weight">
+    <rdfs:label>relationship weight</rdfs:label>
+    <rdfs:comment>Strength of the relationship (float)</rdfs:comment>
+  </owl:AnnotationProperty>
+
+  <!-- ==========================================
+       CORE NODE
+       ========================================== -->
+
+  <owl:Class rdf:about="http://maltg.arch/onto#MALTG_Core">
+    <rdfs:label>MALTG Core</rdfs:label>
+    <maltg:layer>core</maltg:layer>
+    <maltg:radius>22</maltg:radius>
+    <maltg:description>Multi-layer Architecture Ledger Technology Governance — Nodo central que integra todos los frameworks y capas tecnológicas</maltg:description>
+    <maltg:score>87</maltg:score>
+  </owl:Class>
+
+  <!-- ==========================================
+       FOUNDATION LAYER ROOT
+       ========================================== -->
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Foundation_Layer">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#MALTG_Core"/>
+    <rdfs:label>Foundation Layer</rdfs:label>
+    <maltg:layer>core</maltg:layer>
+    <maltg:radius>16</maltg:radius>
+    <maltg:description>Capa de fundamentos: marcos de gobernanza, control y seguridad empresarial</maltg:description>
+    <maltg:score>85</maltg:score>
+  </owl:Class>
+
+  <!-- ==========================================
+       TECHNOLOGY INTEGRATION LAYER ROOT
+       ========================================== -->
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Technology_Integration_Layer">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#MALTG_Core"/>
+    <rdfs:label>Technology Integration Layer</rdfs:label>
+    <maltg:layer>core</maltg:layer>
+    <maltg:radius>16</maltg:radius>
+    <maltg:description>Capa de integración tecnológica: IA, Blockchain, Open Data y Seguridad avanzada</maltg:description>
+    <maltg:score>82</maltg:score>
+  </owl:Class>
+
+  <!-- ==========================================
+       FOUNDATION: TOGAF 9.2
+       ========================================== -->
+
+  <owl:Class rdf:about="http://maltg.arch/onto#TOGAF">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#Foundation_Layer"/>
+    <rdfs:label>TOGAF 9.2</rdfs:label>
+    <maltg:layer>togaf</maltg:layer>
+    <maltg:radius>16</maltg:radius>
+    <maltg:description>The Open Group Architecture Framework v9.2 — Marco de arquitectura empresarial</maltg:description>
+    <maltg:score>92</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#ADM_Cycle">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#TOGAF"/>
+    <rdfs:label>ADM Cycle</rdfs:label>
+    <maltg:layer>togaf</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>Architecture Development Method — Ciclo iterativo de 10 fases para desarrollar arquitecturas empresariales</maltg:description>
+    <maltg:score>95</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Business_Architecture">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#TOGAF"/>
+    <rdfs:label>Business Arch.</rdfs:label>
+    <maltg:layer>togaf</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>Arquitectura de negocio: estrategia, gobernanza, organización y procesos clave</maltg:description>
+    <maltg:score>91</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Information_Systems_Architecture">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#TOGAF"/>
+    <rdfs:label>Info Systems Arch.</rdfs:label>
+    <maltg:layer>togaf</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>Arquitectura de sistemas de información: datos y aplicaciones empresariales</maltg:description>
+    <maltg:score>88</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Technology_Architecture">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#TOGAF"/>
+    <rdfs:label>Tech Architecture</rdfs:label>
+    <maltg:layer>togaf</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>Arquitectura tecnológica: infraestructura HW/SW y plataformas que soportan el negocio</maltg:description>
+    <maltg:score>93</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Architecture_Vision">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#TOGAF"/>
+    <rdfs:label>Arch. Vision</rdfs:label>
+    <maltg:layer>togaf</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>Fase A del ADM — Define la visión de alto nivel de las capacidades y el valor del negocio</maltg:description>
+    <maltg:score>98</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Enterprise_Continuum">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#TOGAF"/>
+    <rdfs:label>Enterprise Continuum</rdfs:label>
+    <maltg:layer>togaf</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>Repositorio virtual de activos arquitectónicos — clasificados desde genérico a específico</maltg:description>
+    <maltg:score>85</maltg:score>
+  </owl:Class>
+
+  <!-- ==========================================
+       FOUNDATION: COBIT 5
+       ========================================== -->
+
+  <owl:Class rdf:about="http://maltg.arch/onto#COBIT">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#Foundation_Layer"/>
+    <rdfs:label>COBIT 5</rdfs:label>
+    <maltg:layer>cobit</maltg:layer>
+    <maltg:radius>16</maltg:radius>
+    <maltg:description>Control Objectives for Information Technologies v5 — Gobierno y gestión de TI empresarial</maltg:description>
+    <maltg:score>84</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#EDM_Domain">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#COBIT"/>
+    <rdfs:label>EDM</rdfs:label>
+    <maltg:layer>cobit</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>Evaluate, Direct and Monitor — Dominio de gobierno para evaluación y dirección estratégica</maltg:description>
+    <maltg:score>90</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#APO_Domain">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#COBIT"/>
+    <rdfs:label>APO</rdfs:label>
+    <maltg:layer>cobit</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>Align, Plan and Organize — Alineación estratégica de TI con los objetivos del negocio</maltg:description>
+    <maltg:score>87</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#BAI_Domain">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#COBIT"/>
+    <rdfs:label>BAI</rdfs:label>
+    <maltg:layer>cobit</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>Build, Acquire and Implement — Construcción y adquisición de soluciones tecnológicas</maltg:description>
+    <maltg:score>82</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#DSS_Domain">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#COBIT"/>
+    <rdfs:label>DSS</rdfs:label>
+    <maltg:layer>cobit</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>Deliver, Service and Support — Entrega y soporte de servicios de TI operacionales</maltg:description>
+    <maltg:score>84</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#MEA_Domain">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#COBIT"/>
+    <rdfs:label>MEA</rdfs:label>
+    <maltg:layer>cobit</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>Monitor, Evaluate and Assess — Supervisión y evaluación continua del rendimiento</maltg:description>
+    <maltg:score>79</maltg:score>
+  </owl:Class>
+
+  <!-- ==========================================
+       FOUNDATION: NIST CSF 1.1
+       ========================================== -->
+
+  <owl:Class rdf:about="http://maltg.arch/onto#NIST_CSF">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#Foundation_Layer"/>
+    <rdfs:label>NIST CSF</rdfs:label>
+    <maltg:layer>nist</maltg:layer>
+    <maltg:radius>16</maltg:radius>
+    <maltg:description>NIST Cybersecurity Framework v1.1 — Marco de referencia para gestión de riesgos de ciberseguridad</maltg:description>
+    <maltg:score>78</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Identify_Function">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#NIST_CSF"/>
+    <rdfs:label>Identify</rdfs:label>
+    <maltg:layer>nist</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>ID — Identificar activos, riesgos y contexto organizacional de ciberseguridad</maltg:description>
+    <maltg:score>85</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Protect_Function">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#NIST_CSF"/>
+    <rdfs:label>Protect</rdfs:label>
+    <maltg:layer>nist</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>PR — Implementar salvaguardas para garantizar entrega de servicios críticos</maltg:description>
+    <maltg:score>80</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Detect_Function">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#NIST_CSF"/>
+    <rdfs:label>Detect</rdfs:label>
+    <maltg:layer>nist</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>DE — Detectar la ocurrencia de eventos de ciberseguridad en tiempo real</maltg:description>
+    <maltg:score>76</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Respond_Function">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#NIST_CSF"/>
+    <rdfs:label>Respond</rdfs:label>
+    <maltg:layer>nist</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>RS — Responder y contener incidentes de ciberseguridad detectados</maltg:description>
+    <maltg:score>72</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Recover_Function">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#NIST_CSF"/>
+    <rdfs:label>Recover</rdfs:label>
+    <maltg:layer>nist</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>RC — Restaurar capacidades afectadas tras un incidente de ciberseguridad</maltg:description>
+    <maltg:score>74</maltg:score>
+  </owl:Class>
+
+  <!-- ==========================================
+       TECHNOLOGY INTEGRATION: AI
+       ========================================== -->
+
+  <owl:Class rdf:about="http://maltg.arch/onto#AI_Layer">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#Technology_Integration_Layer"/>
+    <rdfs:label>Inteligencia Artificial</rdfs:label>
+    <maltg:layer>ai</maltg:layer>
+    <maltg:radius>14</maltg:radius>
+    <maltg:description>Capa de Inteligencia Artificial: modelos ML, NLP, visión computacional y analítica predictiva</maltg:description>
+    <maltg:score>88</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#ML_Models">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#AI_Layer"/>
+    <rdfs:label>ML Models</rdfs:label>
+    <maltg:layer>ai</maltg:layer>
+    <maltg:radius>9</maltg:radius>
+    <maltg:description>Modelos de aprendizaje automático supervisado, no supervisado y por refuerzo</maltg:description>
+    <maltg:score>91</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#NLP_Pipeline">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#AI_Layer"/>
+    <rdfs:label>NLP</rdfs:label>
+    <maltg:layer>ai</maltg:layer>
+    <maltg:radius>9</maltg:radius>
+    <maltg:description>Natural Language Processing — Procesamiento y comprensión de lenguaje natural</maltg:description>
+    <maltg:score>88</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Computer_Vision">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#AI_Layer"/>
+    <rdfs:label>Computer Vision</rdfs:label>
+    <maltg:layer>ai</maltg:layer>
+    <maltg:radius>9</maltg:radius>
+    <maltg:description>Visión artificial para análisis de imágenes, detección de objetos y reconocimiento</maltg:description>
+    <maltg:score>76</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Predictive_Analytics">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#AI_Layer"/>
+    <rdfs:label>Predictive Analytics</rdfs:label>
+    <maltg:layer>ai</maltg:layer>
+    <maltg:radius>9</maltg:radius>
+    <maltg:description>Analítica predictiva para anticipar comportamientos y optimizar decisiones</maltg:description>
+    <maltg:score>93</maltg:score>
+  </owl:Class>
+
+  <!-- ==========================================
+       TECHNOLOGY INTEGRATION: BLOCKCHAIN
+       ========================================== -->
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Blockchain_Layer">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#Technology_Integration_Layer"/>
+    <rdfs:label>Blockchain</rdfs:label>
+    <maltg:layer>blockchain</maltg:layer>
+    <maltg:radius>14</maltg:radius>
+    <maltg:description>Capa de Blockchain: contratos inteligentes, redes DLT, consenso y tokenización</maltg:description>
+    <maltg:score>74</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Smart_Contracts">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#Blockchain_Layer"/>
+    <rdfs:label>Smart Contracts</rdfs:label>
+    <maltg:layer>blockchain</maltg:layer>
+    <maltg:radius>9</maltg:radius>
+    <maltg:description>Contratos inteligentes auto-ejecutables en redes blockchain (Solidity, Vyper)</maltg:description>
+    <maltg:score>80</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#DLT_Network">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#Blockchain_Layer"/>
+    <rdfs:label>DLT Network</rdfs:label>
+    <maltg:layer>blockchain</maltg:layer>
+    <maltg:radius>9</maltg:radius>
+    <maltg:description>Distributed Ledger Technology — Red de registros distribuidos inmutables y auditables</maltg:description>
+    <maltg:score>75</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Consensus_Protocol">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#Blockchain_Layer"/>
+    <rdfs:label>Consensus Protocol</rdfs:label>
+    <maltg:layer>blockchain</maltg:layer>
+    <maltg:radius>9</maltg:radius>
+    <maltg:description>Protocolos de consenso: PoW, PoS, PBFT, Raft para validación de transacciones</maltg:description>
+    <maltg:score>82</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Tokenization">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#Blockchain_Layer"/>
+    <rdfs:label>Tokenization</rdfs:label>
+    <maltg:layer>blockchain</maltg:layer>
+    <maltg:radius>9</maltg:radius>
+    <maltg:description>Representación digital de activos del mundo real mediante tokens en blockchain</maltg:description>
+    <maltg:score>70</maltg:score>
+  </owl:Class>
+
+  <!-- ==========================================
+       TECHNOLOGY INTEGRATION: OPEN DATA
+       ========================================== -->
+
+  <owl:Class rdf:about="http://maltg.arch/onto#OpenData_Layer">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#Technology_Integration_Layer"/>
+    <rdfs:label>Open Data</rdfs:label>
+    <maltg:layer>opendata</maltg:layer>
+    <maltg:radius>14</maltg:radius>
+    <maltg:description>Capa de Datos Abiertos: APIs, lagos de datos, estándares abiertos e interoperabilidad</maltg:description>
+    <maltg:score>81</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#APIs">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#OpenData_Layer"/>
+    <rdfs:label>APIs</rdfs:label>
+    <maltg:layer>opendata</maltg:layer>
+    <maltg:radius>9</maltg:radius>
+    <maltg:description>Interfaces de programación REST, GraphQL, gRPC para integración de sistemas</maltg:description>
+    <maltg:score>90</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Data_Lakes">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#OpenData_Layer"/>
+    <rdfs:label>Data Lakes</rdfs:label>
+    <maltg:layer>opendata</maltg:layer>
+    <maltg:radius>9</maltg:radius>
+    <maltg:description>Repositorios centralizados de datos estructurados y no estructurados en formato nativo</maltg:description>
+    <maltg:score>78</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Open_Standards">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#OpenData_Layer"/>
+    <rdfs:label>Open Standards</rdfs:label>
+    <maltg:layer>opendata</maltg:layer>
+    <maltg:radius>9</maltg:radius>
+    <maltg:description>Estándares abiertos: ISO, W3C, OASIS para garantizar interoperabilidad y portabilidad</maltg:description>
+    <maltg:score>83</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Interoperability">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#OpenData_Layer"/>
+    <rdfs:label>Interoperability</rdfs:label>
+    <maltg:layer>opendata</maltg:layer>
+    <maltg:radius>9</maltg:radius>
+    <maltg:description>Capacidad de sistemas heterogéneos para intercambiar y utilizar información mutuamente</maltg:description>
+    <maltg:score>85</maltg:score>
+  </owl:Class>
+
+  <!-- ==========================================
+       TECHNOLOGY INTEGRATION: SECURITY
+       ========================================== -->
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Security_Layer">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#Technology_Integration_Layer"/>
+    <rdfs:label>Security</rdfs:label>
+    <maltg:layer>security</maltg:layer>
+    <maltg:radius>14</maltg:radius>
+    <maltg:description>Capa de Seguridad: Zero Trust, cifrado, gestión de identidades y cumplimiento normativo</maltg:description>
+    <maltg:score>90</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Zero_Trust">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#Security_Layer"/>
+    <rdfs:label>Zero Trust</rdfs:label>
+    <maltg:layer>security</maltg:layer>
+    <maltg:radius>9</maltg:radius>
+    <maltg:description>Modelo de seguridad: nunca confiar, siempre verificar — acceso mínimo privilegiado</maltg:description>
+    <maltg:score>88</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Encryption">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#Security_Layer"/>
+    <rdfs:label>Encryption</rdfs:label>
+    <maltg:layer>security</maltg:layer>
+    <maltg:radius>9</maltg:radius>
+    <maltg:description>Cifrado en reposo y en tránsito — AES-256, TLS 1.3, criptografía de clave pública</maltg:description>
+    <maltg:score>95</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#IAM">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#Security_Layer"/>
+    <rdfs:label>IAM</rdfs:label>
+    <maltg:layer>security</maltg:layer>
+    <maltg:radius>9</maltg:radius>
+    <maltg:description>Identity and Access Management — Gestión de identidades, roles y permisos de acceso</maltg:description>
+    <maltg:score>86</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Compliance">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#Security_Layer"/>
+    <rdfs:label>Compliance</rdfs:label>
+    <maltg:layer>security</maltg:layer>
+    <maltg:radius>9</maltg:radius>
+    <maltg:description>Cumplimiento normativo: GDPR, ISO 27001, SOC 2, PCI-DSS, normativas sectoriales</maltg:description>
+    <maltg:score>79</maltg:score>
+  </owl:Class>
+
+  <!-- ==========================================
+       OBJECT PROPERTIES — CROSS-LAYER RELATIONS
+       These create the dashed cross-layer links
+       in the ontology visualization
+       ========================================== -->
+
+  <owl:ObjectProperty rdf:about="http://maltg.arch/onto#enables">
+    <rdfs:label>enables</rdfs:label>
+    <rdfs:comment>Technology Architecture enables AI and technology layers</rdfs:comment>
+    <rdfs:domain rdf:resource="http://maltg.arch/onto#Technology_Architecture"/>
+    <rdfs:range rdf:resource="http://maltg.arch/onto#AI_Layer"/>
+    <maltg:weight>1.5</maltg:weight>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://maltg.arch/onto#secures_arch">
+    <rdfs:label>secures</rdfs:label>
+    <rdfs:comment>Technology Architecture is secured by Security Layer</rdfs:comment>
+    <rdfs:domain rdf:resource="http://maltg.arch/onto#Technology_Architecture"/>
+    <rdfs:range rdf:resource="http://maltg.arch/onto#Security_Layer"/>
+    <maltg:weight>1.5</maltg:weight>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://maltg.arch/onto#governs">
+    <rdfs:label>governs</rdfs:label>
+    <rdfs:comment>COBIT EDM governs NIST CSF compliance objectives</rdfs:comment>
+    <rdfs:domain rdf:resource="http://maltg.arch/onto#EDM_Domain"/>
+    <rdfs:range rdf:resource="http://maltg.arch/onto#NIST_CSF"/>
+    <maltg:weight>1.2</maltg:weight>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://maltg.arch/onto#aligns_with">
+    <rdfs:label>aligns with</rdfs:label>
+    <rdfs:comment>COBIT APO aligns with TOGAF planning processes</rdfs:comment>
+    <rdfs:domain rdf:resource="http://maltg.arch/onto#APO_Domain"/>
+    <rdfs:range rdf:resource="http://maltg.arch/onto#TOGAF"/>
+    <maltg:weight>1.2</maltg:weight>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://maltg.arch/onto#enforces">
+    <rdfs:label>enforces</rdfs:label>
+    <rdfs:comment>Security Layer enforces NIST CSF controls</rdfs:comment>
+    <rdfs:domain rdf:resource="http://maltg.arch/onto#Security_Layer"/>
+    <rdfs:range rdf:resource="http://maltg.arch/onto#NIST_CSF"/>
+    <maltg:weight>1.5</maltg:weight>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://maltg.arch/onto#consumes">
+    <rdfs:label>consumes</rdfs:label>
+    <rdfs:comment>AI Layer consumes Open Data for model training</rdfs:comment>
+    <rdfs:domain rdf:resource="http://maltg.arch/onto#AI_Layer"/>
+    <rdfs:range rdf:resource="http://maltg.arch/onto#OpenData_Layer"/>
+    <maltg:weight>1.2</maltg:weight>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://maltg.arch/onto#audits">
+    <rdfs:label>audits</rdfs:label>
+    <rdfs:comment>Blockchain Layer provides audit trail for Security</rdfs:comment>
+    <rdfs:domain rdf:resource="http://maltg.arch/onto#Blockchain_Layer"/>
+    <rdfs:range rdf:resource="http://maltg.arch/onto#Security_Layer"/>
+    <maltg:weight>1.0</maltg:weight>
+  </owl:ObjectProperty>
+
+  <owl:AnnotationProperty rdf:about="http://maltg.arch/onto#regulation">
+    <rdfs:label>regulation</rdfs:label>
+    <rdfs:comment>Applicable legal/regulatory standard (e.g., GDPR, eIDAS, NIS2)</rdfs:comment>
+  </owl:AnnotationProperty>
+
+  <!-- ==========================================
+       LEGALTECH DOMAIN LAYER
+       Specific legal-technology concepts that
+       justify the LegalTech framing of the paper.
+       All classes are linked back to Foundation
+       and Technology Integration layers via
+       Object Properties below.
+       ========================================== -->
+
+  <owl:Class rdf:about="http://maltg.arch/onto#LegalTech_Domain">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#Technology_Integration_Layer"/>
+    <rdfs:label>LegalTech Domain</rdfs:label>
+    <maltg:layer>legaltech</maltg:layer>
+    <maltg:radius>16</maltg:radius>
+    <maltg:description>Capa de dominio LegalTech: conceptos específicos de tecnología jurídica que integran los frameworks de gobernanza con las necesidades del sector legal</maltg:description>
+    <maltg:score>72</maltg:score>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Contract_Lifecycle_Management">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#LegalTech_Domain"/>
+    <rdfs:label>Contract Lifecycle Mgmt</rdfs:label>
+    <maltg:layer>legaltech</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>Gestión del ciclo de vida contractual: redacción, negociación, firma electrónica, monitoreo de obligaciones y renovación automatizada</maltg:description>
+    <maltg:score>78</maltg:score>
+    <maltg:regulation>eIDAS Regulation (EU) 910/2014</maltg:regulation>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#eDiscovery_Pipeline">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#LegalTech_Domain"/>
+    <rdfs:label>eDiscovery Pipeline</rdfs:label>
+    <maltg:layer>legaltech</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>Descubrimiento electrónico asistido por IA: ingesta documental, clasificación predictiva de relevancia, detección de privilegio attorney-client, exportación EDRM</maltg:description>
+    <maltg:score>68</maltg:score>
+    <maltg:regulation>EDRM Electronic Discovery Reference Model</maltg:regulation>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Legal_DLT_Notarization">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#LegalTech_Domain"/>
+    <rdfs:label>Legal DLT Notarization</rdfs:label>
+    <maltg:layer>legaltech</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>Notarización legal sobre DLT: timestamping con valor probatorio, cadena de custodia inmutable, hash de documentos en blockchain con certificación notarial</maltg:description>
+    <maltg:score>65</maltg:score>
+    <maltg:regulation>eIDAS Art. 41 — Electronic Time Stamps</maltg:regulation>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Regulatory_Compliance_Engine">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#LegalTech_Domain"/>
+    <rdfs:label>Regulatory Compliance Engine</rdfs:label>
+    <maltg:layer>legaltech</maltg:layer>
+    <maltg:radius>12</maltg:radius>
+    <maltg:description>Motor de cumplimiento normativo multi-regulación: evaluación continua contra GDPR, eIDAS, Directiva NIS2, normativas sectoriales y códigos deontológicos</maltg:description>
+    <maltg:score>74</maltg:score>
+    <maltg:regulation>GDPR (EU) 2016/679 · NIS2 Directive 2022/2555</maltg:regulation>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#GDPR_Compliance">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#Regulatory_Compliance_Engine"/>
+    <rdfs:label>GDPR Compliance</rdfs:label>
+    <maltg:layer>legaltech</maltg:layer>
+    <maltg:radius>8</maltg:radius>
+    <maltg:description>Conformidad con el Reglamento General de Protección de Datos: consentimiento, derechos de los interesados, DPO, evaluaciones DPIA y transferencias internacionales</maltg:description>
+    <maltg:score>76</maltg:score>
+    <maltg:regulation>GDPR (EU) 2016/679</maltg:regulation>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#eIDAS_Compliance">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#Regulatory_Compliance_Engine"/>
+    <rdfs:label>eIDAS Compliance</rdfs:label>
+    <maltg:layer>legaltech</maltg:layer>
+    <maltg:radius>8</maltg:radius>
+    <maltg:description>Conformidad eIDAS: firma electrónica cualificada (QES), sello electrónico, identidad digital (eID) y servicios de confianza reconocidos en la UE</maltg:description>
+    <maltg:score>70</maltg:score>
+    <maltg:regulation>eIDAS (EU) 910/2014 · eIDAS 2.0 (EU) 2024/1183</maltg:regulation>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#NIS2_Compliance">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#Regulatory_Compliance_Engine"/>
+    <rdfs:label>NIS2 Compliance</rdfs:label>
+    <maltg:layer>legaltech</maltg:layer>
+    <maltg:radius>8</maltg:radius>
+    <maltg:description>Conformidad con la Directiva NIS2: medidas de ciberseguridad para entidades esenciales e importantes, gestión de incidentes, cadena de suministro y supervisión</maltg:description>
+    <maltg:score>62</maltg:score>
+    <maltg:regulation>NIS2 Directive 2022/2555</maltg:regulation>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Attorney_Client_Confidentiality">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#LegalTech_Domain"/>
+    <rdfs:label>Attorney-Client Privilege</rdfs:label>
+    <maltg:layer>legaltech</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>Protección del secreto profesional attorney-client en entornos cloud y IA: cifrado extremo a extremo, aislamiento de datos privilegiados, controles de acceso basados en materia</maltg:description>
+    <maltg:score>80</maltg:score>
+    <maltg:regulation>Bar Association Ethics Rules · ABA Model Rule 1.6</maltg:regulation>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Smart_Legal_Contracts">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#LegalTech_Domain"/>
+    <rdfs:label>Smart Legal Contracts</rdfs:label>
+    <maltg:layer>legaltech</maltg:layer>
+    <maltg:radius>10</maltg:radius>
+    <maltg:description>Contratos legales inteligentes: fusión de texto jurídico natural con código de smart contract ejecutable, oráculos legales, resolución automatizada de disputas</maltg:description>
+    <maltg:score>58</maltg:score>
+    <maltg:regulation>UNIDROIT Principles · LegalDocML / Akoma Ntoso</maltg:regulation>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Legal_Knowledge_Base">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#LegalTech_Domain"/>
+    <rdfs:label>Legal Knowledge Base</rdfs:label>
+    <maltg:layer>legaltech</maltg:layer>
+    <maltg:radius>9</maltg:radius>
+    <maltg:description>Base de conocimiento jurídico: repositorio estructurado de jurisprudencia, normativa, doctrine y precedentes, con recuperación semántica y razonamiento legal</maltg:description>
+    <maltg:score>71</maltg:score>
+    <maltg:regulation>ECLI — European Case Law Identifier · EuroVoc Thesaurus</maltg:regulation>
+  </owl:Class>
+
+  <owl:Class rdf:about="http://maltg.arch/onto#Court_System_Integration">
+    <rdfs:subClassOf rdf:resource="http://maltg.arch/onto#LegalTech_Domain"/>
+    <rdfs:label>Court System Integration</rdfs:label>
+    <maltg:layer>legaltech</maltg:layer>
+    <maltg:radius>9</maltg:radius>
+    <maltg:description>Integración con sistemas judiciales: presentación electrónica de escritos (e-filing), notificaciones judiciales electrónicas, acceso a registros públicos y APIs de tribunales</maltg:description>
+    <maltg:score>55</maltg:score>
+    <maltg:regulation>EU e-Justice Portal · national court APIs</maltg:regulation>
+  </owl:Class>
+
+  <!-- ==========================================
+       LEGALTECH CROSS-LAYER OBJECT PROPERTIES
+       These connect LegalTech domain concepts
+       to Foundation and Tech Integration layers,
+       making the multi-layer integration formally
+       explicit and verifiable by a reasoner.
+       ========================================== -->
+
+  <owl:ObjectProperty rdf:about="http://maltg.arch/onto#legaltech_uses_AI">
+    <rdfs:label>uses AI for</rdfs:label>
+    <rdfs:comment>eDiscovery and contract analysis use AI Layer capabilities</rdfs:comment>
+    <rdfs:domain rdf:resource="http://maltg.arch/onto#eDiscovery_Pipeline"/>
+    <rdfs:range  rdf:resource="http://maltg.arch/onto#AI_Layer"/>
+    <maltg:weight>2.0</maltg:weight>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://maltg.arch/onto#legaltech_uses_blockchain">
+    <rdfs:label>uses blockchain for</rdfs:label>
+    <rdfs:comment>Legal DLT Notarization and Smart Legal Contracts use Blockchain Layer</rdfs:comment>
+    <rdfs:domain rdf:resource="http://maltg.arch/onto#Smart_Legal_Contracts"/>
+    <rdfs:range  rdf:resource="http://maltg.arch/onto#Blockchain_Layer"/>
+    <maltg:weight>2.0</maltg:weight>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://maltg.arch/onto#legaltech_requires_security">
+    <rdfs:label>requires security from</rdfs:label>
+    <rdfs:comment>Attorney-Client Confidentiality requires Security Layer guarantees</rdfs:comment>
+    <rdfs:domain rdf:resource="http://maltg.arch/onto#Attorney_Client_Confidentiality"/>
+    <rdfs:range  rdf:resource="http://maltg.arch/onto#Security_Layer"/>
+    <maltg:weight>2.0</maltg:weight>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://maltg.arch/onto#legaltech_uses_opendata">
+    <rdfs:label>uses open data from</rdfs:label>
+    <rdfs:comment>Legal Knowledge Base and Court Integration consume Open Data Layer</rdfs:comment>
+    <rdfs:domain rdf:resource="http://maltg.arch/onto#Legal_Knowledge_Base"/>
+    <rdfs:range  rdf:resource="http://maltg.arch/onto#OpenData_Layer"/>
+    <maltg:weight>1.8</maltg:weight>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://maltg.arch/onto#legaltech_governed_by_togaf">
+    <rdfs:label>governed by</rdfs:label>
+    <rdfs:comment>LegalTech Domain architecture is governed by TOGAF ADM</rdfs:comment>
+    <rdfs:domain rdf:resource="http://maltg.arch/onto#LegalTech_Domain"/>
+    <rdfs:range  rdf:resource="http://maltg.arch/onto#TOGAF"/>
+    <maltg:weight>1.5</maltg:weight>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://maltg.arch/onto#legaltech_controlled_by_cobit">
+    <rdfs:label>controlled by</rdfs:label>
+    <rdfs:comment>Regulatory Compliance Engine is controlled and measured by COBIT MEA</rdfs:comment>
+    <rdfs:domain rdf:resource="http://maltg.arch/onto#Regulatory_Compliance_Engine"/>
+    <rdfs:range  rdf:resource="http://maltg.arch/onto#MEA_Domain"/>
+    <maltg:weight>1.5</maltg:weight>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://maltg.arch/onto#legaltech_secured_by_nist">
+    <rdfs:label>secured by NIST</rdfs:label>
+    <rdfs:comment>LegalTech Domain applies NIST CSF for risk management</rdfs:comment>
+    <rdfs:domain rdf:resource="http://maltg.arch/onto#LegalTech_Domain"/>
+    <rdfs:range  rdf:resource="http://maltg.arch/onto#NIST_CSF"/>
+    <maltg:weight>1.5</maltg:weight>
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:about="http://maltg.arch/onto#legaltech_notarizes_via_dlt">
+    <rdfs:label>notarizes via</rdfs:label>
+    <rdfs:comment>Legal DLT Notarization uses DLT Network for immutable timestamping</rdfs:comment>
+    <rdfs:domain rdf:resource="http://maltg.arch/onto#Legal_DLT_Notarization"/>
+    <rdfs:range  rdf:resource="http://maltg.arch/onto#DLT_Network"/>
+    <maltg:weight>1.8</maltg:weight>
+  </owl:ObjectProperty>
+
+</rdf:RDF>
+

@@ -1,0 +1,1050 @@
+{
+  "meta": {
+    "version": "3.0.0",
+    "title": "DT_arch — MALTG LegalTech Gemelo Digital Estructural",
+    "description": "Gemelo digital de microservicio MALTG — editar este archivo para actualizar el diagrama",
+    "maltg_compliance": "TOGAF 9.2 / COBIT 5 / NIST CSF 1.1 / GDPR / eIDAS / NIS2",
+    "last_modified": "2025-04-01"
+  },
+  "canvas": {
+    "width": 980,
+    "height": 670
+  },
+  "colorTypes": {
+    "external": "#ff9a3c",
+    "gateway": "#00e5ff",
+    "security": "#ff4d6d",
+    "mesh": "#00e5ff",
+    "service": "#a855f7",
+    "data": "#10e98c",
+    "event": "#ffc947",
+    "monitor": "#f472b6",
+    "infra": "#64748b",
+    "legaltech": "#60a5fa"
+  },
+  "layers": [
+    {
+      "id": "external_layer",
+      "label": "EXTERNAL",
+      "x": 5,
+      "y": 10,
+      "width": 115,
+      "height": 460,
+      "fill": "#0a1020"
+    },
+    {
+      "id": "security_layer",
+      "label": "SECURITY LAYER",
+      "x": 128,
+      "y": 10,
+      "width": 130,
+      "height": 460,
+      "fill": "#0a1020"
+    },
+    {
+      "id": "mesh_layer",
+      "label": "SERVICE MESH",
+      "x": 266,
+      "y": 10,
+      "width": 115,
+      "height": 460,
+      "fill": "#0a1018"
+    },
+    {
+      "id": "services_layer",
+      "label": "MICROSERVICES",
+      "x": 389,
+      "y": 10,
+      "width": 150,
+      "height": 460,
+      "fill": "#100a1a"
+    },
+    {
+      "id": "data_layer",
+      "label": "DATA LAYER",
+      "x": 547,
+      "y": 10,
+      "width": 150,
+      "height": 460,
+      "fill": "#0a1a12"
+    },
+    {
+      "id": "observability_layer",
+      "label": "OBSERVABILITY",
+      "x": 705,
+      "y": 10,
+      "width": 130,
+      "height": 460,
+      "fill": "#1a1020"
+    },
+    {
+      "id": "infra_layer",
+      "label": "INFRA",
+      "x": 843,
+      "y": 10,
+      "width": 130,
+      "height": 460,
+      "fill": "#0a0f1a"
+    },
+    {
+      "id": "legaltech_strip",
+      "label": "LEGALTECH DOMAIN LAYER",
+      "x": 5,
+      "y": 474,
+      "width": 968,
+      "height": 180,
+      "fill": "#060d1f"
+    }
+  ],
+  "services": [
+    {
+      "id": "client",
+      "label": "Client Apps",
+      "subtitle": "Web / Mobile",
+      "colorType": "external",
+      "x": 10,
+      "y": 165,
+      "width": 100,
+      "height": 44,
+      "status": "active",
+      "maltg_ref": [
+        "TOGAF"
+      ],
+      "description": "Clientes web y móviles que consumen la plataforma MALTG"
+    },
+    {
+      "id": "ext_api",
+      "label": "External APIs",
+      "subtitle": "Partners / B2B",
+      "colorType": "external",
+      "x": 10,
+      "y": 235,
+      "width": 100,
+      "height": 44,
+      "status": "active",
+      "maltg_ref": [
+        "OpenData_Layer",
+        "APIs"
+      ],
+      "description": "Integraciones B2B con sistemas externos y partners"
+    },
+    {
+      "id": "ext_event",
+      "label": "Event Sources",
+      "subtitle": "IoT / Webhooks",
+      "colorType": "external",
+      "x": 10,
+      "y": 305,
+      "width": 100,
+      "height": 44,
+      "status": "active",
+      "maltg_ref": [
+        "OpenData_Layer"
+      ],
+      "description": "Fuentes de eventos: sensores IoT y webhooks externos"
+    },
+    {
+      "id": "gateway",
+      "label": "API Gateway",
+      "subtitle": "Kong / Traefik",
+      "colorType": "gateway",
+      "x": 135,
+      "y": 145,
+      "width": 110,
+      "height": 48,
+      "status": "active",
+      "maltg_ref": [
+        "TOGAF",
+        "Technology_Architecture"
+      ],
+      "description": "Gateway central: rate limiting, routing, autenticación básica"
+    },
+    {
+      "id": "iam",
+      "label": "IAM Service",
+      "subtitle": "NIST · Zero Trust",
+      "colorType": "security",
+      "x": 135,
+      "y": 215,
+      "width": 110,
+      "height": 44,
+      "status": "active",
+      "maltg_ref": [
+        "Security_Layer",
+        "IAM",
+        "Identify_Function",
+        "Zero_Trust"
+      ],
+      "description": "Gestión de identidades y accesos — OAuth2, JWT, RBAC"
+    },
+    {
+      "id": "waf",
+      "label": "WAF",
+      "subtitle": "L7 Security",
+      "colorType": "security",
+      "x": 135,
+      "y": 278,
+      "width": 110,
+      "height": 40,
+      "status": "active",
+      "maltg_ref": [
+        "Security_Layer",
+        "Zero_Trust",
+        "Protect_Function"
+      ],
+      "description": "Web Application Firewall — protección capa 7, DDoS"
+    },
+    {
+      "id": "vault",
+      "label": "Secrets Vault",
+      "subtitle": "HashiCorp Vault",
+      "colorType": "security",
+      "x": 135,
+      "y": 336,
+      "width": 110,
+      "height": 40,
+      "status": "active",
+      "maltg_ref": [
+        "Security_Layer",
+        "Encryption",
+        "Protect_Function"
+      ],
+      "description": "Gestión segura de secretos, certificados y tokens de acceso"
+    },
+    {
+      "id": "mesh",
+      "label": "Service Mesh",
+      "subtitle": "Istio / Envoy",
+      "colorType": "mesh",
+      "x": 275,
+      "y": 175,
+      "width": 100,
+      "height": 52,
+      "status": "active",
+      "maltg_ref": [
+        "TOGAF",
+        "Technology_Architecture"
+      ],
+      "description": "Malla de servicios: mTLS, circuit breaking, load balancing, tracing"
+    },
+    {
+      "id": "ms_auth",
+      "label": "Auth Service",
+      "subtitle": "JWT · OAuth2 · PKCE",
+      "colorType": "service",
+      "x": 397,
+      "y": 42,
+      "width": 130,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Security_Layer",
+        "IAM",
+        "Identify_Function"
+      ],
+      "description": "Microservicio de autenticación y autorización — PKCE, refresh tokens"
+    },
+    {
+      "id": "ms_biz",
+      "label": "Business Logic",
+      "subtitle": "TOGAF · ADM Aligned",
+      "colorType": "service",
+      "x": 397,
+      "y": 112,
+      "width": 130,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "TOGAF",
+        "Business_Architecture",
+        "COBIT",
+        "APO_Domain"
+      ],
+      "description": "Núcleo de lógica de negocio alineado con arquitectura empresarial TOGAF"
+    },
+    {
+      "id": "ms_ai",
+      "label": "AI Engine",
+      "subtitle": "ML · NLP · CV",
+      "colorType": "service",
+      "x": 397,
+      "y": 182,
+      "width": 130,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "AI_Layer",
+        "ML_Models",
+        "NLP_Pipeline",
+        "Predictive_Analytics"
+      ],
+      "description": "Motor de inteligencia artificial: inference, batch ML, NLP pipeline"
+    },
+    {
+      "id": "ms_bc",
+      "label": "Blockchain Svc",
+      "subtitle": "DLT · Smart Contracts",
+      "colorType": "service",
+      "x": 397,
+      "y": 252,
+      "width": 130,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Blockchain_Layer",
+        "Smart_Contracts",
+        "DLT_Network"
+      ],
+      "description": "Servicio blockchain: emisión de contratos, transacciones DLT, auditoría"
+    },
+    {
+      "id": "ms_data",
+      "label": "Data Service",
+      "subtitle": "COBIT · MEA Aligned",
+      "colorType": "service",
+      "x": 397,
+      "y": 322,
+      "width": 130,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "COBIT",
+        "MEA_Domain",
+        "Information_Systems_Architecture"
+      ],
+      "description": "Servicio de datos maestros: CRUD, validación, transformación y lineage"
+    },
+    {
+      "id": "ms_notify",
+      "label": "Notification",
+      "subtitle": "Events · Webhooks",
+      "colorType": "service",
+      "x": 397,
+      "y": 392,
+      "width": 130,
+      "height": 44,
+      "status": "active",
+      "maltg_ref": [
+        "COBIT",
+        "DSS_Domain"
+      ],
+      "description": "Servicio de notificaciones: email, SMS, push, webhooks asíncronos"
+    },
+    {
+      "id": "db_pg",
+      "label": "PostgreSQL",
+      "subtitle": "Primary DB · HA",
+      "colorType": "data",
+      "x": 555,
+      "y": 75,
+      "width": 130,
+      "height": 42,
+      "status": "active",
+      "maltg_ref": [
+        "TOGAF",
+        "Information_Systems_Architecture"
+      ],
+      "description": "Base de datos relacional primaria — replicación HA, PITR backups"
+    },
+    {
+      "id": "db_redis",
+      "label": "Redis Cluster",
+      "subtitle": "Cache · Sessions",
+      "colorType": "data",
+      "x": 555,
+      "y": 138,
+      "width": 130,
+      "height": 42,
+      "status": "active",
+      "maltg_ref": [
+        "TOGAF",
+        "Technology_Architecture"
+      ],
+      "description": "Caché en memoria distribuida — sesiones, rate limiting, pub/sub"
+    },
+    {
+      "id": "db_elastic",
+      "label": "Elasticsearch",
+      "subtitle": "Search · Logs · APM",
+      "colorType": "data",
+      "x": 555,
+      "y": 201,
+      "width": 130,
+      "height": 42,
+      "status": "active",
+      "maltg_ref": [
+        "COBIT",
+        "MEA_Domain",
+        "Detect_Function"
+      ],
+      "description": "Motor de búsqueda y analítica — full-text search, logs, APM traces"
+    },
+    {
+      "id": "kafka",
+      "label": "Apache Kafka",
+      "subtitle": "Event Streaming",
+      "colorType": "event",
+      "x": 555,
+      "y": 264,
+      "width": 130,
+      "height": 42,
+      "status": "active",
+      "maltg_ref": [
+        "COBIT",
+        "DSS_Domain",
+        "OpenData_Layer"
+      ],
+      "description": "Plataforma de streaming de eventos — topics, partitions, consumer groups"
+    },
+    {
+      "id": "datalake",
+      "label": "Data Lake",
+      "subtitle": "Open Data · Parquet",
+      "colorType": "data",
+      "x": 555,
+      "y": 327,
+      "width": 130,
+      "height": 42,
+      "status": "active",
+      "maltg_ref": [
+        "OpenData_Layer",
+        "Data_Lakes",
+        "Open_Standards"
+      ],
+      "description": "Lago de datos abiertos — formato Parquet, particionado, Delta Lake"
+    },
+    {
+      "id": "dlt",
+      "label": "DLT Network",
+      "subtitle": "Hyperledger Fabric",
+      "colorType": "event",
+      "x": 555,
+      "y": 390,
+      "width": 130,
+      "height": 42,
+      "status": "active",
+      "maltg_ref": [
+        "Blockchain_Layer",
+        "DLT_Network",
+        "Consensus_Protocol"
+      ],
+      "description": "Red Hyperledger Fabric — canales, chaincode, MSP, orderers"
+    },
+    {
+      "id": "prometheus",
+      "label": "Prometheus",
+      "subtitle": "Metrics · Alerting",
+      "colorType": "monitor",
+      "x": 713,
+      "y": 85,
+      "width": 113,
+      "height": 42,
+      "status": "active",
+      "maltg_ref": [
+        "COBIT",
+        "MEA_Domain",
+        "Identify_Function",
+        "NIST_CSF"
+      ],
+      "description": "Recolección y almacenamiento de métricas — alerting con AlertManager"
+    },
+    {
+      "id": "grafana",
+      "label": "Grafana",
+      "subtitle": "Dashboards · SLO",
+      "colorType": "monitor",
+      "x": 713,
+      "y": 148,
+      "width": 113,
+      "height": 42,
+      "status": "active",
+      "maltg_ref": [
+        "COBIT",
+        "EDM_Domain",
+        "MEA_Domain"
+      ],
+      "description": "Dashboards de observabilidad — SLO/SLA tracking, alertas visuales"
+    },
+    {
+      "id": "jaeger",
+      "label": "Jaeger",
+      "subtitle": "Distributed Tracing",
+      "colorType": "monitor",
+      "x": 713,
+      "y": 211,
+      "width": 113,
+      "height": 42,
+      "status": "active",
+      "maltg_ref": [
+        "COBIT",
+        "DSS_Domain",
+        "Respond_Function"
+      ],
+      "description": "Trazabilidad distribuida — spans, traces, service dependency maps"
+    },
+    {
+      "id": "siem",
+      "label": "SIEM",
+      "subtitle": "NIST · Detect/Respond",
+      "colorType": "security",
+      "x": 713,
+      "y": 274,
+      "width": 113,
+      "height": 42,
+      "status": "active",
+      "maltg_ref": [
+        "NIST_CSF",
+        "Detect_Function",
+        "Respond_Function",
+        "Security_Layer"
+      ],
+      "description": "Security Information & Event Management — correlación de eventos de seguridad"
+    },
+    {
+      "id": "opa",
+      "label": "OPA",
+      "subtitle": "Policy Engine",
+      "colorType": "security",
+      "x": 713,
+      "y": 337,
+      "width": 113,
+      "height": 42,
+      "status": "active",
+      "maltg_ref": [
+        "Security_Layer",
+        "Compliance",
+        "Zero_Trust",
+        "Recover_Function"
+      ],
+      "description": "Open Policy Agent — políticas de autorización como código (Rego)"
+    },
+    {
+      "id": "k8s",
+      "label": "Kubernetes",
+      "subtitle": "Orchestration · HPA",
+      "colorType": "infra",
+      "x": 852,
+      "y": 110,
+      "width": 115,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "TOGAF",
+        "Technology_Architecture",
+        "BAI_Domain"
+      ],
+      "description": "Orquestación de contenedores — HPA, PodDisruptionBudgets, NetworkPolicies"
+    },
+    {
+      "id": "cicd",
+      "label": "CI/CD Pipeline",
+      "subtitle": "GitOps · ArgoCD",
+      "colorType": "infra",
+      "x": 852,
+      "y": 180,
+      "width": 115,
+      "height": 44,
+      "status": "active",
+      "maltg_ref": [
+        "COBIT",
+        "BAI_Domain",
+        "APO_Domain"
+      ],
+      "description": "Pipeline GitOps con ArgoCD — despliegue continuo, blue/green, canary"
+    },
+    {
+      "id": "terraform",
+      "label": "Terraform",
+      "subtitle": "IaC · Cloud Agnostic",
+      "colorType": "infra",
+      "x": 852,
+      "y": 248,
+      "width": 115,
+      "height": 44,
+      "status": "active",
+      "maltg_ref": [
+        "COBIT",
+        "BAI_Domain",
+        "Technology_Architecture"
+      ],
+      "description": "Infraestructura como código — módulos reutilizables, drift detection"
+    },
+    {
+      "id": "service_registry",
+      "label": "Service Registry",
+      "subtitle": "Consul · Discovery",
+      "colorType": "infra",
+      "x": 852,
+      "y": 316,
+      "width": 115,
+      "height": 44,
+      "status": "active",
+      "maltg_ref": [
+        "TOGAF",
+        "Technology_Architecture",
+        "APIs",
+        "Interoperability"
+      ],
+      "description": "Registro y descubrimiento de servicios — health checks, DNS, KV store"
+    },
+    {
+      "id": "lt_contract",
+      "label": "Contract Lifecycle",
+      "subtitle": "CLM · eIDAS · QES",
+      "colorType": "legaltech",
+      "x": 10,
+      "y": 494,
+      "width": 128,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Contract_Lifecycle_Management",
+        "eIDAS_Compliance",
+        "TOGAF"
+      ],
+      "description": "Contract Lifecycle Management: redacción asistida por IA, firma electrónica cualificada eIDAS, alertas de vencimiento y renovación automatizada"
+    },
+    {
+      "id": "lt_ediscovery",
+      "label": "eDiscovery AI",
+      "subtitle": "NLP · Privilege · EDRM",
+      "colorType": "legaltech",
+      "x": 148,
+      "y": 494,
+      "width": 128,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "eDiscovery_Pipeline",
+        "AI_Layer",
+        "ML_Models",
+        "NLP_Pipeline",
+        "Attorney_Client_Confidentiality"
+      ],
+      "description": "Pipeline de eDiscovery: clasificación predictiva de documentos, detección de privilegio attorney-client, análisis de sentimiento legal, exportación EDRM"
+    },
+    {
+      "id": "lt_notarization",
+      "label": "DLT Notarization",
+      "subtitle": "Blockchain · Timestamp · eIDAS",
+      "colorType": "legaltech",
+      "x": 286,
+      "y": 494,
+      "width": 128,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Legal_DLT_Notarization",
+        "Smart_Legal_Contracts",
+        "Blockchain_Layer",
+        "DLT_Network"
+      ],
+      "description": "Notarización legal en DLT: hash de documentos en Hyperledger, timestamping con valor probatorio eIDAS Art. 41, cadena de custodia inmutable"
+    },
+    {
+      "id": "lt_smart_contracts",
+      "label": "Smart Legal Contracts",
+      "subtitle": "Solidity · Oracles · Akoma",
+      "colorType": "legaltech",
+      "x": 424,
+      "y": 494,
+      "width": 128,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Smart_Legal_Contracts",
+        "Blockchain_Layer",
+        "Smart_Contracts",
+        "OpenData_Layer"
+      ],
+      "description": "Contratos legales inteligentes: texto jurídico + código ejecutable, oráculos legales para condiciones externas, resolución automatizada de disputas"
+    },
+    {
+      "id": "lt_gdpr_engine",
+      "label": "GDPR Engine",
+      "subtitle": "DPO · DPIA · NIS2",
+      "colorType": "legaltech",
+      "x": 562,
+      "y": 494,
+      "width": 128,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "GDPR_Compliance",
+        "NIS2_Compliance",
+        "Regulatory_Compliance_Engine",
+        "Security_Layer",
+        "Compliance",
+        "Detect_Function"
+      ],
+      "description": "Motor de cumplimiento GDPR: gestión de consentimientos, registro de tratamientos, evaluaciones DPIA, respuesta a derechos de interesados, reporting NIS2"
+    },
+    {
+      "id": "lt_legal_kb",
+      "label": "Legal Knowledge Base",
+      "subtitle": "ECLI · EuroVoc · Semantic",
+      "colorType": "legaltech",
+      "x": 700,
+      "y": 494,
+      "width": 128,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Legal_Knowledge_Base",
+        "OpenData_Layer",
+        "Data_Lakes",
+        "APIs",
+        "NLP_Pipeline",
+        "Predictive_Analytics"
+      ],
+      "description": "Base de conocimiento jurídico: jurisprudencia estructurada con ECLI, tesauro EuroVoc, recuperación semántica, razonamiento legal asistido por LLM"
+    },
+    {
+      "id": "lt_court_api",
+      "label": "Court System API",
+      "subtitle": "e-Filing · EU e-Justice",
+      "colorType": "legaltech",
+      "x": 838,
+      "y": 494,
+      "width": 128,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Court_System_Integration",
+        "OpenData_Layer",
+        "APIs",
+        "Open_Standards",
+        "Interoperability"
+      ],
+      "description": "Integración con sistemas judiciales: e-filing ante tribunales, notificaciones electrónicas, consulta de registros públicos, API EU e-Justice Portal"
+    },
+    {
+      "id": "lt_eidas",
+      "label": "eIDAS Trust Svc",
+      "subtitle": "QES · TSP · QTSP",
+      "colorType": "legaltech",
+      "x": 148,
+      "y": 558,
+      "width": 128,
+      "height": 40,
+      "status": "active",
+      "maltg_ref": [
+        "eIDAS_Compliance",
+        "Regulatory_Compliance_Engine",
+        "Encryption",
+        "IAM"
+      ],
+      "description": "Servicios de confianza eIDAS: firma electrónica cualificada (QES), sello electrónico, proveedor de servicios de confianza cualificado (QTSP)"
+    },
+    {
+      "id": "lt_privilege",
+      "label": "Privilege Manager",
+      "subtitle": "ACL · Attorney-Client",
+      "colorType": "legaltech",
+      "x": 424,
+      "y": 558,
+      "width": 128,
+      "height": 40,
+      "status": "active",
+      "maltg_ref": [
+        "Attorney_Client_Confidentiality",
+        "Security_Layer",
+        "Zero_Trust",
+        "Encryption",
+        "IAM"
+      ],
+      "description": "Gestión del privilegio attorney-client: cifrado por materia, controles de acceso basados en roles legales, auditoría de acceso a documentos privilegiados"
+    },
+    {
+      "id": "lt_compliance_dash",
+      "label": "Compliance Dashboard",
+      "subtitle": "COBIT MEA · KRI · KPI",
+      "colorType": "legaltech",
+      "x": 700,
+      "y": 558,
+      "width": 128,
+      "height": 40,
+      "status": "active",
+      "maltg_ref": [
+        "Regulatory_Compliance_Engine",
+        "MEA_Domain",
+        "EDM_Domain",
+        "COBIT",
+        "NIST_CSF"
+      ],
+      "description": "Dashboard de cumplimiento normativo: KRIs y KPIs de gobernanza, estado de controles COBIT, madurez NIST CSF por función, alertas regulatorias"
+    }
+  ],
+  "connections": [
+    {
+      "from": "client",
+      "to": "gateway",
+      "style": "solid"
+    },
+    {
+      "from": "ext_api",
+      "to": "gateway",
+      "style": "solid"
+    },
+    {
+      "from": "ext_event",
+      "to": "kafka",
+      "style": "dashed"
+    },
+    {
+      "from": "waf",
+      "to": "gateway",
+      "style": "solid"
+    },
+    {
+      "from": "gateway",
+      "to": "iam",
+      "style": "solid"
+    },
+    {
+      "from": "gateway",
+      "to": "mesh",
+      "style": "solid"
+    },
+    {
+      "from": "vault",
+      "to": "iam",
+      "style": "dashed"
+    },
+    {
+      "from": "mesh",
+      "to": "ms_auth",
+      "style": "solid"
+    },
+    {
+      "from": "mesh",
+      "to": "ms_biz",
+      "style": "solid"
+    },
+    {
+      "from": "mesh",
+      "to": "ms_ai",
+      "style": "solid"
+    },
+    {
+      "from": "mesh",
+      "to": "ms_bc",
+      "style": "solid"
+    },
+    {
+      "from": "mesh",
+      "to": "ms_data",
+      "style": "solid"
+    },
+    {
+      "from": "mesh",
+      "to": "ms_notify",
+      "style": "solid"
+    },
+    {
+      "from": "ms_auth",
+      "to": "db_pg",
+      "style": "solid"
+    },
+    {
+      "from": "ms_auth",
+      "to": "db_redis",
+      "style": "solid"
+    },
+    {
+      "from": "ms_biz",
+      "to": "db_pg",
+      "style": "solid"
+    },
+    {
+      "from": "ms_biz",
+      "to": "db_redis",
+      "style": "solid"
+    },
+    {
+      "from": "ms_ai",
+      "to": "db_elastic",
+      "style": "solid"
+    },
+    {
+      "from": "ms_ai",
+      "to": "datalake",
+      "style": "dashed"
+    },
+    {
+      "from": "ms_bc",
+      "to": "dlt",
+      "style": "solid"
+    },
+    {
+      "from": "ms_data",
+      "to": "datalake",
+      "style": "solid"
+    },
+    {
+      "from": "ms_notify",
+      "to": "kafka",
+      "style": "solid"
+    },
+    {
+      "from": "kafka",
+      "to": "ms_notify",
+      "style": "dashed"
+    },
+    {
+      "from": "kafka",
+      "to": "ms_biz",
+      "style": "dashed"
+    },
+    {
+      "from": "db_pg",
+      "to": "prometheus",
+      "style": "dashed"
+    },
+    {
+      "from": "ms_ai",
+      "to": "prometheus",
+      "style": "dashed"
+    },
+    {
+      "from": "ms_biz",
+      "to": "jaeger",
+      "style": "dashed"
+    },
+    {
+      "from": "db_elastic",
+      "to": "grafana",
+      "style": "dashed"
+    },
+    {
+      "from": "prometheus",
+      "to": "grafana",
+      "style": "solid"
+    },
+    {
+      "from": "gateway",
+      "to": "siem",
+      "style": "dashed"
+    },
+    {
+      "from": "iam",
+      "to": "opa",
+      "style": "solid"
+    },
+    {
+      "from": "prometheus",
+      "to": "k8s",
+      "style": "dashed"
+    },
+    {
+      "from": "k8s",
+      "to": "cicd",
+      "style": "solid"
+    },
+    {
+      "from": "k8s",
+      "to": "service_registry",
+      "style": "solid"
+    },
+    {
+      "from": "cicd",
+      "to": "terraform",
+      "style": "solid"
+    },
+    {
+      "from": "mesh",
+      "to": "service_registry",
+      "style": "dashed"
+    },
+    {
+      "from": "ms_ai",
+      "to": "lt_ediscovery",
+      "style": "solid"
+    },
+    {
+      "from": "ms_bc",
+      "to": "lt_notarization",
+      "style": "solid"
+    },
+    {
+      "from": "ms_bc",
+      "to": "lt_smart_contracts",
+      "style": "solid"
+    },
+    {
+      "from": "iam",
+      "to": "lt_gdpr_engine",
+      "style": "solid"
+    },
+    {
+      "from": "ms_data",
+      "to": "lt_legal_kb",
+      "style": "solid"
+    },
+    {
+      "from": "ms_auth",
+      "to": "lt_privilege",
+      "style": "solid"
+    },
+    {
+      "from": "siem",
+      "to": "lt_gdpr_engine",
+      "style": "dashed"
+    },
+    {
+      "from": "opa",
+      "to": "lt_gdpr_engine",
+      "style": "dashed"
+    },
+    {
+      "from": "dlt",
+      "to": "lt_notarization",
+      "style": "solid"
+    },
+    {
+      "from": "datalake",
+      "to": "lt_legal_kb",
+      "style": "dashed"
+    },
+    {
+      "from": "grafana",
+      "to": "lt_compliance_dash",
+      "style": "dashed"
+    },
+    {
+      "from": "lt_ediscovery",
+      "to": "lt_contract",
+      "style": "solid"
+    },
+    {
+      "from": "lt_notarization",
+      "to": "lt_contract",
+      "style": "solid"
+    },
+    {
+      "from": "lt_eidas",
+      "to": "lt_contract",
+      "style": "solid"
+    },
+    {
+      "from": "lt_privilege",
+      "to": "lt_ediscovery",
+      "style": "dashed"
+    },
+    {
+      "from": "lt_gdpr_engine",
+      "to": "lt_compliance_dash",
+      "style": "solid"
+    },
+    {
+      "from": "lt_legal_kb",
+      "to": "lt_court_api",
+      "style": "dashed"
+    },
+    {
+      "from": "lt_smart_contracts",
+      "to": "lt_notarization",
+      "style": "dashed"
+    }
+  ]
+}
