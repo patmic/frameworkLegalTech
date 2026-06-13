@@ -1461,6 +1461,9 @@ main .kpi, main .lcard, main .sc-card { cursor: default; }
     <span class="nav-num" style="color:var(--q-violet)">08</span>
     <span style="background:linear-gradient(90deg,var(--q-cyan),var(--q-violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:600">UI Styles</span>
   </div>
+  <div class="nav-tab" onclick="switchTab('cogep')" style="border-left:1px solid rgba(96,165,250,0.35)">
+    <span class="nav-num" style="color:#60a5fa">09</span>Ontología COGEP · IA
+  </div>
 </nav>
 
 <!-- STATUS BAR -->
@@ -1758,6 +1761,8 @@ main .kpi, main .lcard, main .sc-card { cursor: default; }
         <button class="vis-ctrl-btn active" id="wf-lanes-btn" onclick="wfToggle('lanes')">▦ Etapas</button>
         <button class="vis-ctrl-btn active" id="wf-labels-btn" onclick="wfToggle('labels')">⏱ Tiempos</button>
         <button class="vis-ctrl-btn active" id="wf-notes-btn" onclick="wfToggle('notes')">✎ Notas</button>
+        <button class="vis-ctrl-btn" id="wf-play-btn" onclick="wfPlay()" title="Animar el recorrido cronológico de la causa">▶ Recorrido</button>
+        <button class="vis-ctrl-btn" id="wf-chat-btn" onclick="wfChatToggle()" title="Chat IA sobre la causa seleccionada (ontología COGEP)">💬 Chat COGEP</button>
         <div style="display:flex;align-items:center;gap:.45rem;margin-left:auto;flex:1;min-width:280px;justify-content:flex-end">
           <label for="wf-causa" style="font-size:.58rem;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;white-space:nowrap">Causa / Expediente</label>
           <select id="wf-causa" onchange="wfLoadCausa(this.value)"
@@ -1802,7 +1807,180 @@ main .kpi, main .lcard, main .sc-card { cursor: default; }
       </div>
     </div>
   </div>
+
+  <!-- ── SALUD DEL JUICIO — dashboard del razonador COGEP ─────────── -->
+  <div class="panel" id="wf-salud-panel" style="display:none;margin-top:1rem">
+    <div class="ph">
+      <div class="ptitle">🩺 Salud del Juicio — Dictamen IA (Razonador COGEP)</div>
+      <span class="pbadge" id="wf-salud-badge">—</span>
+    </div>
+    <div class="pbody">
+      <div style="display:flex;gap:1.4rem;flex-wrap:wrap;align-items:flex-start">
+        <div style="flex:0 0 150px;text-align:center">
+          <svg id="wf-salud-ring" width="130" height="130" viewBox="0 0 130 130"></svg>
+          <div id="wf-salud-proc" style="font-size:.6rem;color:var(--t3);margin-top:.3rem"></div>
+        </div>
+        <div style="flex:1;min-width:300px">
+          <div id="wf-salud-resumen" style="font-size:.72rem;color:var(--t1);line-height:1.55;padding:.6rem .8rem;border:1px solid var(--bdr);border-radius:8px;background:var(--card-bg)"></div>
+          <div id="wf-salud-reglas" style="margin-top:.7rem;display:flex;flex-direction:column;gap:.45rem"></div>
+        </div>
+      </div>
+
+      <!-- Análisis IA del documento de una actuación: errores jurídicos -->
+      <div style="margin-top:1rem;padding-top:.8rem;border-top:1px dashed var(--bdr)">
+        <div style="font-size:.62rem;color:var(--t2);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.08em">
+          ⚖ Análisis IA de una actuación — seleccione la actividad y suba el documento del juzgador (PDF/TXT)
+        </div>
+        <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap">
+          <select id="wf-acto-sel" style="background:var(--card-bg);color:var(--t1);border:1px solid var(--bdr2);border-radius:6px;padding:.34rem .55rem;font-family:var(--font-mono);font-size:.62rem;min-width:230px">
+            <option value="">— Detectar acto automáticamente —</option>
+          </select>
+          <input type="file" id="wf-pdf-input" accept=".pdf,.txt" style="font-size:.62rem;color:var(--t2)">
+          <button class="vis-ctrl-btn" onclick="wfAnalizarActuacion()">🤖 Analizar con IA COGEP</button>
+          <span id="wf-pdf-status" style="font-size:.62rem;color:var(--t3)"></span>
+        </div>
+        <div id="wf-pdf-result" style="display:none;margin-top:.6rem;font-size:.68rem;line-height:1.55;padding:.6rem .8rem;border-radius:8px;border:1px solid var(--bdr)"></div>
+        <div id="wf-hallazgos" style="display:none;margin-top:.6rem;flex-direction:column;gap:.45rem"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MATERIALIZACIÓN AI · BLOCKCHAIN · OPEN DATA ──────────────── -->
+  <div id="wf-tech-strip" style="display:none;margin-top:1rem;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:1rem">
+    <div class="panel">
+      <div class="ph"><div class="ptitle">🤖 AI — Razonador Jurídico</div><span class="pbadge" style="color:#a855f7">simbólico · XAI</span></div>
+      <div class="pbody" id="wf-tech-ai" style="font-size:.66rem;color:var(--t2);line-height:1.5"></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><div class="ptitle">⛓ Blockchain — Ledger de Integridad</div><span class="pbadge" style="color:#10e98c">SHA-256</span></div>
+      <div class="pbody">
+        <div id="wf-tech-bc" style="font-size:.62rem;color:var(--t2)"></div>
+        <div style="display:flex;gap:.5rem;margin-top:.6rem;flex-wrap:wrap">
+          <button class="vis-ctrl-btn" onclick="bcVerify()">✔ Verificar cadena</button>
+          <button class="vis-ctrl-btn" onclick="bcTamper()">⚠ Simular alteración</button>
+        </div>
+        <div id="wf-bc-status" style="font-size:.62rem;margin-top:.45rem;color:var(--t3)"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph"><div class="ptitle">🌐 Open Data — Justicia Abierta</div><span class="pbadge" style="color:#ff9a3c">JSON-LD · DCAT</span></div>
+      <div class="pbody">
+        <div id="wf-tech-od" style="font-size:.62rem;color:var(--t2);line-height:1.5"></div>
+        <div style="display:flex;gap:.5rem;margin-top:.6rem;flex-wrap:wrap">
+          <button class="vis-ctrl-btn" onclick="odOpen('jsonld')">⤓ JSON-LD</button>
+          <button class="vis-ctrl-btn" onclick="odOpen('csv')">⤓ CSV</button>
+        </div>
+        <pre id="wf-od-preview" style="margin-top:.55rem;max-height:130px;overflow:auto;font-size:.55rem;line-height:1.4;color:var(--t2);background:var(--card-bg);border:1px solid var(--bdr);border-radius:6px;padding:.5rem"></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CHAT FLOTANTE COGEP IA ───────────────────────────────────── -->
+  <div id="wf-chat" class="wf-chat" style="display:none">
+    <div class="wf-chat-head" onclick="if(wfChat.min)wfChatMin()">
+      <span style="font-size:1rem">⚖</span>
+      <div style="flex:1;min-width:0">
+        <div style="font-family:var(--font-display);font-weight:700;font-size:.74rem;color:var(--t1)">Asistente COGEP · IA</div>
+        <div id="wf-chat-causa" style="font-size:.55rem;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">— sin causa seleccionada —</div>
+      </div>
+      <button class="wf-chat-ico" onclick="event.stopPropagation();wfChatMin()" title="Minimizar / restaurar" id="wf-chat-minbtn">—</button>
+      <button class="wf-chat-ico" onclick="event.stopPropagation();wfChatHide()" title="Ocultar">✕</button>
+    </div>
+    <div class="wf-chat-body" id="wf-chat-body">
+      <div id="wf-chat-msgs" class="wf-chat-msgs"></div>
+      <div id="wf-chat-chips" class="wf-chat-chips"></div>
+      <div class="wf-chat-inputrow">
+        <input id="wf-chat-input" type="text" placeholder="Pregunta sobre la causa… (Enter para enviar)"
+               onkeydown="if(event.key==='Enter')wfChatSend()">
+        <button class="vis-ctrl-btn" onclick="wfChatSend()" style="flex-shrink:0">➤</button>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- ═══ 09 ONTOLOGÍA COGEP · IA ═══════════════════════ -->
+<div class="section" id="sec-cogep">
+  <div class="stitle">Ontología COGEP — Conocimiento procesal para la IA jurídica</div>
+
+  <div class="panel">
+    <div class="ph">
+      <div class="ptitle">Grafo Ontológico Procesal · Procedimiento → Etapa → Acto → Término → Sujeto</div>
+      <span class="pbadge" style="color:#60a5fa" id="cogep-badge">cogep_kb.json</span>
+    </div>
+    <div class="src-bar">
+      <span>Fuente:</span><span class="src-file" style="color:#60a5fa">/data/cogep_kb.json</span>
+      <span class="vsep">·</span><span>Norma:</span><span class="src-ts">COGEP (R.O. 506, 22-V-2015 y reformas)</span>
+      <span class="vsep">·</span><span>Hash:</span><span class="src-ts" id="cogep-hash">—</span>
+    </div>
+    <div class="pbody">
+      <div style="display:flex;gap:1rem;flex-wrap:wrap">
+        <div style="flex:1;min-width:420px">
+          <div id="cogep-net" style="width:100%;height:560px;border:1px solid var(--bdr);border-radius:8px;background:var(--card-bg)"></div>
+          <div id="cogep-legend" style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:.55rem;font-size:.58rem;color:var(--t2)"></div>
+        </div>
+        <div style="flex:0 0 320px;display:flex;flex-direction:column;gap:.8rem">
+          <div style="border:1px solid var(--bdr);border-radius:8px;padding:.7rem .8rem;background:var(--card-bg)">
+            <div style="font-size:.6rem;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.35rem">Concepto seleccionado</div>
+            <div id="cogep-node-title" style="font-family:var(--font-display);font-weight:700;font-size:.85rem;color:var(--t1)">— clic en un nodo —</div>
+            <div id="cogep-node-desc" style="font-size:.65rem;color:var(--t2);line-height:1.5;margin-top:.35rem"></div>
+          </div>
+          <div style="border:1px solid var(--bdr);border-radius:8px;padding:.7rem .8rem;background:var(--card-bg)">
+            <div style="font-size:.6rem;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.45rem">⚖ Razonador — juicio de valor sobre una causa</div>
+            <select id="cogep-causa" style="width:100%;background:var(--card-bg);color:var(--t1);border:1px solid var(--bdr2);border-radius:6px;padding:.34rem .55rem;font-family:var(--font-mono);font-size:.62rem">
+              <option value="">— Seleccionar expediente —</option>
+            </select>
+            <button class="vis-ctrl-btn" style="margin-top:.5rem;width:100%" onclick="cogepRunJuicio()">▶ Ejecutar razonador COGEP</button>
+            <div id="cogep-juicio-out" style="margin-top:.55rem;max-height:330px;overflow:auto;display:flex;flex-direction:column;gap:.45rem"></div>
+          </div>
+          <div style="border:1px solid var(--bdr);border-radius:8px;padding:.7rem .8rem;background:var(--card-bg)">
+            <div style="font-size:.6rem;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem">📄 Dictamen sobre PDF de actuación</div>
+            <input type="file" id="cogep-pdf-input" accept=".pdf,.txt" style="font-size:.6rem;color:var(--t2);width:100%">
+            <button class="vis-ctrl-btn" style="margin-top:.45rem;width:100%" onclick="cogepJuicioPdf()">⚖ Dictaminar documento</button>
+            <div id="cogep-pdf-out" style="display:none;margin-top:.5rem;font-size:.64rem;line-height:1.5;padding:.55rem .7rem;border-radius:8px;border:1px solid var(--bdr)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* ── Animaciones flujo procesal (tab 06) + COGEP ─────────────────── */
+@keyframes wfDashMove { to { stroke-dashoffset: -48; } }
+@keyframes wfPulseRing { 0%{stroke-opacity:.85;transform:scale(1)} 70%{stroke-opacity:0;transform:scale(1.6)} 100%{stroke-opacity:0;transform:scale(1.6)} }
+.wf-anim-edge { stroke-dasharray: 16 8; animation: wfDashMove 1.1s linear infinite; }
+.wf-pulse-ring { transform-box: fill-box; transform-origin: center; animation: wfPulseRing 1.6s ease-out infinite; pointer-events: none; }
+.wf-token { filter: drop-shadow(0 0 8px rgba(0,229,255,.9)); pointer-events: none; }
+.salud-chip { display:flex; align-items:center; gap:.55rem; padding:.45rem .6rem; border-radius:8px; border:1px solid var(--bdr); background:var(--card-bg); cursor:pointer; }
+.salud-chip:hover { border-color: var(--bdr2); }
+.salud-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+
+/* ── Chat flotante COGEP ── */
+.wf-chat { position:fixed; right:22px; bottom:22px; width:min(380px, calc(100vw - 44px)); z-index:120;
+  background:var(--bg1); border:1px solid var(--bdr2); border-radius:14px; box-shadow:0 12px 40px rgba(0,0,0,.45);
+  display:flex; flex-direction:column; overflow:hidden; }
+.wf-chat-head { display:flex; align-items:center; gap:.55rem; padding:.6rem .75rem; border-bottom:1px solid var(--bdr);
+  background:linear-gradient(90deg, rgba(96,165,250,.12), rgba(168,85,247,.10)); cursor:default; }
+.wf-chat-ico { background:transparent; border:1px solid var(--bdr); border-radius:6px; color:var(--t2);
+  width:24px; height:24px; cursor:pointer; font-size:.7rem; line-height:1; }
+.wf-chat-ico:hover { color:var(--t1); border-color:var(--bdr2); }
+.wf-chat-msgs { height:300px; overflow-y:auto; padding:.7rem; display:flex; flex-direction:column; gap:.5rem; }
+.wf-chat-bub { max-width:88%; padding:.5rem .65rem; border-radius:10px; font-size:.64rem; line-height:1.5; white-space:pre-wrap; word-break:break-word; }
+.wf-chat-bub.user { align-self:flex-end; background:rgba(0,229,255,.14); border:1px solid rgba(0,229,255,.35); color:var(--t1); border-bottom-right-radius:3px; }
+.wf-chat-bub.bot  { align-self:flex-start; background:var(--card-bg); border:1px solid var(--bdr); color:var(--t1); border-bottom-left-radius:3px; }
+.wf-chat-bub.bot b{ color:#60a5fa; }
+.wf-chat-chips { display:flex; flex-wrap:wrap; gap:.35rem; padding:.3rem .7rem .45rem; }
+.wf-chat-chip { font-size:.56rem; padding:.22rem .55rem; border-radius:999px; border:1px solid rgba(96,165,250,.4);
+  color:#60a5fa; background:rgba(96,165,250,.08); cursor:pointer; }
+.wf-chat-chip:hover { background:rgba(96,165,250,.18); }
+.wf-chat-inputrow { display:flex; gap:.45rem; padding:.55rem .7rem; border-top:1px solid var(--bdr); }
+.wf-chat-inputrow input { flex:1; background:var(--card-bg); color:var(--t1); border:1px solid var(--bdr2);
+  border-radius:8px; padding:.45rem .6rem; font-size:.64rem; font-family:var(--font-mono); outline:none; }
+.wf-chat.minimized .wf-chat-body { display:none; }
+.wf-chat.minimized { width:250px; }
+@keyframes wfChatIn { from { transform:translateY(14px); opacity:0 } to { transform:none; opacity:1 } }
+.wf-chat { animation: wfChatIn .25s ease-out; }
+</style>
 
 <!-- ═══ 06 METHODOLOGY ═══════════════════════════════ -->
 <div class="section" id="sec-methodology">
@@ -2828,7 +3006,7 @@ function toggleTheme(){
 //  TAB 05 — WORKFLOW · Procedural flow graph (BPMN → SVG)
 // ════════════════════════════════════════════════════════════════════
 const WF_PALETTE = ['#00e5ff','#a855f7','#10e98c','#ffc947','#ff4d6d','#6366f1','#2dd4bf','#f472b6'];
-let wfState = { scale:1, tx:0, ty:0, data:null, drag:null,
+let wfState = { scale:1, tx:0, ty:0, data:null, drag:null, salud:null, ledger:null,
                 show:{ lanes:true, labels:true, notes:true },
                 highlight:null,     // Set of node ids traversed by the selected causa
                 causa:null };       // { juicio, label, seqByNode, actsByNode, totalPasos }
@@ -2922,6 +3100,12 @@ function renderWorkflow(wf){
     const eW = onPath ? 3.4 : 2.2;
     const eOp = (hlActive && !onPath) ? 0.25 : 1;
     edges += `<path d="${d}" fill="none" stroke="${eStroke}" stroke-width="${eW}" opacity="${eOp}" marker-end="url(#wf-arrow${onPath?'-hl':''})"/>`;
+    if(onPath){
+      // flujo direccional animado, coloreado por el estado COGEP del nodo destino
+      const al = (wfState.salud && wfState.salud.node_alerts) ? wfState.salud.node_alerts[f.target] : null;
+      const aCol = al ? (SALUD_COL[al.estado]||CYAN) : CYAN;
+      edges += `<path class="wf-anim-edge" d="${d}" fill="none" stroke="${aCol}" stroke-width="2.6" stroke-linecap="round" opacity="0.95"/>`;
+    }
     if(wfState.show.labels && f.label){
       const mid = pts[Math.floor(pts.length/2)];
       const lbl = f.label.trim();
@@ -2948,6 +3132,24 @@ function renderWorkflow(wf){
       <text x="${(n.x-8+w/2).toFixed(1)}" y="${(n.y+4).toFixed(1)}" text-anchor="middle" font-family="${FMONO}" font-size="13" font-weight="700" fill="#fff">${wfEsc(txt)}</text>
     </g>`;
   };
+  // ── Alertas COGEP por nodo (razonador): anillo pulsante + etiqueta ──
+  const nodeAlerts = (wfState.salud && wfState.salud.node_alerts) || {};
+  const alertBadge = (n)=>{
+    const al = nodeAlerts[n.id];
+    if(!al) return '';
+    const c = SALUD_COL[al.estado]||'#64748b';
+    const cx = n.x + n.w, cy = n.y;
+    const txt = al.estado==='CUMPLE' ? '✓' : (al.estado==='ALERTA'?'!':'+'+al.exceso+'d');
+    const w = Math.max(26, 12 + txt.length*9);
+    const pulse = al.estado!=='CUMPLE' ? `<circle class="wf-pulse-ring" cx="${cx}" cy="${cy}" r="15" fill="none" stroke="${c}" stroke-width="4"/>` : '';
+    return `<g>
+      ${pulse}
+      <circle cx="${cx}" cy="${cy}" r="14" fill="${c}" stroke="${isDark?'#0d1525':'#fff'}" stroke-width="2.5"/>
+      <text x="${cx}" y="${cy+4.5}" text-anchor="middle" font-family="${FMONO}" font-size="${txt.length>2?10:13}" font-weight="700" fill="#0a0f1d">${txt}</text>
+      <title>${al.estado} — ${al.articulo} (regla ${al.regla})${al.exceso?` · exceso ${al.exceso} días hábiles`:''}</title>
+    </g>`;
+  };
+
   wf.nodes.forEach(n=>{
     const hit = hlActive && HL.has(n.id);
     const dim = hlActive && !hit ? 0.30 : 1;   // fade non-traversed nodes
@@ -2962,6 +3164,7 @@ function renderWorkflow(wf){
         <text x="${cx}" y="${cy+5}" text-anchor="middle" font-family="${FUI}"
               font-size="15" font-weight="700" fill="${hit?'#000':col}">${isStart?'INICIO':'FIN'}</text>
         ${seqBadge(n)}
+        ${alertBadge(n)}
       </g>`;
     } else {
       const col = stageColor[n.stage] || CYAN;
@@ -2978,6 +3181,7 @@ function renderWorkflow(wf){
         <rect x="${n.x}" y="${n.y}" width="6" height="${n.h}" rx="3" fill="${hit?'#000':col}"/>
         ${tspans}
         ${seqBadge(n)}
+        ${alertBadge(n)}
       </g>`;
     }
   });
@@ -3193,7 +3397,27 @@ function wfOpenActivity(nodeId){
   ];
   title.textContent = node.label || (ps[0].NombreProvidencia||'Actividad');
   sub.textContent = `${causa.label||('Causa '+(causa.juicio||''))} — ${ps.length} ocurrencia${ps.length>1?'s':''} en esta actividad`;
-  body.innerHTML = ps.map(p=>{
+
+  // ── Dictamen del razonador COGEP para esta actividad ──
+  let dictHtml='';
+  const dictas=((wfState.salud&&wfState.salud.resultados)||[]).filter(r=>r.nodeId===nodeId);
+  if(dictas.length){
+    dictHtml = dictas.map(r=>{
+      const c=SALUD_COL[r.estado]||'#64748b';
+      return `<div style="margin-bottom:.8rem;padding:.6rem .75rem;border:1px solid ${c};border-radius:8px;background:${c}11">
+        <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+          <span class="salud-dot" style="background:${c};box-shadow:0 0 8px ${c}"></span>
+          <b style="color:${c};font-size:.7rem">⚖ DICTAMEN IA — ${wfEsc(r.estado)}</b>
+          <span style="color:var(--t3);font-size:.6rem">${wfEsc(r.articulo)} COGEP${r.dias!=null?` · ${r.dias}/${r.termino_dias} días hábiles`:''}</span>
+        </div>
+        <div style="font-size:.64rem;color:var(--t1);line-height:1.55">${wfEsc(r.dictamen||'')}</div>
+      </div>`;
+    }).join('');
+  } else if(wfState.salud){
+    dictHtml = `<div style="margin-bottom:.8rem;padding:.5rem .7rem;border:1px dashed var(--bdr);border-radius:8px;font-size:.62rem;color:var(--t3)">
+      ⚖ El razonador COGEP no tiene un término legal parametrizado para esta actividad (informativa).</div>`;
+  }
+  body.innerHTML = dictHtml + ps.map(p=>{
     const rows=FIELDS.filter(([k])=>p[k]!=null && p[k]!=='').map(([k,lbl])=>
       `<div style="display:flex;gap:.6rem;padding:.18rem 0;border-bottom:1px solid var(--bdr)">
          <div style="min-width:170px;color:var(--t2);font-size:.62rem">${wfEsc(lbl)}</div>
@@ -3254,25 +3478,468 @@ function wfRerenderKeepView(){
 
 async function wfLoadCausa(file){
   const info=document.getElementById('wf-causa-info');
-  if(!file){ wfState.highlight=null; wfState.causa=null; if(info) info.textContent=''; wfRerenderKeepView(); return; }
+  if(!file){
+    wfState.highlight=null; wfState.causa=null; wfState.salud=null; wfState.ledger=null;
+    const sp=document.getElementById('wf-salud-panel'); if(sp) sp.style.display='none';
+    const ts=document.getElementById('wf-tech-strip'); if(ts) ts.style.display='none';
+    if(info) info.textContent=''; wfRerenderKeepView(); return;
+  }
   try{
     const r=await fetch('/api/expediente?file='+encodeURIComponent(file)+'&_='+Date.now());
     const d=await r.json();
     if(d.error){ if(info) info.textContent='Error: '+d.error; return; }
     const pasos=d.pasos||[];
     const ids=new Set((wfState.data&&wfState.data.nodes||[]).map(n=>n.id));
-    const seqByNode={}, actsByNode={};
+    const seqByNode={}, actsByNode={}, pasosSeq=[];
     pasos.forEach(p=>{
       if(p.nodeId && ids.has(p.nodeId)){
         (seqByNode[p.nodeId]=seqByNode[p.nodeId]||[]).push(p.seq);
         (actsByNode[p.nodeId]=actsByNode[p.nodeId]||[]).push(p);
+        pasosSeq.push({seq:p.seq, nodeId:p.nodeId, nombre:p.NombreProvidencia||'', fecha:p.FechaProvidencia||''});
       }
     });
     wfState.highlight=new Set(Object.keys(seqByNode));
-    wfState.causa={ juicio:d.juicio, label:d.label||'', seqByNode, actsByNode, totalPasos:pasos.length };
+    wfState.causa={ juicio:d.juicio, file, label:d.label||'', seqByNode, actsByNode, pasosSeq, totalPasos:pasos.length };
     if(info) info.textContent = `● ${d.label||('Causa '+(d.juicio||''))} — ${wfState.highlight.size} actividades en el flujo · ${pasos.length} pasos (clic en un nodo para detalle)`;
+    if(typeof wfChat!=='undefined' && wfChat.open) wfChatSync();
+
+    // ── Razonador COGEP + Ledger + Open Data (en paralelo) ──
+    wfState.salud=null; wfState.ledger=null;
+    try{
+      const [rj, rl, ro] = await Promise.all([
+        fetch('/api/cogep/juicio?file='+encodeURIComponent(file)+'&_='+Date.now()),
+        fetch('/api/ledger?file='+encodeURIComponent(file)+'&_='+Date.now()),
+        fetch('/api/opendata?file='+encodeURIComponent(file)+'&_='+Date.now()),
+      ]);
+      const j=await rj.json(), l=await rl.json(), o=await ro.json();
+      if(!j.error) wfState.salud=j;
+      if(!l.error) wfState.ledger=l;
+      renderSaludPanel(j.error?null:j);
+      renderTechStrip(j.error?null:j, l.error?null:l, o.error?null:o, file);
+    }catch(e){ console.warn('razonador COGEP no disponible', e); }
+
     wfRerenderKeepView();
   }catch(e){ console.error('wfLoadCausa', e); if(info) info.textContent='Error cargando causa'; }
+}
+
+// ════════════════════════════════════════════════════════════════════
+//  SALUD DEL JUICIO + MATERIALIZACIÓN AI/BLOCKCHAIN/OPEN DATA (Tab 06)
+// ════════════════════════════════════════════════════════════════════
+const SALUD_COL = {CUMPLE:'#10e98c', ALERTA:'#ffc947', INCUMPLE:'#ff4d6d', NO_EVALUABLE:'#64748b', INFORMATIVO:'#60a5fa'};
+
+function renderSaludPanel(j){
+  const panel=document.getElementById('wf-salud-panel');
+  if(!panel) return;
+  if(!j){ panel.style.display='none'; return; }
+  panel.style.display='block';
+  wfPopulateActos();
+  const badge=document.getElementById('wf-salud-badge');
+  const s=j.salud;
+  const col = s==null ? '#64748b' : s>=90?'#10e98c': s>=60?'#ffc947':'#ff4d6d';
+  if(badge){ badge.textContent = s==null?'SIN DATOS':('SALUD '+s+'/100'); badge.style.color=col; }
+
+  // anillo
+  const ring=document.getElementById('wf-salud-ring');
+  if(ring){
+    const pct=(s==null?0:s)/100, R=52, C=2*Math.PI*R;
+    ring.innerHTML=`
+      <circle cx="65" cy="65" r="${R}" fill="none" stroke="${col}22" stroke-width="11"/>
+      <circle cx="65" cy="65" r="${R}" fill="none" stroke="${col}" stroke-width="11" stroke-linecap="round"
+              stroke-dasharray="${(C*pct).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 65 65)">
+        <animate attributeName="stroke-dasharray" from="0 ${C.toFixed(1)}" to="${(C*pct).toFixed(1)} ${C.toFixed(1)}" dur="0.9s" fill="freeze"/>
+      </circle>
+      <text x="65" y="60" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-size="26" font-weight="700" fill="${col}">${s==null?'—':s}</text>
+      <text x="65" y="80" text-anchor="middle" font-size="10" fill="#888">de 100</text>`;
+  }
+  const proc=document.getElementById('wf-salud-proc');
+  if(proc) proc.textContent = (j.procedimiento? j.procedimiento.nombre+' · '+j.procedimiento.articulos : '');
+  const res=document.getElementById('wf-salud-resumen');
+  if(res) res.innerHTML = `<b style="color:${col}">⚖ ${wfEsc(j.resumen||'')}</b><br>
+    <span style="color:var(--t3);font-size:.6rem">${wfEsc(j.motor||'')} · Art. 73 COGEP: términos en días hábiles (no excluye feriados — limitación declarada)</span>`;
+
+  const wrap=document.getElementById('wf-salud-reglas');
+  if(wrap){
+    wrap.innerHTML=(j.resultados||[]).map((r,i)=>{
+      const c=SALUD_COL[r.estado]||'#64748b';
+      const dias = r.dias==null?'—':`${r.dias}/${r.termino_dias} días`;
+      return `<div class="salud-chip" onclick="const d=document.getElementById('salud-dict-${i}');d.style.display=d.style.display==='none'?'block':'none'">
+        <span class="salud-dot" style="background:${c};box-shadow:0 0 8px ${c}"></span>
+        <span style="font-size:.66rem;color:var(--t1);flex:1"><b>${wfEsc(r.nombre)}</b> <span style="color:var(--t3)">(${wfEsc(r.articulo)})</span></span>
+        <span style="font-family:var(--font-mono);font-size:.62rem;color:${c};font-weight:700">${r.estado}${r.exceso?` +${r.exceso}d`:''} · ${dias}</span>
+      </div>
+      <div id="salud-dict-${i}" style="display:none;font-size:.63rem;color:var(--t2);line-height:1.55;padding:.45rem .7rem .45rem 1.5rem;border-left:2px solid ${c}">${wfEsc(r.dictamen||'')}</div>`;
+    }).join('');
+  }
+}
+
+function renderTechStrip(j, l, o, file){
+  const strip=document.getElementById('wf-tech-strip');
+  if(!strip) return;
+  strip.style.display='grid';
+  // AI
+  const ai=document.getElementById('wf-tech-ai');
+  if(ai){
+    const n=(j&&j.resultados||[]).filter(r=>r.estado!=='NO_EVALUABLE').length;
+    ai.innerHTML = j? `El razonador simbólico mapeó las providencias del expediente a la <b>ontología COGEP</b> y evaluó <b>${n} término(s) legal(es)</b>:
+      <span style="color:#10e98c">${j.cumple} cumple(n)</span> · <span style="color:#ffc947">${j.alertas} alerta(s)</span> · <span style="color:#ff4d6d">${j.incumplimientos} incumplimiento(s)</span>.
+      <br><br>Cada dictamen cita el artículo aplicable (razonamiento explicable, sin caja negra). Ver detalle en el panel Salud del Juicio ↑`
+      : 'Razonador no disponible para esta causa.';
+  }
+  // Blockchain
+  const bc=document.getElementById('wf-tech-bc');
+  if(bc && l){
+    const blocks=(l.bloques||[]);
+    bc.innerHTML = `<div style="margin-bottom:.4rem">Cada actuación es un bloque: <code style="font-size:.55rem">hash = SHA-256(idx | fecha | data | hash_prev)</code> — alterar una rompe todas las siguientes.</div>
+      <div id="wf-bc-chain" style="display:flex;flex-wrap:wrap;gap:3px;align-items:center">`+
+      blocks.map((b,i)=>`<span class="bc-block" data-i="${i}" title="${wfEsc(b.actividad)} · ${wfEsc(b.fecha)}"
+        style="font-family:var(--font-mono);font-size:.52rem;padding:.18rem .3rem;border-radius:4px;border:1px solid #10e98c66;color:#10e98c;background:#10e98c11">${b.block_hash.slice(0,6)}</span>${i<blocks.length-1?'<span style="color:#475569">─</span>':''}`).join('')+
+      `</div><div style="margin-top:.4rem;color:var(--t3)">root: <code style="font-size:.55rem">${(l.root||'').slice(0,24)}…</code> · ${l.longitud} bloques</div>`;
+  } else if(bc){ bc.textContent='Ledger no disponible.'; }
+  // Open Data
+  const od=document.getElementById('wf-tech-od');
+  if(od){
+    od.innerHTML = o? `Expediente publicado como <b>dato abierto enlazado</b> (JSON-LD, vocabularios schema.org + DCAT + MALTG), interoperable con
+      <a href="https://procesosjudiciales.funcionjudicial.gob.ec/" target="_blank" style="color:#ff9a3c">e-SATJE (consulta pública)</a>. Licencia CC-BY 4.0.` : 'No disponible.';
+    const pre=document.getElementById('wf-od-preview');
+    if(pre && o) pre.textContent=JSON.stringify({'@id':o['@id'],'@type':o['@type'],'dct:title':o['dct:title'],'estadoProcesal':o['estadoProcesal'],'actuaciones':`[${(o.actuaciones||[]).length} schema:Action]`},null,1);
+  }
+  strip.dataset.file=file||'';
+}
+
+async function sha256hex(s){
+  const b=await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+}
+
+async function bcVerify(){
+  const st=document.getElementById('wf-bc-status'); const l=wfState.ledger;
+  if(!l){ if(st) st.textContent='Cargue una causa primero.'; return; }
+  let prev='0'.repeat(64), ok=true;
+  for(const [i,b] of (l.bloques||[]).entries()){
+    const h=await sha256hex(`${b.idx}|${b.fecha}|${b.data_hash}|${prev}`);
+    const el=document.querySelector(`.bc-block[data-i="${i}"]`);
+    const good=(h===b.block_hash && b.prev_hash===prev);
+    if(el){ el.style.borderColor=good?'#10e98c':'#ff4d6d'; el.style.color=good?'#10e98c':'#ff4d6d'; el.style.background=good?'#10e98c11':'#ff4d6d22'; }
+    if(!good) ok=false;
+    prev=b.block_hash;
+  }
+  if(st) st.innerHTML = ok? '<span style="color:#10e98c">✔ Cadena íntegra: ningún registro del expediente fue alterado (verificación SHA-256 en el navegador).</span>'
+                          : '<span style="color:#ff4d6d">✘ Integridad rota: existen bloques alterados.</span>';
+}
+
+async function bcTamper(){
+  const st=document.getElementById('wf-bc-status'); const l=wfState.ledger;
+  if(!l || !(l.bloques||[]).length){ if(st) st.textContent='Cargue una causa primero.'; return; }
+  const k=Math.floor(l.bloques.length/2);
+  l.bloques[k].data_hash = 'f'.repeat(8)+l.bloques[k].data_hash.slice(8);   // simula edición maliciosa de la actuación k
+  let prev='0'.repeat(64);
+  for(const [i,b] of l.bloques.entries()){
+    const h=await sha256hex(`${b.idx}|${b.fecha}|${b.data_hash}|${prev}`);
+    const el=document.querySelector(`.bc-block[data-i="${i}"]`);
+    const good=(h===b.block_hash && b.prev_hash===prev);
+    if(el){ el.style.borderColor=good?'#10e98c':'#ff4d6d'; el.style.color=good?'#10e98c':'#ff4d6d'; el.style.background=good?'#10e98c11':'#ff4d6d22'; }
+    prev=b.block_hash;
+  }
+  if(st) st.innerHTML=`<span style="color:#ff4d6d">⚠ Se simuló la alteración de la actuación #${k+1}: la cadena se rompe desde ese bloque — el expediente ya no es confiable. (Recargue la causa para restaurar.)</span>`;
+}
+
+function odOpen(fmt){
+  const file=(wfState.causa&&wfState.causa.file)||document.getElementById('wf-tech-strip').dataset.file;
+  if(!file) return;
+  window.open('/api/opendata?file='+encodeURIComponent(file)+'&format='+fmt,'_blank');
+}
+
+// ── Análisis IA de actuación (tab 06): errores jurídicos del documento ──
+async function wfPopulateActos(){
+  const sel=document.getElementById('wf-acto-sel');
+  if(!sel || sel.options.length>1) return;
+  try{
+    const kb=await (await fetch('/api/cogep/kb?_='+Date.now())).json();
+    (kb.actos||[]).forEach(a=>{
+      if(!(a.requisitos&&a.requisitos.length) && !a.keywords) return;
+      const o=document.createElement('option');
+      o.value=a.id; o.textContent=`${a.nombre} (${a.articulo})`;
+      sel.appendChild(o);
+    });
+  }catch(e){ console.warn('wfPopulateActos', e); }
+}
+
+async function wfAnalizarActuacion(){
+  const inp=document.getElementById('wf-pdf-input'), st=document.getElementById('wf-pdf-status');
+  const res=document.getElementById('wf-pdf-result'), box=document.getElementById('wf-hallazgos');
+  const acto=(document.getElementById('wf-acto-sel')||{}).value||'';
+  if(!inp||!inp.files||!inp.files.length){ if(st) st.textContent='Seleccione primero el PDF/TXT de la actuación.'; return; }
+  if(st) st.textContent='⏳ El agente está leyendo el documento y verificando los requisitos del COGEP…';
+  if(res){ res.style.display='none'; }
+  if(box){ box.style.display='none'; box.innerHTML=''; }
+  try{
+    const fd=new FormData();
+    fd.append('file', inp.files[0]);
+    fd.append('acto', acto);
+    fd.append('expediente', (wfState.causa&&wfState.causa.file)||'');
+    const r=await fetch('/api/cogep/analisis',{method:'POST',body:fd});
+    const j=await r.json();
+    if(st) st.textContent='';
+    if(j.error){ res.style.display='block'; res.style.borderColor='#ff4d6d'; res.innerHTML=`<span style="color:#ff4d6d">${wfEsc(j.error)}</span>`; return; }
+
+    // banner resumen
+    const col = j.errores>0 ? '#ff4d6d' : (j.advertencias>0 ? '#ffc947' : '#10e98c');
+    res.style.display='block'; res.style.borderColor=col;
+    res.innerHTML=`
+      <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.35rem">
+        <span class="salud-dot" style="background:${col};box-shadow:0 0 8px ${col}"></span>
+        <b style="color:${col};font-size:.74rem">CONFORMIDAD ${j.conformidad}%</b>
+        <span style="color:#ff4d6d;font-weight:700">${j.errores} error(es)</span>
+        <span style="color:#ffc947;font-weight:700">${j.advertencias} advertencia(s)</span>
+        <span style="color:#10e98c;font-weight:700">${j.cumplidos} cumplido(s)</span>
+        <span style="color:var(--t3)">· ${wfEsc(j.acto?j.acto.nombre:'')} (${wfEsc(j.acto?j.acto.articulo:'')})</span>
+      </div>
+      <div style="color:var(--t1)">${wfEsc(j.dictamen||'')}</div>
+      <div style="margin-top:.35rem;color:var(--t3);font-size:.58rem">
+        ${j.juez?`Juzgador: <b style="color:var(--t2)">${wfEsc(j.juez)}</b> · `:''}
+        ${j.causa_documento?`Causa en el documento: ${wfEsc(j.causa_documento)} · `:''}
+        Fechas: ${(j.fechas||[]).join(' · ')||'—'} · ${wfEsc(j.motor||'')}
+      </div>`;
+
+    // hallazgos detallados
+    const ICO={ERROR:'✖',ADVERTENCIA:'⚠',CUMPLE:'✔'};
+    box.style.display='flex';
+    box.innerHTML=(j.hallazgos||[]).map(h=>{
+      const c=SALUD_COL[h.tipo==='ERROR'?'INCUMPLE':h.tipo==='ADVERTENCIA'?'ALERTA':'CUMPLE'];
+      return `<div style="display:flex;gap:.55rem;align-items:flex-start;padding:.45rem .6rem;border:1px solid var(--bdr);border-left:3px solid ${c};border-radius:0 8px 8px 0;background:var(--card-bg)">
+        <span style="color:${c};font-weight:700;flex-shrink:0">${ICO[h.tipo]||'•'}</span>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:.66rem"><b style="color:${c}">${wfEsc(h.tipo)}</b>
+            <b style="color:var(--t1)"> · ${wfEsc(h.requisito||'')}</b>
+            <span style="color:var(--t3)"> — ${wfEsc(h.articulo||'')} COGEP</span></div>
+          <div style="font-size:.63rem;color:var(--t2);line-height:1.5;margin-top:.15rem">${wfEsc(h.detalle||'')}</div>
+          ${h.evidencia?`<div style="font-size:.6rem;color:var(--t3);font-style:italic;margin-top:.15rem">Evidencia: ${wfEsc(h.evidencia)}</div>`:''}
+          ${h.recomendacion?`<div style="font-size:.6rem;color:${c};margin-top:.15rem">→ ${wfEsc(h.recomendacion)}</div>`:''}
+        </div>
+      </div>`;
+    }).join('');
+  }catch(e){
+    if(st) st.textContent='';
+    res.style.display='block'; res.style.borderColor='#ff4d6d';
+    res.innerHTML='<span style="color:#ff4d6d">Error de red durante el análisis.</span>';
+  }
+}
+
+// ── Dictamen IA simple sobre PDF (tab 09) ──
+async function cogepJuicioPdf(){ return _juicioPdf('cogep-pdf-input',null,'cogep-pdf-out'); }
+
+async function _juicioPdf(inputId, statusId, outId){
+  const inp=document.getElementById(inputId), out=document.getElementById(outId);
+  const st=statusId?document.getElementById(statusId):null;
+  if(!inp||!inp.files||!inp.files.length){ if(st) st.textContent='Seleccione un PDF o TXT primero.'; else if(out){out.style.display='block';out.textContent='Seleccione un PDF o TXT primero.';} return; }
+  if(st) st.textContent='Analizando documento con el razonador COGEP…';
+  if(out){ out.style.display='block'; out.innerHTML='<span style="color:var(--t3)">⏳ Analizando…</span>'; }
+  try{
+    const fd=new FormData(); fd.append('file', inp.files[0]);
+    const r=await fetch('/api/cogep/juicio-pdf',{method:'POST',body:fd});
+    const j=await r.json();
+    if(st) st.textContent='';
+    if(j.error){ out.innerHTML=`<span style="color:#ff4d6d">${wfEsc(j.error)}</span>`; return; }
+    const c=SALUD_COL[j.estado]||'#60a5fa';
+    out.style.borderColor=c;
+    out.innerHTML=`<div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.35rem">
+        <span class="salud-dot" style="background:${c};box-shadow:0 0 8px ${c}"></span>
+        <b style="color:${c}">${wfEsc(j.estado)}</b>
+        ${j.acto_detectado?`<span style="color:var(--t3)">· acto: <b style="color:var(--t1)">${wfEsc(j.acto_detectado)}</b></span>`:''}
+        ${j.dias!=null?`<span style="color:var(--t3)">· ${j.dias}/${j.termino_dias} días hábiles</span>`:''}
+      </div>
+      <div style="color:var(--t1)">${wfEsc(j.dictamen||'')}</div>
+      <div style="margin-top:.35rem;color:var(--t3);font-size:.58rem">
+        Fechas detectadas: ${(j.fechas_detectadas||[]).join(' · ')||'—'}${j.juez_detectado?` · Juzgador: ${wfEsc(j.juez_detectado)}`:''}
+      </div>`;
+  }catch(e){ if(out) out.innerHTML='<span style="color:#ff4d6d">Error de red al dictaminar.</span>'; }
+}
+
+// ── Reproducción animada del recorrido de la causa ──
+let wfPlayTimer=null;
+function wfPlay(){
+  const c=wfState.causa, data=wfState.data;
+  if(!c || !c.pasosSeq || !c.pasosSeq.length || !data){ return; }
+  if(wfPlayTimer){ clearTimeout(wfPlayTimer); wfPlayTimer=null; }
+  const svg=document.getElementById('wf-svg'); const root=document.getElementById('wf-root');
+  if(!root) return;
+  const old=document.getElementById('wf-token'); if(old) old.remove();
+  const byId={}; data.nodes.forEach(n=>byId[n.id]=n);
+  const seq=c.pasosSeq.filter(p=>byId[p.nodeId]);
+  if(!seq.length) return;
+  const g=document.createElementNS('http://www.w3.org/2000/svg','g');
+  g.id='wf-token'; g.setAttribute('class','wf-token');
+  g.innerHTML=`<circle r="16" fill="#00e5ff" fill-opacity="0.25" stroke="#00e5ff" stroke-width="3"/>
+               <text id="wf-token-n" text-anchor="middle" dy="5" font-family="'DM Mono',monospace" font-size="13" font-weight="700" fill="#00e5ff">1</text>`;
+  root.appendChild(g);
+  const info=document.getElementById('wf-causa-info');
+  let i=0;
+  const step=()=>{
+    if(i>=seq.length){ wfPlayTimer=setTimeout(()=>{const t=document.getElementById('wf-token'); if(t)t.remove();},1500); return; }
+    const p=seq[i], n=byId[p.nodeId];
+    const cx=n.x+n.w/2, cy=n.y+n.h/2;
+    g.style.transition= i===0?'none':'transform 0.55s ease-in-out';
+    g.style.transform=`translate(${cx}px,${cy}px)`;
+    const t=g.querySelector('#wf-token-n'); if(t) t.textContent=p.seq;
+    if(info) info.textContent=`▶ Paso ${p.seq}/${c.totalPasos} — ${p.nombre||''} · ${(p.fecha||'').slice(0,10)}`;
+    i++; wfPlayTimer=setTimeout(step, 850);
+  };
+  step();
+}
+
+// ════════════════════════════════════════════════════════════════════
+//  CHAT FLOTANTE COGEP — Q&A sobre la causa seleccionada
+// ════════════════════════════════════════════════════════════════════
+const wfChat = { open:false, min:false, greeted:false, lastFile:'' };
+
+function wfChatEl(id){ return document.getElementById(id); }
+
+function wfChatToggle(){
+  const w=wfChatEl('wf-chat'); if(!w) return;
+  wfChat.open=!wfChat.open;
+  w.style.display = wfChat.open ? 'flex' : 'none';
+  if(wfChat.open){
+    if(wfChat.min) wfChatMin();           // restaurar si estaba minimizado
+    wfChatSync();
+    if(!wfChat.greeted){ wfChat.greeted=true; wfChatAsk('', true); }
+    const inp=wfChatEl('wf-chat-input'); if(inp) setTimeout(()=>inp.focus(),80);
+  }
+}
+function wfChatHide(){ wfChat.open=false; const w=wfChatEl('wf-chat'); if(w) w.style.display='none'; }
+function wfChatMin(){
+  const w=wfChatEl('wf-chat'); if(!w) return;
+  wfChat.min=!wfChat.min;
+  w.classList.toggle('minimized', wfChat.min);
+  const b=wfChatEl('wf-chat-minbtn'); if(b) b.textContent=wfChat.min?'▢':'—';
+}
+
+function wfChatSync(){
+  const sel=document.getElementById('wf-causa');
+  const lbl=wfChatEl('wf-chat-causa');
+  const file=sel?sel.value:'';
+  if(lbl) lbl.textContent = file ? (sel.options[sel.selectedIndex].text||file) : '— sin causa seleccionada: elígela en el diagrama —';
+  if(file && wfChat.lastFile && file!==wfChat.lastFile){
+    wfChatPush('bot', '📁 Causa cambiada. Ahora respondo sobre: '+(sel.options[sel.selectedIndex].text||file));
+  }
+  wfChat.lastFile=file;
+  return file;
+}
+
+function wfChatPush(who, text){
+  const box=wfChatEl('wf-chat-msgs'); if(!box) return;
+  const d=document.createElement('div');
+  d.className='wf-chat-bub '+who;
+  d.textContent=text;
+  box.appendChild(d);
+  box.scrollTop=box.scrollHeight;
+}
+
+function wfChatChips(list){
+  const c=wfChatEl('wf-chat-chips'); if(!c) return;
+  c.innerHTML=(list||[]).map(s=>`<span class="wf-chat-chip" onclick="wfChatAskChip(this)">${wfEsc(s)}</span>`).join('');
+}
+function wfChatAskChip(el){ const inp=wfChatEl('wf-chat-input'); if(inp) inp.value=el.textContent; wfChatSend(); }
+
+function wfChatSend(){
+  const inp=wfChatEl('wf-chat-input'); if(!inp) return;
+  const q=inp.value.trim(); if(!q) return;
+  inp.value='';
+  wfChatPush('user', q);
+  wfChatAsk(q, false);
+}
+
+async function wfChatAsk(question, silentUser){
+  const file=wfChatSync();
+  const box=wfChatEl('wf-chat-msgs');
+  const typing=document.createElement('div');
+  typing.className='wf-chat-bub bot'; typing.textContent='⏳ razonando sobre la ontología COGEP…';
+  if(box){ box.appendChild(typing); box.scrollTop=box.scrollHeight; }
+  try{
+    const r=await fetch('/api/cogep/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({file, question})});
+    const j=await r.json();
+    typing.remove();
+    wfChatPush('bot', j.answer||'Sin respuesta.');
+    wfChatChips(j.sugerencias||[]);
+  }catch(e){
+    typing.remove();
+    wfChatPush('bot','Error de conexión con el razonador. ¿Está corriendo el backend?');
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════
+//  TAB 09 — ONTOLOGÍA COGEP (vis-network) + RAZONADOR
+// ════════════════════════════════════════════════════════════════════
+let cogepNet=null, cogepLoaded=false;
+const COGEP_COLORS={core:'#60a5fa',procedimiento:'#00e5ff',etapa:'#a855f7',acto:'#10e98c',termino:'#ffc947',sujeto:'#ff4d6d',principio:'#94a3b8'};
+const COGEP_LBL={core:'COGEP (raíz)',procedimiento:'Procedimiento',etapa:'Etapa procesal',acto:'Acto procesal',termino:'Término legal (días)',sujeto:'Sujeto procesal',principio:'Principio rector'};
+
+async function initCogepTab(){
+  // poblar combo de expedientes desde el combo del tab 06
+  const src=document.getElementById('wf-causa'), dst=document.getElementById('cogep-causa');
+  if(src && dst && dst.options.length<=1){
+    [...src.options].forEach((o,i)=>{ if(i>0) dst.appendChild(o.cloneNode(true)); });
+  }
+  if(cogepLoaded && cogepNet){ cogepNet.redraw(); return; }
+  try{
+    const r=await fetch('/api/cogep/ontology?_='+Date.now());
+    const g=await r.json();
+    if(g.error){ document.getElementById('cogep-net').innerHTML='<div style="padding:1rem;color:#ff4d6d;font-size:.7rem">'+wfEsc(g.error)+'</div>'; return; }
+    document.getElementById('cogep-hash').textContent=(g.hash||'').slice(0,10);
+    const nodes=new vis.DataSet(g.nodes.map(n=>({
+      id:n.id, label:n.label.length>26? n.label.slice(0,24)+'…' : n.label,
+      title:(n.description||'')+(n.description?'':n.label),
+      shape: n.type==='core'?'hexagon': n.type==='termino'?'diamond': n.type==='sujeto'?'star':'dot',
+      size: n.r? n.r*1.5 : 14,
+      color:{background:(COGEP_COLORS[n.type]||'#888')+'33', border:COGEP_COLORS[n.type]||'#888',
+             highlight:{background:(COGEP_COLORS[n.type]||'#888')+'66', border:'#fff'}},
+      font:{color:isDark?'#e8f0ff':'#1a2438', size:11, face:'Space Grotesk'},
+      _meta:n
+    })));
+    const edges=new vis.DataSet(g.links.map((l,i)=>({
+      id:'e'+i, from:l.s, to:l.t, arrows:'to',
+      dashes:!!l.dash, width:l.w||1,
+      color:{color:isDark?'#3a4a6a':'#b8c4d8', highlight:'#60a5fa'},
+      label:l.type==='subClassOf'?'':l.type, font:{size:8,color:isDark?'#5a6b8c':'#8a98b0',strokeWidth:0}
+    })));
+    cogepNet=new vis.Network(document.getElementById('cogep-net'), {nodes,edges}, {
+      physics:{solver:'forceAtlas2Based', forceAtlas2Based:{gravitationalConstant:-60,springLength:110,avoidOverlap:0.6}, stabilization:{iterations:160}},
+      interaction:{hover:true, tooltipDelay:120}
+    });
+    cogepNet.on('click', p=>{
+      const t=document.getElementById('cogep-node-title'), d=document.getElementById('cogep-node-desc');
+      if(!p.nodes.length){ if(t)t.textContent='— clic en un nodo —'; if(d)d.textContent=''; return; }
+      const n=nodes.get(p.nodes[0]); const m=n._meta||{};
+      if(t){ t.textContent=m.label||n.id; t.style.color=COGEP_COLORS[m.type]||'var(--t1)'; }
+      if(d) d.innerHTML=`<span style="color:${COGEP_COLORS[m.type]}">[${COGEP_LBL[m.type]||m.type}]</span> ${wfEsc(m.description||'Sin descripción.')}`;
+    });
+    const leg=document.getElementById('cogep-legend');
+    if(leg) leg.innerHTML=Object.keys(COGEP_COLORS).map(k=>
+      `<span style="display:inline-flex;align-items:center;gap:.35rem"><span style="width:10px;height:10px;border-radius:50%;background:${COGEP_COLORS[k]}"></span>${COGEP_LBL[k]}</span>`).join('');
+    cogepLoaded=true;
+  }catch(e){ console.error('initCogepTab',e); }
+}
+
+async function cogepRunJuicio(){
+  const sel=document.getElementById('cogep-causa'), out=document.getElementById('cogep-juicio-out');
+  if(!sel||!sel.value){ if(out) out.innerHTML='<span style="font-size:.62rem;color:var(--t3)">Seleccione un expediente.</span>'; return; }
+  out.innerHTML='<span style="font-size:.62rem;color:var(--t3)">⏳ Razonando sobre la ontología COGEP…</span>';
+  try{
+    const r=await fetch('/api/cogep/juicio?file='+encodeURIComponent(sel.value)+'&_='+Date.now());
+    const j=await r.json();
+    if(j.error){ out.innerHTML='<span style="color:#ff4d6d;font-size:.62rem">'+wfEsc(j.error)+'</span>'; return; }
+    const col=j.salud==null?'#64748b': j.salud>=90?'#10e98c': j.salud>=60?'#ffc947':'#ff4d6d';
+    out.innerHTML=`<div style="font-size:.68rem;color:var(--t1);line-height:1.5;padding:.5rem .6rem;border:1px solid ${col};border-radius:8px">
+        <b style="color:${col}">Salud ${j.salud==null?'—':j.salud}/100</b> · ${wfEsc(j.procedimiento?j.procedimiento.nombre:'')}<br>
+        <span style="font-size:.62rem;color:var(--t2)">${wfEsc(j.resumen||'')}</span></div>`+
+      (j.resultados||[]).map(r2=>{
+        const c=SALUD_COL[r2.estado]||'#64748b';
+        return `<div style="font-size:.6rem;line-height:1.45;padding:.4rem .55rem;border-left:3px solid ${c};background:var(--card-bg);border-radius:0 6px 6px 0">
+          <b style="color:${c}">${r2.estado}</b> · <b style="color:var(--t1)">${wfEsc(r2.nombre)}</b> (${wfEsc(r2.articulo)})
+          ${r2.dias!=null?` — ${r2.dias}/${r2.termino_dias} días hábiles${r2.exceso?` (+${r2.exceso})`:''}`:''}
+          <div style="color:var(--t2);margin-top:.2rem">${wfEsc(r2.dictamen||'')}</div></div>`;
+      }).join('');
+  }catch(e){ out.innerHTML='<span style="color:#ff4d6d;font-size:.62rem">Error de red.</span>'; }
 }
 
 // ════════════════════════════════════════════════════════════════════
@@ -3415,7 +4082,7 @@ function maltgRenderDetail(data){
 // ── Tab switching ──────────────────────────────────────────────────
 function switchTab(id){
   currentTab = id;
-  const ids = ['maltg','overview','ontology','dt','validation','workflow','methodology','styles'];
+  const ids = ['maltg','overview','ontology','dt','validation','workflow','methodology','styles','cogep'];
   document.querySelectorAll('.nav-tab').forEach((t,i)=>
     t.classList.toggle('active', ids[i]===id));
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
@@ -3435,6 +4102,9 @@ function switchTab(id){
   }
   if(id==='styles'){
     setTimeout(()=>initStylesTab(), 80);
+  }
+  if(id==='cogep'){
+    setTimeout(()=>initCogepTab(), 60);
   }
 }
 
