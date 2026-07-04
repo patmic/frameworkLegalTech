@@ -2395,11 +2395,11 @@ main .kpi, main .lcard, main .sc-card { cursor: default; }
         background:rgba(6,10,26,.92);border:1px solid rgba(168,85,247,.5);border-radius:10px;padding:.6rem .8rem;
         font-family:var(--font-mono);font-size:.68rem;color:var(--t1);backdrop-filter:blur(6px)"></div>
       <div id="sim-legend" style="position:absolute;left:12px;bottom:12px;z-index:4;display:flex;flex-direction:column;gap:.25rem;
-        background:rgba(6,10,26,.75);border:1px solid var(--bdr);border-radius:10px;padding:.55rem .7rem;
+        background:rgba(6,10,26,.55);border-radius:10px;padding:.55rem .7rem;
         font-family:var(--font-mono);font-size:.6rem;color:var(--t2)"></div>
       <div id="sim-hud" style="position:absolute;right:12px;top:12px;width:305px;max-height:calc(100% - 24px);z-index:4;
-        display:none;flex-direction:column;gap:.3rem;overflow:hidden;background:rgba(4,8,22,.72);
-        border:1px solid rgba(0,229,255,.28);border-radius:12px;padding:.6rem .75rem;
+        display:none;flex-direction:column;gap:.3rem;overflow:hidden;background:rgba(4,8,22,.60);
+        border-radius:12px;padding:.6rem .75rem;
         font-family:var(--font-mono);font-size:.6rem;line-height:1.45;color:var(--t2);
         backdrop-filter:blur(5px);pointer-events:none">
         <div id="sim-hud-title" style="color:#00e5ff;font-weight:700;letter-spacing:.5px">▶ INSPECCIÓN EN VIVO</div>
@@ -6579,7 +6579,7 @@ function simBuildScene(data){
 
   // Retícula (graticule) de la esfera celeste
   (function(){
-    const mat=new THREE.LineBasicMaterial({color:0x4455aa,transparent:true,opacity:.22});
+    const mat=new THREE.LineBasicMaterial({color:0x4455aa,transparent:true,opacity:.10});
     for(let la=-60;la<=60;la+=30){
       const pts=[], rr=R*Math.cos(la*Math.PI/180), yy=R*Math.sin(la*Math.PI/180);
       for(let a=0;a<=64;a++){ const t=a/64*Math.PI*2; pts.push(new THREE.Vector3(Math.cos(t)*rr,yy,Math.sin(t)*rr)); }
@@ -6593,15 +6593,12 @@ function simBuildScene(data){
       }
       globe.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),mat));
     }
-    // Ecuador destacado (eclíptica)
-    const ep=[]; for(let a=0;a<=96;a++){ const t=a/96*Math.PI*2; ep.push(new THREE.Vector3(Math.cos(t)*R,0,Math.sin(t)*R)); }
-    globe.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(ep),
-      new THREE.LineBasicMaterial({color:0xa855f7,transparent:true,opacity:.4})));
   })();
 
   // Posiciones y nodos
   const pos = simLayout(data.nodes);
   const halos = {};
+  simState.grayHalo = simHaloTexture('#8b93a7');   // halo gris para "no encontrados"
   simState.adj = {}; simState.nodeMeshes=[]; simState.labelSprites=[]; simState.meshById={};
   data.nodes.forEach(n=>{
     const color = SIM_COLOR[n.type]||SIM_COLOR.default||'#64748b';
@@ -6617,6 +6614,8 @@ function simBuildScene(data){
       map:halos[color], blending:THREE.AdditiveBlending, transparent:true, depthWrite:false, opacity:n.type==='core'?.95:.75}));
     halo.scale.setScalar(size*(n.type==='core'?7:5)); halo.position.copy(p); globe.add(halo);
     mesh.userData._halo=halo;
+    mesh.userData._color=color;
+    mesh.userData._haloMap=halo.material.map;
     simState.nodeMeshes.push(mesh);
     simState.meshById[n.id]=mesh;
     // etiqueta con el nombre de TODOS los nodos (hubs/core más grandes)
@@ -6835,6 +6834,8 @@ function simScanClear(){
   simScan.applied=false;
   simState.nodeMeshes.forEach(m=>{
     delete m.userData._scanOp; delete m.userData._scanHalo;
+    if(m.userData._color) m.material.color.set(m.userData._color);
+    if(m.userData._halo && m.userData._haloMap) m.userData._halo.material.map=m.userData._haloMap;
     m.material.opacity=(m.userData._baseOp!=null?m.userData._baseOp:1); m.material.transparent=true;
     if(m.userData._halo)  m.userData._halo.material.opacity=(m.userData._baseHalo!=null?m.userData._baseHalo:.75);
     if(m.userData._label) m.userData._label.material.opacity=(m.userData._baseLabel!=null?m.userData._baseLabel:.85);
@@ -6897,15 +6898,21 @@ async function simScanAnimate(doc, stat){
         n._scanOp=1; n._scanHalo=.95;
         m.material.opacity=1; if(halo)halo.material.opacity=.95; if(label)label.material.opacity=1;
         simLog('&nbsp;&nbsp;✓ '+(n.label||n.id)+(ref&&ref.ev.length?' <span style="color:var(--t3)">— '+ref.ev.slice(0,3).join(' | ')+'</span>':''),'#10e98c');
-      }else if(ref){ // referenciado pero AUSENTE en el sitio
+      }else if(ref){ // referenciado pero AUSENTE en el sitio → gris claro
         gaps++;
-        n._scanOp=.18; n._scanHalo=.08;
-        m.material.opacity=.18; if(halo)halo.material.opacity=.08; if(label)label.material.opacity=.22;
+        n._scanOp=.3; n._scanHalo=.12;
+        m.material.color.set('#8b93a7');
+        m.material.opacity=.3;
+        if(halo){ halo.material.map=simState.grayHalo; halo.material.opacity=.12; }
+        if(label)label.material.opacity=.2;
         simLog('&nbsp;&nbsp;✗ '+(n.label||n.id)+' <span style="color:var(--t3)">— '+ref.ev.slice(0,2).join(' | ')+'</span>','#ff4d6d');
-      }else{ // sin información
+      }else{ // sin información → gris claro translúcido
         off++;
-        n._scanOp=.15; n._scanHalo=.06;
-        m.material.opacity=.15; if(halo)halo.material.opacity=.06; if(label)label.material.opacity=.18;
+        n._scanOp=.26; n._scanHalo=.10;
+        m.material.color.set('#8b93a7');
+        m.material.opacity=.26;
+        if(halo){ halo.material.map=simState.grayHalo; halo.material.opacity=.10; }
+        if(label)label.material.opacity=.16;
         simLog('&nbsp;&nbsp;○ '+(n.label||n.id)+' — sin evidencia en el sitio','var(--t3)');
       }
       document.getElementById('sim-scan-count').textContent=lit+' con evidencia · '+gaps+' ausentes · '+off+' sin datos';
