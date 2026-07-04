@@ -1,0 +1,112 @@
+{
+  "@context": "https://maltg.arch/onto#",
+  "@type": "CausaJudicial",
+  "fuente": "Juicios_Flujo135.xlsx",
+  "juicio": "18334202200044",
+  "cabecera": {
+    "Juicio": "18334202200044",
+    "IdMovimientoJuicioIncidente": "23552482",
+    "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+    "Materia": "CIVIL",
+    "Tipo Accion": "MONITORIO",
+    "Delito": "DOCUMENTOS ART. 356 NUM.1",
+    "FechaIngreso": "Ene 10 2022  8:19AM",
+    "IdJudicatura": "18334",
+    "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN EL CANTÓN AMBATO",
+    "IDCANTON": "ECU1801",
+    "Estado": "A"
+  },
+  "instancias": [
+    {
+      "Juicio": "18334202200044",
+      "IdMovimientoJuicioIncidente": "23552482",
+      "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+      "Materia": "CIVIL",
+      "Tipo Accion": "MONITORIO",
+      "Delito": "DOCUMENTOS ART. 356 NUM.1",
+      "FechaIngreso": "Ene 10 2022  8:19AM",
+      "IdJudicatura": "18334",
+      "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN EL CANTÓN AMBATO",
+      "IDCANTON": "ECU1801",
+      "Estado": "A"
+    }
+  ],
+  "totalActividades": 5,
+  "actividades": [
+    {
+      "Secuencia": "1",
+      "IdJuicio": "18334202200044",
+      "IdProvidencia": "181505515",
+      "FechaProvidencia": "2022-01-12 14:19:16.997",
+      "HoraProvidencia": "2022-01-12 14:19:16.997",
+      "TipoProvidencia": "RAZON",
+      "IdJudicatura": "18334",
+      "NombreProvidencia": "RAZON",
+      "Login": "marco.salazarv",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "135-e8e899ff-fe6e-472f-b657-118add1f36ac",
+      "IdMovimientoJuicioIncidente": "23552482"
+    },
+    {
+      "Secuencia": "2",
+      "IdJuicio": "18334202200044",
+      "IdProvidencia": "181642462",
+      "FechaProvidencia": "2022-01-17 08:30:20.307",
+      "HoraProvidencia": "2022-01-17 08:30:20.307",
+      "TipoProvidencia": "AUTO INTERLOCUTORIO",
+      "IdJudicatura": "18334",
+      "NombreProvidencia": "INADMISION DE LA DEMANDA ART. 357",
+      "Login": "marco.salazarv",
+      "Estado": "TERMINADO",
+      "nombreestado": "RESUELTO",
+      "IdGrafoFlujoEstructura": "135-26ce014a-34fb-41be-98c6-93ffefc5275e",
+      "IdMovimientoJuicioIncidente": "23552482"
+    },
+    {
+      "Secuencia": "3",
+      "IdJuicio": "18334202200044",
+      "IdProvidencia": "182097894",
+      "FechaProvidencia": "2022-01-27 12:35:26.067",
+      "HoraProvidencia": "2022-01-27 12:35:26.067",
+      "TipoProvidencia": "AUTO DE SUSTANCIACION",
+      "IdJudicatura": "18334",
+      "NombreProvidencia": "NOTIFICACION",
+      "Login": "nidia.alvarez",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "135-d90a8d21-0c5f-47d4-b3fc-cb9c3ccb84a5",
+      "IdMovimientoJuicioIncidente": "23552482"
+    },
+    {
+      "Secuencia": "4",
+      "IdJuicio": "18334202200044",
+      "IdProvidencia": "182889112",
+      "FechaProvidencia": "2022-02-16 09:55:48.900",
+      "HoraProvidencia": "2022-02-16 09:55:48.900",
+      "TipoProvidencia": "ACTA",
+      "IdJudicatura": "18334",
+      "NombreProvidencia": "ACTA GENERAL",
+      "Login": "marco.salazarv",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "135-e4e901c7-06a8-4f81-afef-b8bb3240e98b",
+      "IdMovimientoJuicioIncidente": "23552482"
+    },
+    {
+      "Secuencia": "5",
+      "IdJuicio": "18334202200044",
+      "IdProvidencia": "182889746",
+      "FechaProvidencia": "2022-02-16 10:01:26.447",
+      "HoraProvidencia": "2022-02-16 10:01:26.447",
+      "TipoProvidencia": "ACTA",
+      "IdJudicatura": "18334",
+      "NombreProvidencia": "ACTA GENERAL",
+      "Login": "marco.salazarv",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "135-e4e901c7-06a8-4f81-afef-b8bb3240e98b",
+      "IdMovimientoJuicioIncidente": "23552482"
+    }
+  ]
+}

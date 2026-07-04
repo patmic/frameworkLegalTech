@@ -3,8 +3,9 @@ version: "3.9"
 # ══════════════════════════════════════════════════════════
 #  MALTG Architecture Validator — Docker Compose
 #  UI UX Pro Max Skill integrado — Glassmorphism Dashboard
-#  ► Edita ./data/MALTG_onto.owl  → Tab 02 se actualiza en 5s
-#  ► Edita ./data/dt_arch.json    → Tab 03 se actualiza en 5s
+#  ► Edita ./env/data/MALTG_ontology.owl       → Tab Ontología se actualiza en 5s
+#  ► Edita ./env/data/sdt/SDT_Synthetic.json   → Tab Gemelo Digital / Validación
+#  ► Coloca .json en ./env/data/sdt/           → aparecen en el selector del tab Validación
 # ══════════════════════════════════════════════════════════
 
 services:
@@ -17,8 +18,8 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      # Data files mounted as volumes → edit on host, instant effect
-      - ./data:/data:ro
+      # Data files mounted as volumes (lectura/escritura: el backend persiste cambios de score)
+      - ./env/data:/data
       # Frontend mounted too → edit HTML without rebuild
       - ./frontend:/frontend:ro
       # Backend mounted too → edit main.py without rebuild (uvicorn --reload)

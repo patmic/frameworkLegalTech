@@ -9,11 +9,12 @@ Endpoints:
   GET /api/health      → hashes + existence check
 """
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Body
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import xml.etree.ElementTree as ET
 import json, hashlib
+import re, ssl, urllib.request, datetime, time
 from pathlib import Path
 
 app = FastAPI(
@@ -28,11 +29,15 @@ app = FastAPI(
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["GET"], allow_headers=["*"])
 
 DATA_DIR   = Path("/data")
-OWL_PATH   = DATA_DIR / "MALTG_onto.owl"
-DT_PATH    = DATA_DIR / "dt_arch.json"
+SDT_DIR    = DATA_DIR / "sdt"                         # gemelos digitales estructurales (.json) — selector del tab Validación
+OWL_PATH   = DATA_DIR / "MALTG_ontology.owl"
+ONTO_JSON  = DATA_DIR / "MALTG_ontology.json"       # estructura (estrella) del grafo de ontología (tab 03)
+ONTO_INFO  = DATA_DIR / "MALTG_ontologyInfo.json"   # detalles informativos por nodo (descripción, norma…)
+DT_PATH    = SDT_DIR / "SDT_Synthetic.json"          # gemelo digital sintético (antes dt_arch.json)
 WF_DIR     = DATA_DIR / "workflow"        # directory holding BPMN workflow JSON files
 EXP_DIR    = DATA_DIR / "LegalCase"        # decided cases (causas/juicios) JSON files
-MALTG_PATH = DATA_DIR / "1_MALTG.json"    # JSON-LD multidimensional architecture
+MALTG_PATH = DATA_DIR / "MALTG_architecture.json"  # JSON-LD multidimensional architecture
+SDT_CJ_PATH = SDT_DIR / "SDT_CJ.json"              # Gemelo Digital Estructural del Consejo de la Judicatura (JSON-LD)
 FRONT_DIR  = Path("/frontend")
 
 OWL_NS   = "http://www.w3.org/2002/07/owl#"
@@ -41,8 +46,9 @@ RDFS_NS  = "http://www.w3.org/2000/01/rdf-schema#"
 MALTG_NS = "http://maltg.arch/onto#"
 
 # ═══════════════════════════════════════════════════════════════════
-#  9 VALIDATION DIMENSIONS
-#  8 standard EA + 1 LegalTech domain (new, justifies paper title)
+#  10 VALIDATION DIMENSIONS
+#  Foundation (TOGAF, COBIT, ITIL, NIST) + Technology (AI, BC, OpenData, Security)
+#  + Interop + LegalTech domain — alineadas con MALTG_architecture.json
 # ═══════════════════════════════════════════════════════════════════
 DIMENSIONS = [
     {
@@ -57,6 +63,13 @@ DIMENSIONS = [
         "bar_color": "linear-gradient(90deg,#ffc947,#ff6b35)",
         "owl_types": ["cobit"],
         "dt_refs": ["COBIT","EDM_Domain","APO_Domain","BAI_Domain","DSS_Domain","MEA_Domain"],
+    },
+    {
+        "key": "ITIL", "label": "Gestión de Servicios ITIL",
+        "bar_color": "linear-gradient(90deg,#22d3ee,#0ea5e9)",
+        "owl_types": ["itil"],
+        "dt_refs": ["ITIL","Service_Operation","Incident_Management","Change_Enablement",
+                    "Service_Level_Management","Configuration_Management"],
     },
     {
         "key": "NIST", "label": "Resiliencia NIST",
@@ -135,7 +148,7 @@ METHODOLOGY = {
             {
                 "symbol": "Δ",
                 "name": "Structural Digital Twin",
-                "definition": "Directed graph G(V, E) representing the microservice architecture. dt_arch.json is the canonical Δ.",
+                "definition": "Directed graph G(V, E) representing the microservice architecture. SDT_Synthetic.json (data/sdt) is the canonical Δ.",
                 "formal": "Δ = ⟨V, E, τ, μ⟩ where V are services, E connections, τ: V→ColorType, μ: V→2^C maltg_refs"
             },
             {
@@ -175,8 +188,8 @@ METHODOLOGY = {
             "name": "Digital Twin Structural Mapping",
             "abbrev": "DTSM",
             "color": "#a855f7",
-            "description": "Parse dt_arch.json and construct the directed service graph Δ. Build the coverage set R by collecting all maltg_ref values (string or array) across all services.",
-            "inputs":  ["dt_arch.json"],
+            "description": "Parse the selected SDT (data/sdt/*.json) and construct the directed service graph Δ. Build the coverage set R by collecting all maltg_ref values (string or array) across all services.",
+            "inputs":  ["data/sdt/SDT_Synthetic.json"],
             "outputs": ["Service graph Δ", "Coverage set R", "Mapping Γ: C → 2^V"],
             "api":     "/api/dt-arch",
             "academic_ref": "Grieves & Vickers (2017) Digital Twin: Mitigating Unpredictable, Undesirable Emergent Behavior in Complex Systems"
@@ -309,13 +322,51 @@ def parse_owl():
             "node_count": len(nodes), "link_count": len(links)}
 
 
+def parse_ontology():
+    """
+    Fuente del grafo de ontología (tab 03) y de los onto_scores de la validación.
+    Prefiere MALTG_ontology.json (con descripción conceptual por nodo); si no
+    existe o es inválido, recae en MALTG_ontology.owl. Devuelve el mismo esquema
+    {nodes, links, node_count, link_count, hash, meta?}.
+    """
+    if ONTO_JSON.exists():
+        try:
+            data = json.loads(ONTO_JSON.read_text(encoding="utf-8-sig"))
+            nodes = data.get("nodes", [])
+            links = data.get("links", [])
+            data["node_count"] = len(nodes)
+            data["link_count"] = len(links)
+            data["hash"] = file_hash(ONTO_JSON)
+            return data
+        except json.JSONDecodeError as e:
+            return {"error": f"JSON error en MALTG_ontology.json: {e}",
+                    "nodes": [], "links": []}
+    return parse_owl()
+
+
 # ─── DT Parser ────────────────────────────────────────────────────────────────
-def parse_dt():
-    if not DT_PATH.exists():
-        return {"error": f"dt_arch.json not found: {DT_PATH}"}
+def _resolve_sdt_path(file: str = ""):
+    """Resuelve de forma segura un .json dentro de /data/sdt (sin path traversal)."""
+    if not file:
+        return DT_PATH
+    name = Path(file).name                       # descarta cualquier ruta
+    if not name.endswith(".json"):
+        name += ".json"
+    p = (SDT_DIR / name).resolve()
     try:
-        data = json.loads(DT_PATH.read_text(encoding="utf-8"))
-        data["hash"] = file_hash(DT_PATH)
+        p.relative_to(SDT_DIR.resolve())         # debe quedar dentro de /data/sdt
+    except ValueError:
+        return DT_PATH
+    return p
+
+def parse_dt(path=None):
+    p = path or DT_PATH
+    if not p.exists():
+        return {"error": f"SDT no encontrado: {p}"}
+    try:
+        data = json.loads(p.read_text(encoding="utf-8"))
+        data["hash"] = file_hash(p)
+        data["_file"] = p.name
         return data
     except json.JSONDecodeError as e:
         return {"error": f"JSON error: {e}"}
@@ -549,9 +600,9 @@ def psi(svc_refs_set: set, dt_refs: list) -> float:
 
 
 # ─── Validation Engine ────────────────────────────────────────────────────────
-def compute_validation():
-    onto = parse_owl()
-    dt   = parse_dt()
+def compute_validation(dt_file: str = ""):
+    onto = parse_ontology()
+    dt   = parse_dt(_resolve_sdt_path(dt_file))
     if "error" in onto: return {"error": onto["error"]}
     if "error" in dt:   return {"error": dt["error"]}
 
@@ -623,18 +674,90 @@ def compute_validation():
         "legaltech_dim":  next((r for r in results if r["key"]=="LEGALTECH"), None),
         "owl_hash":       onto["hash"],
         "dt_hash":        dt.get("hash",""),
+        "dt_file":        dt.get("_file",""),
+        "dt_title":       (dt.get("meta") or {}).get("title",""),
     }
 
 
 # ─── Endpoints ────────────────────────────────────────────────────────────────
-@app.get("/api/ontology",    summary="MALTG_onto.owl → D3 graph", tags=["MALTG Data"])
-def get_ontology(): return parse_owl()
+@app.get("/api/ontology",    summary="MALTG_ontology.json (estructura) → D3 graph", tags=["MALTG Data"])
+def get_ontology(): return parse_ontology()
 
-@app.get("/api/dt-arch",     summary="dt_arch.json with hash",    tags=["MALTG Data"])
+@app.get("/api/ontology-info", summary="MALTG_ontologyInfo.json → detalle por nodo", tags=["MALTG Data"])
+def get_ontology_info():
+    """Detalles informativos de cada nodo (descripción conceptual, norma, score)."""
+    if not ONTO_INFO.exists():
+        return {"info": {}}
+    try:
+        return json.loads(ONTO_INFO.read_text(encoding="utf-8-sig"))
+    except json.JSONDecodeError as e:
+        return {"error": f"JSON error: {e}", "info": {}}
+
+@app.post("/api/ontology/score", summary="Actualizar el score de un nodo (persistente)", tags=["MALTG Data"])
+def set_ontology_score(payload: dict = Body(...)):
+    """
+    Persiste el nuevo score (0-100) de un nodo de la ontología en
+    MALTG_ontology.json (estructura — alimenta barras y radar) y en
+    MALTG_ontologyInfo.json (detalle). Lo usa el slider de cada leyenda.
+    """
+    node = (payload or {}).get("id")
+    if not node:
+        return {"error": "falta 'id'"}
+    try:
+        score = max(0, min(100, int(round(float(payload.get("score"))))))
+    except (TypeError, ValueError):
+        return {"error": "score inválido"}
+
+    updated = []
+    # 1) estructura (drive del gráfico y del radar)
+    if ONTO_JSON.exists():
+        try:
+            d = json.loads(ONTO_JSON.read_text(encoding="utf-8-sig"))
+            hit = False
+            for n in d.get("nodes", []):
+                if n.get("id") == node:
+                    n["score"] = str(score); hit = True
+            if hit:
+                ONTO_JSON.write_text(json.dumps(d, ensure_ascii=False, indent=2), encoding="utf-8")
+                updated.append("MALTG_ontology.json")
+        except Exception as e:
+            return {"error": f"no se pudo escribir MALTG_ontology.json: {e}"}
+    # 2) info (detalle por nodo)
+    if ONTO_INFO.exists():
+        try:
+            d2 = json.loads(ONTO_INFO.read_text(encoding="utf-8-sig"))
+            info = d2.get("info", {})
+            if node in info:
+                info[node]["score"] = str(score)
+                ONTO_INFO.write_text(json.dumps(d2, ensure_ascii=False, indent=2), encoding="utf-8")
+                updated.append("MALTG_ontologyInfo.json")
+        except Exception as e:
+            return {"error": f"no se pudo escribir MALTG_ontologyInfo.json: {e}"}
+
+    if not updated:
+        return {"error": f"nodo no encontrado: {node}"}
+    return {"ok": True, "id": node, "score": score, "updated": updated}
+
+@app.get("/api/dt-arch",     summary="SDT_Synthetic.json (data/sdt) with hash", tags=["MALTG Data"])
 def get_dt_arch():  return parse_dt()
 
 @app.get("/api/validation",  summary="9-dim conformance scores",  tags=["MALTG Data"])
-def get_validation(): return compute_validation()
+def get_validation(file: str = ""): return compute_validation(file)
+
+@app.get("/api/sdt-files", summary="Lista los gemelos digitales (.json) en /data/sdt", tags=["MALTG Data"])
+def get_sdt_files():
+    files = []
+    if SDT_DIR.exists():
+        for p in sorted(SDT_DIR.glob("*.json")):
+            title = ""
+            try:
+                j = json.loads(p.read_text(encoding="utf-8"))
+                title = (j.get("meta") or {}).get("title", "")
+            except Exception:
+                pass
+            files.append({"file": p.name, "title": title,
+                          "default": (p.name == DT_PATH.name)})
+    return {"dir": "/data/sdt", "files": files, "default": DT_PATH.name}
 
 @app.get("/api/methodology", summary="5-phase validation methodology + formal model", tags=["MALTG Data"])
 def get_methodology():
@@ -807,10 +930,14 @@ def _match_acto(kb, nombre, tipo=""):
 def _detect_procedimiento(kb, data):
     flujo = _causa_flujo(data)
     tipo  = str((data.get("cabecera") or {}).get("Tipo Accion") or "").upper()
+    # 1) por código de flujo (acepta 'flujo' único o lista 'flujos')
     for p in kb.get("procedimientos", []):
-        if flujo and p.get("flujo") == flujo: return p
+        if flujo and (p.get("flujo") == flujo or flujo in (p.get("flujos") or [])):
+            return p
+    # 2) por nombre del tipo de acción
     for p in kb.get("procedimientos", []):
-        if p["id"] in tipo: return p
+        if p["id"] in tipo:
+            return p
     return kb.get("procedimientos", [{}])[0]
 
 def _verdict(dias, termino, umbrales):
@@ -1526,6 +1653,554 @@ def post_cogep_chat(req: ChatReq):
         return cogep_chat_answer(req.file, req.question)
     except Exception as e:
         return {"answer": f"Error del razonador: {e}", "intent": "error", "sugerencias": []}
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  SDT_CJ — Gemelo Digital Estructural del Consejo de la Judicatura (CJ)
+#  Web scraping del portal funcionjudicial.gob.ec + análisis de madurez
+#  LegalTech contra MALTG_ontology.owl → /data/SDT_CJ.json (JSON-LD)
+# ═══════════════════════════════════════════════════════════════════
+CJ_TARGETS = {
+    "portal":      "https://www.funcionjudicial.gob.ec/",
+    "satje_spa":   "https://procesosjudiciales.funcionjudicial.gob.ec/busqueda",
+    "esatje":      "https://www.funcionjudicial.gob.ec/satje/",
+    "estadistica": "https://fsweb.funcionjudicial.gob.ec/estadisticas/datoscj/portalestadistica.html",
+    "iso37001":    "https://www.funcionjudicial.gob.ec/sistema-de-gestion-antisoborno-de-acuerdo-a-la-norma-iso-37001/",
+}
+
+# Protocolo reproducible (ver /data/evidence/PROTOCOLO.md)
+SCRAPER_UA = "MALTG-SDT-Auditor/1.0 (+legaltech-governance-scraper; protocolo v1)"
+
+def utcnow_iso():
+    # Nota: en este módulo `datetime` es la CLASE (from datetime import datetime, línea superior)
+    return datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+
+def _http_get(url, timeout=8):
+    """GET con stdlib (sin dependencias). Devuelve (status, html, headers)."""
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
+    req = urllib.request.Request(url, headers={
+        "User-Agent": SCRAPER_UA,
+        "Accept": "text/html,application/xhtml+xml",
+    })
+    with urllib.request.urlopen(req, timeout=timeout, context=ctx) as r:
+        raw = r.read(400_000)
+        enc = r.headers.get_content_charset() or "utf-8"
+        return r.status, raw.decode(enc, "replace"), dict(r.headers)
+
+def scrape_cj():
+    """Scraping en vivo del ecosistema CJ → fingerprints tecnológicos y evidencias."""
+    rep = {"scanned_at": utcnow_iso(),
+           "targets": {}, "signals": {}, "online": False, "errors": []}
+    portal_html = ""
+    for key, url in CJ_TARGETS.items():
+        t0 = time.time()
+        try:
+            status, html, headers = _http_get(url)
+            if key == "portal":
+                portal_html = html
+            rep["targets"][key] = {
+                "url": url, "status": status, "ok": 200 <= status < 400,
+                "bytes": len(html), "ms": int((time.time() - t0) * 1000),
+                "generator": headers.get("X-Generator") or headers.get("generator") or "",
+            }
+            rep["online"] = True
+        except Exception as e:
+            rep["targets"][key] = {"url": url, "ok": False, "error": str(e)[:160]}
+            rep["errors"].append(f"{key}: {e}")
+    pl = portal_html.lower()
+    sig = rep["signals"]
+    sig["wordpress_elementor"] = ("elementor" in pl) or ("wp-content" in pl)
+    sig["jsf_legacy_links"]    = len(re.findall(r'\.jsf', portal_html, re.I))
+    sig["php_legacy_links"]    = len(re.findall(r'\.php', portal_html, re.I))
+    sig["satje_spa_modern"]    = "procesosjudiciales" in pl
+    sig["open_data_ref"]       = ("datosabiertos" in pl) or ("justicia-abierta" in pl) or ("estadistica" in pl)
+    sig["iso37001_ref"]        = ("37001" in pl) or ("antisoborno" in pl)
+    sig["disciplinary_ref"]    = "disciplinari" in pl
+    sig["json_ld_semantic"]    = ('application/ld+json' in pl) or ('"@context"' in portal_html)
+    sig["public_api_spec"]     = bool(re.search(r'swagger|openapi|/api/v\d', portal_html, re.I))
+    return rep
+
+def _cj_model():
+    """Modelo experto del SDT del CJ (componentes, capas y dimensiones de madurez)."""
+    colorTypes = {"external":"#ff9a3c","modern":"#10e98c","legacy":"#ff4d6d","service":"#a855f7",
+                  "data":"#00e5ff","semantic":"#b060ff","compliance":"#60a5fa","strategic":"#ffc947"}
+    layers = [
+        {"id":"l_ext","label":"CIUDADANIA / EXTERNAL","x":8,"y":8,"width":120,"height":690,"fill":"#0a1020"},
+        {"id":"l_front","label":"PRESENTACION / FRONTEND","x":136,"y":8,"width":152,"height":690,"fill":"#0a1018"},
+        {"id":"l_leg","label":"INTEGRACION LEGACY","x":296,"y":8,"width":152,"height":690,"fill":"#160a12"},
+        {"id":"l_svc","label":"APLICACIONES / SERVICIOS","x":456,"y":8,"width":152,"height":690,"fill":"#100a1a"},
+        {"id":"l_data","label":"DATOS & WEB SEMANTICA","x":616,"y":8,"width":164,"height":690,"fill":"#081820"},
+        {"id":"l_gov","label":"GOBERNANZA & COMPLIANCE","x":788,"y":8,"width":172,"height":690,"fill":"#081020"},
+        {"id":"l_str","label":"ESTRATEGIA / INNOVACION","x":968,"y":8,"width":160,"height":690,"fill":"#1a1608"},
+    ]
+    def s(i,l,sub,ct,x,y,st,m,d,ev="",dim=""):
+        return {"id":i,"label":l,"subtitle":sub,"colorType":ct,"x":x,"y":y,"width":140,"height":46,
+                "status":st,"maltg_ref":m,"description":d,"evidence":ev,"dimension":dim}
+    services = [
+        s("ciudadano","Ciudadano","Usuario final","external",16,150,"active",["LegalTech_Domain"],"Ciudadano que consulta causas y tramites via portal y SATJE."),
+        s("abogado","Abogado","Firma electronica","external",16,260,"active",["Digital_Signature","eIDAS_Compliance"],"Profesional que opera e-SATJE con firma electronica."),
+        s("interop_ent","Entidades","TCE / Fiscalia","external",16,370,"partial",["Court_System_Integration","Interoperability"],"Otras entidades de la Funcion Judicial; codigo fuente SATJE entregado al TCE (2024).","TCE recibe codigo SATJE (2024)","D2"),
+        s("portal_wp","Portal CJ","WordPress+Elementor","legacy",144,70,"legacy",["Technology_Architecture"],"Portal publico sobre WordPress + Elementor (PHP/jQuery, CMS acoplado).","meta-generator Elementor","D2"),
+        s("satje_spa","SATJE v4","SPA desacoplada","modern",144,160,"active",["APIs","Technology_Architecture"],"Consulta de Procesos SATJE v4.0.1: SPA moderna desacoplada.","SPA v4.0.1","D2"),
+        s("esatje","e-SATJE OGJE","Gestion 24/7","modern",144,250,"active",["Case_Management","Workflows","Digital_Signature"],"Oficina de Gestion Judicial Electronica (e-SATJE 2020), 24/7.","e-SATJE 2020","D2"),
+        s("supa","SUPA","Pensiones aliment.","service",144,340,"active",["Case_Management"],"Sistema Unico de Pensiones Alimenticias."),
+        s("serv_linea","Servicios en Linea","Hub de servicios","service",144,430,"partial",["Service_Catalog"],"Hub que enlaza aplicaciones heredadas y modernas."),
+        s("jsf_remates","Remates JSF","PrimeFaces/.jsf","legacy",304,80,"legacy",["Technology_Architecture"],"Remates Judiciales sobre JavaServer Faces (portal.jsf).","remates portal.jsf","D2"),
+        s("jsf_dir","Directorio JSF",".jsf heredado","legacy",304,170,"legacy",["Technology_Architecture"],"Directorio telefonico sobre JSF (directorio.jsf).","directorio.jsf","D2"),
+        s("php_siscadep","SISCADEP","Guia .php","legacy",304,260,"legacy",["Technology_Architecture"],"Guia de Servicios sobre PHP heredado (frmConsultaExterna.php).","siscadep .php","D2"),
+        s("citaciones","Citaciones","Consulta","service",304,350,"active",["Notarization"],"Consulta de Citaciones Judiciales."),
+        s("biometrico","Biometrico","Control interno","legacy",304,440,"legacy",["IAM","Access_Control"],"Sistema biometrico institucional."),
+        s("gestion_doc","Gestion Documental","Interno","service",464,80,"partial",["Case_Management","Audit_Trail"],"Sistema de gestion documental institucional."),
+        s("concursos","Concursos","Seleccion jueces","service",464,170,"active",["Workflows"],"Sistema de Concursos para meritocracia judicial."),
+        s("mediacion","Mediacion","CNM","service",464,260,"active",["Smart_Legal_Contracts"],"Centro Nacional de Mediacion."),
+        s("exp_disc","Expedientes Disc.","Disciplinario","compliance",464,350,"partial",["Compliance","Audit","Regulatory_Compliance_Engine"],"Expedientes/resoluciones disciplinarias (COFJ); automatizacion parcial.","Portal expedientes disc.","D4"),
+        s("escuela","Escuela FJ","Formacion","service",464,440,"active",["Legal_Knowledge_Base"],"Escuela de la Funcion Judicial."),
+        s("estadistica","Portal Estadistica","HTML estatico","data",624,70,"partial",["Data_Portal","Strategic_KPIs"],"Portal de Estadisticas Judiciales (HTML/descargas), no Linked Data.","portalestadistica.html","D1"),
+        s("datos_abiertos","Datos Abiertos","CKAN nacional","data",624,160,"partial",["OpenData_Layer","DCAT_Catalog","Open_Standards"],"Participacion en datosabiertos.gob.ec (CKAN/DCAT), sin JSON-LD judicial propio.","datosabiertos.gob.ec/cj","D1"),
+        s("justicia_abierta","Justicia Abierta","En construccion","data",624,250,"planned",["OpenData_Layer","Data_Portal"],"Portal unico de datos abiertos 'Justicia Abierta', en construccion.","Portal Justicia Abierta","D1"),
+        s("bdd_jur","Repositorio Jurisd.","BDD operativa","data",624,340,"active",["Data_Lakes","Provenance"],"Repositorio que integra datos jurisdiccionales/operativos diarios.","","D1"),
+        s("semantic_layer","Capa Semantica","Ontologias/JSON-LD","semantic",624,430,"absent",["JSON_LD","FAIR_Principles","Open_API_Spec","Interoperability"],"AUSENTE: sin ontologias/Linked Data/JSON-LD/FAIR judicial. Oportunidad MALTG.","Sin Web Semantica publica","D1"),
+        s("dt_judicial","Gemelos Digitales","DT judicial","semantic",624,520,"absent",["Process_Mining","Predictive_Analytics","Symbolic_Reasoner"],"AUSENTE: sin facilidades para Gemelos Digitales Judiciales.","Sin Digital Twins","D1"),
+        s("iso37001","ISO 37001 SGAS","Antisoborno","compliance",796,70,"active",["Compliance","MEA03_Compliance","Ethics","Risk_Assessment"],"Sistema de Gestion Antisoborno ISO 37001 (Resol. CJ-DG-2025-049).","CJ-DG-2025-049","D4"),
+        s("compliance_jud","Compliance Judicial","Modelo gestion","compliance",796,160,"partial",["Regulatory_Compliance_Engine","Governance_Compliance_Layer"],"Modelo de Gestion para el Compliance Judicial (documento).","Modelo Compliance Judicial","D4"),
+        s("sist_disc","Sistema Disciplinario","Modernizacion","compliance",796,250,"planned",["Audit_Trail","Continuous_Monitoring","DSS05_Security_Services"],"Modernizacion del sistema disciplinario con plataforma de ultima generacion.","Modernizacion disciplinario","D4"),
+        s("denuncias","Denuncias Corrupcion","Canal digital","compliance",796,340,"active",["Detect_Function"],"Canales de Denuncias de Actos de Corrupcion.","","D4"),
+        s("plan_integridad","Plan Integridad","2024-2028","compliance",796,430,"active",["Govern_Function","Regulation"],"Adhesion al Plan Nacional de Integridad Publica 2024-2028.","Plan Integridad 2024-2028","D4"),
+        s("lotaip","LOTAIP","Transparencia","compliance",796,520,"active",["Audit","Regulation","Metrics"],"Portal de transparencia LOTAIP y rendicion de cuentas."),
+        s("plan_estr","Plan Estrategico","2026-2031","strategic",976,120,"active",["Strategic_Layer","Strategic_KPIs","Planning"],"Plan Estrategico 2026-2031 aprobado por el Pleno.","Pleno aprueba PE 2026-2031","D3"),
+        s("eje_digital","Eje Transf. Digital","Innovacion tecno.","strategic",976,230,"partial",["Architecture_Vision","Roadmap","Migration_Planning"],"Eje 'Transformacion digital e innovacion tecnologica' del PE.","Eje transf. digital","D3"),
+        s("plan_inv","Plan Inversion","2026-2029","strategic",976,340,"active",["Investment_Governance","Value_Realization"],"Plan Anual y Plurianual de Inversion 2026-2029.","Plan Inversion 2026-2029","D3"),
+        s("infra_obsoleta","Infra Obsoleta","Riesgo 90%","legacy",976,450,"legacy",["Technology_Architecture","APO12_Risk"],"Brecha critica: ~90% de la infraestructura tecnologica obsoleta.","90% infra obsoleta","D3"),
+    ]
+    connections = [
+        ("ciudadano","portal_wp","solid"),("ciudadano","satje_spa","solid"),("abogado","satje_spa","solid"),
+        ("abogado","esatje","solid"),("interop_ent","satje_spa","dashed"),("portal_wp","serv_linea","solid"),
+        ("satje_spa","esatje","solid"),("satje_spa","bdd_jur","solid"),("esatje","gestion_doc","solid"),
+        ("serv_linea","jsf_remates","solid"),("serv_linea","php_siscadep","solid"),("serv_linea","citaciones","solid"),
+        ("serv_linea","jsf_dir","dashed"),("supa","bdd_jur","solid"),("concursos","bdd_jur","solid"),
+        ("gestion_doc","bdd_jur","solid"),("exp_disc","sist_disc","solid"),("bdd_jur","estadistica","solid"),
+        ("bdd_jur","datos_abiertos","solid"),("datos_abiertos","justicia_abierta","dashed"),
+        ("bdd_jur","semantic_layer","dashed"),("semantic_layer","dt_judicial","dashed"),
+        ("datos_abiertos","semantic_layer","dashed"),("sist_disc","iso37001","solid"),
+        ("denuncias","iso37001","solid"),("iso37001","compliance_jud","solid"),
+        ("plan_integridad","compliance_jud","solid"),("lotaip","compliance_jud","dashed"),
+        ("plan_estr","eje_digital","solid"),("eje_digital","plan_inv","solid"),
+        ("eje_digital","satje_spa","dashed"),("plan_inv","infra_obsoleta","solid"),
+    ]
+    connections = [{"from":a,"to":b,"style":c} for a,b,c in connections]
+    scale = [
+        {"level":1,"name":"Inicial","range":"0-20","desc":"Procesos manuales / ad-hoc, sin estructura digital."},
+        {"level":2,"name":"En Transicion","range":"21-40","desc":"Islas digitales, datos en silos, sin interoperabilidad."},
+        {"level":3,"name":"Definido","range":"41-60","desc":"Procesos definidos y portales modernos emergentes; brechas de ejecucion."},
+        {"level":4,"name":"Gestionado","range":"61-80","desc":"Servicios medidos, APIs e integracion semantica parcial."},
+        {"level":5,"name":"Optimizado / Semantico","range":"81-100","desc":"Datos enlazados, gemelos digitales, automatizacion gobernada."},
+    ]
+    dimensions = [
+        {"id":"D1","key":"datos_interop_semantica","label":"Capa de Datos e Interoperabilidad Semantica",
+         "maltg_layer":"Technology_Integration_Layer / OpenData_Layer",
+         "maltg_refs":["JSON_LD","DCAT_Catalog","OpenData_Layer","FAIR_Principles","Open_Standards","Interoperability","Data_Portal"],
+         "score":28,"weight":0.25,
+         "findings":["Estadistica judicial via Portal de Estadisticas (HTML) y participacion en el CKAN nacional datosabiertos.gob.ec (DCAT).",
+                     "Repositorio que integra datos jurisdiccionales/operativos diarios; portal 'Justicia Abierta' en construccion."],
+         "gaps":["Sin evidencia de ontologias, Web Semantica, JSON-LD ni Linked Data judicial.",
+                 "Sin facilidades para Gemelos Digitales Judiciales ni API abierta documentada.",
+                 "Datos como descargas/HTML (silos), no recursos FAIR interoperables."]},
+        {"id":"D2","key":"arquitectura_integracion","label":"Arquitectura de Integracion (APIs y Frontend)",
+         "maltg_layer":"Technology_Integration_Layer / Foundation (TOGAF Tech)",
+         "maltg_refs":["APIs","Open_API_Spec","Technology_Architecture","Orchestration","Service_Catalog"],
+         "score":42,"weight":0.25,
+         "findings":["SATJE 'Consulta de Procesos' migro a una SPA moderna y desacoplada (v4.0.1).",
+                     "e-SATJE (OGJE) ofrece gestion judicial electronica 24/7."],
+         "gaps":["El portal publico depende de WordPress + Elementor (PHP/jQuery, acoplado).",
+                 "Persisten aplicaciones heredadas JSF/PrimeFaces (.jsf) y PHP (remates, directorio, SISCADEP).",
+                 "Sin API REST publica documentada (OpenAPI) ni API gateway de integracion."]},
+        {"id":"D3","key":"transformacion_innovacion","label":"Transformacion e Innovacion Declarada",
+         "maltg_layer":"Strategic_Layer",
+         "maltg_refs":["Strategic_Layer","Architecture_Vision","Roadmap","Strategic_KPIs","Investment_Governance","Migration_Planning"],
+         "score":55,"weight":0.25,
+         "findings":["Plan Estrategico 2026-2031 con eje explicito 'Transformacion digital e innovacion tecnologica'.",
+                     "Plan de Inversion 2026-2029 prioriza la transformacion del sistema digital."],
+         "gaps":["Brecha de ejecucion: el CJ reconoce ~90% de infraestructura tecnologica obsoleta.",
+                 "Alta intencion declarada con baja materializacion real en la arquitectura desplegada."]},
+        {"id":"D4","key":"compliance_automatizacion","label":"Cumplimiento Regulatorio y Automatizacion (Compliance)",
+         "maltg_layer":"Governance_Compliance_Layer",
+         "maltg_refs":["Compliance","MEA03_Compliance","Regulatory_Compliance_Engine","Audit_Trail","Ethics","Govern_Function","Risk_Assessment"],
+         "score":58,"weight":0.25,
+         "findings":["Sistema de Gestion Antisoborno ISO 37001 (Resol. CJ-DG-2025-049; Politica Antisoborno 2025).",
+                     "Modelo de Compliance Judicial, canales de denuncia y Plan Nacional de Integridad 2024-2028.",
+                     "Modernizacion del sistema disciplinario con plataforma de ultima generacion."],
+         "gaps":["Compliance sustentado mayormente en politicas/PDF, no en motores regulatorios automatizados.",
+                 "Automatizacion de procesos disciplinarios en transicion (anunciada, no consolidada)."]},
+    ]
+    # slug = referencia estable al snapshot /data/evidence/<run>/<slug>.html (trazabilidad campo→fuente)
+    sources = [
+        {"slug":"portal_cj","label":"Portal CJ","url":"https://www.funcionjudicial.gob.ec/","dimensiones":["D2"]},
+        {"slug":"satje_spa","label":"SATJE Consulta de Procesos (SPA v4.0.1)","url":"https://procesosjudiciales.funcionjudicial.gob.ec/busqueda","dimensiones":["D2"]},
+        {"slug":"esatje_ogje","label":"e-SATJE 2020 (OGJE)","url":"https://www.funcionjudicial.gob.ec/satje/","dimensiones":["D2"]},
+        {"slug":"plan_estrategico_2026_2031","label":"Plan Estrategico 2026-2031","url":"https://www.funcionjudicial.gob.ec/el-pleno-aprueba-el-plan-estrategico-2026-2031-para-transformar-la-funcion-judicial/","dimensiones":["D3"]},
+        {"slug":"inversion_transf_digital","label":"Inversion en transformacion digital / infra obsoleta","url":"https://www.funcionjudicial.gob.ec/consejo-de-la-judicatura-prioriza-inversion-en-la-transformacion-digital-repotenciacion-de-la-infraestructura-y-combate-a-la-impunidad/","dimensiones":["D3"]},
+        {"slug":"iso37001_sgas","label":"ISO 37001 Antisoborno (SGAS)","url":"https://www.funcionjudicial.gob.ec/sistema-de-gestion-antisoborno-de-acuerdo-a-la-norma-iso-37001/","dimensiones":["D4"]},
+        {"slug":"modernizacion_disciplinario","label":"Modernizacion del sistema disciplinario","url":"https://www.funcionjudicial.gob.ec/consejo-de-la-judicatura-modernizara-su-sistema-disciplinario-con-plataforma-de-ultima-generacion-y-controles-de-seguridad/","dimensiones":["D4"]},
+        {"slug":"plan_integridad_2024_2028","label":"Plan Nacional de Integridad Publica 2024-2028","url":"https://www.funcionjudicial.gob.ec/consejo-de-la-judicatura-se-adhiere-al-plan-nacional-de-integridad-publica-y-lucha-contra-la-corrupcion-2024-2028/","dimensiones":["D4"]},
+        {"slug":"justicia_abierta","label":"Justicia Abierta — datos abiertos judiciales","url":"https://www.funcionjudicial.gob.ec/consejo-de-la-judicatura-trabaja-en-el-portal-unico-de-datos-abiertos-y-estadistica-judicial-justicia-abierta-transparentando-la-informacion-para-combatir-la-corrupcion/","dimensiones":["D1"]},
+        {"slug":"ckan_datosabiertos_cj","label":"Datos Abiertos Ecuador (CKAN) — organizacion CJ","url":"https://datosabiertos.gob.ec/dataset/?organization=cj","dimensiones":["D1"]},
+        {"slug":"portal_estadisticas","label":"Portal de Estadisticas Judiciales","url":"https://fsweb.funcionjudicial.gob.ec/estadisticas/datoscj/portalestadistica.html","dimensiones":["D1"]},
+    ]
+    return colorTypes, layers, services, connections, scale, dimensions, sources
+
+def _level_for(score, scale):
+    for it in scale:
+        lo, hi = [int(x) for x in it["range"].split("-")]
+        if lo <= score <= hi:
+            return f'Nivel {it["level"]} · {it["name"]}'
+    return "n/d"
+
+def build_sdt_cj(scrape_report=None, evidence_run=None):
+    """Construye el SDT_CJ JSON-LD; integra señales del scraping si están disponibles.
+    `evidence_run` = id de la corrida de snapshots en /data/evidence (trazabilidad)."""
+    colorTypes, layers, services, connections, scale, dimensions, sources = _cj_model()
+
+    # Verificación en vivo: las señales del scraping confirman/ajustan la evidencia.
+    verification = {}
+    if scrape_report:
+        sig = scrape_report.get("signals", {})
+        verification = {
+            "scanned_at": scrape_report.get("scanned_at"),
+            "online": scrape_report.get("online", False),
+            "wordpress_elementor_confirmado": bool(sig.get("wordpress_elementor")),
+            "enlaces_legacy_jsf": sig.get("jsf_legacy_links", 0),
+            "enlaces_legacy_php": sig.get("php_legacy_links", 0),
+            "satje_spa_confirmado": bool(sig.get("satje_spa_modern")),
+            "referencia_datos_abiertos": bool(sig.get("open_data_ref")),
+            "referencia_iso37001": bool(sig.get("iso37001_ref")),
+            "web_semantica_jsonld_detectada": bool(sig.get("json_ld_semantic")),
+            "api_publica_detectada": bool(sig.get("public_api_spec")),
+            "targets": scrape_report.get("targets", {}),
+        }
+
+    for d in dimensions:
+        d["level"] = _level_for(d["score"], scale)
+    overall = round(sum(d["score"] * d["weight"] for d in dimensions))
+
+    now = utcnow_iso()
+    doc = {
+        "@context": {
+            "maltg":"http://maltg.arch/onto#","sdt":"http://maltg.arch/sdt#",
+            "schema":"http://schema.org/","dcterms":"http://purl.org/dc/terms/",
+            "skos":"http://www.w3.org/2004/02/skos/core#",
+            "label":"skos:prefLabel","title":"dcterms:title","description":"dcterms:description",
+            "score":"maltg:maturityScore","level":"maltg:maturityLevel",
+            "evidence":"sdt:evidence","findings":"sdt:findings","gaps":"sdt:gaps",
+            "maltg_ref":{"@id":"maltg:mapsTo","@type":"@id"},
+            "maltg_refs":{"@id":"maltg:mapsTo","@type":"@id"},
+            "services":"sdt:hasComponent","connections":"sdt:hasFlow","dimensions":"sdt:hasDimension",
+            "from":{"@id":"sdt:source","@type":"@id"},"to":{"@id":"sdt:target","@type":"@id"},
+        },
+        "@id":"sdt:SDT_CJ_Ecuador","@type":"sdt:StructuralDigitalTwin",
+        "meta":{
+            "title":"SDT_CJ — Gemelo Digital Estructural del Ecosistema Tecnologico del Consejo de la Judicatura del Ecuador",
+            "version":"1.0.0",
+            "description":"Gemelo digital estructural (SDT) del ecosistema digital del CJ, evaluado contra la ontologia MALTG para determinar su Nivel de Madurez LegalTech.",
+            "subject":"Consejo de la Judicatura del Ecuador (funcionjudicial.gob.ec)",
+            "auditor":"Auditor Principal de Arquitectura de Software / Consultor Senior LegalTech Governance",
+            "method":"Web scraping + analisis multidimensional contra MALTG_ontology.owl",
+            "generated":now,"maltg_compliance":"MALTG v4.1 · TOGAF · COBIT · NIST CSF · ISO 37001 · GDPR/eIDAS",
+            "ontology_source":"/data/MALTG_ontology.owl","primary_source":"https://www.funcionjudicial.gob.ec/",
+            "protocol":{
+                "instrumento":"Analisis documental sistematico de fuentes oficiales (web scraping con snapshots verificables)",
+                "documento":"/data/evidence/PROTOCOLO.md",
+                "semillas":"/data/evidence/sources_semilla.json",
+                "user_agent":SCRAPER_UA,
+                "evidence_run":evidence_run,
+                "fases":["identificacion","captura (snapshot + SHA-256)","verificacion de integridad","codificacion contra rubrica"],
+            },
+        },
+        "maturity":{
+            "overall_score":overall,"overall_level":_level_for(overall, scale),"scale":scale,
+            "dimensions_summary":[{"id":d["id"],"label":d["label"],"score":d["score"],"level":d["level"]} for d in dimensions],
+        },
+        "scrape_report": verification,
+        "canvas":{"width":1136,"height":706},
+        "colorTypes":colorTypes,"layers":layers,"services":services,"connections":connections,
+        "dimensions":dimensions,"sources":sources,
+    }
+    raw = json.dumps(doc, ensure_ascii=False, indent=2)
+    doc["meta"]["self_hash"] = "sha256:" + hashlib.sha256(raw.encode()).hexdigest()[:16]
+    return doc
+
+@app.post("/api/sdt-cj/scrape", summary="Scraping del portal CJ → genera SDT_CJ.json (JSON-LD)", tags=["SDT_CJ"])
+def post_sdt_cj_scrape():
+    """Ejecuta scraping en vivo del ecosistema CJ, recalcula la madurez y persiste /data/SDT_CJ.json.
+
+    Blindado: nunca propaga una excepción (siempre devuelve JSON válido), de modo que el
+    frontend no reciba un 'Internal Server Error' en texto plano.
+    """
+    import traceback
+    rep = None
+    try:
+        rep = scrape_cj()
+    except Exception as e:
+        rep = {"scanned_at": utcnow_iso(),
+               "online": False, "signals": {}, "targets": {},
+               "errors": [f"scrape_cj: {e}"]}
+    # Protocolo reproducible: snapshots verificables de TODAS las fuentes semilla
+    evidence_run = None
+    try:
+        manifest = capture_evidence()
+        evidence_run = manifest.get("run_id")
+    except Exception as e:
+        rep.setdefault("errors", []).append(f"capture_evidence: {e}")
+    try:
+        doc = build_sdt_cj(rep, evidence_run=evidence_run)
+    except Exception as e:
+        return {"error": f"build_sdt_cj fallo: {e}", "trace": traceback.format_exc()[-600:],
+                "scrape_report": rep}
+    try:
+        SDT_CJ_PATH.write_text(json.dumps(doc, ensure_ascii=False, indent=2), encoding="utf-8")
+        doc["_written"] = str(SDT_CJ_PATH)
+        bitacora_log("sistema/scraper", "regeneracion_sdt_cj",
+                     f"SDT_CJ.json regenerado (madurez {doc['maturity']['overall_score']}/100); evidencia: {evidence_run or 'sin snapshots'}",
+                     refs=[r for r in [evidence_run, "SDT_CJ.json"] if r])
+    except Exception as e:
+        doc["_write_error"] = str(e)
+    return doc
+
+@app.get("/api/sdt-cj", summary="Lee /data/SDT_CJ.json (gemelo digital estructural del CJ)", tags=["SDT_CJ"])
+def get_sdt_cj():
+    if SDT_CJ_PATH.exists():
+        try:
+            doc = json.loads(SDT_CJ_PATH.read_text(encoding="utf-8"))
+            doc.setdefault("meta", {})["file_hash"] = file_hash(SDT_CJ_PATH)
+            return doc
+        except Exception as e:
+            return {"error": f"SDT_CJ.json invalido: {e}"}
+    # Si aún no existe, devolver el modelo experto (sin verificación en vivo)
+    return build_sdt_cj(None)
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  EVIDENCIA REPRODUCIBLE & BITÁCORA — Protocolo de recolección (Fallo 2)
+#  Snapshots con SHA-256 en /data/evidence/<run>/ + manifest.json
+#  Bitácora append-only encadenada por hash en /data/bitacora.json
+# ═══════════════════════════════════════════════════════════════════
+EV_DIR        = DATA_DIR / "evidence"
+SEED_PATH     = EV_DIR / "sources_semilla.json"
+PROTOCOL_PATH = EV_DIR / "PROTOCOLO.md"
+BITACORA_PATH = DATA_DIR / "bitacora.json"
+
+def load_seeds():
+    """Fuentes semilla del protocolo. Si no existe el archivo, lo crea desde el modelo experto."""
+    if SEED_PATH.exists():
+        try:
+            return json.loads(SEED_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    _, _, _, _, _, _, sources = _cj_model()
+    seeds = [{"slug": s["slug"], "label": s["label"], "url": s["url"],
+              "dimensiones": s.get("dimensiones", []), "incluida": True,
+              "criterio": "Fuente oficial (*.funcionjudicial.gob.ec / *.gob.ec)"} for s in sources]
+    EV_DIR.mkdir(parents=True, exist_ok=True)
+    SEED_PATH.write_text(json.dumps(seeds, ensure_ascii=False, indent=2), encoding="utf-8")
+    return seeds
+
+# ── Bitácora append-only (cadena de hashes, mismo principio que el ledger) ──
+def bitacora_read():
+    if BITACORA_PATH.exists():
+        try:
+            return json.loads(BITACORA_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            return []
+    return []
+
+def bitacora_log(actor, accion, detalle="", refs=None, tipo="sistema"):
+    entries = bitacora_read()
+    prev = entries[-1]["hash"] if entries else "GENESIS"
+    e = {"id": len(entries) + 1, "ts": utcnow_iso(), "tipo": tipo,
+         "actor": actor, "accion": accion, "detalle": detalle,
+         "refs": refs or [], "prev_hash": prev}
+    e["hash"] = hashlib.sha256(json.dumps(e, ensure_ascii=False, sort_keys=True).encode()).hexdigest()[:16]
+    entries.append(e)
+    BITACORA_PATH.write_text(json.dumps(entries, ensure_ascii=False, indent=2), encoding="utf-8")
+    return e
+
+def bitacora_verify(entries):
+    """Verifica la cadena de hashes de la bitácora. Devuelve (ok, primer_id_roto|None)."""
+    prev = "GENESIS"
+    for e in entries:
+        body = {k: e[k] for k in ("id","ts","tipo","actor","accion","detalle","refs","prev_hash") if k in e}
+        if e.get("prev_hash") != prev:
+            return False, e.get("id")
+        if hashlib.sha256(json.dumps(body, ensure_ascii=False, sort_keys=True).encode()).hexdigest()[:16] != e.get("hash"):
+            return False, e.get("id")
+        prev = e["hash"]
+    return True, None
+
+# ── Captura de snapshots verificables ────────────────────────────────
+def capture_evidence(fecha_corte=None):
+    """Descarga cada fuente semilla, guarda el HTML como snapshot y escribe manifest.json
+    con URL, timestamp, bytes y SHA-256. La corrida queda en /data/evidence/<run_id>/."""
+    seeds = load_seeds()
+    stamp = datetime.utcnow()
+    run_id = (fecha_corte or stamp.strftime("%Y-%m-%d")) + "_" + stamp.strftime("%H%M%S")
+    n = 1
+    while (EV_DIR / run_id).exists():
+        n += 1
+        run_id = run_id.split("-v")[0] + f"-v{n}"
+    run_dir = EV_DIR / run_id
+    run_dir.mkdir(parents=True, exist_ok=True)
+    entries = []
+    for s in seeds:
+        if not s.get("incluida", True):
+            entries.append({"slug": s["slug"], "url": s["url"], "ok": False, "excluida": True,
+                            "criterio": s.get("criterio", "")})
+            continue
+        t0 = time.time()
+        try:
+            status, html, headers = _http_get(s["url"], timeout=10)
+            fname = s["slug"] + ".html"
+            (run_dir / fname).write_text(html, encoding="utf-8")
+            entries.append({
+                "slug": s["slug"], "label": s["label"], "url": s["url"],
+                "ok": 200 <= status < 400, "status": status,
+                "bytes": len(html.encode("utf-8")),
+                "sha256": hashlib.sha256(html.encode("utf-8")).hexdigest(),
+                "file": f"{run_id}/{fname}", "ms": int((time.time() - t0) * 1000),
+                "captured_at": utcnow_iso(),
+                "dimensiones": s.get("dimensiones", []),
+            })
+        except Exception as e:
+            entries.append({"slug": s["slug"], "label": s.get("label",""), "url": s["url"],
+                            "ok": False, "error": str(e)[:160]})
+    n_ok = sum(1 for e in entries if e.get("ok"))
+    manifest = {
+        "run_id": run_id, "captured_at": utcnow_iso(),
+        "user_agent": SCRAPER_UA,
+        "seed_file": "/data/evidence/sources_semilla.json",
+        "protocol": "/data/evidence/PROTOCOLO.md",
+        "n_total": len(entries), "n_ok": n_ok,
+        "entries": entries,
+    }
+    (run_dir / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    bitacora_log("sistema/scraper", "captura_evidencia",
+                 f"Corrida {run_id}: {n_ok}/{len(entries)} fuentes capturadas con snapshot + SHA-256.",
+                 refs=[run_id])
+    return manifest
+
+def _resolve_run(run: str = ""):
+    """Resuelve un run_id de forma segura dentro de /data/evidence (sin traversal)."""
+    if run:
+        name = Path(run).name
+        d = (EV_DIR / name).resolve()
+        if d.parent == EV_DIR.resolve() and d.is_dir() and (d / "manifest.json").exists():
+            return d
+        return None
+    runs = sorted([d for d in EV_DIR.iterdir() if d.is_dir() and (d / "manifest.json").exists()]) if EV_DIR.exists() else []
+    return runs[-1] if runs else None
+
+# ── Endpoints de evidencia ───────────────────────────────────────────
+@app.get("/api/evidence/runs", summary="Corridas de captura de evidencia", tags=["Evidencia & Bitácora"])
+def get_evidence_runs():
+    out = []
+    if EV_DIR.exists():
+        for d in sorted(EV_DIR.iterdir()):
+            mf = d / "manifest.json"
+            if d.is_dir() and mf.exists():
+                try:
+                    m = json.loads(mf.read_text(encoding="utf-8"))
+                    out.append({"run_id": m.get("run_id", d.name), "captured_at": m.get("captured_at"),
+                                "n_total": m.get("n_total"), "n_ok": m.get("n_ok")})
+                except Exception:
+                    out.append({"run_id": d.name, "error": "manifest ilegible"})
+    return {"runs": out, "count": len(out)}
+
+@app.get("/api/evidence/manifest", summary="Manifest de una corrida (última por defecto)", tags=["Evidencia & Bitácora"])
+def get_evidence_manifest(run: str = ""):
+    d = _resolve_run(run)
+    if not d:
+        return {"error": "no hay corridas de evidencia", "runs": 0}
+    try:
+        return json.loads((d / "manifest.json").read_text(encoding="utf-8"))
+    except Exception as e:
+        return {"error": f"manifest ilegible: {e}"}
+
+@app.get("/api/evidence/verify", summary="Verifica SHA-256 de los snapshots vs manifest", tags=["Evidencia & Bitácora"])
+def get_evidence_verify(run: str = ""):
+    d = _resolve_run(run)
+    if not d:
+        return {"error": "no hay corridas de evidencia"}
+    try:
+        m = json.loads((d / "manifest.json").read_text(encoding="utf-8"))
+    except Exception as e:
+        return {"error": f"manifest ilegible: {e}"}
+    results, ok_all = [], True
+    for e in m.get("entries", []):
+        if not e.get("ok"):
+            results.append({"slug": e.get("slug"), "estado": "SIN_SNAPSHOT"})
+            continue
+        f = EV_DIR / e["file"]
+        if not f.exists():
+            results.append({"slug": e["slug"], "estado": "FALTANTE"}); ok_all = False; continue
+        sha = hashlib.sha256(f.read_text(encoding="utf-8").encode("utf-8")).hexdigest()
+        intact = sha == e.get("sha256")
+        ok_all = ok_all and intact
+        results.append({"slug": e["slug"], "estado": "INTEGRO" if intact else "ALTERADO",
+                        "sha256_manifest": e.get("sha256", "")[:16], "sha256_actual": sha[:16]})
+    verdict = "INTEGRA" if ok_all else "COMPROMETIDA"
+    bitacora_log("sistema/verificador", "verificacion_integridad",
+                 f"Corrida {m.get('run_id')}: evidencia {verdict}.", refs=[m.get("run_id")])
+    return {"run_id": m.get("run_id"), "integra": ok_all, "resultados": results}
+
+@app.get("/api/evidence/snapshot", summary="Vista previa de un snapshot capturado", tags=["Evidencia & Bitácora"])
+def get_evidence_snapshot(run: str = "", slug: str = "", chars: int = 4000):
+    d = _resolve_run(run)
+    if not d:
+        return {"error": "no hay corridas de evidencia"}
+    name = Path(slug).name + ".html"
+    f = (d / name).resolve()
+    if f.parent != d.resolve() or not f.exists():
+        return {"error": f"snapshot no encontrado: {slug}"}
+    txt = f.read_text(encoding="utf-8")
+    return {"run_id": d.name, "slug": slug, "bytes": len(txt.encode('utf-8')),
+            "sha256": hashlib.sha256(txt.encode("utf-8")).hexdigest(),
+            "preview": txt[:max(200, min(chars, 20000))]}
+
+@app.post("/api/evidence/capture", summary="Ejecuta una captura de evidencia (snapshots + manifest)", tags=["Evidencia & Bitácora"])
+def post_evidence_capture():
+    try:
+        return capture_evidence()
+    except Exception as e:
+        return {"error": f"capture_evidence: {e}"}
+
+@app.get("/api/evidence/protocolo", summary="Texto del protocolo de recolección", tags=["Evidencia & Bitácora"])
+def get_evidence_protocolo():
+    if PROTOCOL_PATH.exists():
+        return {"path": "/data/evidence/PROTOCOLO.md", "text": PROTOCOL_PATH.read_text(encoding="utf-8")}
+    return {"error": "PROTOCOLO.md no encontrado en /data/evidence"}
+
+@app.get("/api/evidence/seeds", summary="Fuentes semilla del protocolo", tags=["Evidencia & Bitácora"])
+def get_evidence_seeds():
+    return {"seeds": load_seeds(), "path": "/data/evidence/sources_semilla.json"}
+
+# ── Endpoints de bitácora ────────────────────────────────────────────
+@app.get("/api/bitacora", summary="Bitácora del proyecto (append-only, hash-encadenada)", tags=["Evidencia & Bitácora"])
+def get_bitacora():
+    entries = bitacora_read()
+    ok, broken = bitacora_verify(entries)
+    return {"entries": entries, "count": len(entries),
+            "cadena_integra": ok, "primer_registro_roto": broken}
+
+@app.post("/api/bitacora", summary="Añadir entrada manual a la bitácora", tags=["Evidencia & Bitácora"])
+def post_bitacora(payload: dict = Body(...)):
+    actor   = str(payload.get("actor", "")).strip() or "investigador"
+    accion  = str(payload.get("accion", "")).strip()
+    detalle = str(payload.get("detalle", "")).strip()
+    if not accion and not detalle:
+        return {"error": "se requiere 'accion' o 'detalle'"}
+    e = bitacora_log(actor[:80], (accion or "nota")[:120], detalle[:2000],
+                     refs=payload.get("refs") or [], tipo="manual")
+    return {"ok": True, "entry": e}
 
 
 if FRONT_DIR.exists():

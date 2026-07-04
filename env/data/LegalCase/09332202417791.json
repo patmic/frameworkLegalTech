@@ -1,0 +1,67 @@
+{
+  "@context": "https://maltg.arch/onto#",
+  "@type": "CausaJudicial",
+  "fuente": "Juicios.xlsx",
+  "juicio": "09332202417791",
+  "cabecera": {
+    "Juicio": "09332202417791",
+    "IdMovimientoJuicioIncidente": "26963427",
+    "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+    "Materia": "CIVIL",
+    "Tipo Accion": "SUMARIO",
+    "Delito": "COBRO DE FACTURAS POR BIENES Y SERVICIOS, HONORARIOS PROFESIONALES CUANDO LA PRETENSIÓN NO SEA EXIGIBLE EN PROCEDIMIENTO MONITORIO O EN VIA EJECUTIVA",
+    "FechaIngreso": "Nov  7 2024  4:49PM",
+    "IdJudicatura": "09332",
+    "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN EL CANTÓN GUAYAQUIL",
+    "IDCANTON": "ECU0901",
+    "Estado": "A"
+  },
+  "instancias": [
+    {
+      "Juicio": "09332202417791",
+      "IdMovimientoJuicioIncidente": "26963427",
+      "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+      "Materia": "CIVIL",
+      "Tipo Accion": "SUMARIO",
+      "Delito": "COBRO DE FACTURAS POR BIENES Y SERVICIOS, HONORARIOS PROFESIONALES CUANDO LA PRETENSIÓN NO SEA EXIGIBLE EN PROCEDIMIENTO MONITORIO O EN VIA EJECUTIVA",
+      "FechaIngreso": "Nov  7 2024  4:49PM",
+      "IdJudicatura": "09332",
+      "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN EL CANTÓN GUAYAQUIL",
+      "IDCANTON": "ECU0901",
+      "Estado": "A"
+    }
+  ],
+  "totalActividades": 2,
+  "actividades": [
+    {
+      "Secuencia": "1",
+      "IdJuicio": "09332202417791",
+      "IdProvidencia": "221685582",
+      "FechaProvidencia": "2024-11-11 12:59:46.253",
+      "HoraProvidencia": "2024-11-11 12:59:46.253",
+      "TipoProvidencia": "RAZON",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "RAZON",
+      "Login": "newton.delgado",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-7770649b-9008-41f7-95ae-19bf8d906e5c",
+      "IdTipoActividad": "6",
+      "IdMovimientoJuicioIncidente": "26963427"
+    },
+    {
+      "Secuencia": "2",
+      "IdJuicio": "09332202417791",
+      "IdProvidencia": "222670903",
+      "FechaProvidencia": "2024-12-04 14:54:01.733",
+      "HoraProvidencia": "2024-12-04 14:54:01.733",
+      "TipoProvidencia": "AUTO INTERLOCUTORIO",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "INADMISION DE LA DEMANDA ART. 147 # 1",
+      "Login": "newton.delgado",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-bee0f339-ea9a-438e-b59c-422b80e04e3a",
+      "IdTipoActividad": "12",
+      "IdMovimientoJuicioIncidente": "26963427"
+    }
+  ]
+}

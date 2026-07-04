@@ -1,0 +1,112 @@
+{
+  "@context": "https://maltg.arch/onto#",
+  "@type": "CausaJudicial",
+  "fuente": "Juicios_Flujo135.xlsx",
+  "juicio": "09332202200100",
+  "cabecera": {
+    "Juicio": "09332202200100",
+    "IdMovimientoJuicioIncidente": "23551815",
+    "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+    "Materia": "CIVIL",
+    "Tipo Accion": "MONITORIO",
+    "Delito": "FACTURAS O DOCUMENTOS ART. 356 NUM.2",
+    "FechaIngreso": "Ene  7 2022  5:00PM",
+    "IdJudicatura": "09332",
+    "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN EL CANTÓN GUAYAQUIL",
+    "IDCANTON": "ECU0901",
+    "Estado": "A"
+  },
+  "instancias": [
+    {
+      "Juicio": "09332202200100",
+      "IdMovimientoJuicioIncidente": "23551815",
+      "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+      "Materia": "CIVIL",
+      "Tipo Accion": "MONITORIO",
+      "Delito": "FACTURAS O DOCUMENTOS ART. 356 NUM.2",
+      "FechaIngreso": "Ene  7 2022  5:00PM",
+      "IdJudicatura": "09332",
+      "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN EL CANTÓN GUAYAQUIL",
+      "IDCANTON": "ECU0901",
+      "Estado": "A"
+    }
+  ],
+  "totalActividades": 5,
+  "actividades": [
+    {
+      "Secuencia": "1",
+      "IdJuicio": "09332202200100",
+      "IdProvidencia": "181537007",
+      "FechaProvidencia": "2022-01-13 09:15:55.513",
+      "HoraProvidencia": "2022-01-13 09:15:55.513",
+      "TipoProvidencia": "RAZON",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "RAZON",
+      "Login": "daniel.nivelo",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "135-e8e899ff-fe6e-472f-b657-118add1f36ac",
+      "IdMovimientoJuicioIncidente": "23551815"
+    },
+    {
+      "Secuencia": "2",
+      "IdJuicio": "09332202200100",
+      "IdProvidencia": "181678796",
+      "FechaProvidencia": "2022-01-19 11:17:06.373",
+      "HoraProvidencia": "2022-01-19 11:17:06.373",
+      "TipoProvidencia": "AUTO DE SUSTANCIACION",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "CALIFICACION DE SOLICITUD Y/O DEMANDA Y AUTO DE PAGO",
+      "Login": "daniel.nivelo",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "135-3384a77a-7905-4e8b-95b1-b82d814acc88",
+      "IdMovimientoJuicioIncidente": "23551815"
+    },
+    {
+      "Secuencia": "3",
+      "IdJuicio": "09332202200100",
+      "IdProvidencia": "181861345",
+      "FechaProvidencia": "2022-01-21 10:07:42.403",
+      "HoraProvidencia": "2022-01-21 10:07:42.403",
+      "TipoProvidencia": "OFICIO",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "OFICIO",
+      "Login": "mayra.abarca",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "0",
+      "IdMovimientoJuicioIncidente": "23551815"
+    },
+    {
+      "Secuencia": "4",
+      "IdJuicio": "09332202200100",
+      "IdProvidencia": "181942000",
+      "FechaProvidencia": "2022-01-24 14:42:33.303",
+      "HoraProvidencia": "2022-01-24 14:42:33.303",
+      "TipoProvidencia": "RAZON",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "RAZON ENVIO A CITACIONES",
+      "Login": "DANIEL.NIVELO",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "0",
+      "IdMovimientoJuicioIncidente": "23551815"
+    },
+    {
+      "Secuencia": "5",
+      "IdJuicio": "09332202200100",
+      "IdProvidencia": "184858213",
+      "FechaProvidencia": "2022-04-06 12:21:44.290",
+      "HoraProvidencia": "2022-04-06 12:21:44.290",
+      "TipoProvidencia": "AUTO DE SUSTANCIACION",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "NOTIFICACION",
+      "Login": "daniel.nivelo",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "135-d90a8d21-0c5f-47d4-b3fc-cb9c3ccb84a5",
+      "IdMovimientoJuicioIncidente": "23551815"
+    }
+  ]
+}

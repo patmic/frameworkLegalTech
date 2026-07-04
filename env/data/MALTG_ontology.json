@@ -1,0 +1,2071 @@
+{
+  "meta": {
+    "title": "MALTG Ontology — Estructura (estrella)",
+    "version": "4.1.0-json",
+    "objetivo": "Mostrar cómo la arquitectura habilita la gobernanza dentro de LegalTech: el uso de contratos y medios digitales que aportan soporte y trazabilidad, operativizados mediante gemelos digitales estructurales (flujo procesal/contractual) y cognitivos (razonamiento jurídico).",
+    "fuente": "Convertido de MALTG_ontology.owl; descripciones conceptuales enriquecidas.",
+    "split": "estructura; detalles en MALTG_ontologyInfo.json"
+  },
+  "nodes": [
+    {
+      "id": "MALTG_Core",
+      "label": "MALTG Core",
+      "type": "core",
+      "cluster": "",
+      "r": 24,
+      "score": ""
+    },
+    {
+      "id": "Strategic_Layer",
+      "label": "Strategic Layer",
+      "type": "strategic",
+      "cluster": "Strategic",
+      "r": 18,
+      "score": ""
+    },
+    {
+      "id": "Governance_Compliance_Layer",
+      "label": "Governance & Compliance Layer",
+      "type": "legaltech",
+      "cluster": "Governance",
+      "r": 18,
+      "score": ""
+    },
+    {
+      "id": "Operational_Layer",
+      "label": "Operational Layer",
+      "type": "operational",
+      "cluster": "Operational",
+      "r": 18,
+      "score": ""
+    },
+    {
+      "id": "Technology_Integration_Layer",
+      "label": "Technology Integration Layer",
+      "type": "tech",
+      "cluster": "Technology",
+      "r": 18,
+      "score": ""
+    },
+    {
+      "id": "Foundation_Layer",
+      "label": "Foundation Layer",
+      "type": "foundation",
+      "cluster": "Foundation",
+      "r": 18,
+      "score": ""
+    },
+    {
+      "id": "TOGAF",
+      "label": "TOGAF 10 (ADM)",
+      "type": "togaf",
+      "cluster": "Foundation",
+      "r": 14,
+      "score": "92"
+    },
+    {
+      "id": "Preliminary_Phase",
+      "label": "Preliminary Phase",
+      "type": "togaf",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "64"
+    },
+    {
+      "id": "Architecture_Vision",
+      "label": "Architecture Vision",
+      "type": "togaf",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "65"
+    },
+    {
+      "id": "Business_Architecture",
+      "label": "Business Architecture",
+      "type": "togaf",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "73"
+    },
+    {
+      "id": "Information_Systems_Architecture",
+      "label": "Information Systems Architecture",
+      "type": "togaf",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "75"
+    },
+    {
+      "id": "Technology_Architecture",
+      "label": "Technology Architecture",
+      "type": "togaf",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "82"
+    },
+    {
+      "id": "Opportunities_Solutions",
+      "label": "Opportunities & Solutions",
+      "type": "togaf",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "88"
+    },
+    {
+      "id": "Migration_Planning",
+      "label": "Migration Planning",
+      "type": "togaf",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "81"
+    },
+    {
+      "id": "Implementation_Governance",
+      "label": "Implementation Governance",
+      "type": "togaf",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "85"
+    },
+    {
+      "id": "Architecture_Change_Management",
+      "label": "Architecture Change Management",
+      "type": "togaf",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "47"
+    },
+    {
+      "id": "Requirements_Management",
+      "label": "Requirements Management",
+      "type": "togaf",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "60"
+    },
+    {
+      "id": "COBIT",
+      "label": "COBIT 2019",
+      "type": "cobit",
+      "cluster": "Foundation",
+      "r": 14,
+      "score": "90"
+    },
+    {
+      "id": "EDM_Domain",
+      "label": "EDM — Evaluate, Direct, Monitor",
+      "type": "cobit",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "92"
+    },
+    {
+      "id": "APO_Domain",
+      "label": "APO — Align, Plan, Organize",
+      "type": "cobit",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "88"
+    },
+    {
+      "id": "BAI_Domain",
+      "label": "BAI — Build, Acquire, Implement",
+      "type": "cobit",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "86"
+    },
+    {
+      "id": "DSS_Domain",
+      "label": "DSS — Deliver, Service, Support",
+      "type": "cobit",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "87"
+    },
+    {
+      "id": "MEA_Domain",
+      "label": "MEA — Monitor, Evaluate, Assess",
+      "type": "cobit",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "85"
+    },
+    {
+      "id": "EDM01_Governance",
+      "label": "EDM01 — Gobernanza asegurada",
+      "type": "cobit",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "90"
+    },
+    {
+      "id": "APO12_Risk",
+      "label": "APO12 — Gestión de riesgos",
+      "type": "cobit",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "84"
+    },
+    {
+      "id": "APO13_Security",
+      "label": "APO13 — Gestión de seguridad",
+      "type": "cobit",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "86"
+    },
+    {
+      "id": "DSS05_Security_Services",
+      "label": "DSS05 — Servicios de seguridad",
+      "type": "cobit",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "85"
+    },
+    {
+      "id": "MEA03_Compliance",
+      "label": "MEA03 — Cumplimiento externo",
+      "type": "cobit",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "83"
+    },
+    {
+      "id": "ITIL",
+      "label": "ITIL 4",
+      "type": "itil",
+      "cluster": "Foundation",
+      "r": 14,
+      "score": "80"
+    },
+    {
+      "id": "Service_Strategy",
+      "label": "Service Strategy",
+      "type": "itil",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "78"
+    },
+    {
+      "id": "Service_Design",
+      "label": "Service Design",
+      "type": "itil",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "77"
+    },
+    {
+      "id": "Service_Transition",
+      "label": "Service Transition",
+      "type": "itil",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "79"
+    },
+    {
+      "id": "Service_Operation",
+      "label": "Service Operation",
+      "type": "itil",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "82"
+    },
+    {
+      "id": "Continual_Improvement",
+      "label": "Continual Improvement",
+      "type": "itil",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "80"
+    },
+    {
+      "id": "Incident_Management",
+      "label": "Incident Management",
+      "type": "itil",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "84"
+    },
+    {
+      "id": "Problem_Management",
+      "label": "Problem Management",
+      "type": "itil",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "76"
+    },
+    {
+      "id": "Change_Enablement",
+      "label": "Change Enablement",
+      "type": "itil",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "81"
+    },
+    {
+      "id": "Service_Level_Management",
+      "label": "Service Level Management",
+      "type": "itil",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "79"
+    },
+    {
+      "id": "Configuration_Management",
+      "label": "Service Configuration Management",
+      "type": "itil",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "78"
+    },
+    {
+      "id": "NIST_CSF",
+      "label": "NIST CSF 2.0",
+      "type": "nist",
+      "cluster": "Foundation",
+      "r": 14,
+      "score": "88"
+    },
+    {
+      "id": "Govern_Function",
+      "label": "GOVERN",
+      "type": "nist",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "38"
+    },
+    {
+      "id": "Identify_Function",
+      "label": "IDENTIFY",
+      "type": "nist",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "62"
+    },
+    {
+      "id": "Protect_Function",
+      "label": "PROTECT",
+      "type": "nist",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "43"
+    },
+    {
+      "id": "Detect_Function",
+      "label": "DETECT",
+      "type": "nist",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "46"
+    },
+    {
+      "id": "Respond_Function",
+      "label": "RESPOND",
+      "type": "nist",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "85"
+    },
+    {
+      "id": "Recover_Function",
+      "label": "RECOVER",
+      "type": "nist",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "84"
+    },
+    {
+      "id": "Asset_Management",
+      "label": "Asset Management (ID.AM)",
+      "type": "nist",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "87"
+    },
+    {
+      "id": "Risk_Assessment",
+      "label": "Risk Assessment (ID.RA)",
+      "type": "nist",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "86"
+    },
+    {
+      "id": "Access_Control",
+      "label": "Access Control (PR.AA)",
+      "type": "nist",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "88"
+    },
+    {
+      "id": "Continuous_Monitoring",
+      "label": "Continuous Monitoring (DE.CM)",
+      "type": "nist",
+      "cluster": "Foundation",
+      "r": 9,
+      "score": "85"
+    },
+    {
+      "id": "AI_Layer",
+      "label": "AI — Inteligencia Artificial",
+      "type": "ai",
+      "cluster": "Technology",
+      "r": 14,
+      "score": "82"
+    },
+    {
+      "id": "ML_Models",
+      "label": "ML Models",
+      "type": "ai",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "84"
+    },
+    {
+      "id": "NLP_Pipeline",
+      "label": "NLP Pipeline",
+      "type": "ai",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "85"
+    },
+    {
+      "id": "Computer_Vision",
+      "label": "Computer Vision",
+      "type": "ai",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "72"
+    },
+    {
+      "id": "Predictive_Analytics",
+      "label": "Predictive Analytics",
+      "type": "ai",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "80"
+    },
+    {
+      "id": "Symbolic_Reasoner",
+      "label": "Symbolic Reasoner",
+      "type": "ai",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "83"
+    },
+    {
+      "id": "Legal_LLM",
+      "label": "Legal LLM",
+      "type": "ai",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "78"
+    },
+    {
+      "id": "Explainability_XAI",
+      "label": "Explainability (XAI)",
+      "type": "ai",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "81"
+    },
+    {
+      "id": "Bias_Fairness",
+      "label": "Bias & Fairness",
+      "type": "ai",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "74"
+    },
+    {
+      "id": "Model_Governance",
+      "label": "Model Governance",
+      "type": "ai",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "76"
+    },
+    {
+      "id": "Human_Oversight",
+      "label": "Human Oversight",
+      "type": "ai",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "79"
+    },
+    {
+      "id": "Blockchain_Layer",
+      "label": "Blockchain & DLT",
+      "type": "blockchain",
+      "cluster": "Technology",
+      "r": 14,
+      "score": "79"
+    },
+    {
+      "id": "Smart_Contracts",
+      "label": "Smart Contracts",
+      "type": "blockchain",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "80"
+    },
+    {
+      "id": "DLT_Network",
+      "label": "DLT Network",
+      "type": "blockchain",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "81"
+    },
+    {
+      "id": "Consensus_Protocol",
+      "label": "Consensus Protocol",
+      "type": "blockchain",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "82"
+    },
+    {
+      "id": "Tokenization",
+      "label": "Tokenization",
+      "type": "blockchain",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "70"
+    },
+    {
+      "id": "Immutability_Ledger",
+      "label": "Immutability Ledger",
+      "type": "blockchain",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "83"
+    },
+    {
+      "id": "Notarization",
+      "label": "Notarization",
+      "type": "blockchain",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "78"
+    },
+    {
+      "id": "Hash_SHA256",
+      "label": "Hash SHA-256",
+      "type": "blockchain",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "84"
+    },
+    {
+      "id": "Audit_Trail",
+      "label": "Audit Trail",
+      "type": "blockchain",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "80"
+    },
+    {
+      "id": "Digital_Signature",
+      "label": "Digital Signature",
+      "type": "blockchain",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "77"
+    },
+    {
+      "id": "Provenance",
+      "label": "Provenance",
+      "type": "blockchain",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "75"
+    },
+    {
+      "id": "OpenData_Layer",
+      "label": "Open Data — Justicia Abierta",
+      "type": "opendata",
+      "cluster": "Technology",
+      "r": 14,
+      "score": "78"
+    },
+    {
+      "id": "APIs",
+      "label": "APIs",
+      "type": "opendata",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "82"
+    },
+    {
+      "id": "Data_Lakes",
+      "label": "Data Lakes",
+      "type": "opendata",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "76"
+    },
+    {
+      "id": "Open_Standards",
+      "label": "Open Standards",
+      "type": "opendata",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "80"
+    },
+    {
+      "id": "Interoperability",
+      "label": "Interoperability",
+      "type": "opendata",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "84"
+    },
+    {
+      "id": "JSON_LD",
+      "label": "JSON-LD",
+      "type": "opendata",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "81"
+    },
+    {
+      "id": "DCAT_Catalog",
+      "label": "DCAT Catalog",
+      "type": "opendata",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "77"
+    },
+    {
+      "id": "Open_API_Spec",
+      "label": "OpenAPI Spec",
+      "type": "opendata",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "79"
+    },
+    {
+      "id": "Data_Portal",
+      "label": "Open Data Portal",
+      "type": "opendata",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "75"
+    },
+    {
+      "id": "FAIR_Principles",
+      "label": "FAIR Principles",
+      "type": "opendata",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "73"
+    },
+    {
+      "id": "Anonymization",
+      "label": "Anonymization",
+      "type": "opendata",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "78"
+    },
+    {
+      "id": "Security_Layer",
+      "label": "Security — Ciberseguridad",
+      "type": "security",
+      "cluster": "Technology",
+      "r": 14,
+      "score": "86"
+    },
+    {
+      "id": "Zero_Trust",
+      "label": "Zero Trust",
+      "type": "security",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "87"
+    },
+    {
+      "id": "Encryption",
+      "label": "Encryption",
+      "type": "security",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "88"
+    },
+    {
+      "id": "IAM",
+      "label": "Identity & Access Management",
+      "type": "security",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "86"
+    },
+    {
+      "id": "Compliance",
+      "label": "Security Compliance",
+      "type": "security",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "84"
+    },
+    {
+      "id": "MFA",
+      "label": "Multi-Factor Authentication",
+      "type": "security",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "85"
+    },
+    {
+      "id": "Secrets_Management",
+      "label": "Secrets Management",
+      "type": "security",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "83"
+    },
+    {
+      "id": "Network_Segmentation",
+      "label": "Network Segmentation",
+      "type": "security",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "82"
+    },
+    {
+      "id": "Vulnerability_Mgmt",
+      "label": "Vulnerability Management",
+      "type": "security",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "81"
+    },
+    {
+      "id": "SIEM",
+      "label": "SIEM",
+      "type": "security",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "80"
+    },
+    {
+      "id": "Data_Protection",
+      "label": "Data Protection",
+      "type": "security",
+      "cluster": "Technology",
+      "r": 9,
+      "score": "85"
+    },
+    {
+      "id": "Operational_Domain",
+      "label": "Operations — Service Delivery",
+      "type": "operational",
+      "cluster": "Operational",
+      "r": 14,
+      "score": "79"
+    },
+    {
+      "id": "Workflows",
+      "label": "Workflows",
+      "type": "operational",
+      "cluster": "Operational",
+      "r": 9,
+      "score": "81"
+    },
+    {
+      "id": "Services",
+      "label": "Services",
+      "type": "operational",
+      "cluster": "Operational",
+      "r": 9,
+      "score": "80"
+    },
+    {
+      "id": "Incidents",
+      "label": "Incidents",
+      "type": "operational",
+      "cluster": "Operational",
+      "r": 9,
+      "score": "78"
+    },
+    {
+      "id": "Changes",
+      "label": "Changes",
+      "type": "operational",
+      "cluster": "Operational",
+      "r": 9,
+      "score": "77"
+    },
+    {
+      "id": "Service_Catalog",
+      "label": "Service Catalog",
+      "type": "operational",
+      "cluster": "Operational",
+      "r": 9,
+      "score": "79"
+    },
+    {
+      "id": "SLA_Monitoring",
+      "label": "SLA Monitoring",
+      "type": "operational",
+      "cluster": "Operational",
+      "r": 9,
+      "score": "80"
+    },
+    {
+      "id": "Case_Management",
+      "label": "Case Management",
+      "type": "operational",
+      "cluster": "Operational",
+      "r": 9,
+      "score": "82"
+    },
+    {
+      "id": "Process_Mining",
+      "label": "Process Mining",
+      "type": "operational",
+      "cluster": "Operational",
+      "r": 9,
+      "score": "74"
+    },
+    {
+      "id": "Orchestration",
+      "label": "Orchestration",
+      "type": "operational",
+      "cluster": "Operational",
+      "r": 9,
+      "score": "78"
+    },
+    {
+      "id": "Observability",
+      "label": "Observability",
+      "type": "operational",
+      "cluster": "Operational",
+      "r": 9,
+      "score": "81"
+    },
+    {
+      "id": "Strategic_Domain",
+      "label": "Strategy — Enterprise Alignment",
+      "type": "strategic",
+      "cluster": "Strategic",
+      "r": 14,
+      "score": "83"
+    },
+    {
+      "id": "Planning",
+      "label": "Planning",
+      "type": "strategic",
+      "cluster": "Strategic",
+      "r": 9,
+      "score": "49"
+    },
+    {
+      "id": "Portfolio",
+      "label": "Portfolio",
+      "type": "strategic",
+      "cluster": "Strategic",
+      "r": 9,
+      "score": "45"
+    },
+    {
+      "id": "Risk",
+      "label": "Risk Management",
+      "type": "strategic",
+      "cluster": "Strategic",
+      "r": 9,
+      "score": "40"
+    },
+    {
+      "id": "Metrics",
+      "label": "Metrics & KPIs",
+      "type": "strategic",
+      "cluster": "Strategic",
+      "r": 9,
+      "score": "48"
+    },
+    {
+      "id": "Roadmap",
+      "label": "Roadmap",
+      "type": "strategic",
+      "cluster": "Strategic",
+      "r": 9,
+      "score": "80"
+    },
+    {
+      "id": "Investment_Governance",
+      "label": "Investment Governance",
+      "type": "strategic",
+      "cluster": "Strategic",
+      "r": 9,
+      "score": "81"
+    },
+    {
+      "id": "Value_Realization",
+      "label": "Value Realization",
+      "type": "strategic",
+      "cluster": "Strategic",
+      "r": 9,
+      "score": "79"
+    },
+    {
+      "id": "Stakeholder_Mgmt",
+      "label": "Stakeholder Management",
+      "type": "strategic",
+      "cluster": "Strategic",
+      "r": 9,
+      "score": "78"
+    },
+    {
+      "id": "Strategic_KPIs",
+      "label": "Strategic KPIs",
+      "type": "strategic",
+      "cluster": "Strategic",
+      "r": 9,
+      "score": "82"
+    },
+    {
+      "id": "Benefits_Management",
+      "label": "Benefits Management",
+      "type": "strategic",
+      "cluster": "Strategic",
+      "r": 9,
+      "score": "80"
+    },
+    {
+      "id": "LegalTech_Domain",
+      "label": "Governance & Compliance — LegalTech",
+      "type": "legaltech",
+      "cluster": "Governance",
+      "r": 14,
+      "score": "84"
+    },
+    {
+      "id": "GDPR_Compliance",
+      "label": "GDPR Compliance",
+      "type": "legaltech",
+      "cluster": "Governance",
+      "r": 9,
+      "score": "86"
+    },
+    {
+      "id": "Ethics",
+      "label": "Ethics",
+      "type": "legaltech",
+      "cluster": "Governance",
+      "r": 9,
+      "score": "83"
+    },
+    {
+      "id": "Regulation",
+      "label": "Regulation",
+      "type": "legaltech",
+      "cluster": "Governance",
+      "r": 9,
+      "score": "84"
+    },
+    {
+      "id": "Audit",
+      "label": "Audit",
+      "type": "legaltech",
+      "cluster": "Governance",
+      "r": 9,
+      "score": "85"
+    },
+    {
+      "id": "Contract_Lifecycle_Management",
+      "label": "Contract Lifecycle Management",
+      "type": "legaltech",
+      "cluster": "Governance",
+      "r": 9,
+      "score": "82"
+    },
+    {
+      "id": "eDiscovery_Pipeline",
+      "label": "eDiscovery Pipeline",
+      "type": "legaltech",
+      "cluster": "Governance",
+      "r": 9,
+      "score": "80"
+    },
+    {
+      "id": "Legal_DLT_Notarization",
+      "label": "Legal DLT Notarization",
+      "type": "legaltech",
+      "cluster": "Governance",
+      "r": 9,
+      "score": "81"
+    },
+    {
+      "id": "Regulatory_Compliance_Engine",
+      "label": "Regulatory Compliance Engine",
+      "type": "legaltech",
+      "cluster": "Governance",
+      "r": 9,
+      "score": "83"
+    },
+    {
+      "id": "eIDAS_Compliance",
+      "label": "eIDAS Compliance",
+      "type": "legaltech",
+      "cluster": "Governance",
+      "r": 9,
+      "score": "82"
+    },
+    {
+      "id": "NIS2_Compliance",
+      "label": "NIS2 Compliance",
+      "type": "legaltech",
+      "cluster": "Governance",
+      "r": 9,
+      "score": "81"
+    },
+    {
+      "id": "Attorney_Client_Confidentiality",
+      "label": "Attorney-Client Confidentiality",
+      "type": "legaltech",
+      "cluster": "Governance",
+      "r": 9,
+      "score": "84"
+    },
+    {
+      "id": "Smart_Legal_Contracts",
+      "label": "Smart Legal Contracts",
+      "type": "legaltech",
+      "cluster": "Governance",
+      "r": 9,
+      "score": "80"
+    },
+    {
+      "id": "Legal_Knowledge_Base",
+      "label": "Legal Knowledge Base",
+      "type": "legaltech",
+      "cluster": "Governance",
+      "r": 9,
+      "score": "83"
+    },
+    {
+      "id": "Court_System_Integration",
+      "label": "Court System Integration",
+      "type": "legaltech",
+      "cluster": "Governance",
+      "r": 9,
+      "score": "79"
+    }
+  ],
+  "links": [
+    {
+      "s": "MALTG_Core",
+      "t": "Strategic_Layer",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "MALTG_Core",
+      "t": "Governance_Compliance_Layer",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "MALTG_Core",
+      "t": "Operational_Layer",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "MALTG_Core",
+      "t": "Technology_Integration_Layer",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "MALTG_Core",
+      "t": "Foundation_Layer",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Foundation_Layer",
+      "t": "TOGAF",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "TOGAF",
+      "t": "Preliminary_Phase",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "TOGAF",
+      "t": "Architecture_Vision",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "TOGAF",
+      "t": "Business_Architecture",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "TOGAF",
+      "t": "Information_Systems_Architecture",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "TOGAF",
+      "t": "Technology_Architecture",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "TOGAF",
+      "t": "Opportunities_Solutions",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "TOGAF",
+      "t": "Migration_Planning",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "TOGAF",
+      "t": "Implementation_Governance",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "TOGAF",
+      "t": "Architecture_Change_Management",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "TOGAF",
+      "t": "Requirements_Management",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Foundation_Layer",
+      "t": "COBIT",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "COBIT",
+      "t": "EDM_Domain",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "COBIT",
+      "t": "APO_Domain",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "COBIT",
+      "t": "BAI_Domain",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "COBIT",
+      "t": "DSS_Domain",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "COBIT",
+      "t": "MEA_Domain",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "COBIT",
+      "t": "EDM01_Governance",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "COBIT",
+      "t": "APO12_Risk",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "COBIT",
+      "t": "APO13_Security",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "COBIT",
+      "t": "DSS05_Security_Services",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "COBIT",
+      "t": "MEA03_Compliance",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Foundation_Layer",
+      "t": "ITIL",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "ITIL",
+      "t": "Service_Strategy",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "ITIL",
+      "t": "Service_Design",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "ITIL",
+      "t": "Service_Transition",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "ITIL",
+      "t": "Service_Operation",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "ITIL",
+      "t": "Continual_Improvement",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "ITIL",
+      "t": "Incident_Management",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "ITIL",
+      "t": "Problem_Management",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "ITIL",
+      "t": "Change_Enablement",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "ITIL",
+      "t": "Service_Level_Management",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "ITIL",
+      "t": "Configuration_Management",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Foundation_Layer",
+      "t": "NIST_CSF",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "NIST_CSF",
+      "t": "Govern_Function",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "NIST_CSF",
+      "t": "Identify_Function",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "NIST_CSF",
+      "t": "Protect_Function",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "NIST_CSF",
+      "t": "Detect_Function",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "NIST_CSF",
+      "t": "Respond_Function",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "NIST_CSF",
+      "t": "Recover_Function",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "NIST_CSF",
+      "t": "Asset_Management",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "NIST_CSF",
+      "t": "Risk_Assessment",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "NIST_CSF",
+      "t": "Access_Control",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "NIST_CSF",
+      "t": "Continuous_Monitoring",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Technology_Integration_Layer",
+      "t": "AI_Layer",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "AI_Layer",
+      "t": "ML_Models",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "AI_Layer",
+      "t": "NLP_Pipeline",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "AI_Layer",
+      "t": "Computer_Vision",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "AI_Layer",
+      "t": "Predictive_Analytics",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "AI_Layer",
+      "t": "Symbolic_Reasoner",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "AI_Layer",
+      "t": "Legal_LLM",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "AI_Layer",
+      "t": "Explainability_XAI",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "AI_Layer",
+      "t": "Bias_Fairness",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "AI_Layer",
+      "t": "Model_Governance",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "AI_Layer",
+      "t": "Human_Oversight",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Technology_Integration_Layer",
+      "t": "Blockchain_Layer",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Blockchain_Layer",
+      "t": "Smart_Contracts",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Blockchain_Layer",
+      "t": "DLT_Network",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Blockchain_Layer",
+      "t": "Consensus_Protocol",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Blockchain_Layer",
+      "t": "Tokenization",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Blockchain_Layer",
+      "t": "Immutability_Ledger",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Blockchain_Layer",
+      "t": "Notarization",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Blockchain_Layer",
+      "t": "Hash_SHA256",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Blockchain_Layer",
+      "t": "Audit_Trail",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Blockchain_Layer",
+      "t": "Digital_Signature",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Blockchain_Layer",
+      "t": "Provenance",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Technology_Integration_Layer",
+      "t": "OpenData_Layer",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "OpenData_Layer",
+      "t": "APIs",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "OpenData_Layer",
+      "t": "Data_Lakes",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "OpenData_Layer",
+      "t": "Open_Standards",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "OpenData_Layer",
+      "t": "Interoperability",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "OpenData_Layer",
+      "t": "JSON_LD",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "OpenData_Layer",
+      "t": "DCAT_Catalog",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "OpenData_Layer",
+      "t": "Open_API_Spec",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "OpenData_Layer",
+      "t": "Data_Portal",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "OpenData_Layer",
+      "t": "FAIR_Principles",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "OpenData_Layer",
+      "t": "Anonymization",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Technology_Integration_Layer",
+      "t": "Security_Layer",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Security_Layer",
+      "t": "Zero_Trust",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Security_Layer",
+      "t": "Encryption",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Security_Layer",
+      "t": "IAM",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Security_Layer",
+      "t": "Compliance",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Security_Layer",
+      "t": "MFA",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Security_Layer",
+      "t": "Secrets_Management",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Security_Layer",
+      "t": "Network_Segmentation",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Security_Layer",
+      "t": "Vulnerability_Mgmt",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Security_Layer",
+      "t": "SIEM",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Security_Layer",
+      "t": "Data_Protection",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Operational_Layer",
+      "t": "Operational_Domain",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Operational_Domain",
+      "t": "Workflows",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Operational_Domain",
+      "t": "Services",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Operational_Domain",
+      "t": "Incidents",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Operational_Domain",
+      "t": "Changes",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Operational_Domain",
+      "t": "Service_Catalog",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Operational_Domain",
+      "t": "SLA_Monitoring",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Operational_Domain",
+      "t": "Case_Management",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Operational_Domain",
+      "t": "Process_Mining",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Operational_Domain",
+      "t": "Orchestration",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Operational_Domain",
+      "t": "Observability",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Strategic_Layer",
+      "t": "Strategic_Domain",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Strategic_Domain",
+      "t": "Planning",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Strategic_Domain",
+      "t": "Portfolio",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Strategic_Domain",
+      "t": "Risk",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Strategic_Domain",
+      "t": "Metrics",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Strategic_Domain",
+      "t": "Roadmap",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Strategic_Domain",
+      "t": "Investment_Governance",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Strategic_Domain",
+      "t": "Value_Realization",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Strategic_Domain",
+      "t": "Stakeholder_Mgmt",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Strategic_Domain",
+      "t": "Strategic_KPIs",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Strategic_Domain",
+      "t": "Benefits_Management",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "Governance_Compliance_Layer",
+      "t": "LegalTech_Domain",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "LegalTech_Domain",
+      "t": "GDPR_Compliance",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "LegalTech_Domain",
+      "t": "Ethics",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "LegalTech_Domain",
+      "t": "Regulation",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "LegalTech_Domain",
+      "t": "Audit",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "LegalTech_Domain",
+      "t": "Contract_Lifecycle_Management",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "LegalTech_Domain",
+      "t": "eDiscovery_Pipeline",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "LegalTech_Domain",
+      "t": "Legal_DLT_Notarization",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "LegalTech_Domain",
+      "t": "Regulatory_Compliance_Engine",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "LegalTech_Domain",
+      "t": "eIDAS_Compliance",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "LegalTech_Domain",
+      "t": "NIS2_Compliance",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "LegalTech_Domain",
+      "t": "Attorney_Client_Confidentiality",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "LegalTech_Domain",
+      "t": "Smart_Legal_Contracts",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "LegalTech_Domain",
+      "t": "Legal_Knowledge_Base",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "LegalTech_Domain",
+      "t": "Court_System_Integration",
+      "type": "subClassOf",
+      "w": 1.2,
+      "dash": false
+    },
+    {
+      "s": "TOGAF",
+      "t": "COBIT",
+      "type": "aligns",
+      "w": 1.8,
+      "dash": true
+    },
+    {
+      "s": "COBIT",
+      "t": "ITIL",
+      "type": "operationalizes",
+      "w": 1.6,
+      "dash": true
+    },
+    {
+      "s": "NIST_CSF",
+      "t": "Security_Layer",
+      "type": "secures",
+      "w": 1.7,
+      "dash": true
+    },
+    {
+      "s": "TOGAF",
+      "t": "Technology_Integration_Layer",
+      "type": "structures",
+      "w": 1.5,
+      "dash": true
+    },
+    {
+      "s": "COBIT",
+      "t": "Risk",
+      "type": "governs_risk",
+      "w": 1.4,
+      "dash": true
+    },
+    {
+      "s": "Foundation_Layer",
+      "t": "Operational_Layer",
+      "type": "supports",
+      "w": 1.3,
+      "dash": true
+    },
+    {
+      "s": "Operational_Layer",
+      "t": "Strategic_Layer",
+      "type": "implements",
+      "w": 1.2,
+      "dash": true
+    },
+    {
+      "s": "Governance_Compliance_Layer",
+      "t": "Operational_Layer",
+      "type": "oversees",
+      "w": 1.5,
+      "dash": true
+    },
+    {
+      "s": "Security_Layer",
+      "t": "NIS2_Compliance",
+      "type": "complies",
+      "w": 1.4,
+      "dash": true
+    },
+    {
+      "s": "Blockchain_Layer",
+      "t": "Legal_DLT_Notarization",
+      "type": "notarizes",
+      "w": 1.5,
+      "dash": true
+    },
+    {
+      "s": "AI_Layer",
+      "t": "Legal_Knowledge_Base",
+      "type": "reasons",
+      "w": 1.6,
+      "dash": true
+    },
+    {
+      "s": "OpenData_Layer",
+      "t": "Court_System_Integration",
+      "type": "publishes",
+      "w": 1.3,
+      "dash": true
+    },
+    {
+      "s": "Technology_Integration_Layer",
+      "t": "Governance_Compliance_Layer",
+      "type": "integrates",
+      "w": 1.4,
+      "dash": true
+    },
+    {
+      "s": "NIST_CSF",
+      "t": "Continuous_Monitoring",
+      "type": "monitors",
+      "w": 1.2,
+      "dash": true
+    }
+  ],
+  "node_count": 131,
+  "link_count": 144
+}

@@ -1,0 +1,82 @@
+{
+  "@context": "https://maltg.arch/onto#",
+  "@type": "CausaJudicial",
+  "fuente": "Juicios_Flujo135.xlsx",
+  "juicio": "24331202200005",
+  "cabecera": {
+    "Juicio": "24331202200005",
+    "IdMovimientoJuicioIncidente": "23551653",
+    "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+    "Materia": "CIVIL",
+    "Tipo Accion": "MONITORIO",
+    "Delito": "FACTURAS O DOCUMENTOS ART. 356 NUM.2",
+    "FechaIngreso": "Ene  7 2022  4:32PM",
+    "IdJudicatura": "24331",
+    "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN EL CANTÓN SANTA ELENA, PROVINCIA DE SANTA ELENA",
+    "IDCANTON": "ECU2401",
+    "Estado": "A"
+  },
+  "instancias": [
+    {
+      "Juicio": "24331202200005",
+      "IdMovimientoJuicioIncidente": "23551653",
+      "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+      "Materia": "CIVIL",
+      "Tipo Accion": "MONITORIO",
+      "Delito": "FACTURAS O DOCUMENTOS ART. 356 NUM.2",
+      "FechaIngreso": "Ene  7 2022  4:32PM",
+      "IdJudicatura": "24331",
+      "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN EL CANTÓN SANTA ELENA, PROVINCIA DE SANTA ELENA",
+      "IDCANTON": "ECU2401",
+      "Estado": "A"
+    }
+  ],
+  "totalActividades": 3,
+  "actividades": [
+    {
+      "Secuencia": "1",
+      "IdJuicio": "24331202200005",
+      "IdProvidencia": "181418257",
+      "FechaProvidencia": "1900-01-01 13:57:00.000",
+      "HoraProvidencia": "1900-01-01 13:57:00.000",
+      "TipoProvidencia": "RAZON",
+      "IdJudicatura": "24331",
+      "NombreProvidencia": "RAZON",
+      "Login": "JUAN.MINGA",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "135-e8e899ff-fe6e-472f-b657-118add1f36ac",
+      "IdMovimientoJuicioIncidente": "23551653"
+    },
+    {
+      "Secuencia": "2",
+      "IdJuicio": "24331202200005",
+      "IdProvidencia": "181956835",
+      "FechaProvidencia": "1899-12-30 15:29:00.000",
+      "HoraProvidencia": "1899-12-30 15:29:00.000",
+      "TipoProvidencia": "AUTO DE SUSTANCIACION",
+      "IdJudicatura": "24331",
+      "NombreProvidencia": "COMPLETAR Y/O ACLARAR LA SOLICITUD Y/O DEMANDA",
+      "Login": "JUAN.MINGA",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "135-73aa0438-497d-412e-8a3b-7b5b69808469",
+      "IdMovimientoJuicioIncidente": "23551653"
+    },
+    {
+      "Secuencia": "3",
+      "IdJuicio": "24331202200005",
+      "IdProvidencia": "185847527",
+      "FechaProvidencia": "1899-12-30 11:17:00.000",
+      "HoraProvidencia": "1899-12-30 11:17:00.000",
+      "TipoProvidencia": "AUTO INTERLOCUTORIO",
+      "IdJudicatura": "24331",
+      "NombreProvidencia": "ARCHIVO DEL PROCESO",
+      "Login": "JUAN.MINGA",
+      "Estado": "TERMINADO",
+      "nombreestado": "RESUELTO",
+      "IdGrafoFlujoEstructura": "135-58427a33-3d3b-41a7-800b-672d3ec80b62",
+      "IdMovimientoJuicioIncidente": "23551653"
+    }
+  ]
+}

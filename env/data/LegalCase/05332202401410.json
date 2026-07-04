@@ -1,0 +1,67 @@
+{
+  "@context": "https://maltg.arch/onto#",
+  "@type": "CausaJudicial",
+  "fuente": "Juicios.xlsx",
+  "juicio": "05332202401410",
+  "cabecera": {
+    "Juicio": "05332202401410",
+    "IdMovimientoJuicioIncidente": "26964368",
+    "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+    "Materia": "CIVIL",
+    "Tipo Accion": "SUMARIO",
+    "Delito": "LAS ORDENADAS POR LEY (ART. 332 # 1)",
+    "FechaIngreso": "Nov  8 2024  8:58AM",
+    "IdJudicatura": "05332",
+    "NombreJudicatura": "UNIDAD JUDICIAL MULTICOMPETENTE CIVIL CON SEDE EN EL CANTÓN SALCEDO",
+    "IDCANTON": "ECU0505",
+    "Estado": "A"
+  },
+  "instancias": [
+    {
+      "Juicio": "05332202401410",
+      "IdMovimientoJuicioIncidente": "26964368",
+      "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+      "Materia": "CIVIL",
+      "Tipo Accion": "SUMARIO",
+      "Delito": "LAS ORDENADAS POR LEY (ART. 332 # 1)",
+      "FechaIngreso": "Nov  8 2024  8:58AM",
+      "IdJudicatura": "05332",
+      "NombreJudicatura": "UNIDAD JUDICIAL MULTICOMPETENTE CIVIL CON SEDE EN EL CANTÓN SALCEDO",
+      "IDCANTON": "ECU0505",
+      "Estado": "A"
+    }
+  ],
+  "totalActividades": 2,
+  "actividades": [
+    {
+      "Secuencia": "1",
+      "IdJuicio": "05332202401410",
+      "IdProvidencia": "221673276",
+      "FechaProvidencia": "2024-11-11 10:43:16.113",
+      "HoraProvidencia": "2024-11-11 10:43:16.113",
+      "TipoProvidencia": "RAZON",
+      "IdJudicatura": "05332",
+      "NombreProvidencia": "RAZON",
+      "Login": "ivan.maroto",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-7770649b-9008-41f7-95ae-19bf8d906e5c",
+      "IdTipoActividad": "6",
+      "IdMovimientoJuicioIncidente": "26964368"
+    },
+    {
+      "Secuencia": "2",
+      "IdJuicio": "05332202401410",
+      "IdProvidencia": "221943209",
+      "FechaProvidencia": "2024-11-18 10:13:32.303",
+      "HoraProvidencia": "2024-11-18 10:13:32.303",
+      "TipoProvidencia": "AUTO DE SUSTANCIACION",
+      "IdJudicatura": "05332",
+      "NombreProvidencia": "CALIFICACION DE SOLICITUD Y/O DEMANDA",
+      "Login": "ivan.maroto",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-7f1a204b-7d23-4886-859c-d36e7988442a",
+      "IdTipoActividad": "11",
+      "IdMovimientoJuicioIncidente": "26964368"
+    }
+  ]
+}

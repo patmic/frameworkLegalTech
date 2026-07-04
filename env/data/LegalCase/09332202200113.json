@@ -1,0 +1,112 @@
+{
+  "@context": "https://maltg.arch/onto#",
+  "@type": "CausaJudicial",
+  "fuente": "Juicios_Flujo135.xlsx",
+  "juicio": "09332202200113",
+  "cabecera": {
+    "Juicio": "09332202200113",
+    "IdMovimientoJuicioIncidente": "23552732",
+    "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+    "Materia": "CIVIL",
+    "Tipo Accion": "MONITORIO",
+    "Delito": "FACTURAS O DOCUMENTOS ART. 356 NUM.2",
+    "FechaIngreso": "Ene 10 2022  9:08AM",
+    "IdJudicatura": "09332",
+    "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN EL CANTÓN GUAYAQUIL",
+    "IDCANTON": "ECU0901",
+    "Estado": "A"
+  },
+  "instancias": [
+    {
+      "Juicio": "09332202200113",
+      "IdMovimientoJuicioIncidente": "23552732",
+      "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+      "Materia": "CIVIL",
+      "Tipo Accion": "MONITORIO",
+      "Delito": "FACTURAS O DOCUMENTOS ART. 356 NUM.2",
+      "FechaIngreso": "Ene 10 2022  9:08AM",
+      "IdJudicatura": "09332",
+      "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN EL CANTÓN GUAYAQUIL",
+      "IDCANTON": "ECU0901",
+      "Estado": "A"
+    }
+  ],
+  "totalActividades": 5,
+  "actividades": [
+    {
+      "Secuencia": "1",
+      "IdJuicio": "09332202200113",
+      "IdProvidencia": "182184455",
+      "FechaProvidencia": "2022-01-31 08:03:46.917",
+      "HoraProvidencia": "2022-01-31 08:03:46.917",
+      "TipoProvidencia": "RAZON",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "RECEPCION DEL PROCESO",
+      "Login": "Victor.Dumani",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "135-843b479d-0930-49fd-8f51-ffef28fc81f6",
+      "IdMovimientoJuicioIncidente": "23552732"
+    },
+    {
+      "Secuencia": "2",
+      "IdJuicio": "09332202200113",
+      "IdProvidencia": "182200378",
+      "FechaProvidencia": "2022-01-31 11:00:15.077",
+      "HoraProvidencia": "2022-01-31 11:00:15.077",
+      "TipoProvidencia": "AUTO DE SUSTANCIACION",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "CALIFICACION DE SOLICITUD Y/O DEMANDA Y AUTO DE PAGO",
+      "Login": "Victor.Dumani",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "135-3384a77a-7905-4e8b-95b1-b82d814acc88",
+      "IdMovimientoJuicioIncidente": "23552732"
+    },
+    {
+      "Secuencia": "3",
+      "IdJuicio": "09332202200113",
+      "IdProvidencia": "231278958",
+      "FechaProvidencia": "2025-07-04 11:42:51.633",
+      "HoraProvidencia": "2025-07-04 11:42:51.633",
+      "TipoProvidencia": "AUTO DE SUSTANCIACION",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "SENTAR RAZON",
+      "Login": "gina.pita",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "135-4ebf66c3-9c4d-4253-90b1-89504b9b6075",
+      "IdMovimientoJuicioIncidente": "23552732"
+    },
+    {
+      "Secuencia": "4",
+      "IdJuicio": "09332202200113",
+      "IdProvidencia": "231655974",
+      "FechaProvidencia": "2025-07-14 10:24:06.477",
+      "HoraProvidencia": "2025-07-14 10:24:06.477",
+      "TipoProvidencia": "RAZON",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "RAZON",
+      "Login": "gina.pita",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "135-e8e899ff-fe6e-472f-b657-118add1f36ac",
+      "IdMovimientoJuicioIncidente": "23552732"
+    },
+    {
+      "Secuencia": "5",
+      "IdJuicio": "09332202200113",
+      "IdProvidencia": "231707677",
+      "FechaProvidencia": "2025-07-15 07:52:21.110",
+      "HoraProvidencia": "2025-07-15 07:52:21.110",
+      "TipoProvidencia": "AUTO INTERLOCUTORIO",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "ABANDONO POR FALTA DE IMPULSO PROCESAL ART. 245",
+      "Login": "gina.pita",
+      "Estado": "TERMINADO",
+      "nombreestado": "RESUELTO",
+      "IdGrafoFlujoEstructura": "135-3adffd59-9dfd-4295-8578-168bcf77aef6",
+      "IdMovimientoJuicioIncidente": "23552732"
+    }
+  ]
+}

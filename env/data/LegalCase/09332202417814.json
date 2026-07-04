@@ -1,0 +1,112 @@
+{
+  "@context": "https://maltg.arch/onto#",
+  "@type": "CausaJudicial",
+  "fuente": "Juicios.xlsx",
+  "juicio": "09332202417814",
+  "cabecera": {
+    "Juicio": "09332202417814",
+    "IdMovimientoJuicioIncidente": "26964628",
+    "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+    "Materia": "CIVIL",
+    "Tipo Accion": "SUMARIO",
+    "Delito": "COBRO DE CHEQUE",
+    "FechaIngreso": "Nov  8 2024  9:28AM",
+    "IdJudicatura": "09332",
+    "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN EL CANTÓN GUAYAQUIL",
+    "IDCANTON": "ECU0901",
+    "Estado": "A"
+  },
+  "instancias": [
+    {
+      "Juicio": "09332202417814",
+      "IdMovimientoJuicioIncidente": "26964628",
+      "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+      "Materia": "CIVIL",
+      "Tipo Accion": "SUMARIO",
+      "Delito": "COBRO DE CHEQUE",
+      "FechaIngreso": "Nov  8 2024  9:28AM",
+      "IdJudicatura": "09332",
+      "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN EL CANTÓN GUAYAQUIL",
+      "IDCANTON": "ECU0901",
+      "Estado": "A"
+    }
+  ],
+  "totalActividades": 5,
+  "actividades": [
+    {
+      "Secuencia": "1",
+      "IdJuicio": "09332202417814",
+      "IdProvidencia": "223092149",
+      "FechaProvidencia": "2024-12-15 18:55:52.773",
+      "HoraProvidencia": "2024-12-15 18:55:52.773",
+      "TipoProvidencia": "ACTA",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "ACTA GENERAL",
+      "Login": "sandra.gonzalezm",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-5e12595c-7708-4bbf-ae54-009b988387b3",
+      "IdTipoActividad": "2",
+      "IdMovimientoJuicioIncidente": "26964628"
+    },
+    {
+      "Secuencia": "2",
+      "IdJuicio": "09332202417814",
+      "IdProvidencia": "221931137",
+      "FechaProvidencia": "2024-11-17 21:35:00.197",
+      "HoraProvidencia": "2024-11-17 21:35:00.197",
+      "TipoProvidencia": "RAZON",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "RAZON",
+      "Login": "sandra.gonzalezm",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-7770649b-9008-41f7-95ae-19bf8d906e5c",
+      "IdTipoActividad": "6",
+      "IdMovimientoJuicioIncidente": "26964628"
+    },
+    {
+      "Secuencia": "3",
+      "IdJuicio": "09332202417814",
+      "IdProvidencia": "223092250",
+      "FechaProvidencia": "2024-12-16 08:23:58.480",
+      "HoraProvidencia": "2024-12-16 08:23:58.480",
+      "TipoProvidencia": "RAZON",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "RAZON",
+      "Login": "sandra.gonzalezm",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-7770649b-9008-41f7-95ae-19bf8d906e5c",
+      "IdTipoActividad": "6",
+      "IdMovimientoJuicioIncidente": "26964628"
+    },
+    {
+      "Secuencia": "4",
+      "IdJuicio": "09332202417814",
+      "IdProvidencia": "222083225",
+      "FechaProvidencia": "2024-11-20 14:35:25.553",
+      "HoraProvidencia": "2024-11-20 14:35:25.553",
+      "TipoProvidencia": "AUTO DE SUSTANCIACION",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "CALIFICACION DE SOLICITUD Y/O DEMANDA",
+      "Login": "sandra.gonzalezm",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-7f1a204b-7d23-4886-859c-d36e7988442a",
+      "IdTipoActividad": "11",
+      "IdMovimientoJuicioIncidente": "26964628"
+    },
+    {
+      "Secuencia": "5",
+      "IdJuicio": "09332202417814",
+      "IdProvidencia": "226446739",
+      "FechaProvidencia": "2025-03-13 12:49:48.387",
+      "HoraProvidencia": "2025-03-13 12:49:48.387",
+      "TipoProvidencia": "AUTO DE SUSTANCIACION",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "NOTIFICACION",
+      "Login": "karla.cuesta",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-16a18f71-9476-4c3c-8aba-1c76d61501d9",
+      "IdTipoActividad": "11",
+      "IdMovimientoJuicioIncidente": "26964628"
+    }
+  ]
+}

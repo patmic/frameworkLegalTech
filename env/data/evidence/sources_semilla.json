@@ -1,0 +1,112 @@
+[
+  {
+    "slug": "portal_cj",
+    "label": "Portal CJ",
+    "url": "https://www.funcionjudicial.gob.ec/",
+    "dimensiones": [
+      "D2"
+    ],
+    "incluida": true,
+    "criterio": "Fuente oficial (*.funcionjudicial.gob.ec / *.gob.ec)"
+  },
+  {
+    "slug": "satje_spa",
+    "label": "SATJE Consulta de Procesos (SPA v4.0.1)",
+    "url": "https://procesosjudiciales.funcionjudicial.gob.ec/busqueda",
+    "dimensiones": [
+      "D2"
+    ],
+    "incluida": true,
+    "criterio": "Fuente oficial (*.funcionjudicial.gob.ec / *.gob.ec)"
+  },
+  {
+    "slug": "esatje_ogje",
+    "label": "e-SATJE 2020 (OGJE)",
+    "url": "https://www.funcionjudicial.gob.ec/satje/",
+    "dimensiones": [
+      "D2"
+    ],
+    "incluida": true,
+    "criterio": "Fuente oficial (*.funcionjudicial.gob.ec / *.gob.ec)"
+  },
+  {
+    "slug": "plan_estrategico_2026_2031",
+    "label": "Plan Estrategico 2026-2031",
+    "url": "https://www.funcionjudicial.gob.ec/el-pleno-aprueba-el-plan-estrategico-2026-2031-para-transformar-la-funcion-judicial/",
+    "dimensiones": [
+      "D3"
+    ],
+    "incluida": true,
+    "criterio": "Fuente oficial (*.funcionjudicial.gob.ec / *.gob.ec)"
+  },
+  {
+    "slug": "inversion_transf_digital",
+    "label": "Inversion en transformacion digital / infra obsoleta",
+    "url": "https://www.funcionjudicial.gob.ec/consejo-de-la-judicatura-prioriza-inversion-en-la-transformacion-digital-repotenciacion-de-la-infraestructura-y-combate-a-la-impunidad/",
+    "dimensiones": [
+      "D3"
+    ],
+    "incluida": true,
+    "criterio": "Fuente oficial (*.funcionjudicial.gob.ec / *.gob.ec)"
+  },
+  {
+    "slug": "iso37001_sgas",
+    "label": "ISO 37001 Antisoborno (SGAS)",
+    "url": "https://www.funcionjudicial.gob.ec/sistema-de-gestion-antisoborno-de-acuerdo-a-la-norma-iso-37001/",
+    "dimensiones": [
+      "D4"
+    ],
+    "incluida": true,
+    "criterio": "Fuente oficial (*.funcionjudicial.gob.ec / *.gob.ec)"
+  },
+  {
+    "slug": "modernizacion_disciplinario",
+    "label": "Modernizacion del sistema disciplinario",
+    "url": "https://www.funcionjudicial.gob.ec/consejo-de-la-judicatura-modernizara-su-sistema-disciplinario-con-plataforma-de-ultima-generacion-y-controles-de-seguridad/",
+    "dimensiones": [
+      "D4"
+    ],
+    "incluida": true,
+    "criterio": "Fuente oficial (*.funcionjudicial.gob.ec / *.gob.ec)"
+  },
+  {
+    "slug": "plan_integridad_2024_2028",
+    "label": "Plan Nacional de Integridad Publica 2024-2028",
+    "url": "https://www.funcionjudicial.gob.ec/consejo-de-la-judicatura-se-adhiere-al-plan-nacional-de-integridad-publica-y-lucha-contra-la-corrupcion-2024-2028/",
+    "dimensiones": [
+      "D4"
+    ],
+    "incluida": true,
+    "criterio": "Fuente oficial (*.funcionjudicial.gob.ec / *.gob.ec)"
+  },
+  {
+    "slug": "justicia_abierta",
+    "label": "Justicia Abierta — datos abiertos judiciales",
+    "url": "https://www.funcionjudicial.gob.ec/consejo-de-la-judicatura-trabaja-en-el-portal-unico-de-datos-abiertos-y-estadistica-judicial-justicia-abierta-transparentando-la-informacion-para-combatir-la-corrupcion/",
+    "dimensiones": [
+      "D1"
+    ],
+    "incluida": true,
+    "criterio": "Fuente oficial (*.funcionjudicial.gob.ec / *.gob.ec)"
+  },
+  {
+    "slug": "ckan_datosabiertos_cj",
+    "label": "Datos Abiertos Ecuador (CKAN) — organizacion CJ",
+    "url": "https://datosabiertos.gob.ec/dataset/?organization=cj",
+    "dimensiones": [
+      "D1"
+    ],
+    "incluida": true,
+    "criterio": "Fuente oficial (*.funcionjudicial.gob.ec / *.gob.ec)"
+  },
+  {
+    "slug": "portal_estadisticas",
+    "label": "Portal de Estadisticas Judiciales",
+    "url": "https://fsweb.funcionjudicial.gob.ec/estadisticas/datoscj/portalestadistica.html",
+    "dimensiones": [
+      "D1"
+    ],
+    "incluida": true,
+    "criterio": "Fuente oficial (*.funcionjudicial.gob.ec / *.gob.ec)"
+  }
+]

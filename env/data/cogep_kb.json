@@ -1,0 +1,434 @@
+{
+  "meta": {
+    "title": "Ontología Procesal COGEP — Base de Conocimiento",
+    "description": "Conocimiento procesal extraído del Código Orgánico General de Procesos (Ecuador). Alimenta el razonador jurídico simbólico (juicio de valor de términos), el análisis IA de actuaciones y el grafo del Tab Ontología COGEP. Editable: agregar actos/términos actualiza ontología y razonador sin tocar código.",
+    "fuente": "Código Orgánico General de Procesos (COGEP), R.O. 506-S, 22-V-2015; reformas hasta R.O. 140-4S, 7-X-2025. Fuente base: PDF 'Código Orgánico General de Procesos, COGEP. ACTUALIZADO' (Ediciones Legales).",
+    "version": "2.1.0",
+    "nota_terminos": "Art. 73 COGEP: los términos correrán en días HÁBILES. El cálculo excluye sábados y domingos; no excluye feriados judiciales (limitación declarada).",
+    "nota_sentencia": "Esta versión añade el bloque 'sentencia_motivada' con la normativa, las reglas estrictas, los requisitos de ley y los términos que las y los juzgadores deben observar para emitir y dictar sentencias motivadas (Arts. 88-101, 253-255 COGEP; Art. 76.7.l CRE; Arts. 130.4 y 138 COFJ)."
+  },
+
+  "principios": [
+    { "id": "pr_direccion",      "nombre": "Dirección judicial del proceso",         "articulo": "Art. 3" },
+    { "id": "pr_oralidad",       "nombre": "Proceso oral por audiencias",            "articulo": "Art. 4" },
+    { "id": "pr_impulso",        "nombre": "Impulso procesal de las partes",         "articulo": "Art. 5" },
+    { "id": "pr_inmediacion",    "nombre": "Principio de inmediación",               "articulo": "Art. 6" },
+    { "id": "pr_concentracion",  "nombre": "Concentración procesal",                 "articulo": "Art. 19" },
+    { "id": "pr_transparencia",  "nombre": "Transparencia y publicidad procesal",    "articulo": "Art. 8" },
+    { "id": "pr_buena_fe",       "nombre": "Buena fe y lealtad procesal",            "articulo": "Art. 26" }
+  ],
+
+  "sujetos": [
+    { "id": "sj_juez",       "nombre": "Juzgador/a",     "rol": "Dirige el proceso y dicta resoluciones" },
+    { "id": "sj_actor",      "nombre": "Parte actora",   "rol": "Presenta demanda e impulsa el proceso" },
+    { "id": "sj_demandado",  "nombre": "Parte demandada","rol": "Contesta, excepciona, reconviene" },
+    { "id": "sj_secretario", "nombre": "Secretario/a",   "rol": "Razones, citaciones, notificaciones, fe pública" }
+  ],
+
+  "actos": [
+    { "id": "act_recepcion", "nombre": "Recepción / sorteo del proceso", "articulo": "Art. 145 COFJ", "sujeto": "sj_secretario",
+      "keywords": ["RECEPCION DEL PROCESO"], "requisitos": [] },
+
+    { "id": "act_calificacion", "nombre": "Calificación de la demanda", "articulo": "Art. 146", "sujeto": "sj_juez",
+      "keywords": ["CALIFICACION DE SOLICITUD", "CALIFICACION DE LA DEMANDA", "CALIFICA LA DEMANDA", "AUTO DE PAGO", "COMPLETAR Y/O ACLARAR LA SOLICITUD"],
+      "requisitos": [
+        { "id": "q_cal_examen", "descripcion": "Examen de los requisitos legales generales (Art. 142) y especiales de la demanda", "articulo": "Art. 146",
+          "severidad": "ERROR", "evidencia_any": ["requisitos", "art. 142", "articulo 142", "clara", "completa", "examina"],
+          "recomendacion": "La calificación debe dejar constancia del examen de requisitos; su omisión vicia el acto (Art. 146)." },
+        { "id": "q_cal_decision", "descripcion": "Decisión expresa: admite a trámite, ordena completar/aclarar (3 días) o inadmite", "articulo": "Arts. 146-147",
+          "severidad": "ERROR", "evidencia_any": ["admite", "califica", "completar", "aclarar", "inadmis", "inadmite", "tramite"],
+          "recomendacion": "Debe constar pronunciamiento expreso sobre la admisibilidad de la demanda." },
+        { "id": "q_cal_citacion", "descripcion": "Orden de citar al demandado en la forma prevista", "articulo": "Arts. 291 / 53",
+          "severidad": "ADVERTENCIA", "evidencia_any": ["citese", "cítese", "citacion", "citar", "se cite"],
+          "recomendacion": "Admitida la demanda, la o el juzgador ordena la citación (Art. 291)." }
+      ] },
+
+    { "id": "act_inadmision", "nombre": "Inadmisión de la demanda", "articulo": "Art. 147", "sujeto": "sj_juez",
+      "keywords": ["INADMISION DE LA DEMANDA", "INADMISION DE LA SOLICITUD", "ARCHIVO POR NO COMPLETAR DEMANDA"],
+      "requisitos": [
+        { "id": "q_ina_motivo", "descripcion": "Expresión de los fundamentos de la inadmisión (incompetencia o indebida acumulación)", "articulo": "Art. 147",
+          "severidad": "ERROR", "evidencia_any": ["incompetente", "acumulacion", "fundamento", "manifiestamente inadmisible"],
+          "recomendacion": "La providencia de inadmisión debe motivarse y es apelable (Art. 147)." }
+      ] },
+
+    { "id": "act_citacion", "nombre": "Citación al demandado", "articulo": "Arts. 53-64", "sujeto": "sj_secretario",
+      "keywords": ["CITACION REALIZADA", "RAZON ENVIO A CITACIONES", "CITACION PERSONAL", "CITACION POR BOLETA", "CITACION POR MEDIOS DE COMUNICACI", "CITACION POR LA PRENSA", "CITACION TELEMATICA"],
+      "requisitos": [
+        { "id": "q_cit_contenido", "descripcion": "Entrega del contenido de la demanda y providencias recaídas", "articulo": "Arts. 53-54",
+          "severidad": "ERROR", "evidencia_any": ["demanda", "providencia", "auto"],
+          "recomendacion": "La citación transmite la demanda y el auto de calificación; sin ello no surte efectos (Art. 64)." },
+        { "id": "q_cit_modalidad", "descripcion": "Modalidad legal: personal, por boletas o por medios de comunicación", "articulo": "Arts. 54-56",
+          "severidad": "ERROR", "evidencia_any": ["personal", "boleta", "prensa", "medios de comunicacion", "radiodifusion", "electronica", "telematica"],
+          "recomendacion": "Debe constar la modalidad legal y sus presupuestos (p. ej. juramento de desconocimiento de domicilio, Art. 56)." },
+        { "id": "q_cit_razon", "descripcion": "Razón sentada por el citador/secretario con lugar, día y hora", "articulo": "Art. 54",
+          "severidad": "ADVERTENCIA", "evidencia_any": ["razon", "siento razon", "constancia"],
+          "recomendacion": "La razón de citación es la prueba del acto." }
+      ] },
+
+    { "id": "act_contestacion", "nombre": "Contestación a la demanda", "articulo": "Art. 151", "sujeto": "sj_demandado",
+      "keywords": ["CONTESTACION A LA DEMANDA", "CALIFICACION A LA CONTESTACION", "CALIFICACION DE LA CONTESTACION"],
+      "requisitos": [
+        { "id": "q_con_forma", "descripcion": "Pronunciamiento expreso sobre cada pretensión y hecho de la demanda", "articulo": "Art. 151",
+          "severidad": "ERROR", "evidencia_any": ["niega", "acepta", "hechos", "contesta", "admite"],
+          "recomendacion": "Debe pronunciarse sobre cada hecho con indicación categórica de lo que admite y niega (Art. 151)." },
+        { "id": "q_con_excepciones", "descripcion": "Deducción de todas las excepciones (previas o de fondo)", "articulo": "Art. 153",
+          "severidad": "ADVERTENCIA", "evidencia_any": ["excepcion"],
+          "recomendacion": "Las excepciones se deducen en la contestación; después precluyen." },
+        { "id": "q_con_prueba", "descripcion": "Anuncio de todos los medios de prueba", "articulo": "Arts. 152 / 159",
+          "severidad": "ERROR", "evidencia_any": ["prueba", "anuncia", "testimon", "documental", "pericial"],
+          "recomendacion": "La prueba no anunciada oportunamente es inadmisible en audiencia (Art. 159)." }
+      ] },
+
+    { "id": "act_pago", "nombre": "Mandamiento / término de pago (monitorio)", "articulo": "Art. 358", "sujeto": "sj_juez",
+      "keywords": ["AUTO DE PAGO", "MANDAMIENTO DE PAGO", "SOLUCION O PAGO Y/O EXTINCION DE LA OBLIGACION", "PAGO"],
+      "requisitos": [
+        { "id": "q_pag_termino", "descripcion": "Concesión del término de quince días para el pago y orden de citación", "articulo": "Art. 358",
+          "severidad": "ERROR", "evidencia_any": ["quince dias", "15 dias", "pago", "cite", "deudor"],
+          "recomendacion": "Admitida la demanda monitoria se concede 15 días para el pago y se manda citar (Art. 358)." }
+      ] },
+
+    { "id": "act_oposicion", "nombre": "Oposición (monitorio / ejecutivo)", "articulo": "Arts. 354 / 353", "sujeto": "sj_demandado",
+      "keywords": ["ADMISION A LA OPOSICION", "OPOSICION"],
+      "requisitos": [
+        { "id": "q_opo_fundamento", "descripcion": "Oposición debidamente fundamentada", "articulo": "Art. 354",
+          "severidad": "ERROR", "evidencia_any": ["fundament", "oposicion", "excepcion"],
+          "recomendacion": "La oposición fundamentada abre la audiencia única (Art. 354 monitorio)." }
+      ] },
+
+    { "id": "act_convocatoria", "nombre": "Convocatoria a audiencia", "articulo": "Arts. 292 / 333.4 / 354", "sujeto": "sj_juez",
+      "keywords": ["CONVOCATORIA AUDIENCIA UNICA", "CONVOCATORIA AUDIENCIA", "CONVOCATORIA A AUDIENCIA UNICA", "ADMISION A LA OPOSICION Y CONVOCATORIA"],
+      "requisitos": [
+        { "id": "q_conv_fecha", "descripcion": "Señalamiento de día y hora dentro del término legal", "articulo": "Arts. 292 / 333.4",
+          "severidad": "ERROR", "evidencia_any": ["dia", "hora", "senala", "señala", "convoca"],
+          "recomendacion": "Sumario: audiencia única en máx. 30 días desde la contestación; Ordinario: preliminar entre 10 y 20 días; Monitorio: única en máx. 20 días." }
+      ] },
+
+    { "id": "act_audiencia", "nombre": "Audiencia (única / preliminar / juicio)", "articulo": "Arts. 79-93", "sujeto": "sj_juez",
+      "keywords": ["ACTA RESUMEN", "ACTA GENERAL", "AUDIENCIA UNICA", "AUDIENCIA DE JUICIO", "AUDIENCIA PRELIMINAR", "AUDIENCIA PRESENCIAL"],
+      "requisitos": [
+        { "id": "q_aud_instalacion", "descripcion": "Instalación con identificación del juzgador y constatación de presencia de las partes", "articulo": "Art. 79",
+          "severidad": "ERROR", "evidencia_any": ["instala", "comparec", "presente", "asisten"],
+          "recomendacion": "El secretario constata la presencia; la inasistencia tiene los efectos del Art. 87." },
+        { "id": "q_aud_fases", "descripcion": "Desarrollo de fases: saneamiento, fijación de puntos en debate, conciliación, prueba y alegatos", "articulo": "Art. 333.4",
+          "severidad": "ADVERTENCIA", "evidencia_any": ["saneamiento", "puntos de debate", "prueba", "alegato", "conciliacion"],
+          "recomendacion": "En sumario y monitorio la audiencia única tiene dos fases obligatorias (Art. 333.4)." },
+        { "id": "q_aud_decision", "descripcion": "Pronunciamiento de la decisión en forma oral al finalizar", "articulo": "Art. 93",
+          "severidad": "ERROR", "evidencia_any": ["resuelve", "decision oral", "pronuncia", "declara con lugar", "declara sin lugar", "acepta la demanda", "rechaza la demanda"],
+          "recomendacion": "La suspensión para decidir solo procede excepcionalmente y hasta por 10 días (Art. 93)." }
+      ] },
+
+    { "id": "act_sentencia", "nombre": "Sentencia escrita motivada", "articulo": "Arts. 89, 93, 95", "sujeto": "sj_juez",
+      "keywords": ["SENTENCIA", "SENTENCIA Y/O RESOLUCION", "RESOLUCION"],
+      "requisitos": [
+        { "id": "q_sen_juzgador", "descripcion": "Mención del juzgador / órgano que la pronuncia", "articulo": "Art. 95.1",
+          "severidad": "ERROR", "evidencia_any": ["juez", "jueza", "juzgador", "unidad judicial", "tribunal"],
+          "recomendacion": "Identificación del órgano y juzgador es contenido esencial (Art. 95)." },
+        { "id": "q_sen_partes", "descripcion": "Identificación de las partes procesales (actor y demandado)", "articulo": "Art. 95.3",
+          "severidad": "ERROR", "evidencia_any": ["actor", "actora", "demandado", "demandada", "parte procesal"],
+          "recomendacion": "La sentencia debe individualizar a las partes." },
+        { "id": "q_sen_fecha_lugar", "descripcion": "Fecha y lugar de emisión de la sentencia", "articulo": "Art. 95.2 / 90.2",
+          "severidad": "ERROR", "evidencia_any": ["20", "de 20", "quito", "guayaquil", "cuenca", "a los", "fecha"],
+          "recomendacion": "Todo pronunciamiento escrito debe indicar fecha y lugar de emisión (Art. 90.2)." },
+        { "id": "q_sen_hechos", "descripcion": "Enunciación de los hechos de la demanda y la defensa, y relación de hechos probados", "articulo": "Art. 95.4 y 95.6",
+          "severidad": "ERROR", "evidencia_any": ["hechos", "antecedentes", "probado", "demanda", "defensa", "contestacion"],
+          "recomendacion": "Debe enunciar los hechos objeto de demanda/defensa y los hechos probados relevantes (Art. 95.4 y 95.6)." },
+        { "id": "q_sen_excepciones", "descripcion": "Decisión expresa sobre las excepciones presentadas", "articulo": "Art. 95.5",
+          "severidad": "ERROR", "evidencia_any": ["excepcion", "excepciones", "rechaza la excepcion", "acepta la excepcion"],
+          "recomendacion": "La sentencia debe resolver expresamente las excepciones deducidas (Art. 95.5)." },
+        { "id": "q_sen_congruencia", "descripcion": "Congruencia: resuelve clara y precisamente todos los puntos litigiosos", "articulo": "Art. 92",
+          "severidad": "ERROR", "evidencia_any": ["resuelve", "puntos", "controvertidos", "pretension", "litigioso"],
+          "recomendacion": "La sentencia debe ser clara, precisa y congruente con los puntos materia del proceso (Art. 92)." },
+        { "id": "q_sen_costas", "descripcion": "Pronunciamiento sobre indemnizaciones, intereses y costas", "articulo": "Art. 95.9 / 94.3",
+          "severidad": "ADVERTENCIA", "evidencia_any": ["costas", "intereses", "indemnizacion", "sin costas", "con costas"],
+          "recomendacion": "Debe pronunciarse sobre la procedencia o no del pago de indemnizaciones, intereses y costas (Art. 95.9)." },
+        { "id": "q_sen_motivacion", "descripcion": "Motivación: enunciación de normas/principios y explicación de su pertinencia", "articulo": "Art. 89",
+          "severidad": "ERROR", "evidencia_any": ["art.", "articulo", "considerando", "fundamento", "norma", "motivacion", "razonamiento"],
+          "recomendacion": "SIN MOTIVACIÓN LA SENTENCIA ES NULA (Art. 89 COGEP; Art. 76.7.l CRE)." },
+        { "id": "q_sen_prueba", "descripcion": "Valoración de la prueba conforme a la sana crítica", "articulo": "Arts. 89 / 164",
+          "severidad": "ADVERTENCIA", "evidencia_any": ["prueba", "valoracion", "sana critica", "testimonio", "documento"],
+          "recomendacion": "La valoración conforme a la sana crítica integra la motivación." },
+        { "id": "q_sen_resolutiva", "descripcion": "Parte resolutiva: decisión clara sobre las pretensiones", "articulo": "Art. 95.7",
+          "severidad": "ERROR", "evidencia_any": ["resuelve", "administrando justicia", "declara", "acepta", "rechaza", "dispone"],
+          "recomendacion": "Debe decidirse con claridad lo que se acepta o rechaza." },
+        { "id": "q_sen_firma", "descripcion": "Firma del juzgador que la dictó", "articulo": "Art. 95",
+          "severidad": "ADVERTENCIA", "evidencia_any": ["firma", "firmado", "f)"],
+          "recomendacion": "La sentencia escrita se suscribe por el juzgador que la dictó." }
+      ] },
+
+    { "id": "act_apelacion", "nombre": "Recurso de apelación", "articulo": "Arts. 256-257", "sujeto": "sj_actor",
+      "keywords": ["ADMITIR RECURSO DE APELACION", "ADMITIR RECURSO DE APELACIÓN", "RECHAZAR RECURSO DE APELACION", "CONVOCATORIA AUDIENCIA DE RECURSO DE APELACION", "RECURSO DE APELACION", "APELACION"],
+      "requisitos": [
+        { "id": "q_ape_fundamentacion", "descripcion": "Fundamentación debida del recurso (agravios)", "articulo": "Art. 257",
+          "severidad": "ERROR", "evidencia_any": ["fundament", "agravio"],
+          "recomendacion": "La apelación debe fundamentarse por escrito dentro de 10 días (Art. 257)." },
+        { "id": "q_ape_procedencia", "descripcion": "Verificación de procedencia y efecto del recurso", "articulo": "Arts. 256 / 261",
+          "severidad": "ADVERTENCIA", "evidencia_any": ["procede", "efecto suspensivo", "efecto no suspensivo", "efecto diferido", "admite", "concede"],
+          "recomendacion": "El proveído debe señalar el efecto con que se concede (Art. 261)." }
+      ] },
+
+    { "id": "act_ejecutoria", "nombre": "Ejecutoría", "articulo": "Art. 101", "sujeto": "sj_secretario",
+      "keywords": ["EJECUTORIA", "RAZON DE EJECUTORIA"], "requisitos": [] },
+
+    { "id": "act_mandamiento", "nombre": "Mandamiento de ejecución", "articulo": "Art. 372", "sujeto": "sj_juez",
+      "keywords": ["MANDAMIENTO DE EJECUCION"],
+      "requisitos": [
+        { "id": "q_man_ejecutado", "descripcion": "Identificación precisa de la o del ejecutado", "articulo": "Art. 372.1",
+          "severidad": "ERROR", "evidencia_any": ["ejecutad"],
+          "recomendacion": "Contenido esencial del mandamiento (Art. 372.1)." },
+        { "id": "q_man_obligacion", "descripcion": "Determinación de la obligación y orden de pago/cumplimiento en 5 días", "articulo": "Art. 372",
+          "severidad": "ERROR", "evidencia_any": ["pague", "pagar", "cumpla", "obligacion", "liquidacion", "cinco dias"],
+          "recomendacion": "Debe ordenarse el cumplimiento en el término de 5 días (Art. 372.3)." },
+        { "id": "q_man_apercibimiento", "descripcion": "Prevención de ejecución forzosa (embargo) por incumplimiento", "articulo": "Arts. 375 ss.",
+          "severidad": "ADVERTENCIA", "evidencia_any": ["embargo", "apremio", "apercib", "ejecucion forzosa"],
+          "recomendacion": "Advierte las consecuencias del incumplimiento." }
+      ] },
+
+    { "id": "act_embargo", "nombre": "Embargo / ejecución forzosa", "articulo": "Arts. 375 ss.", "sujeto": "sj_juez",
+      "keywords": ["EMBARGO", "INCUMPLIMIENTO DE MANDAMIENTO DE EJECUCION"], "requisitos": [] },
+
+    { "id": "act_notificacion", "nombre": "Notificación de providencias", "articulo": "Art. 65", "sujeto": "sj_secretario",
+      "keywords": ["NOTIFICACION"],
+      "requisitos": [
+        { "id": "q_not_constancia", "descripcion": "Constancia de notificación a las partes dentro de 24 horas", "articulo": "Art. 65",
+          "severidad": "ADVERTENCIA", "evidencia_any": ["notifiq", "notific", "casillero", "correo electronico"],
+          "recomendacion": "Las providencias se notifican dentro de las 24 horas (Art. 65)." }
+      ] },
+
+    { "id": "act_archivo", "nombre": "Archivo del proceso", "articulo": "Arts. 247 / 249", "sujeto": "sj_juez",
+      "keywords": ["ARCHIVO DEL PROCESO", "ARCHIVO POR RETIRO DE LA DEMANDA", "ARCHIVO POR ACUERDO DE MEDIACION"], "requisitos": [] }
+  ],
+
+  "procedimientos": [
+    {
+      "id": "SUMARIO", "flujo": "141", "flujos": ["141", "222", "224", "225", "288"],
+      "nombre": "Procedimiento Sumario", "articulos": "Arts. 332-333",
+      "materias": ["INQUILINATO", "ALIMENTOS", "DIVORCIO CONTENCIOSO", "POSESORIAS", "LABORAL", "CIVIL", "TRABAJO"],
+      "etapas": [
+        { "id": "SUM_E1", "nombre": "Calificación y citación", "actos": ["act_recepcion", "act_calificacion", "act_inadmision", "act_citacion"] },
+        { "id": "SUM_E2", "nombre": "Contestación",            "actos": ["act_contestacion", "act_convocatoria"] },
+        { "id": "SUM_E3", "nombre": "Audiencia única",         "actos": ["act_audiencia"] },
+        { "id": "SUM_E4", "nombre": "Resolución y recursos",   "actos": ["act_sentencia", "act_apelacion", "act_ejecutoria"] },
+        { "id": "SUM_E5", "nombre": "Ejecución",               "actos": ["act_mandamiento", "act_embargo"] }
+      ]
+    },
+    {
+      "id": "ORDINARIO", "flujo": "143", "flujos": ["143"],
+      "nombre": "Procedimiento Ordinario", "articulos": "Arts. 289-298",
+      "materias": ["CIVIL", "DECLARATIVAS", "TRABAJO"],
+      "etapas": [
+        { "id": "ORD_E1", "nombre": "Calificación y citación", "actos": ["act_recepcion", "act_calificacion", "act_inadmision", "act_citacion"] },
+        { "id": "ORD_E2", "nombre": "Contestación",            "actos": ["act_contestacion", "act_convocatoria"] },
+        { "id": "ORD_E3", "nombre": "Audiencia preliminar",    "actos": ["act_audiencia"] },
+        { "id": "ORD_E4", "nombre": "Audiencia de juicio",     "actos": ["act_audiencia"] },
+        { "id": "ORD_E5", "nombre": "Resolución y recursos",   "actos": ["act_sentencia", "act_apelacion", "act_ejecutoria"] }
+      ]
+    },
+    {
+      "id": "MONITORIO", "flujo": "135", "flujos": ["135"],
+      "nombre": "Procedimiento Monitorio", "articulos": "Arts. 356-361",
+      "materias": ["CIVIL", "COBRO DE DEUDA", "FACTURAS"],
+      "etapas": [
+        { "id": "MON_E1", "nombre": "Demanda y admisión",      "actos": ["act_recepcion", "act_calificacion", "act_inadmision"] },
+        { "id": "MON_E2", "nombre": "Mandamiento de pago",     "actos": ["act_pago", "act_citacion"] },
+        { "id": "MON_E3", "nombre": "Oposición y audiencia",   "actos": ["act_oposicion", "act_convocatoria", "act_audiencia"] },
+        { "id": "MON_E4", "nombre": "Resolución / ejecución",  "actos": ["act_sentencia", "act_ejecutoria", "act_mandamiento", "act_embargo"] }
+      ]
+    },
+    {
+      "id": "EJECUTIVO", "flujo": "132", "flujos": ["132"],
+      "nombre": "Procedimiento Ejecutivo", "articulos": "Arts. 347-356",
+      "materias": ["CIVIL", "TITULO EJECUTIVO", "LETRA DE CAMBIO", "PAGARE"],
+      "etapas": [
+        { "id": "EJV_E1", "nombre": "Calificación del título", "actos": ["act_recepcion", "act_calificacion", "act_citacion"] },
+        { "id": "EJV_E2", "nombre": "Oposición / contestación","actos": ["act_contestacion", "act_oposicion"] },
+        { "id": "EJV_E3", "nombre": "Audiencia y sentencia",   "actos": ["act_audiencia", "act_sentencia", "act_apelacion"] },
+        { "id": "EJV_E4", "nombre": "Ejecución",               "actos": ["act_mandamiento", "act_embargo"] }
+      ]
+    },
+    {
+      "id": "APELACION", "flujo": "137", "flujos": ["137", "275"],
+      "nombre": "Recurso de Apelación", "articulos": "Arts. 256-261",
+      "materias": ["SEGUNDA INSTANCIA"],
+      "etapas": [
+        { "id": "APE_E1", "nombre": "Concesión del recurso",   "actos": ["act_recepcion", "act_apelacion"] },
+        { "id": "APE_E2", "nombre": "Audiencia de apelación",  "actos": ["act_convocatoria", "act_audiencia"] },
+        { "id": "APE_E3", "nombre": "Resolución",              "actos": ["act_sentencia", "act_ejecutoria"] }
+      ]
+    },
+    {
+      "id": "EJECUCION", "flujo": "159", "flujos": ["159"],
+      "nombre": "Fase de Ejecución", "articulos": "Arts. 362-389",
+      "materias": ["EJECUCION DE SENTENCIA", "TITULOS DE EJECUCION"],
+      "etapas": [
+        { "id": "EJE_E1", "nombre": "Inicio y liquidación", "actos": ["act_recepcion", "act_ejecutoria", "act_mandamiento"] },
+        { "id": "EJE_E2", "nombre": "Apremio",              "actos": ["act_embargo"] }
+      ]
+    },
+    {
+      "id": "VOLUNTARIO", "flujo": "142", "flujos": ["142", "283"],
+      "nombre": "Procedimiento Voluntario", "articulos": "Arts. 334-339",
+      "materias": ["NO CONTENCIOSO"],
+      "etapas": [
+        { "id": "VOL_E1", "nombre": "Solicitud y calificación", "actos": ["act_recepcion", "act_calificacion"] },
+        { "id": "VOL_E2", "nombre": "Audiencia y resolución",   "actos": ["act_audiencia", "act_sentencia", "act_ejecutoria"] }
+      ]
+    }
+  ],
+
+  "reglas": [
+    {
+      "id": "R_CALIF", "nombre": "Calificación de la demanda",
+      "articulo": "Art. 146", "procedimientos": ["SUMARIO", "ORDINARIO", "MONITORIO", "EJECUTIVO", "VOLUNTARIO", "EJECUCION"],
+      "acto_desde": "act_recepcion", "acto_hasta": "act_calificacion",
+      "termino_dias": 5,
+      "texto_norma": "Presentada la demanda, la o el juzgador, en el término máximo de cinco días, examinará si cumple los requisitos legales generales y especiales que sean aplicables al caso.",
+      "sujeto_obligado": "sj_juez"
+    },
+    {
+      "id": "R_CIT", "nombre": "Citación oportuna (indicador de gestión)",
+      "articulo": "Arts. 53-64", "procedimientos": ["SUMARIO", "ORDINARIO", "MONITORIO", "EJECUTIVO"],
+      "acto_desde": "act_calificacion", "acto_hasta": "act_citacion",
+      "termino_dias": 30, "indicador": true,
+      "texto_norma": "El COGEP no fija un término único para practicar la citación; se aplica un umbral de gestión de 30 días hábiles como indicador de diligencia (parámetro editable).",
+      "sujeto_obligado": "sj_secretario"
+    },
+    {
+      "id": "R_SUM_CONTEST", "nombre": "Contestación a la demanda (sumario)",
+      "articulo": "Art. 333.3", "procedimientos": ["SUMARIO"],
+      "acto_desde": "act_citacion", "acto_hasta": "act_contestacion",
+      "termino_dias": 15,
+      "texto_norma": "Para contestar la demanda y la reconvención se tendrá un término de quince días, a excepción de la materia de niñez y adolescencia y del despido intempestivo de mujeres embarazadas o en período de lactancia y dirigentes sindicales, que será de 10 días.",
+      "sujeto_obligado": "sj_demandado"
+    },
+    {
+      "id": "R_SUM_AUD", "nombre": "Audiencia única (sumario)",
+      "articulo": "Art. 333.4", "procedimientos": ["SUMARIO"],
+      "acto_desde": "act_contestacion", "acto_hasta": "act_audiencia",
+      "termino_dias": 30,
+      "texto_norma": "El procedimiento sumario se desarrollará en audiencia única, con dos fases (saneamiento/fijación de puntos y conciliación; prueba y alegatos). La audiencia única se realizará en el término máximo de treinta días contados a partir de la contestación a la demanda.",
+      "sujeto_obligado": "sj_juez"
+    },
+    {
+      "id": "R_ORD_CONTEST", "nombre": "Contestación a la demanda (ordinario)",
+      "articulo": "Art. 291", "procedimientos": ["ORDINARIO"],
+      "acto_desde": "act_citacion", "acto_hasta": "act_contestacion",
+      "termino_dias": 30,
+      "texto_norma": "Presentada y admitida la demanda, la o el juzgador ordenará citar a la o los demandados. La o el demandado tendrá treinta días para presentar su contestación a la demanda, contados desde la última citación cuando son varios.",
+      "sujeto_obligado": "sj_demandado"
+    },
+    {
+      "id": "R_ORD_AUDPREL", "nombre": "Convocatoria y audiencia preliminar (ordinario)",
+      "articulo": "Art. 292", "procedimientos": ["ORDINARIO"],
+      "acto_desde": "act_contestacion", "acto_hasta": "act_audiencia",
+      "termino_dias": 23,
+      "texto_norma": "Con la contestación o sin ella, en el término de tres días posteriores al vencimiento de los términos del artículo anterior, la o el juzgador convocará a la audiencia preliminar, que deberá realizarse en un término no menor a diez ni mayor a veinte días (3 + 20 = 23 días máximo como umbral).",
+      "sujeto_obligado": "sj_juez"
+    },
+    {
+      "id": "R_MON_PAGO", "nombre": "Término de pago (monitorio)",
+      "articulo": "Art. 358", "procedimientos": ["MONITORIO"],
+      "acto_desde": "act_citacion", "acto_hasta": "act_pago",
+      "termino_dias": 15,
+      "texto_norma": "Declarada admisible la demanda monitoria, la o el juzgador concederá el término de quince días para el pago y mandará que se cite a la o al deudor. Si no comparece u opone, el auto queda en firme con efecto de cosa juzgada y se procede a la ejecución.",
+      "sujeto_obligado": "sj_demandado"
+    },
+    {
+      "id": "R_MON_AUD", "nombre": "Audiencia única tras oposición (monitorio)",
+      "articulo": "Art. 354", "procedimientos": ["MONITORIO"],
+      "acto_desde": "act_oposicion", "acto_hasta": "act_audiencia",
+      "termino_dias": 20,
+      "texto_norma": "Si se formula oposición debidamente fundamentada, en el término de tres días se notifica a la contraparte y se señala día y hora para la audiencia única, que deberá realizarse en el término máximo de veinte días contados desde que concluyó el término para presentar la oposición.",
+      "sujeto_obligado": "sj_juez"
+    },
+    {
+      "id": "R_SENTENCIA", "nombre": "Sentencia escrita motivada",
+      "articulo": "Art. 93", "procedimientos": ["SUMARIO", "ORDINARIO", "MONITORIO", "EJECUTIVO", "VOLUNTARIO"],
+      "acto_desde": "act_audiencia", "acto_hasta": "act_sentencia",
+      "termino_dias": 10,
+      "texto_norma": "Al finalizar la audiencia la o el juzgador pronunciará su decisión en forma oral. La resolución escrita motivada se notificará en el término de hasta diez días. El incumplimiento del término para dictar sentencia será sancionado conforme con la ley.",
+      "sujeto_obligado": "sj_juez"
+    },
+    {
+      "id": "R_APELAR", "nombre": "Término para apelar",
+      "articulo": "Art. 257", "procedimientos": ["SUMARIO", "ORDINARIO", "MONITORIO", "EJECUTIVO"],
+      "acto_desde": "act_sentencia", "acto_hasta": "act_apelacion",
+      "termino_dias": 10,
+      "texto_norma": "El recurso de apelación debidamente fundamentado se presentará por escrito dentro del término de diez días contados a partir de la notificación de la sentencia o auto escrito. En materia de niñez y adolescencia el término será de cinco días.",
+      "sujeto_obligado": "sj_actor"
+    },
+    {
+      "id": "R_EJE_MANDAMIENTO", "nombre": "Cumplimiento del mandamiento de ejecución",
+      "articulo": "Art. 372", "procedimientos": ["EJECUCION", "SUMARIO", "ORDINARIO", "EJECUTIVO"],
+      "acto_desde": "act_mandamiento", "acto_hasta": "act_embargo",
+      "termino_dias": 5, "indicador": true,
+      "texto_norma": "El mandamiento de ejecución ordena a la o al ejecutado pagar o cumplir la obligación en el término de cinco días, bajo prevención de que de no hacerlo se procederá a la ejecución forzosa (embargo).",
+      "sujeto_obligado": "sj_demandado"
+    }
+  ],
+
+  "umbrales": {
+    "alerta_factor": 1.0,
+    "incumple_factor": 1.25,
+    "nota": "días ≤ término ⇒ CUMPLE · término < días ≤ término×1.25 ⇒ ALERTA · mayor ⇒ INCUMPLE"
+  },
+
+  "sentencia_motivada": {
+    "titulo": "Reglas estrictas y normativa para emitir y dictar sentencias motivadas (COGEP)",
+    "principio": "Toda sentencia y auto serán motivados, BAJO PENA DE NULIDAD. La motivación es garantía constitucional (Art. 76.7.l CRE) y requisito de validez (Art. 89 COGEP).",
+    "fundamento_normativo": [
+      { "norma": "Constitución de la República (CRE)", "articulo": "Art. 76.7.l", "texto": "Las resoluciones de los poderes públicos deberán ser motivadas. No habrá motivación si en la resolución no se enuncian las normas o principios jurídicos en que se funda y no se explica la pertinencia de su aplicación a los antecedentes de hecho. Los actos administrativos, resoluciones o fallos que no se encuentren debidamente motivados se consideran nulos." },
+      { "norma": "COGEP", "articulo": "Art. 88", "texto": "Clases de providencias: la o el juzgador se pronuncia mediante sentencias y autos. La sentencia decide el asunto o asuntos sustanciales del proceso; el auto interlocutorio resuelve cuestiones procesales; el auto de sustanciación es de mero trámite." },
+      { "norma": "COGEP", "articulo": "Art. 89", "texto": "Toda sentencia y auto serán motivados, bajo pena de nulidad. No habrá tal motivación si no se enuncian las normas o principios jurídicos en que se funda y no se explica la pertinencia de su aplicación a los antecedentes de hecho. Las sentencias se motivarán expresando los razonamientos fácticos y jurídicos que conducen a la apreciación y valoración de las pruebas y a la interpretación y aplicación del derecho. La nulidad por falta de motivación solo podrá alegarse como fundamento del recurso de apelación o causal de casación." },
+      { "norma": "COGEP", "articulo": "Art. 90", "texto": "Contenido general: todo pronunciamiento judicial escrito contendrá la mención del juzgador, fecha y lugar, identificación de las partes, enunciación resumida de los antecedentes de hecho, la motivación, la decisión con precisión de lo que se ordena y la firma del juzgador." },
+      { "norma": "COGEP", "articulo": "Art. 91", "texto": "Omisiones sobre puntos de derecho: el juzgador corregirá las omisiones o errores de derecho, pero no podrá otorgar o declarar mayores o diferentes derechos a los pretendidos en la demanda, ni fundar su decisión en hechos distintos a los alegados por las partes." },
+      { "norma": "COGEP", "articulo": "Art. 92", "texto": "Congruencia: las sentencias serán claras, precisas y congruentes con los puntos materia del proceso. Resolverán sobre las peticiones de las partes y decidirán sobre los puntos litigiosos del proceso." },
+      { "norma": "COGEP", "articulo": "Art. 93", "texto": "Pronunciamiento judicial oral: al finalizar la audiencia el juzgador pronunciará su decisión en forma oral. Excepcionalmente, por la complejidad del caso, podrá suspender la audiencia hasta por diez días para emitir su decisión oral. La resolución escrita motivada se notificará en el término de hasta diez días. El incumplimiento del término para dictar sentencia será sancionado conforme con la ley." },
+      { "norma": "COGEP", "articulo": "Art. 94", "texto": "Contenido de las resoluciones de fondo dictadas en audiencia: pronunciamiento claro y preciso sobre el fondo; determinación de la cosa, cantidad o hecho que se acepta o niega; procedencia o no del pago de indemnizaciones, intereses y costas." },
+      { "norma": "COGEP", "articulo": "Art. 95", "texto": "Contenido de la sentencia escrita (nueve requisitos): juzgador; fecha y lugar; partes; hechos de demanda y defensa; decisión sobre excepciones; hechos probados; motivación; decisión de fondo; indemnizaciones, intereses y costas." },
+      { "norma": "COGEP", "articulo": "Art. 100", "texto": "Inmutabilidad: pronunciada y notificada la sentencia cesa la competencia del juzgador sobre la cuestión decidida; solo cabe aclararla o ampliarla a petición de parte, o corregir errores puramente materiales sin alterar el sentido." },
+      { "norma": "COGEP", "articulo": "Art. 101", "texto": "Sentencia ejecutoriada: surte efectos irrevocables (cosa juzgada) cuando hay identidad subjetiva y objetiva. Para apreciar su alcance se considera la parte resolutiva y también la motivación." },
+      { "norma": "Código Orgánico de la Función Judicial (COFJ)", "articulo": "Arts. 130.4 y 138", "texto": "Es deber de las juezas y jueces motivar debidamente sus resoluciones; la motivación no se suple con la simple relación de documentos ni con la mención de los criterios de las partes." }
+    ],
+    "requisitos_sentencia_escrita": [
+      { "num": 1, "requisito": "Mención del juzgador que la pronuncia", "articulo": "Art. 95.1", "severidad": "ERROR" },
+      { "num": 2, "requisito": "Fecha y lugar de su emisión", "articulo": "Art. 95.2", "severidad": "ERROR" },
+      { "num": 3, "requisito": "Identificación de las partes (actor y demandado)", "articulo": "Art. 95.3", "severidad": "ERROR" },
+      { "num": 4, "requisito": "Enunciación breve de los hechos y circunstancias objeto de la demanda y de la defensa", "articulo": "Art. 95.4", "severidad": "ERROR" },
+      { "num": 5, "requisito": "Decisión sobre las excepciones presentadas", "articulo": "Art. 95.5", "severidad": "ERROR" },
+      { "num": 6, "requisito": "Relación de los hechos probados relevantes para la resolución", "articulo": "Art. 95.6", "severidad": "ERROR" },
+      { "num": 7, "requisito": "La motivación (razonamientos fácticos y jurídicos; valoración de la prueba)", "articulo": "Art. 95.7 / 89", "severidad": "ERROR" },
+      { "num": 8, "requisito": "Decisión sobre el fondo, determinando la cosa, cantidad o hecho al que se condena", "articulo": "Art. 95.8", "severidad": "ERROR" },
+      { "num": 9, "requisito": "Procedencia o no del pago de indemnizaciones, intereses y costas", "articulo": "Art. 95.9", "severidad": "ADVERTENCIA" },
+      { "num": 10, "requisito": "Firma del juzgador que la pronunció", "articulo": "Art. 90.7 / 95", "severidad": "ERROR" }
+    ],
+    "reglas_estrictas": [
+      { "id": "se_motivar", "regla": "Motivar obligatoriamente, bajo pena de nulidad: enunciar las normas/principios jurídicos y explicar su pertinencia a los hechos.", "articulo": "Art. 89 COGEP / 76.7.l CRE", "severidad": "ERROR" },
+      { "id": "se_valorar_prueba", "regla": "Valorar toda la prueba practicada conforme a la sana crítica y expresar el razonamiento.", "articulo": "Arts. 89 / 164 COGEP", "severidad": "ERROR" },
+      { "id": "se_congruencia", "regla": "Resolver de forma clara, precisa y congruente todos los puntos litigiosos y peticiones de las partes (no infra petita).", "articulo": "Art. 92 COGEP", "severidad": "ERROR" },
+      { "id": "se_no_extra_petita", "regla": "No otorgar mayores ni diferentes derechos a los pretendidos, ni fundar la decisión en hechos no alegados (no ultra/extra petita).", "articulo": "Art. 91 COGEP", "severidad": "ERROR" },
+      { "id": "se_excepciones", "regla": "Pronunciarse expresamente sobre las excepciones deducidas.", "articulo": "Art. 95.5 COGEP", "severidad": "ERROR" },
+      { "id": "se_decision_oral", "regla": "Pronunciar la decisión en forma oral al finalizar la audiencia (salvo suspensión excepcional menor o igual a 10 días).", "articulo": "Art. 93 COGEP", "severidad": "ERROR" },
+      { "id": "se_termino_escrita", "regla": "Notificar la sentencia escrita motivada en el término máximo de 10 días; su incumplimiento es sancionado.", "articulo": "Art. 93 COGEP", "severidad": "ERROR" },
+      { "id": "se_resolutiva", "regla": "Incluir parte resolutiva clara: cosa, cantidad o hecho que se acepta o niega e indemnizaciones, intereses y costas.", "articulo": "Arts. 94 / 95.8-9 COGEP", "severidad": "ERROR" },
+      { "id": "se_inmutabilidad", "regla": "No modificar la sentencia una vez notificada; solo cabe aclaración/ampliación o corrección de errores materiales.", "articulo": "Art. 100 COGEP", "severidad": "ADVERTENCIA" },
+      { "id": "se_firma_fecha", "regla": "Consignar juzgador, fecha y lugar, identificación de partes y firma.", "articulo": "Art. 90 COGEP", "severidad": "ERROR" }
+    ],
+    "terminos": [
+      { "id": "t_decision_oral", "descripcion": "Decisión oral al finalizar la audiencia", "articulo": "Art. 93", "termino_dias": 0 },
+      { "id": "t_suspension_decision", "descripcion": "Suspensión excepcional para emitir la decisión oral (complejidad del caso)", "articulo": "Art. 93", "termino_dias": 10 },
+      { "id": "t_sentencia_escrita", "descripcion": "Notificación de la sentencia escrita motivada", "articulo": "Art. 93", "termino_dias": 10 },
+      { "id": "t_aclaracion_ampliacion", "descripcion": "Solicitar aclaración o ampliación por escrito desde la notificación", "articulo": "Art. 255", "termino_dias": 3 },
+      { "id": "t_apelacion", "descripcion": "Interponer y fundamentar el recurso de apelación", "articulo": "Art. 257", "termino_dias": 10 }
+    ],
+    "causales_nulidad": [
+      "Falta de motivación: la sentencia es NULA (Art. 89 COGEP; Art. 76.7.l CRE).",
+      "Incongruencia: no resolver los puntos litigiosos o resolver fuera de ellos (Art. 92 COGEP).",
+      "Extra/ultra/citra petita: otorgar más, distinto o menos de lo pretendido o fundar en hechos no alegados (Art. 91 COGEP)."
+    ],
+    "prohibiciones": [
+      "No otorgar mayores o diferentes derechos a los pretendidos en la demanda (Art. 91).",
+      "No fundar la decisión en hechos distintos a los alegados por las partes (Art. 91).",
+      "No modificar la sentencia una vez pronunciada y notificada, salvo aclaración/ampliación o corrección de errores materiales (Art. 100)."
+    ]
+  }
+}

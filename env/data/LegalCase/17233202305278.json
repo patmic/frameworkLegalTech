@@ -1,0 +1,82 @@
+{
+  "@context": "https://maltg.arch/onto#",
+  "@type": "CausaJudicial",
+  "fuente": "Juicios.xlsx",
+  "juicio": "17233202305278",
+  "cabecera": {
+    "Juicio": "17233202305278",
+    "IdMovimientoJuicioIncidente": "25213762",
+    "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+    "Materia": "INQUILINATO",
+    "Tipo Accion": "SUMARIO",
+    "Delito": "TERMINACIÓN DE CONTRATO",
+    "FechaIngreso": "Jul 14 2023 12:16PM",
+    "IdJudicatura": "17233",
+    "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN LA PARROQUIA QUITUMBE DEL DISTRITO METROPOLITANO DE QUITO, PROVINCIA DE PICHINCHA",
+    "IDCANTON": "ECU1701",
+    "Estado": "A"
+  },
+  "instancias": [
+    {
+      "Juicio": "17233202305278",
+      "IdMovimientoJuicioIncidente": "25213762",
+      "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+      "Materia": "INQUILINATO",
+      "Tipo Accion": "SUMARIO",
+      "Delito": "TERMINACIÓN DE CONTRATO",
+      "FechaIngreso": "Jul 14 2023 12:16PM",
+      "IdJudicatura": "17233",
+      "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN LA PARROQUIA QUITUMBE DEL DISTRITO METROPOLITANO DE QUITO, PROVINCIA DE PICHINCHA",
+      "IDCANTON": "ECU1701",
+      "Estado": "A"
+    }
+  ],
+  "totalActividades": 3,
+  "actividades": [
+    {
+      "Secuencia": "1",
+      "IdJuicio": "17233202305278",
+      "IdProvidencia": "202820343",
+      "FechaProvidencia": "2023-07-17 17:17:36.323",
+      "HoraProvidencia": "2023-07-17 17:17:36.323",
+      "TipoProvidencia": "RAZON",
+      "IdJudicatura": "17233",
+      "NombreProvidencia": "RAZON",
+      "Login": "adolfo.franco",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-7770649b-9008-41f7-95ae-19bf8d906e5c",
+      "IdTipoActividad": "6",
+      "IdMovimientoJuicioIncidente": "25213762"
+    },
+    {
+      "Secuencia": "2",
+      "IdJuicio": "17233202305278",
+      "IdProvidencia": "204240118",
+      "FechaProvidencia": "2023-08-28 10:45:56.337",
+      "HoraProvidencia": "2023-08-28 10:45:56.337",
+      "TipoProvidencia": "AUTO DE SUSTANCIACION",
+      "IdJudicatura": "17233",
+      "NombreProvidencia": "COMPLETAR Y/O ACLARAR LA SOLICITUD Y/O DEMANDA",
+      "Login": "adolfo.franco",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-aed9ad10-370b-401e-b2ef-386cdf5c2a0d",
+      "IdTipoActividad": "11",
+      "IdMovimientoJuicioIncidente": "25213762"
+    },
+    {
+      "Secuencia": "3",
+      "IdJuicio": "17233202305278",
+      "IdProvidencia": "204662449",
+      "FechaProvidencia": "2023-09-05 15:13:22.433",
+      "HoraProvidencia": "2023-09-05 15:13:22.433",
+      "TipoProvidencia": "AUTO INTERLOCUTORIO",
+      "IdJudicatura": "17233",
+      "NombreProvidencia": "ARCHIVO POR NO COMPLETAR DEMANDA",
+      "Login": "adolfo.franco",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-633efaf8-e1f7-4335-bf3e-d8671051d942",
+      "IdTipoActividad": "12",
+      "IdMovimientoJuicioIncidente": "25213762"
+    }
+  ]
+}

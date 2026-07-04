@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flujo Procesal COGEP · Alertas de Plazo en Vivo</title>
+<style>
+  :root{
+    --bg:#070b16; --bg2:#0c1326; --panel:#0f1830; --panel2:#131f3d;
+    --ink:#e8eefc; --muted:#8aa0c8; --line:#1d2c4f;
+    --ok:#10e98c; --okd:#0a8a55; --warn:#ffc947; --warnd:#b8860b;
+    --bad:#ff4d6d; --badd:#b3203f; --accent:#00e5ff; --legal:#60a5fa; --violet:#a855f7;
+    --shadow:0 18px 50px rgba(0,0,0,.55);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:
+     radial-gradient(1200px 700px at 80% -10%, #122149 0%, transparent 55%),
+     radial-gradient(900px 600px at -10% 110%, #131a3a 0%, transparent 55%), var(--bg);
+     color:var(--ink); font-family:"Segoe UI",system-ui,-apple-system,sans-serif; -webkit-font-smoothing:antialiased}
+  a{color:var(--accent)}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 20px 60px}
+  header.top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+  .brand{display:flex;flex-direction:column;gap:2px}
+  .brand h1{font-size:1.32rem;margin:0;letter-spacing:.2px}
+  .brand h1 b{color:var(--accent)}
+  .brand p{margin:0;color:var(--muted);font-size:.82rem}
+  .badge{font-size:.66rem;letter-spacing:1.5px;text-transform:uppercase;color:#06121f;background:linear-gradient(90deg,var(--accent),var(--legal));
+     padding:3px 9px;border-radius:20px;font-weight:800}
+  .spacer{flex:1}
+  select{background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:9px;padding:9px 12px;font-size:.86rem;font-weight:600;cursor:pointer}
+  select:focus{outline:none;border-color:var(--accent)}
+
+  .grid{display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start}
+  @media(max-width:980px){.grid{grid-template-columns:1fr}}
+  .card{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+  .card .hd{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid var(--line)}
+  .card .hd h2{margin:0;font-size:.82rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .card .bd{padding:16px}
+
+  /* ---- KPI strip ---- */
+  .kpis{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 16px}
+  .kpi{flex:1;min-width:120px;background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:12px 14px;position:relative;overflow:hidden}
+  .kpi .v{font-size:1.55rem;font-weight:800;line-height:1}
+  .kpi .l{font-size:.7rem;color:var(--muted);letter-spacing:.6px;text-transform:uppercase;margin-top:5px}
+  .kpi.ok .v{color:var(--ok)} .kpi.warn .v{color:var(--warn)} .kpi.bad .v{color:var(--bad)} .kpi.legal .v{color:var(--legal)}
+
+  /* ---- timeline / runway ---- */
+  .runwrap{position:relative;overflow-x:auto;padding:8px 4px 18px}
+  .stages{display:flex;gap:0;min-width:880px}
+  .stage{flex:1;min-width:170px;border-right:1px dashed var(--line);padding:0 6px}
+  .stage:last-child{border-right:none}
+  .stage .sname{font-size:.66rem;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-align:center;padding:6px 0 12px;font-weight:700}
+  .track{position:relative;display:flex;flex-direction:column;gap:14px;align-items:center}
+
+  .node{position:relative;width:148px;background:var(--panel2);border:1.5px solid var(--line);border-radius:13px;padding:10px 11px;cursor:pointer;
+     transition:transform .18s,box-shadow .18s,border-color .25s;animation:rise .5s both}
+  .node:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.45)}
+  .node .nlab{font-size:.76rem;font-weight:700;line-height:1.18}
+  .node .nart{font-size:.64rem;color:var(--muted);margin-top:5px;font-weight:600}
+  .node .ndays{font-size:.64rem;color:var(--muted);margin-top:3px}
+  .node .pill{position:absolute;top:-9px;right:-9px;font-size:.6rem;font-weight:800;padding:2px 7px;border-radius:20px;border:2px solid var(--bg2);letter-spacing:.3px}
+  .node .dot{position:absolute;top:11px;left:-7px;width:10px;height:10px;border-radius:50%;border:2px solid var(--bg2)}
+  .node.s-ok{border-color:var(--okd)}      .node.s-ok .pill{background:var(--ok);color:#04150c}      .node.s-ok .dot{background:var(--ok)}
+  .node.s-warn{border-color:var(--warnd)}  .node.s-warn .pill{background:var(--warn);color:#1a1400}  .node.s-warn .dot{background:var(--warn)}
+  .node.s-bad{border-color:var(--badd)}    .node.s-bad .pill{background:var(--bad);color:#fff}        .node.s-bad .dot{background:var(--bad)}
+  .node.s-pend{border-color:var(--line);opacity:.55} .node.s-pend .pill{background:#2a3a5e;color:var(--muted)} .node.s-pend .dot{background:#2a3a5e}
+  .node.s-bad{animation:pulseBad 1.3s infinite}
+  .node.s-warn.live{animation:pulseWarn 1.6s infinite}
+  .node.future{opacity:.32;filter:grayscale(.4)}
+  @keyframes pulseBad{0%,100%{box-shadow:0 0 0 0 rgba(255,77,109,.0)}50%{box-shadow:0 0 0 7px rgba(255,77,109,.22)}}
+  @keyframes pulseWarn{0%,100%{box-shadow:0 0 0 0 rgba(255,201,71,0)}50%{box-shadow:0 0 0 6px rgba(255,201,71,.20)}}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  /* connector */
+  .conn{height:18px;width:2px;background:linear-gradient(var(--line),var(--line));position:relative}
+  .conn.flowing{background:repeating-linear-gradient(180deg,var(--accent) 0 6px,transparent 6px 12px);background-size:2px 12px;animation:march .6s linear infinite}
+  @keyframes march{to{background-position-y:12px}}
+
+  /* ---- clock scrubber ---- */
+  .clockbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:12px 16px;margin-bottom:16px}
+  .clockbar .now{font-variant-numeric:tabular-nums;font-weight:800;font-size:1.05rem;color:var(--accent);min-width:120px}
+  .clockbar input[type=range]{flex:1;min-width:200px;accent-color:var(--accent)}
+  .btn{background:var(--panel2);border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:8px 13px;font-weight:700;font-size:.8rem;cursor:pointer}
+  .btn:hover{border-color:var(--accent)}
+  .btn.play{background:linear-gradient(90deg,var(--accent),var(--legal));color:#04121f;border:none}
+
+  /* ---- gauge ---- */
+  .gauge{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .ring{position:relative;width:150px;height:150px}
+  .ring svg{transform:rotate(-90deg)}
+  .ring .num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ring .num b{font-size:2.1rem;line-height:1}
+  .ring .num span{font-size:.66rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+  .verdict{font-weight:800;font-size:.92rem;text-align:center;padding:8px 12px;border-radius:10px;width:100%}
+
+  /* alerts feed */
+  .feed{display:flex;flex-direction:column;gap:10px;max-height:340px;overflow:auto}
+  .alert{border-left:4px solid var(--line);background:var(--panel2);border-radius:9px;padding:10px 12px;animation:slidein .35s both}
+  .alert.bad{border-color:var(--bad)} .alert.warn{border-color:var(--warn)} .alert.ok{border-color:var(--ok)}
+  .alert .at{font-size:.74rem;font-weight:800;display:flex;justify-content:space-between;gap:8px}
+  .alert .at .art{color:var(--legal)}
+  .alert .ax{font-size:.72rem;color:var(--muted);margin-top:4px;line-height:1.35}
+  @keyframes slidein{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+
+  /* detail modal */
+  .ov{position:fixed;inset:0;background:rgba(3,6,14,.72);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+  .ov.on{display:flex}
+  .modal{max-width:560px;width:100%;background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+  .modal .mh{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .modal .mh h3{margin:0;font-size:1.05rem}
+  .modal .mh .x{cursor:pointer;color:var(--muted);font-size:1.3rem;line-height:1}
+  .modal .mb{padding:18px}
+  .lawbox{background:#0a1226;border:1px solid var(--line);border-left:3px solid var(--legal);border-radius:10px;padding:12px 14px;font-size:.82rem;color:#cdd9f5;font-style:italic;margin:10px 0}
+  .kv{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--line);font-size:.84rem}
+  .kv:last-child{border:none}
+  .kv b{font-variant-numeric:tabular-nums}
+  .dict{margin-top:12px;padding:12px 14px;border-radius:10px;font-size:.85rem;line-height:1.45}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.72rem;color:var(--muted);margin-top:10px}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .legend i{width:11px;height:11px;border-radius:3px;display:inline-block}
+  .tag{display:inline-block;font-size:.6rem;font-weight:800;letter-spacing:.5px;padding:2px 7px;border-radius:6px;margin-left:6px}
+  .foot{color:var(--muted);font-size:.72rem;text-align:center;margin-top:24px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <h1><b>⚖ Flujo Procesal COGEP</b> · Alertas de plazo en vivo</h1>
+      <p>Gemelo cognitivo-procesal · razonador simbólico explicable sobre términos del COGEP (Ecuador)</p>
+    </div>
+    <div class="spacer"></div>
+    <span class="badge">Prototipo Tab 06 · v2</span>
+    <select id="caseSel"></select>
+  </header>
+
+  <div class="kpis" id="kpis"></div>
+
+  <div class="clockbar">
+    <span style="font-size:.72rem;color:var(--muted);letter-spacing:.6px;text-transform:uppercase;font-weight:700">Reloj procesal</span>
+    <span class="now" id="nowLbl">—</span>
+    <input type="range" id="clock" min="0" max="100" value="100">
+    <button class="btn play" id="playBtn">▶ Reproducir</button>
+    <button class="btn" id="endBtn">⤓ Estado final</button>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <div class="hd"><h2>Recorrido del expediente</h2>
+        <span class="spacer" style="flex:1"></span>
+        <span style="font-size:.68rem;color:var(--muted)" id="procLbl"></span>
+      </div>
+      <div class="bd">
+        <div class="runwrap"><div class="stages" id="stages"></div></div>
+        <div class="legend">
+          <span><i style="background:var(--ok)"></i> Cumple término</span>
+          <span><i style="background:var(--warn)"></i> Alerta (≤ término×1.25)</span>
+          <span><i style="background:var(--bad)"></i> Incumple / vencido</span>
+          <span><i style="background:#2a3a5e"></i> Pendiente / no actuado</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card">
+        <div class="hd"><h2>Salud del juicio</h2></div>
+        <div class="bd gauge">
+          <div class="ring">
+            <svg width="150" height="150" viewBox="0 0 150 150">
+              <circle cx="75" cy="75" r="64" fill="none" stroke="#16223f" stroke-width="13"/>
+              <circle id="gArc" cx="75" cy="75" r="64" fill="none" stroke="var(--ok)" stroke-width="13"
+                 stroke-linecap="round" stroke-dasharray="402" stroke-dashoffset="402" style="transition:stroke-dashoffset .6s,stroke .4s"/>
+            </svg>
+            <div class="num"><b id="gNum">0</b><span>índice / 100</span></div>
+          </div>
+          <div class="verdict" id="verdict">—</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="hd"><h2>Dictámenes &amp; alertas</h2></div>
+        <div class="bd"><div class="feed" id="feed"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Días hábiles computados excluyendo sábados y domingos (Art. 73 COGEP) — sin feriados judiciales ni suspensiones de término (limitación declarada).<br>
+    Razonador determinista y explicable: cada dictamen cita el artículo aplicable. Datos de causas reales de la Función Judicial del Ecuador.
+  </div>
+</div>
+
+<div class="ov" id="ov">
+  <div class="modal">
+    <div class="mh"><h3 id="mTit">—</h3><span class="x" onclick="closeOv()">✕</span></div>
+    <div class="mb" id="mBody"></div>
+  </div>
+</div>
+
+<script>
+/* ============ BASE DE CONOCIMIENTO COGEP (subconjunto, alineado a cogep_kb.json) ============ */
+const TEXTO = {
+  "Art. 146":"Calificada la demanda... el juzgador la calificará dentro del término de cinco días.",
+  "Art. 333.3":"La contestación a la demanda se presentará en el término de quince días en el procedimiento sumario.",
+  "Art. 333.4":"La audiencia única se realizará en el término máximo de treinta días contados desde la contestación.",
+  "Art. 93":"Las sentencias y autos definitivos escritos se dictarán dentro del término de diez días.",
+  "Art. 257":"La apelación se interpondrá de manera fundamentada en el término de diez días.",
+  "Arts. 53–64":"La citación se practicará de forma oportuna; su demora afecta la economía procesal."
+};
+const UMBRAL_ALERTA = 1.0, UMBRAL_INCUMPLE = 1.25;
+
+/* ============ CASOS REALES (línea procesal con fecha real de cada acto) ============ */
+/* term = término legal en días hábiles; from = acto que inicia el cómputo */
+const CASES = {
+  "07333202200763": {
+    label:"07333-2022-00763 · INQUILINATO", proc:"Procedimiento Sumario",
+    stages:["Postulatoria","Citación","Probatoria","Decisoria","Impugnación"],
+    acts:[
+      {id:"recep", stage:0, label:"Recepción de la causa",        date:"2022-04-10", art:null},
+      {id:"calif", stage:0, label:"Calificación de la demanda",   date:"2022-04-19", art:"Art. 146",   term:5,  from:"recep"},
+      {id:"cita",  stage:1, label:"Citación realizada",           date:"2022-05-26", art:"Arts. 53–64",term:30, from:"calif"},
+      {id:"contest",stage:2,label:"Contestación / rebeldía",      date:"2022-07-20", art:"Art. 333.3", term:15, from:"cita"},
+      {id:"aud",   stage:2, label:"Audiencia única",              date:"2022-09-30", art:"Art. 333.4", term:30, from:"contest"},
+      {id:"sent",  stage:3, label:"Sentencia escrita",            date:"2022-10-27", art:"Art. 93",    term:10, from:"aud"},
+      {id:"apel",  stage:4, label:"Recurso de apelación",         date:null,         art:"Art. 257",   term:10, from:"sent"}
+    ]
+  },
+  "09332202204307": {
+    label:"09332-2022-04307 · SUMARIO (bien tramitado)", proc:"Procedimiento Sumario",
+    stages:["Postulatoria","Citación","Probatoria","Decisoria","Impugnación"],
+    acts:[
+      {id:"recep", stage:0, label:"Recepción de la causa",        date:"2022-03-01", art:null},
+      {id:"calif", stage:0, label:"Calificación de la demanda",   date:"2022-03-04", art:"Art. 146",   term:5,  from:"recep"},
+      {id:"cita",  stage:1, label:"Citación realizada",           date:"2022-03-21", art:"Arts. 53–64",term:30, from:"calif"},
+      {id:"contest",stage:2,label:"Contestación a la demanda",    date:"2022-04-08", art:"Art. 333.3", term:15, from:"cita"},
+      {id:"aud",   stage:2, label:"Audiencia única",              date:"2022-05-12", art:"Art. 333.4", term:30, from:"contest"},
+      {id:"sent",  stage:3, label:"Sentencia escrita",            date:"2022-05-24", art:"Art. 93",    term:10, from:"aud"},
+      {id:"apel",  stage:4, label:"Recurso de apelación",         date:"2022-06-03", art:"Art. 257",   term:10, from:"sent"}
+    ]
+  }
+};
+
+/* ============ MOTOR DE PLAZOS (días hábiles, determinista) ============ */
+function bizDays(a,b){ // días hábiles entre dos Date (excluye sáb/dom)
+  if(!a||!b||b<=a) return 0;
+  let d=new Date(a), n=0;
+  while(d<b){ d.setDate(d.getDate()+1); const w=d.getDay(); if(w!==0&&w!==6) n++; }
+  return n;
+}
+const D = s => s? new Date(s+"T00:00:00") : null;
+function statusOf(dias,term){
+  if(dias<=term*UMBRAL_ALERTA) return "ok";
+  if(dias<=term*UMBRAL_INCUMPLE) return "warn";
+  return "bad";
+}
+
+let CUR="07333202200763", cutoff=null, timer=null;
+
+function evaluate(caseId, cut){
+  const c=CASES[caseId], byId={}; c.acts.forEach(a=>byId[a.id]=a);
+  const rows=c.acts.map(a=>{
+    const from = a.from? byId[a.from] : null;
+    const fromDate = from? D(from.date) : null;
+    const actDate = D(a.date);
+    let st="info", dias=null, vencFecha=null;
+    if(a.term && fromDate){
+      // fecha de vencimiento = fromDate + term días hábiles
+      let v=new Date(fromDate), added=0;
+      while(added<a.term){ v.setDate(v.getDate()+1); const w=v.getDay(); if(w!==0&&w!==6) added++; }
+      vencFecha=v;
+    }
+    const done = actDate && (!cut || actDate<=cut);
+    const futureFrom = fromDate && cut && fromDate>cut; // el cómputo aún no inicia
+    if(!a.term){ st = done? "info" : "pend"; }
+    else if(done){ dias=bizDays(fromDate,actDate); st=statusOf(dias,a.term); }
+    else if(futureFrom){ st="pend"; }
+    else if(cut && vencFecha && cut>vencFecha){ // vencido sin actuación
+      dias=bizDays(fromDate,cut); st="bad";
+    } else { st="pend"; if(cut&&fromDate) dias=bizDays(fromDate,cut); }
+    return {...a, fromDate, actDate, vencFecha, dias, st, done, futureFrom};
+  });
+  return rows;
+}
+
+/* ============ RENDER ============ */
+function render(){
+  const c=CASES[CUR];
+  const rows=evaluate(CUR,cutoff);
+  document.getElementById("procLbl").textContent=c.proc;
+  // stages
+  const wrap=document.getElementById("stages"); wrap.innerHTML="";
+  c.stages.forEach((s,si)=>{
+    const col=document.createElement("div"); col.className="stage";
+    col.innerHTML=`<div class="sname">${si+1}. ${s}</div>`;
+    const tk=document.createElement("div"); tk.className="track";
+    const ins=rows.filter(r=>r.stage===si);
+    ins.forEach((r,idx)=>{
+      const n=document.createElement("div");
+      const cls = r.st==="ok"?"s-ok":r.st==="warn"?"s-warn":r.st==="bad"?"s-bad":r.st==="pend"?"s-pend":"s-pend";
+      const live = (r.st==="bad"&&!r.done)?" live":"";
+      n.className="node "+cls+live;
+      const pill = r.st==="ok"?"✓ EN PLAZO": r.st==="warn"?"+"+(r.dias-r.term)+"d": r.st==="bad"?(r.done?"+"+(r.dias-r.term)+"d":"VENCIDO"): r.st==="pend"?"…":"•";
+      const showPill = r.term ? `<div class="pill">${pill}</div>` : "";
+      const daysTxt = r.term? `<div class="ndays">${r.dias!=null? r.dias+" d háb · término "+r.term+"d":"término "+r.term+"d"}</div>`:"";
+      n.innerHTML=`<div class="dot"></div>${showPill}
+        <div class="nlab">${r.label}</div>
+        ${r.art?`<div class="nart">${r.art} COGEP</div>`:""}
+        ${daysTxt}`;
+      n.onclick=()=>openDetail(r);
+      tk.appendChild(n);
+      if(idx<ins.length-1){ const cn=document.createElement("div"); cn.className="conn"+(r.done?" flowing":""); tk.appendChild(cn);}
+    });
+    col.appendChild(tk); wrap.appendChild(col);
+  });
+  renderKpis(rows); renderGauge(rows); renderFeed(rows);
+}
+
+function renderKpis(rows){
+  const ev=rows.filter(r=>r.term && (r.done || r.st==="bad"));
+  const ok=ev.filter(r=>r.st==="ok").length, wa=ev.filter(r=>r.st==="warn").length, ba=ev.filter(r=>r.st==="bad").length;
+  const k=document.getElementById("kpis");
+  k.innerHTML=`
+   <div class="kpi"><div class="v">${ev.length}</div><div class="l">Términos evaluados</div></div>
+   <div class="kpi ok"><div class="v">${ok}</div><div class="l">En plazo</div></div>
+   <div class="kpi warn"><div class="v">${wa}</div><div class="l">En alerta</div></div>
+   <div class="kpi bad"><div class="v">${ba}</div><div class="l">Incumplidos</div></div>`;
+}
+
+function healthIndex(rows){
+  const ev=rows.filter(r=>r.term && (r.done || r.st==="bad"));
+  if(!ev.length) return null;
+  const pts={ok:100,warn:60,bad:0};
+  return Math.round(ev.reduce((s,r)=>s+pts[r.st],0)/ev.length);
+}
+function renderGauge(rows){
+  const h=healthIndex(rows);
+  const arc=document.getElementById("gArc"), num=document.getElementById("gNum"), v=document.getElementById("verdict");
+  const C=402;
+  if(h===null){ arc.style.strokeDashoffset=C; num.textContent="—"; v.textContent="Sin términos evaluables"; v.style.background="#16223f"; v.style.color="var(--muted)"; return;}
+  arc.style.strokeDashoffset=C*(1-h/100);
+  const col=h>=90?"var(--ok)":h>=60?"var(--warn)":"var(--bad)";
+  arc.style.stroke=col;
+  let t=0; const tgt=h; clearInterval(num._i);
+  num._i=setInterval(()=>{ t+=Math.ceil(tgt/18)||1; if(t>=tgt){t=tgt;clearInterval(num._i);} num.textContent=t; },18);
+  v.textContent = h>=90?"EXCELENTE — tramitación en plazo": h>=60?"ACEPTABLE CON OBSERVACIONES":"DEFICIENTE — revisión de gestión";
+  v.style.color = h>=60?"#04150c":"#fff";
+  v.style.background = h>=90?"var(--ok)": h>=60?"var(--warn)":"var(--bad)";
+}
+
+function dictamen(r){
+  if(!r.term) return "";
+  const exc=r.dias!=null?Math.max(0,r.dias-r.term):0;
+  const base=`Conforme al ${r.art} COGEP el término es de ${r.term} días hábiles. `;
+  if(r.st==="ok") return base+`La actuación (${r.dias} días) se realizó DENTRO del término legal.`;
+  if(r.st==="warn") return base+`El término se excedió en ${exc} día(s) hábil(es) — desviación leve que amerita observación de gestión.`;
+  if(r.st==="bad" && r.done) return base+`INCUMPLIMIENTO del término por ${exc} día(s) hábil(es). Art. 93 COGEP: el incumplimiento será sancionado conforme a la ley.`;
+  if(r.st==="bad" && !r.done) return base+`El término VENCIÓ sin que conste la actuación en el expediente (${r.dias} días transcurridos). Alerta procesal activa.`;
+  return base+"Aún no se cumple el término; cómputo en curso.";
+}
+
+function renderFeed(rows){
+  const f=document.getElementById("feed"); f.innerHTML="";
+  const ev=rows.filter(r=>r.term && (r.done||r.st==="bad"||r.st==="pend"&&r.dias!=null));
+  // mostrar incumplidos/alertas primero
+  ev.sort((a,b)=>({bad:0,warn:1,pend:2,ok:3}[a.st])-({bad:0,warn:1,pend:2,ok:3}[b.st]));
+  if(!ev.length){ f.innerHTML=`<div class="ax" style="color:var(--muted)">Sin actuaciones evaluables al corte actual.</div>`; return;}
+  ev.forEach(r=>{
+    const cls=r.st==="bad"?"bad":r.st==="warn"?"warn":r.st==="ok"?"ok":"";
+    const ico=r.st==="bad"?"⛔":r.st==="warn"?"⚠":r.st==="ok"?"✓":"⏳";
+    const d=document.createElement("div"); d.className="alert "+cls;
+    d.innerHTML=`<div class="at"><span>${ico} ${r.label}</span><span class="art">${r.art||""}</span></div>
+      <div class="ax">${dictamen(r)}</div>`;
+    f.appendChild(d);
+  });
+}
+
+function openDetail(r){
+  document.getElementById("mTit").innerHTML = r.label + (r.art?` <span class="tag" style="background:var(--legal);color:#04121f">${r.art}</span>`:"");
+  const b=document.getElementById("mBody");
+  if(!r.term){ b.innerHTML=`<div class="ax">Acto sin término legal asociado (hito de referencia). Fecha: <b>${r.date||"—"}</b>.</div>`; }
+  else {
+    const col=r.st==="ok"?"var(--ok)":r.st==="warn"?"var(--warn)":r.st==="bad"?"var(--bad)":"#2a3a5e";
+    b.innerHTML=`
+     <div class="lawbox">“${TEXTO[r.art]||""}” — ${r.art} COGEP</div>
+     <div class="kv"><span>Acto que inicia el cómputo</span><b>${r.from?CASES[CUR].acts.find(a=>a.id===r.from).label:"—"}</b></div>
+     <div class="kv"><span>Fecha de inicio</span><b>${r.fromDate?fmt(r.fromDate):"—"}</b></div>
+     <div class="kv"><span>Fecha de la actuación</span><b>${r.done?fmt(r.actDate):"<span style='color:var(--bad)'>no consta al corte</span>"}</b></div>
+     <div class="kv"><span>Vence (término legal)</span><b>${r.vencFecha?fmt(r.vencFecha):"—"}</b></div>
+     <div class="kv"><span>Días hábiles transcurridos</span><b>${r.dias!=null?r.dias:"—"} / ${r.term} d</b></div>
+     <div class="dict" style="background:${col};color:${r.st==='warn'||r.st==='ok'?'#04150c':'#fff'}">${dictamen(r)}</div>`;
+  }
+  document.getElementById("ov").classList.add("on");
+}
+function closeOv(){document.getElementById("ov").classList.remove("on");}
+function fmt(d){return d.toLocaleDateString("es-EC",{day:"2-digit",month:"2-digit",year:"numeric"});}
+
+/* ============ RELOJ / SCRUBBER ============ */
+function caseSpan(){
+  const c=CASES[CUR], ds=c.acts.filter(a=>a.date).map(a=>D(a.date));
+  const min=new Date(Math.min(...ds)), max=new Date(Math.max(...ds));
+  max.setDate(max.getDate()+20);
+  return [min,max];
+}
+function setClock(pct){
+  const [min,max]=caseSpan();
+  const t=min.getTime()+(max.getTime()-min.getTime())*(pct/100);
+  cutoff=new Date(t);
+  document.getElementById("nowLbl").textContent="📅 "+fmt(cutoff);
+  render();
+}
+document.getElementById("clock").addEventListener("input",e=>setClock(+e.target.value));
+document.getElementById("endBtn").onclick=()=>{stopPlay();document.getElementById("clock").value=100;cutoff=null;document.getElementById("nowLbl").textContent="📅 Estado final";render();};
+function stopPlay(){clearInterval(timer);timer=null;document.getElementById("playBtn").textContent="▶ Reproducir";}
+document.getElementById("playBtn").onclick=function(){
+  if(timer){stopPlay();return;}
+  let v=0; const cl=document.getElementById("clock");
+  this.textContent="⏸ Pausar";
+  timer=setInterval(()=>{ v+=1.4; if(v>=100){v=100;cl.value=100;setClock(100);stopPlay();return;} cl.value=v; setClock(v); },90);
+};
+
+/* ============ INIT ============ */
+const sel=document.getElementById("caseSel");
+Object.keys(CASES).forEach(k=>{const o=document.createElement("option");o.value=k;o.textContent=CASES[k].label;sel.appendChild(o);});
+sel.onchange=e=>{CUR=e.target.value;stopPlay();document.getElementById("clock").value=100;cutoff=null;document.getElementById("nowLbl").textContent="📅 Estado final";render();};
+document.getElementById("nowLbl").textContent="📅 Estado final";
+render();
+</script>
+</body>
+</html>

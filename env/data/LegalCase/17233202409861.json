@@ -1,0 +1,82 @@
+{
+  "@context": "https://maltg.arch/onto#",
+  "@type": "CausaJudicial",
+  "fuente": "Juicios.xlsx",
+  "juicio": "17233202409861",
+  "cabecera": {
+    "Juicio": "17233202409861",
+    "IdMovimientoJuicioIncidente": "26965231",
+    "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+    "Materia": "CIVIL",
+    "Tipo Accion": "SUMARIO",
+    "Delito": "INTERDICCIÓN",
+    "FechaIngreso": "Nov  8 2024 10:34AM",
+    "IdJudicatura": "17233",
+    "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN LA PARROQUIA QUITUMBE DEL DISTRITO METROPOLITANO DE QUITO, PROVINCIA DE PICHINCHA",
+    "IDCANTON": "ECU1701",
+    "Estado": "A"
+  },
+  "instancias": [
+    {
+      "Juicio": "17233202409861",
+      "IdMovimientoJuicioIncidente": "26965231",
+      "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+      "Materia": "CIVIL",
+      "Tipo Accion": "SUMARIO",
+      "Delito": "INTERDICCIÓN",
+      "FechaIngreso": "Nov  8 2024 10:34AM",
+      "IdJudicatura": "17233",
+      "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN LA PARROQUIA QUITUMBE DEL DISTRITO METROPOLITANO DE QUITO, PROVINCIA DE PICHINCHA",
+      "IDCANTON": "ECU1701",
+      "Estado": "A"
+    }
+  ],
+  "totalActividades": 3,
+  "actividades": [
+    {
+      "Secuencia": "1",
+      "IdJuicio": "17233202409861",
+      "IdProvidencia": "221963293",
+      "FechaProvidencia": "2024-11-18 13:47:35.777",
+      "HoraProvidencia": "2024-11-18 13:47:35.777",
+      "TipoProvidencia": "RAZON",
+      "IdJudicatura": "17233",
+      "NombreProvidencia": "RAZON",
+      "Login": "carlos.lovato",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-7770649b-9008-41f7-95ae-19bf8d906e5c",
+      "IdTipoActividad": "6",
+      "IdMovimientoJuicioIncidente": "26965231"
+    },
+    {
+      "Secuencia": "2",
+      "IdJuicio": "17233202409861",
+      "IdProvidencia": "223183481",
+      "FechaProvidencia": "2024-12-17 12:08:28.470",
+      "HoraProvidencia": "2024-12-17 12:08:28.470",
+      "TipoProvidencia": "RAZON",
+      "IdJudicatura": "17233",
+      "NombreProvidencia": "DESGLOSE DE DOCUMENTOS",
+      "Login": "carlos.lovato",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-98137c79-15fe-439d-9025-e32f425854c2",
+      "IdTipoActividad": "6",
+      "IdMovimientoJuicioIncidente": "26965231"
+    },
+    {
+      "Secuencia": "3",
+      "IdJuicio": "17233202409861",
+      "IdProvidencia": "222462565",
+      "FechaProvidencia": "2024-11-29 09:47:19.990",
+      "HoraProvidencia": "2024-11-29 09:47:19.990",
+      "TipoProvidencia": "AUTO INTERLOCUTORIO",
+      "IdJudicatura": "17233",
+      "NombreProvidencia": "INADMISION DE LA DEMANDA ART. 147 # 1",
+      "Login": "carlos.lovato",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-bee0f339-ea9a-438e-b59c-422b80e04e3a",
+      "IdTipoActividad": "12",
+      "IdMovimientoJuicioIncidente": "26965231"
+    }
+  ]
+}

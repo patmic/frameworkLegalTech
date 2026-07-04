@@ -1,0 +1,53 @@
+[
+  {
+    "id": 1,
+    "ts": "2026-07-02T20:28:02Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "captura_evidencia",
+    "detalle": "Corrida 2026-07-02_202754: 10/11 fuentes capturadas con snapshot + SHA-256.",
+    "refs": [
+      "2026-07-02_202754"
+    ],
+    "prev_hash": "GENESIS",
+    "hash": "29214ae247fd14d7"
+  },
+  {
+    "id": 2,
+    "ts": "2026-07-02T20:31:28Z",
+    "tipo": "manual",
+    "actor": "patmic",
+    "accion": "good",
+    "detalle": "validar los datos y sus medidas",
+    "refs": [],
+    "prev_hash": "29214ae247fd14d7",
+    "hash": "477b4fd9bff338eb"
+  },
+  {
+    "id": 3,
+    "ts": "2026-07-03T22:15:54Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "captura_evidencia",
+    "detalle": "Corrida 2026-07-03_221547: 10/11 fuentes capturadas con snapshot + SHA-256.",
+    "refs": [
+      "2026-07-03_221547"
+    ],
+    "prev_hash": "477b4fd9bff338eb",
+    "hash": "dbedc2c2b68cbe6b"
+  },
+  {
+    "id": 4,
+    "ts": "2026-07-03T22:15:54Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "regeneracion_sdt_cj",
+    "detalle": "SDT_CJ.json regenerado (madurez 46/100); evidencia: 2026-07-03_221547",
+    "refs": [
+      "2026-07-03_221547",
+      "SDT_CJ.json"
+    ],
+    "prev_hash": "dbedc2c2b68cbe6b",
+    "hash": "f4be5375f336d890"
+  }
+]

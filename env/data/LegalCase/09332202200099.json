@@ -1,0 +1,112 @@
+{
+  "@context": "https://maltg.arch/onto#",
+  "@type": "CausaJudicial",
+  "fuente": "Juicios_Flujo135.xlsx",
+  "juicio": "09332202200099",
+  "cabecera": {
+    "Juicio": "09332202200099",
+    "IdMovimientoJuicioIncidente": "23551801",
+    "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+    "Materia": "CIVIL",
+    "Tipo Accion": "MONITORIO",
+    "Delito": "FACTURAS O DOCUMENTOS ART. 356 NUM.2",
+    "FechaIngreso": "Ene  7 2022  4:57PM",
+    "IdJudicatura": "09332",
+    "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN EL CANTÓN GUAYAQUIL",
+    "IDCANTON": "ECU0901",
+    "Estado": "A"
+  },
+  "instancias": [
+    {
+      "Juicio": "09332202200099",
+      "IdMovimientoJuicioIncidente": "23551801",
+      "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+      "Materia": "CIVIL",
+      "Tipo Accion": "MONITORIO",
+      "Delito": "FACTURAS O DOCUMENTOS ART. 356 NUM.2",
+      "FechaIngreso": "Ene  7 2022  4:57PM",
+      "IdJudicatura": "09332",
+      "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN EL CANTÓN GUAYAQUIL",
+      "IDCANTON": "ECU0901",
+      "Estado": "A"
+    }
+  ],
+  "totalActividades": 5,
+  "actividades": [
+    {
+      "Secuencia": "1",
+      "IdJuicio": "09332202200099",
+      "IdProvidencia": "181629291",
+      "FechaProvidencia": "2022-01-14 16:37:47.193",
+      "HoraProvidencia": "2022-01-14 16:37:47.193",
+      "TipoProvidencia": "RAZON",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "RECEPCION DEL PROCESO",
+      "Login": "isidro.plaza",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "135-843b479d-0930-49fd-8f51-ffef28fc81f6",
+      "IdMovimientoJuicioIncidente": "23551801"
+    },
+    {
+      "Secuencia": "2",
+      "IdJuicio": "09332202200099",
+      "IdProvidencia": "181998185",
+      "FechaProvidencia": "2022-01-25 14:50:03.030",
+      "HoraProvidencia": "2022-01-25 14:50:03.030",
+      "TipoProvidencia": "AUTO INTERLOCUTORIO",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "INADMISION DE LA DEMANDA ART. 147 # 1",
+      "Login": "isidro.plaza",
+      "Estado": "TERMINADO",
+      "nombreestado": "RESUELTO",
+      "IdGrafoFlujoEstructura": "135-ac48779b-e40e-446c-923f-ee705d3f22a8",
+      "IdMovimientoJuicioIncidente": "23551801"
+    },
+    {
+      "Secuencia": "3",
+      "IdJuicio": "09332202200099",
+      "IdProvidencia": "182068027",
+      "FechaProvidencia": "2022-01-26 17:04:58.927",
+      "HoraProvidencia": "2022-01-26 17:04:58.927",
+      "TipoProvidencia": "RAZON",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "RAZON",
+      "Login": "isidro.plaza",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "135-e8e899ff-fe6e-472f-b657-118add1f36ac",
+      "IdMovimientoJuicioIncidente": "23551801"
+    },
+    {
+      "Secuencia": "4",
+      "IdJuicio": "09332202200099",
+      "IdProvidencia": "183117706",
+      "FechaProvidencia": "2022-02-21 16:36:00.433",
+      "HoraProvidencia": "2022-02-21 16:36:00.433",
+      "TipoProvidencia": "RAZON",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "RAZON DE EJECUTORIA",
+      "Login": "isidro.plaza",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "135-cda361cc-0521-47de-8bc7-33680d5a4ff5",
+      "IdMovimientoJuicioIncidente": "23551801"
+    },
+    {
+      "Secuencia": "5",
+      "IdJuicio": "09332202200099",
+      "IdProvidencia": "183368685",
+      "FechaProvidencia": "2022-02-25 18:48:14.103",
+      "HoraProvidencia": "2022-02-25 18:48:14.103",
+      "TipoProvidencia": "ACTA",
+      "IdJudicatura": "09332",
+      "NombreProvidencia": "ACTA GENERAL",
+      "Login": "isidro.plaza",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "135-e4e901c7-06a8-4f81-afef-b8bb3240e98b",
+      "IdMovimientoJuicioIncidente": "23551801"
+    }
+  ]
+}

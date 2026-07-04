@@ -1,0 +1,82 @@
+{
+  "@context": "https://maltg.arch/onto#",
+  "@type": "CausaJudicial",
+  "fuente": "Juicios_Flujo135.xlsx",
+  "juicio": "07307202200007",
+  "cabecera": {
+    "Juicio": "07307202200007",
+    "IdMovimientoJuicioIncidente": "23552496",
+    "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+    "Materia": "CIVIL",
+    "Tipo Accion": "MONITORIO",
+    "Delito": "DOCUMENTOS ART. 356 NUM.1",
+    "FechaIngreso": "Ene 10 2022  8:22AM",
+    "IdJudicatura": "07307",
+    "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN EL CANTÓN SANTA ROSA",
+    "IDCANTON": "ECU0712",
+    "Estado": "A"
+  },
+  "instancias": [
+    {
+      "Juicio": "07307202200007",
+      "IdMovimientoJuicioIncidente": "23552496",
+      "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+      "Materia": "CIVIL",
+      "Tipo Accion": "MONITORIO",
+      "Delito": "DOCUMENTOS ART. 356 NUM.1",
+      "FechaIngreso": "Ene 10 2022  8:22AM",
+      "IdJudicatura": "07307",
+      "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN EL CANTÓN SANTA ROSA",
+      "IDCANTON": "ECU0712",
+      "Estado": "A"
+    }
+  ],
+  "totalActividades": 3,
+  "actividades": [
+    {
+      "Secuencia": "1",
+      "IdJuicio": "07307202200007",
+      "IdProvidencia": "181513107",
+      "FechaProvidencia": "1900-01-01 15:22:00.000",
+      "HoraProvidencia": "1900-01-01 15:22:00.000",
+      "TipoProvidencia": "RAZON",
+      "IdJudicatura": "07307",
+      "NombreProvidencia": "RAZON",
+      "Login": "CARLA.HIDALGOP",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "135-e8e899ff-fe6e-472f-b657-118add1f36ac",
+      "IdMovimientoJuicioIncidente": "23552496"
+    },
+    {
+      "Secuencia": "2",
+      "IdJuicio": "07307202200007",
+      "IdProvidencia": "181952493",
+      "FechaProvidencia": "1899-12-30 16:13:00.000",
+      "HoraProvidencia": "1899-12-30 16:13:00.000",
+      "TipoProvidencia": "AUTO DE SUSTANCIACION",
+      "IdJudicatura": "07307",
+      "NombreProvidencia": "CALIFICACION DE SOLICITUD Y/O DEMANDA Y AUTO DE PAGO",
+      "Login": "CARLA.HIDALGOP",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "135-3384a77a-7905-4e8b-95b1-b82d814acc88",
+      "IdMovimientoJuicioIncidente": "23552496"
+    },
+    {
+      "Secuencia": "3",
+      "IdJuicio": "07307202200007",
+      "IdProvidencia": "182135598",
+      "FechaProvidencia": "1900-01-01 10:07:00.000",
+      "HoraProvidencia": "1900-01-01 10:07:00.000",
+      "TipoProvidencia": "ACTA",
+      "IdJudicatura": "07307",
+      "NombreProvidencia": "ACTA GENERAL",
+      "Login": "CARLA.HIDALGOP",
+      "Estado": "TERMINADO",
+      "nombreestado": "TRAMITE",
+      "IdGrafoFlujoEstructura": "135-e4e901c7-06a8-4f81-afef-b8bb3240e98b",
+      "IdMovimientoJuicioIncidente": "23552496"
+    }
+  ]
+}

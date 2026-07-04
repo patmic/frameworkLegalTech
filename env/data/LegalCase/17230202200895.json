@@ -1,0 +1,82 @@
+{
+  "@context": "https://maltg.arch/onto#",
+  "@type": "CausaJudicial",
+  "fuente": "Juicios.xlsx",
+  "juicio": "17230202200895",
+  "cabecera": {
+    "Juicio": "17230202200895",
+    "IdMovimientoJuicioIncidente": "23578509",
+    "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+    "Materia": "CIVIL",
+    "Tipo Accion": "SUMARIO",
+    "Delito": "AMPARO POSESORIO",
+    "FechaIngreso": "Ene 19 2022  8:10AM",
+    "IdJudicatura": "17230",
+    "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN LA PARROQUIA IÑAQUITO DEL DISTRITO METROPOLITANO DE QUITO, PROVINCIA DE PICHINCHA",
+    "IDCANTON": "ECU1701",
+    "Estado": "A"
+  },
+  "instancias": [
+    {
+      "Juicio": "17230202200895",
+      "IdMovimientoJuicioIncidente": "23578509",
+      "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+      "Materia": "CIVIL",
+      "Tipo Accion": "SUMARIO",
+      "Delito": "AMPARO POSESORIO",
+      "FechaIngreso": "Ene 19 2022  8:10AM",
+      "IdJudicatura": "17230",
+      "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN LA PARROQUIA IÑAQUITO DEL DISTRITO METROPOLITANO DE QUITO, PROVINCIA DE PICHINCHA",
+      "IDCANTON": "ECU1701",
+      "Estado": "A"
+    }
+  ],
+  "totalActividades": 3,
+  "actividades": [
+    {
+      "Secuencia": "1",
+      "IdJuicio": "17230202200895",
+      "IdProvidencia": "182907292",
+      "FechaProvidencia": "2022-02-16 12:20:39.313",
+      "HoraProvidencia": "2022-02-16 12:20:39.313",
+      "TipoProvidencia": "RAZON",
+      "IdJudicatura": "17230",
+      "NombreProvidencia": "DESGLOSE DE DOCUMENTOS",
+      "Login": "maria.taya",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-98137c79-15fe-439d-9025-e32f425854c2",
+      "IdTipoActividad": "6",
+      "IdMovimientoJuicioIncidente": "23578509"
+    },
+    {
+      "Secuencia": "2",
+      "IdJuicio": "17230202200895",
+      "IdProvidencia": "181863337",
+      "FechaProvidencia": "2022-01-21 10:26:54.993",
+      "HoraProvidencia": "2022-01-21 10:26:54.993",
+      "TipoProvidencia": "AUTO DE SUSTANCIACION",
+      "IdJudicatura": "17230",
+      "NombreProvidencia": "COMPLETAR Y/O ACLARAR LA SOLICITUD Y/O DEMANDA",
+      "Login": "maria.taya",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-aed9ad10-370b-401e-b2ef-386cdf5c2a0d",
+      "IdTipoActividad": "11",
+      "IdMovimientoJuicioIncidente": "23578509"
+    },
+    {
+      "Secuencia": "3",
+      "IdJuicio": "17230202200895",
+      "IdProvidencia": "182383180",
+      "FechaProvidencia": "2022-02-03 12:39:47.530",
+      "HoraProvidencia": "2022-02-03 12:39:47.530",
+      "TipoProvidencia": "AUTO INTERLOCUTORIO",
+      "IdJudicatura": "17230",
+      "NombreProvidencia": "ARCHIVO POR NO COMPLETAR DEMANDA",
+      "Login": "maria.taya",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-633efaf8-e1f7-4335-bf3e-d8671051d942",
+      "IdTipoActividad": "12",
+      "IdMovimientoJuicioIncidente": "23578509"
+    }
+  ]
+}

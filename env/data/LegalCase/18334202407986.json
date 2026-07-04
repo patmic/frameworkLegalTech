@@ -1,0 +1,112 @@
+{
+  "@context": "https://maltg.arch/onto#",
+  "@type": "CausaJudicial",
+  "fuente": "Juicios.xlsx",
+  "juicio": "18334202407986",
+  "cabecera": {
+    "Juicio": "18334202407986",
+    "IdMovimientoJuicioIncidente": "26965104",
+    "Tipo Sorteo": "DILIGENCIAS_PREPARATORIAS",
+    "Materia": "CIVIL",
+    "Tipo Accion": "SUMARIO",
+    "Delito": "LAS ORDENADAS POR LEY (ART. 332 # 1)",
+    "FechaIngreso": "Nov  8 2024 10:20AM",
+    "IdJudicatura": "18334",
+    "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN EL CANTÓN AMBATO",
+    "IDCANTON": "ECU1801",
+    "Estado": "A"
+  },
+  "instancias": [
+    {
+      "Juicio": "18334202407986",
+      "IdMovimientoJuicioIncidente": "26965104",
+      "Tipo Sorteo": "DILIGENCIAS_PREPARATORIAS",
+      "Materia": "CIVIL",
+      "Tipo Accion": "SUMARIO",
+      "Delito": "LAS ORDENADAS POR LEY (ART. 332 # 1)",
+      "FechaIngreso": "Nov  8 2024 10:20AM",
+      "IdJudicatura": "18334",
+      "NombreJudicatura": "UNIDAD JUDICIAL CIVIL CON SEDE EN EL CANTÓN AMBATO",
+      "IDCANTON": "ECU1801",
+      "Estado": "A"
+    }
+  ],
+  "totalActividades": 5,
+  "actividades": [
+    {
+      "Secuencia": "1",
+      "IdJuicio": "18334202407986",
+      "IdProvidencia": "221822815",
+      "FechaProvidencia": "2024-11-14 09:00:29.707",
+      "HoraProvidencia": "2024-11-14 09:00:29.707",
+      "TipoProvidencia": "RAZON",
+      "IdJudicatura": "18334",
+      "NombreProvidencia": "RECEPCION DEL PROCESO",
+      "Login": "freddy.barros",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-cb1b1f8b-1a21-449c-ab56-c2687aa21815",
+      "IdTipoActividad": "6",
+      "IdMovimientoJuicioIncidente": "26965104"
+    },
+    {
+      "Secuencia": "2",
+      "IdJuicio": "18334202407986",
+      "IdProvidencia": "225380699",
+      "FechaProvidencia": "2025-02-14 11:29:41.500",
+      "HoraProvidencia": "2025-02-14 11:29:41.500",
+      "TipoProvidencia": "RAZON",
+      "IdJudicatura": "18334",
+      "NombreProvidencia": "DESGLOSE DE DOCUMENTOS",
+      "Login": "freddy.barros",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-98137c79-15fe-439d-9025-e32f425854c2",
+      "IdTipoActividad": "6",
+      "IdMovimientoJuicioIncidente": "26965104"
+    },
+    {
+      "Secuencia": "3",
+      "IdJuicio": "18334202407986",
+      "IdProvidencia": "221941488",
+      "FechaProvidencia": "2024-11-18 09:58:49.283",
+      "HoraProvidencia": "2024-11-18 09:58:49.283",
+      "TipoProvidencia": "AUTO DE SUSTANCIACION",
+      "IdJudicatura": "18334",
+      "NombreProvidencia": "COMPLETAR Y/O ACLARAR LA SOLICITUD Y/O DEMANDA",
+      "Login": "freddy.barros",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-aed9ad10-370b-401e-b2ef-386cdf5c2a0d",
+      "IdTipoActividad": "11",
+      "IdMovimientoJuicioIncidente": "26965104"
+    },
+    {
+      "Secuencia": "4",
+      "IdJuicio": "18334202407986",
+      "IdProvidencia": "224983833",
+      "FechaProvidencia": "2025-02-06 09:01:25.053",
+      "HoraProvidencia": "2025-02-06 09:01:25.053",
+      "TipoProvidencia": "AUTO DE SUSTANCIACION",
+      "IdJudicatura": "18334",
+      "NombreProvidencia": "ATENDER PETICION",
+      "Login": "freddy.barros",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-bd40d630-aa43-4228-b46d-c46e0febfe37",
+      "IdTipoActividad": "11",
+      "IdMovimientoJuicioIncidente": "26965104"
+    },
+    {
+      "Secuencia": "5",
+      "IdJuicio": "18334202407986",
+      "IdProvidencia": "222683649",
+      "FechaProvidencia": "2024-12-04 16:29:30.427",
+      "HoraProvidencia": "2024-12-04 16:29:30.427",
+      "TipoProvidencia": "AUTO INTERLOCUTORIO",
+      "IdJudicatura": "18334",
+      "NombreProvidencia": "ARCHIVO POR NO COMPLETAR DEMANDA",
+      "Login": "freddy.barros",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-633efaf8-e1f7-4335-bf3e-d8671051d942",
+      "IdTipoActividad": "12",
+      "IdMovimientoJuicioIncidente": "26965104"
+    }
+  ]
+}

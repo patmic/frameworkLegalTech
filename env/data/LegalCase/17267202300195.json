@@ -1,0 +1,52 @@
+{
+  "@context": "https://maltg.arch/onto#",
+  "@type": "CausaJudicial",
+  "fuente": "Juicios.xlsx",
+  "juicio": "17267202300195",
+  "cabecera": {
+    "Juicio": "17267202300195",
+    "IdMovimientoJuicioIncidente": "25213700",
+    "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+    "Materia": "CIVIL",
+    "Tipo Accion": "SUMARIO",
+    "Delito": "AMPARO POSESORIO",
+    "FechaIngreso": "Jul 14 2023 12:08PM",
+    "IdJudicatura": "17267",
+    "NombreJudicatura": "UNIDAD JUDICIAL MULTICOMPETENTE CON SEDE EN EL CANTÓN PEDRO VICENTE MALDONADO, PROVINCIA DE PICHINCHA",
+    "IDCANTON": "ECU1708",
+    "Estado": "A"
+  },
+  "instancias": [
+    {
+      "Juicio": "17267202300195",
+      "IdMovimientoJuicioIncidente": "25213700",
+      "Tipo Sorteo": "SORTEO_PRIMERA_VEZ",
+      "Materia": "CIVIL",
+      "Tipo Accion": "SUMARIO",
+      "Delito": "AMPARO POSESORIO",
+      "FechaIngreso": "Jul 14 2023 12:08PM",
+      "IdJudicatura": "17267",
+      "NombreJudicatura": "UNIDAD JUDICIAL MULTICOMPETENTE CON SEDE EN EL CANTÓN PEDRO VICENTE MALDONADO, PROVINCIA DE PICHINCHA",
+      "IDCANTON": "ECU1708",
+      "Estado": "A"
+    }
+  ],
+  "totalActividades": 1,
+  "actividades": [
+    {
+      "Secuencia": "1",
+      "IdJuicio": "17267202300195",
+      "IdProvidencia": "204909543",
+      "FechaProvidencia": "2023-09-11 16:47:41.840",
+      "HoraProvidencia": "2023-09-11 16:47:41.840",
+      "TipoProvidencia": "AUTO DE SUSTANCIACION",
+      "IdJudicatura": "17267",
+      "NombreProvidencia": "CALIFICACION DE SOLICITUD Y/O DEMANDA",
+      "Login": "jose.bejarano",
+      "Estado": "enTramite",
+      "IdGrafoFlujoEstructura": "141-7f1a204b-7d23-4886-859c-d36e7988442a",
+      "IdTipoActividad": "11",
+      "IdMovimientoJuicioIncidente": "25213700"
+    }
+  ]
+}
