@@ -2361,6 +2361,14 @@ main .kpi, main .lcard, main .sc-card { cursor: default; }
       <div id="sim-legend" style="position:absolute;left:12px;bottom:12px;z-index:4;display:flex;flex-direction:column;gap:.25rem;
         background:rgba(6,10,26,.75);border:1px solid var(--bdr);border-radius:10px;padding:.55rem .7rem;
         font-family:var(--font-mono);font-size:.6rem;color:var(--t2)"></div>
+      <div id="sim-hud" style="position:absolute;right:12px;top:12px;width:305px;max-height:calc(100% - 24px);z-index:4;
+        display:none;flex-direction:column;gap:.3rem;overflow:hidden;background:rgba(4,8,22,.72);
+        border:1px solid rgba(0,229,255,.28);border-radius:12px;padding:.6rem .75rem;
+        font-family:var(--font-mono);font-size:.6rem;line-height:1.45;color:var(--t2);
+        backdrop-filter:blur(5px);pointer-events:none">
+        <div id="sim-hud-title" style="color:#00e5ff;font-weight:700;letter-spacing:.5px">▶ INSPECCIÓN EN VIVO</div>
+        <div id="sim-hud-body" style="display:flex;flex-direction:column;gap:.16rem;overflow:hidden"></div>
+      </div>
       <div id="sim-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:6;
         font-family:var(--font-mono);font-size:.75rem;color:#a855f7">Cargando esfera celeste…</div>
     </div>
@@ -2373,8 +2381,9 @@ main .kpi, main .lcard, main .sc-card { cursor: default; }
       </div>
       <div id="sim-scan-log" style="max-height:280px;overflow:auto;padding:.7rem 1.1rem;display:flex;flex-direction:column;gap:.22rem;
         font-family:var(--font-mono);font-size:.66rem;line-height:1.5;color:var(--t2)">
-        <span style="color:var(--t3)">Pulsa <b style="color:#a855f7">⟳ Scraping CJ</b> — cada término de la ontología se escanea
-        contra el gemelo digital del sitio: si hay evidencia la estrella queda encendida; si no, queda opaca.</span>
+        <span style="color:var(--t3)">La constelación inicia en modo tenue. Pulsa <b style="color:#a855f7">⟳ Scraping CJ</b> —
+        cada término se escanea contra el gemelo digital del sitio: si hay evidencia la estrella se enciende y queda brillante;
+        si no, permanece opaca. El panel derecho de la gráfica muestra la inspección en vivo.</span>
       </div>
     </div>
   </div>
@@ -6395,6 +6404,11 @@ function simBuildScene(data){
     else sp.position.copy(p.clone().setLength(p.length()+size+11));
     globe.add(sp); simState.labelSprites.push(sp);
     mesh.userData._label=sp;
+    // arranque tenue: la constelación "despierta" cuando el escaneo encuentra evidencia
+    const dim0 = n.type==='core' ? {m:.55,h:.35,l:.7} : {m:.3,h:.16,l:.42};
+    mesh.material.transparent=true; mesh.material.opacity=dim0.m;
+    halo.material.opacity=dim0.h; sp.material.opacity=dim0.l;
+    mesh.userData._baseOp=dim0.m; mesh.userData._baseHalo=dim0.h; mesh.userData._baseLabel=dim0.l;
   });
 
   // Enlaces como arcos
@@ -6478,11 +6492,12 @@ function simSelect(id){
   const nb = id ? (st.adj[id]||new Set()) : null;
   st.nodeMeshes.forEach(m=>{
     const on = !id || m.userData.id===id || nb.has(m.userData.id);
-    const baseOp   = (m.userData._scanOp  !=null)? m.userData._scanOp  : 1;
-    const baseHalo = (m.userData._scanHalo!=null)? m.userData._scanHalo : .75;
-    m.material.opacity = on?baseOp:Math.min(.12,baseOp); m.material.transparent = true;
-    if(m.userData._halo) m.userData._halo.material.opacity = on?baseHalo:.05;
-    if(m.userData._label) m.userData._label.material.opacity = on?Math.max(.85,baseOp):.1;
+    const baseOp   = (m.userData._scanOp  !=null)? m.userData._scanOp  : (m.userData._baseOp  !=null?m.userData._baseOp  :1);
+    const baseHalo = (m.userData._scanHalo!=null)? m.userData._scanHalo : (m.userData._baseHalo!=null?m.userData._baseHalo:.75);
+    const baseLbl  = (m.userData._scanOp  !=null)? Math.max(.85,m.userData._scanOp) : (m.userData._baseLabel!=null?m.userData._baseLabel:.85);
+    m.material.opacity = on ? (id?Math.max(baseOp,.9):baseOp) : Math.min(.12,baseOp); m.material.transparent = true;
+    if(m.userData._halo) m.userData._halo.material.opacity = on ? (id?Math.max(baseHalo,.8):baseHalo) : .05;
+    if(m.userData._label) m.userData._label.material.opacity = on ? (id?Math.max(baseLbl,.9):baseLbl) : .1;
   });
   st.linkLines.forEach(l=>{
     const on = !id || l.userData.s===id || l.userData.t===id;
@@ -6551,7 +6566,19 @@ function simLog(html,color){
   if(color) el.style.color=color;
   el.innerHTML=html;
   log.appendChild(el); log.scrollTop=log.scrollHeight;
+  simHud(html,color);
   return el;
+}
+/* HUD lateral: espejo compacto del log dentro de la gráfica */
+function simHud(html,color){
+  const hud=document.getElementById('sim-hud'), body=document.getElementById('sim-hud-body');
+  if(!hud||!body) return;
+  hud.style.display='flex';
+  const el=document.createElement('div');
+  if(color) el.style.color=color;
+  el.innerHTML=html;
+  body.appendChild(el);
+  while(body.children.length>18) body.removeChild(body.firstChild);
 }
 
 async function runSimScrape(){
@@ -6562,6 +6589,8 @@ async function runSimScrape(){
   btn.disabled=true; btn.style.opacity=.5;
   const url=(document.getElementById('sim-url').value||'').trim();
   const log=document.getElementById('sim-scan-log'); log.innerHTML='';
+  const hudBody=document.getElementById('sim-hud-body'); if(hudBody) hudBody.innerHTML='';
+  const hudTitle=document.getElementById('sim-hud-title'); if(hudTitle) hudTitle.textContent='▶ INSPECCIÓN EN VIVO';
   simScanClear();
   simLog('▶ Inspección iniciada · <b style="color:#00e5ff">'+url+'</b>','var(--t1)');
   simLog('&nbsp;&nbsp;protocolo: web scraping + análisis contra MALTG_ontology.owl (gemelo SDT_CJ)','var(--t3)');
@@ -6584,9 +6613,9 @@ function simScanClear(){
   simScan.applied=false;
   simState.nodeMeshes.forEach(m=>{
     delete m.userData._scanOp; delete m.userData._scanHalo;
-    m.material.opacity=1; m.material.transparent=true;
-    if(m.userData._halo)  m.userData._halo.material.opacity=(m.userData.type==='core'?.95:.75);
-    if(m.userData._label) m.userData._label.material.opacity=(m.userData.type==='core'||m.userData._hub)?1:.85;
+    m.material.opacity=(m.userData._baseOp!=null?m.userData._baseOp:1); m.material.transparent=true;
+    if(m.userData._halo)  m.userData._halo.material.opacity=(m.userData._baseHalo!=null?m.userData._baseHalo:.75);
+    if(m.userData._label) m.userData._label.material.opacity=(m.userData._baseLabel!=null?m.userData._baseLabel:.85);
   });
   document.getElementById('sim-scan-count').textContent='— nodos con evidencia';
 }
@@ -6667,7 +6696,8 @@ async function simScanAnimate(doc, stat){
   if(mat.overall_score!=null)
     simLog('■ Madurez LegalTech del sitio: <b style="color:#ffc947">'+mat.overall_score+'/100 — '+(mat.overall_level||'')+'</b>','var(--t1)');
   (mat.dimensions_summary||[]).forEach(d=>simLog('&nbsp;&nbsp;· '+d.id+' '+d.label+' → '+d.score+'/100 ('+d.level+')','var(--t2)'));
-  stat.textContent='✓ inspección completa — Reset restaura el brillo'; stat.style.color='#10e98c';
+  stat.textContent='✓ inspección completa — Reset restaura el estado tenue'; stat.style.color='#10e98c';
+  const hudT=document.getElementById('sim-hud-title'); if(hudT) hudT.textContent='✓ INSPECCIÓN COMPLETA';
 }
 </script>
 </body>
