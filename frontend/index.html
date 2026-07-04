@@ -1457,28 +1457,27 @@ main .kpi, main .lcard, main .sc-card { cursor: default; }
   </div>
   <div class="nav-tab" onclick="switchTab('ontology')"><span class="nav-num">02</span>Ontology</div>
   <div class="nav-tab" onclick="switchTab('dt')"><span class="nav-num">03</span>Gemelo Digital DT_arch</div>
-  <div class="nav-tab" onclick="switchTab('validation')"><span class="nav-num">04</span>Validación Radar</div>
   <div class="nav-tab" onclick="switchTab('workflow')" style="border-left:1px solid rgba(0,229,255,0.3)">
-    <span class="nav-num" style="color:var(--cyan)">05</span>WORKFLOW
+    <span class="nav-num" style="color:var(--cyan)">04</span>WORKFLOW
   </div>
   <div class="nav-tab" onclick="switchTab('methodology')" style="border-left:1px solid var(--bdr)">
-    <span class="nav-num">06</span>Metodología Formal
+    <span class="nav-num">05</span>Metodología Formal
   </div>
   <div class="nav-tab" onclick="switchTab('styles')" style="border-left:1px solid rgba(176,96,255,0.3)">
-    <span class="nav-num" style="color:var(--q-violet)">07</span>
+    <span class="nav-num" style="color:var(--q-violet)">06</span>
     <span style="background:linear-gradient(90deg,var(--q-cyan),var(--q-violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:600">UI Styles</span>
   </div>
   <div class="nav-tab" onclick="switchTab('cogep')" style="border-left:1px solid rgba(96,165,250,0.35)">
-    <span class="nav-num" style="color:#60a5fa">08</span>Ontología COGEP · IA
+    <span class="nav-num" style="color:#60a5fa">07</span>Ontología COGEP · IA
   </div>
   <div class="nav-tab" onclick="switchTab('sdtcj')" style="border-left:1px solid rgba(16,233,140,0.4)">
-    <span class="nav-num" style="color:#10e98c">09</span>SDT_CJ
+    <span class="nav-num" style="color:#10e98c">08</span>SDT_CJ
   </div>
   <div class="nav-tab" onclick="switchTab('bitacora')" style="border-left:1px solid rgba(255,201,71,0.4)">
-    <span class="nav-num" style="color:#ffc947">10</span>Bitácora · Evidencia
+    <span class="nav-num" style="color:#ffc947">09</span>Bitácora · Evidencia
   </div>
   <div class="nav-tab" onclick="switchTab('simulacion')" style="border-left:1px solid rgba(168,85,247,0.4)">
-    <span class="nav-num" style="color:#a855f7">11</span>Simulación
+    <span class="nav-num" style="color:#a855f7">10</span>Simulación
   </div>
 </nav>
 
@@ -1522,7 +1521,10 @@ main .kpi, main .lcard, main .sc-card { cursor: default; }
       .mt-branch summary{display:flex;align-items:center;gap:.5rem;list-style:none;cursor:pointer;padding:.42rem .55rem;border-radius:8px;transition:background .15s}
       .mt-branch summary::-webkit-details-marker{display:none}
       .mt-branch summary:hover{background:rgba(127,127,160,.12)}
-      .mt-chev{font-size:.7rem;color:var(--t3);transition:transform .18s;flex-shrink:0}
+      .mt-chev{width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;
+        border-radius:50%;background:rgba(127,127,160,.16);border:1px solid var(--bdr);
+        font-size:.9rem;color:var(--t1);transition:transform .18s,background .15s;flex-shrink:0}
+      .mt-branch summary:hover .mt-chev{background:rgba(0,229,255,.18)}
       .mt-branch[open]>summary .mt-chev{transform:rotate(90deg)}
       .mt-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
       .mt-dot.sm{width:7px;height:7px}
@@ -1636,10 +1638,9 @@ main .kpi, main .lcard, main .sc-card { cursor: default; }
     </div>
     <div id="dt-wrap"></div>
   </div>
-</div>
 
-<!-- ═══ 04 VALIDATION ════════════════════════════════════ -->
-<div class="section" id="sec-validation">
+  <!-- ── Validación (ex tab 04) — Radar de Madurez + Análisis GAP ── -->
+
   <div class="stitle">Validación — Contraste MALTG_onto vs DT_arch</div>
   <div class="val-grid">
 
@@ -4377,11 +4378,11 @@ function maltgShowConfig(normId, aspectId){
 
 // ── Main figure — leyendas a la IZQUIERDA + icono de árbol por capa ──
 const MT_ICON = (st)=>`
-  <rect x="0" y="0" width="24" height="24" rx="6" fill="rgba(255,255,255,.72)" stroke="${st}" stroke-width="1.2"/>
-  <rect x="9" y="3.5" width="6" height="5" rx="1.2" fill="none" stroke="${st}" stroke-width="1.6"/>
-  <rect x="3" y="15.5" width="6" height="5" rx="1.2" fill="none" stroke="${st}" stroke-width="1.6"/>
-  <rect x="15" y="15.5" width="6" height="5" rx="1.2" fill="none" stroke="${st}" stroke-width="1.6"/>
-  <path d="M12 8.5 v3.2 M6 15.5 v-2 h12 v2" fill="none" stroke="${st}" stroke-width="1.4"/>`;
+  <rect x="-4" y="-4" width="38" height="38" fill="transparent"/>
+  <rect x="10.5" y="1.5" width="9" height="7" rx="1.8" fill="none" stroke="${st}" stroke-width="2.1"/>
+  <rect x="1.5" y="18" width="9" height="7" rx="1.8" fill="none" stroke="${st}" stroke-width="2.1"/>
+  <rect x="19.5" y="18" width="9" height="7" rx="1.8" fill="none" stroke="${st}" stroke-width="2.1"/>
+  <path d="M15 8.5 v4.5 M6 18 v-3 h18 v3" fill="none" stroke="${st}" stroke-width="1.9"/>`;
 
 function maltgRenderMain(data){
   setTxt('maltg-ptitle', data.title || 'Multidimensional Architecture');
@@ -4398,7 +4399,7 @@ function maltgRenderMain(data){
       <text x="${cx}" y="${top+82}" text-anchor="middle" font-family="'Outfit',sans-serif" font-size="12.5" font-style="italic" fill="${MALTG_SUB}">${wfEsc(l.description||'')}</text>
       <text x="${BX-40}" y="${top+31}" text-anchor="end" font-family="'Space Grotesk',sans-serif" font-size="12.5" font-weight="700" letter-spacing="1" fill="${MALTG_RTX}">${wfEsc((l.role||'').toUpperCase())}</text>
       <circle cx="${BX-24}" cy="${top+26}" r="8" fill="${l.roleColor||'#888'}"/>
-      <g class="maltg-tree-ico" data-layer="${wfEsc(l.name||'')}" transform="translate(${BX+BW-36},${top+8})" style="cursor:pointer">
+      <g class="maltg-tree-ico" data-layer="${wfEsc(l.name||'')}" transform="translate(${BX+BW-42},${top+6})" style="cursor:pointer">
         ${MT_ICON(l.stroke||'#556')}
         <title>Configurar componentes de ${wfEsc(l.name||'')}</title>
       </g>`;
@@ -4960,7 +4961,7 @@ function renderSdtCjDetail(d){
 // ── Tab switching ──────────────────────────────────────────────────
 function switchTab(id){
   currentTab = id;
-  const ids = ['maltg','ontology','dt','validation','workflow','methodology','styles','cogep','sdtcj','bitacora','simulacion'];
+  const ids = ['maltg','ontology','dt','workflow','methodology','styles','cogep','sdtcj','bitacora','simulacion'];
   document.querySelectorAll('.nav-tab').forEach((t,i)=>
     t.classList.toggle('active', ids[i]===id));
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
@@ -4969,7 +4970,7 @@ function switchTab(id){
   if(id==='maltg' && pendingMaltg){
     setTimeout(()=>renderMaltg(pendingMaltg), 50);
   }
-  if(id==='validation'){
+  if(id==='dt'){
     loadValSdtFiles();
     if(pendingVal) setTimeout(()=>renderValidationCharts(pendingVal), 50);
   }
@@ -5123,7 +5124,7 @@ async function reloadAll(){
       setTxt('val-ts', ts);
       pendingVal = val;
       renderValidationMeta(val);
-      if(currentTab==='validation'){
+      if(currentTab==='dt'){
         setTimeout(()=>renderValidationCharts(val), 50);
       }
     }
@@ -5335,7 +5336,7 @@ function _injectPowerCardCSS(){
     border-radius:100%; background:var(--c2); transition:transform .3s ${EB} 0s, opacity 0s ${EB} 0s; }
   .skcard .sk-toggle:checked + .header .content .float{ opacity:1; transform:scale(12); transition:transform .3s ${EB} .3s, opacity 0s ${EB} .3s; }
   /* —— leyenda de colores + slider (parte inferior) —— */
-  .skcard .sk-legend{ padding:.6rem .95rem .4rem; max-height:210px; overflow-y:auto; }
+  .skcard .sk-legend{ padding:.6rem .95rem .4rem; max-height:390px; overflow-y:auto; }
   .skcard .sk-legend .lg{ display:block; padding:.3rem 0; }
   .skcard .sk-legend .lg-top{ display:flex; align-items:center; gap:.5rem; font-size:.7rem; }
   .skcard .sk-legend .lg .dot{ width:9px; height:9px; border-radius:50%; flex-shrink:0; }
@@ -5942,6 +5943,13 @@ function maltgRefStr(ref){
 function renderDT(data){
   const wrap=document.getElementById('dt-wrap');
   if(!data || data.error){ wrap.innerHTML=`<div class="err-msg">${data?.error||'Sin datos'}</div>`; return; }
+
+  // ensanchar: cajas +10% y separación horizontal +12% (ocupa el espacio vacío)
+  const KX=1.12, KW=1.10;
+  data=JSON.parse(JSON.stringify(data));
+  (data.layers||[]).forEach(l=>{ l.x=Math.round(l.x*KX); l.width=Math.round(l.width*KX); });
+  (data.services||[]).forEach(sv=>{ sv.x=Math.round(sv.x*KX); sv.width=Math.round(sv.width*KW); });
+  if(data.canvas&&data.canvas.width) data.canvas.width=Math.round(data.canvas.width*KX);
 
   const W=data.canvas?.width||980;
   const H=data.canvas?.height||520;
