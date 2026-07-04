@@ -1443,7 +1443,7 @@ main .kpi, main .lcard, main .sc-card { cursor: default; }
     </svg>
     <div>
       <div class="logo-text">MALTG</div>
-      <div class="logo-sub">Architecture Validator v3.0 · AI-Native · UI UX Pro Max</div>
+      <div class="logo-sub">LEGALTECH v1.0</div>
     </div>
   </div>
   <nav>
@@ -1477,20 +1477,16 @@ main .kpi, main .lcard, main .sc-card { cursor: default; }
 </nav>
   <div class="hdr-right">
     <!-- RELOAD -->
-    <button class="reload-btn" id="reload-btn" onclick="reloadAll()">
-      <span class="r-icon">↺</span> Recargar Datos
+    <button class="reload-btn" id="reload-btn" onclick="reloadAll()" title="Reload" aria-label="Reload">
+      <span class="r-icon">↺</span>
     </button>
     <span class="vsep">|</span>
     <!-- THEME TOGGLE -->
     <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Modo claro → Corporate Clean · Modo oscuro → Neumorphism">☀️</button>
     <span class="vsep">|</span>
-    <div style="display:flex;align-items:center;gap:.45rem">
-      <div class="live-dot"></div><span>Activo</span>
+    <div style="display:flex;align-items:center" title="Estado: Activo">
+      <div class="live-dot"></div>
     </div>
-    <span class="vsep hdr-xtra">|</span>
-    <span class="hdr-xtra">ENV: <span style="color:var(--green)">PROD</span></span>
-    <span class="vsep hdr-xtra">|</span>
-    <span class="hdr-clock hdr-xtra" id="clock">--:--:--</span>
   </div>
 </header>
 
@@ -3146,12 +3142,6 @@ let pendingMeth  = null;
 let pendingWf    = null;
 let pendingMaltg = null;
 let isDark       = false;
-
-// ── Clock ──────────────────────────────────────────────────────────
-setInterval(()=>{
-  document.getElementById('clock').textContent =
-    new Date().toLocaleTimeString('es-EC',{hour12:false});
-},1000);
 
 // ── Theme toggle ───────────────────────────────────────────────────
 /* Tema: Claro → Corporate Clean · Oscuro → Neumorphism */
