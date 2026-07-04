@@ -238,6 +238,21 @@ nav{
 .nav-tab.active{color:var(--cyan);border-bottom-color:var(--cyan)}
 .nav-num{font-size:.56rem;opacity:.4;font-family:var(--font-mono);}
 
+/* ── NAV dentro del HEADER (encabezado unificado y fijo) ── */
+header nav{
+  flex:1 1 auto;min-width:0;align-self:stretch;display:flex;align-items:stretch;
+  margin:0 .9rem;padding:0;overflow-x:auto;overflow-y:hidden;
+  background:transparent !important;backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;border-bottom:none !important;
+  scrollbar-width:thin;
+}
+header nav::after{display:none !important}
+header nav .nav-tab{padding:.5rem 1rem;font-size:.63rem;border-bottom:2px solid transparent}
+header nav .nav-tab.active{border-bottom-color:var(--cyan)}
+header nav .nav-tab::before{bottom:0}
+@media (max-width:1500px){ .hdr-xtra{display:none !important} .logo-sub{display:none} }
+@media (max-width:1250px){ header nav .nav-tab{padding:.5rem .6rem} header{padding:0 .8rem} }
+
 /* ═══ STATUS BAR ════════════════════════════════════════ */
 .status-bar{
   position:relative;z-index:40;
@@ -1431,27 +1446,7 @@ main .kpi, main .lcard, main .sc-card { cursor: default; }
       <div class="logo-sub">Architecture Validator v3.0 · AI-Native · UI UX Pro Max</div>
     </div>
   </div>
-  <div class="hdr-right">
-    <!-- RELOAD -->
-    <button class="reload-btn" id="reload-btn" onclick="reloadAll()">
-      <span class="r-icon">↺</span> Recargar Datos
-    </button>
-    <span class="vsep">|</span>
-    <!-- THEME TOGGLE -->
-    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Modo claro → Corporate Clean · Modo oscuro → Neumorphism">☀️</button>
-    <span class="vsep">|</span>
-    <div style="display:flex;align-items:center;gap:.45rem">
-      <div class="live-dot"></div><span>Activo</span>
-    </div>
-    <span class="vsep">|</span>
-    <span>ENV: <span style="color:var(--green)">PROD</span></span>
-    <span class="vsep">|</span>
-    <span class="hdr-clock" id="clock">--:--:--</span>
-  </div>
-</header>
-
-<!-- NAV -->
-<nav>
+  <nav>
   <div class="nav-tab active" onclick="switchTab('maltg')" style="border-left:1px solid rgba(0,229,255,0.3)">
     <span class="nav-num" style="color:var(--cyan)">01</span>MALTG
   </div>
@@ -1480,6 +1475,26 @@ main .kpi, main .lcard, main .sc-card { cursor: default; }
     <span class="nav-num" style="color:#a855f7">10</span>Simulación
   </div>
 </nav>
+  <div class="hdr-right">
+    <!-- RELOAD -->
+    <button class="reload-btn" id="reload-btn" onclick="reloadAll()">
+      <span class="r-icon">↺</span> Recargar Datos
+    </button>
+    <span class="vsep">|</span>
+    <!-- THEME TOGGLE -->
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Modo claro → Corporate Clean · Modo oscuro → Neumorphism">☀️</button>
+    <span class="vsep">|</span>
+    <div style="display:flex;align-items:center;gap:.45rem">
+      <div class="live-dot"></div><span>Activo</span>
+    </div>
+    <span class="vsep hdr-xtra">|</span>
+    <span class="hdr-xtra">ENV: <span style="color:var(--green)">PROD</span></span>
+    <span class="vsep hdr-xtra">|</span>
+    <span class="hdr-clock hdr-xtra" id="clock">--:--:--</span>
+  </div>
+</header>
+
+
 
 
 <main>
