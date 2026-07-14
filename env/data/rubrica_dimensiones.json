@@ -1,0 +1,259 @@
+{
+  "meta": {
+    "escala": "0-100 en 5 niveles (0,25,50,75,100)",
+    "nota": "Criterios observables por nivel; un score sin evidencia asociada queda marcado 'declarado'.",
+    "version": 1
+  },
+  "dimensiones": {
+    "TOGAF": {
+      "label": "Gobernanza TOGAF",
+      "niveles": [
+        {
+          "nivel": 0,
+          "criterio": "Sin arquitectura empresarial documentada"
+        },
+        {
+          "nivel": 25,
+          "criterio": "Visión de arquitectura declarada en documentos públicos"
+        },
+        {
+          "nivel": 50,
+          "criterio": "Dominios BDAT identificados con responsables"
+        },
+        {
+          "nivel": 75,
+          "criterio": "Ciclo ADM operando con repositorio de arquitectura"
+        },
+        {
+          "nivel": 100,
+          "criterio": "ADM institucionalizado con métricas y gobierno de excepciones"
+        }
+      ]
+    },
+    "COBIT": {
+      "label": "Control COBIT",
+      "niveles": [
+        {
+          "nivel": 0,
+          "criterio": "Sin marco de control TI"
+        },
+        {
+          "nivel": 25,
+          "criterio": "Objetivos de gobierno declarados"
+        },
+        {
+          "nivel": 50,
+          "criterio": "Dominios EDM/APO asignados a roles verificables"
+        },
+        {
+          "nivel": 75,
+          "criterio": "Procesos BAI/DSS/MEA con evidencia de operación"
+        },
+        {
+          "nivel": 100,
+          "criterio": "Ciclo completo de gobierno-gestión con auditorías publicadas"
+        }
+      ]
+    },
+    "ITIL": {
+      "label": "Gestión de Servicios ITIL",
+      "niveles": [
+        {
+          "nivel": 0,
+          "criterio": "Sin gestión de servicios formal"
+        },
+        {
+          "nivel": 25,
+          "criterio": "Catálogo de servicios publicado"
+        },
+        {
+          "nivel": 50,
+          "criterio": "Mesa de servicio operativa con registro de incidentes"
+        },
+        {
+          "nivel": 75,
+          "criterio": "SLAs publicados y medidos"
+        },
+        {
+          "nivel": 100,
+          "criterio": "Mejora continua con métricas históricas públicas"
+        }
+      ]
+    },
+    "NIST": {
+      "label": "Resiliencia NIST",
+      "niveles": [
+        {
+          "nivel": 0,
+          "criterio": "Sin postura de ciberresiliencia"
+        },
+        {
+          "nivel": 25,
+          "criterio": "Función Identify documentada"
+        },
+        {
+          "nivel": 50,
+          "criterio": "Protect/Detect con controles verificables"
+        },
+        {
+          "nivel": 75,
+          "criterio": "Respond/Recover con planes probados"
+        },
+        {
+          "nivel": 100,
+          "criterio": "CSF completo con ejercicios y reportes públicos"
+        }
+      ]
+    },
+    "AI": {
+      "label": "Integración IA",
+      "niveles": [
+        {
+          "nivel": 0,
+          "criterio": "Sin capacidades de IA"
+        },
+        {
+          "nivel": 25,
+          "criterio": "Casos de uso IA declarados"
+        },
+        {
+          "nivel": 50,
+          "criterio": "Modelos en producción documentados"
+        },
+        {
+          "nivel": 75,
+          "criterio": "Pipeline NLP/analítica con resultados verificables"
+        },
+        {
+          "nivel": 100,
+          "criterio": "IA gobernada (política, riesgos, monitoreo)"
+        }
+      ]
+    },
+    "BC": {
+      "label": "Blockchain Adoption",
+      "niveles": [
+        {
+          "nivel": 0,
+          "criterio": "Sin DLT"
+        },
+        {
+          "nivel": 25,
+          "criterio": "Exploración declarada"
+        },
+        {
+          "nivel": 50,
+          "criterio": "Piloto verificable"
+        },
+        {
+          "nivel": 75,
+          "criterio": "Servicio DLT en producción (p.ej. notarización)"
+        },
+        {
+          "nivel": 100,
+          "criterio": "Red DLT institucional con gobernanza"
+        }
+      ]
+    },
+    "OD": {
+      "label": "Open Data Comply",
+      "niveles": [
+        {
+          "nivel": 0,
+          "criterio": "Sin datos abiertos"
+        },
+        {
+          "nivel": 25,
+          "criterio": "Portal de datos publicado"
+        },
+        {
+          "nivel": 50,
+          "criterio": "Datasets con metadatos estándar (DCAT)"
+        },
+        {
+          "nivel": 75,
+          "criterio": "APIs públicas documentadas"
+        },
+        {
+          "nivel": 100,
+          "criterio": "Datos abiertos con licencia, versionado y SLA"
+        }
+      ]
+    },
+    "SEC": {
+      "label": "Security Posture",
+      "niveles": [
+        {
+          "nivel": 0,
+          "criterio": "Sin postura de seguridad pública"
+        },
+        {
+          "nivel": 25,
+          "criterio": "Política de seguridad publicada"
+        },
+        {
+          "nivel": 50,
+          "criterio": "Controles de acceso/cifrado declarados"
+        },
+        {
+          "nivel": 75,
+          "criterio": "Certificaciones o auditorías verificables"
+        },
+        {
+          "nivel": 100,
+          "criterio": "Zero-trust y cumplimiento demostrado"
+        }
+      ]
+    },
+    "INTEROP": {
+      "label": "Interoperabilidad",
+      "niveles": [
+        {
+          "nivel": 0,
+          "criterio": "Sistemas aislados"
+        },
+        {
+          "nivel": 25,
+          "criterio": "Interoperabilidad declarada"
+        },
+        {
+          "nivel": 50,
+          "criterio": "Servicios interconectados verificables"
+        },
+        {
+          "nivel": 75,
+          "criterio": "Estándares abiertos + APIs cruzadas"
+        },
+        {
+          "nivel": 100,
+          "criterio": "Interoperabilidad plena inter-institucional"
+        }
+      ]
+    },
+    "LEGALTECH": {
+      "label": "LegalTech Compliance",
+      "niveles": [
+        {
+          "nivel": 0,
+          "criterio": "Sin servicios legaltech"
+        },
+        {
+          "nivel": 25,
+          "criterio": "Servicios judiciales en línea básicos"
+        },
+        {
+          "nivel": 50,
+          "criterio": "Expediente electrónico operativo"
+        },
+        {
+          "nivel": 75,
+          "criterio": "Servicios procesales integrados (citación, ejecutoria, firma)"
+        },
+        {
+          "nivel": 100,
+          "criterio": "Justicia digital de extremo a extremo con cumplimiento normativo"
+        }
+      ]
+    }
+  }
+}

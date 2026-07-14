@@ -1,0 +1,1501 @@
+/* ════════════════════════════════════════════════════════
+   UI UX PRO MAX — DESIGN SYSTEM — Dashboard Intelligence
+   Style: Glassmorphism + Soft UI Evolution
+   Target: Enterprise Architecture Validator
+════════════════════════════════════════════════════════ */
+
+/* ── FONT SYSTEM ─────────────────────────────────────── */
+:root{
+  --font-display: 'Outfit', sans-serif;       /* headings, KPI values, titles */
+  --font-ui:      'Space Grotesk', sans-serif; /* nav, labels, UI text         */
+  --font-mono:    'Nova Mono', 'DM Mono', monospace;  /* code, hashes, data values */
+  --font-accent:  'Syne', sans-serif;          /* logo, section titles         */
+}
+
+/* ── DARK THEME (default) ────────────────────────────── */
+:root{
+  /* Base backgrounds — semi-transparent for glassmorphism */
+  --bg0: #030711;
+  --bg1: rgba(6,11,26,0.92);
+  --bg2: rgba(10,17,35,0.88);
+  --bg3: rgba(14,22,44,0.85);
+  --bg4: rgba(18,28,52,0.80);
+
+  /* Text */
+  --t1:#e8f0ff;--t2:#7a8db0;--t3:#3d4f6e;
+
+  /* Borders — subtle glass edges */
+  --bdr: rgba(255,255,255,0.07);
+  --bdr2: rgba(255,255,255,0.12);
+
+  /* Panels — glassmorphism */
+  --hdr-bg:      rgba(3,7,17,0.72);
+  --panel-bg:    rgba(10,17,36,0.55);
+  --card-bg:     rgba(14,22,44,0.50);
+  --glass-bg:    rgba(255,255,255,0.03);
+  --glass-bdr:   rgba(255,255,255,0.08);
+
+  /* Shadows & blur */
+  --shadow:       0 8px 32px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.4);
+  --shadow-sm:    0 4px 16px rgba(0,0,0,0.4);
+  --glass-shadow: 0 8px 32px rgba(0,0,0,0.37);
+  --blur:         blur(20px);
+  --blur-sm:      blur(12px);
+
+  /* Grid */
+  --grid-line: rgba(0,229,255,0.025);
+
+  /* Accents */
+  --cyan:   #00e5ff; --gold:  #ffc947; --violet:#a855f7;
+  --green:  #10e98c; --rose:  #ff4d6d; --orange:#ff9a3c;
+  --pink:   #f472b6; --teal:  #2dd4bf; --indigo:#6366f1;
+
+  /* Glows */
+  --gcyan:  0 0 20px rgba(0,229,255,.35), 0 0 60px rgba(0,229,255,.08);
+  --ggold:  0 0 20px rgba(255,201,71,.35), 0 0 60px rgba(255,201,71,.08);
+  --grose:  0 0 20px rgba(255,77,109,.35);
+  --gviolet:0 0 20px rgba(168,85,247,.35);
+  --bglow:  rgba(0,229,255,0.18);
+
+  /* Ambient light orbs for background depth */
+  --orb1: radial-gradient(ellipse 800px 600px at 20% 20%, rgba(0,229,255,0.04) 0%, transparent 70%);
+  --orb2: radial-gradient(ellipse 600px 800px at 80% 80%, rgba(168,85,247,0.04) 0%, transparent 70%);
+  --orb3: radial-gradient(ellipse 500px 400px at 50% 50%, rgba(255,201,71,0.02) 0%, transparent 70%);
+}
+
+/* ── LIGHT THEME ─────────────────────────────────────── */
+[data-theme="light"]{
+  --bg0: #ffffff;
+  --bg1: rgba(245,248,255,0.92);
+  --bg2: rgba(235,240,252,0.88);
+  --bg3: rgba(224,230,246,0.85);
+  --bg4: rgba(210,218,240,0.80);
+
+  --t1:#0d1526;--t2:#3a4d70;--t3:#7a8db0;
+
+  --bdr:  rgba(0,60,180,0.09);
+  --bdr2: rgba(0,60,180,0.15);
+
+  --hdr-bg:   rgba(240,244,255,0.78);
+  --panel-bg: rgba(255,255,255,0.60);
+  --card-bg:  rgba(248,250,255,0.55);
+  --glass-bg: rgba(255,255,255,0.40);
+  --glass-bdr:rgba(0,60,180,0.10);
+
+  --shadow:       0 4px 24px rgba(0,40,120,0.12), 0 1px 4px rgba(0,40,120,0.08);
+  --shadow-sm:    0 2px 12px rgba(0,40,120,0.10);
+  --glass-shadow: 0 4px 24px rgba(0,40,120,0.10);
+
+  --grid-line: rgba(0,80,180,0.04);
+  --gcyan:  0 0 12px rgba(0,100,220,.18);
+  --ggold:  0 0 12px rgba(180,120,0,.18);
+  --grose:  0 0 12px rgba(200,40,60,.15);
+  --gviolet:0 0 12px rgba(100,60,200,.18);
+  --bglow:  rgba(0,100,220,0.12);
+
+  --orb1: radial-gradient(ellipse 800px 600px at 20% 20%, rgba(0,120,255,0.05) 0%, transparent 70%);
+  --orb2: radial-gradient(ellipse 600px 800px at 80% 80%, rgba(120,60,240,0.04) 0%, transparent 70%);
+  --orb3: radial-gradient(ellipse 500px 400px at 50% 50%, rgba(255,180,0,0.03) 0%, transparent 70%);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+/* ── BODY — transparent layered background ───────────── */
+body{
+  background: var(--bg0);
+  color: var(--t1);
+  font-family: var(--font-ui);
+  font-weight: 400;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background .4s, color .35s;
+}
+
+/* Layer 1 — ambient orbs (depth & atmosphere) */
+body::before{
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background: var(--orb1), var(--orb2), var(--orb3);
+  transition: background .4s;
+}
+
+/* Layer 2 — subtle grid */
+body::after{
+  content:''; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+}
+
+/* ═══ HEADER — Glass ════════════════════════════════════ */
+header{
+  position:sticky;top:0;z-index:200;
+  background: var(--hdr-bg);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  border-bottom: 1px solid var(--glass-bdr);
+  padding:0 1.5rem;display:flex;align-items:center;
+  justify-content:space-between;height:62px;
+  transition: background .4s, border-color .35s;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.04), var(--shadow-sm);
+}
+.logo{display:flex;align-items:center;gap:.9rem}
+.logo-text{
+  font-family: var(--font-accent); font-weight:800; font-size:1.35rem;
+  letter-spacing:.15em; color:var(--cyan); text-shadow:var(--gcyan);
+}
+.logo-sub{
+  font-size:.58rem; color:var(--t2); letter-spacing:.2em;
+  text-transform:uppercase; margin-top:1px;
+  font-family: var(--font-ui); font-weight:300;
+}
+.hdr-right{display:flex;align-items:center;gap:1rem;font-size:.68rem;color:var(--t2); font-family: var(--font-ui);}
+.live-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--green);box-shadow:0 0 7px var(--green);
+  animation:pdot 2s infinite;
+}
+@keyframes pdot{0%,100%{opacity:1}50%{opacity:.3}}
+.hdr-clock{color:var(--cyan);font-size:.73rem}
+.vsep{color:var(--bdr)}
+
+/* ═══ THEME TOGGLE BUTTON ══════════════════════════════ */
+.theme-btn{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--bg3);border:1px solid var(--bdr2);
+  color:var(--t2);font-size:1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .25s;flex-shrink:0;
+}
+.theme-btn:hover{
+  background:var(--bg4);color:var(--t1);
+  border-color:var(--cyan);box-shadow:var(--gcyan);
+  transform:rotate(20deg);
+}
+
+/* ═══ RELOAD BUTTON ════════════════════════════════════ */
+.reload-btn{
+  display:flex;align-items:center;gap:.5rem;
+  padding:.42rem 1rem;
+  background:rgba(0,229,255,.07);
+  border:1px solid rgba(0,229,255,.28);
+  border-radius:6px;color:var(--cyan);
+  font-size:.67rem;font-family:inherit;letter-spacing:.08em;
+  cursor:pointer;transition:all .2s;white-space:nowrap;text-transform:uppercase;
+}
+.reload-btn:hover{
+  background:rgba(0,229,255,.15);border-color:var(--cyan);
+  box-shadow:var(--gcyan);
+}
+.reload-btn:active{transform:scale(.97)}
+.reload-btn:disabled{opacity:.5;cursor:not-allowed}
+.r-icon{display:inline-block;font-size:.9rem}
+.reload-btn.spinning .r-icon{animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ═══ NAV — Glass ════════════════════════════════════════ */
+nav{
+  display:flex;
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur-sm);
+  -webkit-backdrop-filter: var(--blur-sm);
+  border-bottom:1px solid var(--glass-bdr);
+  padding:0 1.5rem;position:relative;z-index:50;overflow-x:auto;
+  transition:background .35s;
+}
+.nav-tab{
+  padding:.82rem 1.35rem;font-size:.67rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--t2);cursor:pointer;
+  border-bottom:2px solid transparent;transition:all .2s;
+  white-space:nowrap;display:flex;align-items:center;gap:.45rem;flex-shrink:0;
+  font-family: var(--font-ui); font-weight:500;
+}
+.nav-tab:hover{color:var(--t1)}
+.nav-tab.active{color:var(--cyan);border-bottom-color:var(--cyan)}
+.nav-num{font-size:.56rem;opacity:.4;font-family:var(--font-mono);}
+
+/* ── NAV dentro del HEADER (encabezado unificado y fijo) ── */
+header nav{
+  flex:1 1 auto;min-width:0;align-self:stretch;display:flex;align-items:stretch;
+  margin:0 .9rem;padding:0;overflow-x:auto;overflow-y:hidden;
+  background:transparent !important;backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;border-bottom:none !important;
+  scrollbar-width:thin;
+}
+header nav::after{display:none !important}
+header nav .nav-tab{padding:.5rem 1rem;font-size:.63rem;border-bottom:2px solid transparent}
+header nav .nav-tab.active{border-bottom-color:var(--cyan)}
+header nav .nav-tab::before{bottom:0}
+@media (max-width:1500px){ .hdr-xtra{display:none !important} .logo-sub{display:none} }
+@media (max-width:1250px){ header nav .nav-tab{padding:.5rem .6rem} header{padding:0 .8rem} }
+
+/* ═══ STATUS BAR ════════════════════════════════════════ */
+.status-bar{
+  position:relative;z-index:40;
+  background: rgba(255,255,255,0.018);
+  backdrop-filter: var(--blur-sm);
+  -webkit-backdrop-filter: var(--blur-sm);
+  border-bottom:1px solid var(--glass-bdr);
+  padding:.4rem 1.5rem;display:flex;align-items:center;
+  gap:1.1rem;font-size:.6rem;color:var(--t3);overflow-x:auto;
+  transition:background .35s;
+  font-family: var(--font-mono);
+}
+.sb-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.sb-dot.ok{background:var(--green);box-shadow:0 0 5px var(--green)}
+.sb-dot.err{background:var(--rose);box-shadow:0 0 5px var(--rose)}
+
+/* ═══ MAIN ══════════════════════════════════════════════ */
+main{
+  position:relative;z-index:1;
+  padding:1.4rem 1.5rem 2rem;
+  max-width:1700px;margin:0 auto;
+}
+
+/* KPIs — Glass cards */
+.kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:.9rem;margin-bottom:1.4rem}
+.kpi{
+  background: var(--panel-bg);
+  backdrop-filter: var(--blur-sm);
+  -webkit-backdrop-filter: var(--blur-sm);
+  border:1px solid var(--glass-bdr);
+  border-radius:12px;
+  padding:.85rem 1rem;position:relative;overflow:hidden;
+  transition:all .3s;
+  box-shadow: var(--glass-shadow);
+}
+.kpi::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--ac,var(--cyan));box-shadow:0 0 10px var(--ac,var(--cyan));
+}
+.kpi::after{
+  content:'';position:absolute;inset:0;border-radius:12px;
+  background: linear-gradient(135deg,rgba(255,255,255,0.04) 0%,transparent 50%);
+  pointer-events:none;
+}
+.kpi:hover{
+  background: var(--bg4);
+  border-color:rgba(0,229,255,0.22);
+  transform:translateY(-3px);
+  box-shadow: var(--shadow), 0 0 30px rgba(0,229,255,0.05);
+}
+.kpi-label{
+  font-size:.57rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--t2);margin-bottom:.4rem;
+  font-family: var(--font-ui); font-weight:500;
+}
+.kpi-value{
+  font-family: var(--font-display); font-size:1.6rem; font-weight:700;
+  color:var(--ac,var(--cyan));line-height:1;
+  letter-spacing:-0.02em;
+}
+.kpi-delta{font-size:.58rem;margin-top:.28rem;font-family:var(--font-ui);}
+.up{color:var(--green)}.neutral{color:var(--t2)}.down{color:var(--rose)}
+
+/* SECTIONS */
+.section{display:none}.section.active{display:block}
+.stitle{
+  font-family: var(--font-accent); font-size:.7rem;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--t2);
+  margin-bottom:1rem;display:flex;align-items:center;gap:.7rem;
+}
+.stitle::after{content:'';flex:1;height:1px;background:var(--glass-bdr)}
+
+/* PANELS — Glass */
+.panel{
+  background: var(--panel-bg);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  border:1px solid var(--glass-bdr);
+  border-radius:14px;
+  overflow:hidden;box-shadow:var(--glass-shadow);
+  transition:background .35s,border-color .35s;
+  animation:fup .35s ease;
+  position:relative;
+}
+.panel::before{
+  content:''; position:absolute; inset:0; border-radius:14px; pointer-events:none;
+  background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 40%);
+}
+@keyframes fup{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.ph{
+  padding:.85rem 1.3rem;border-bottom:1px solid var(--glass-bdr);
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(255,255,255,0.025);
+}
+[data-theme="light"] .ph{background:rgba(0,0,0,.02)}
+.ptitle{
+  font-family: var(--font-accent); font-size:.76rem;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;
+}
+.pbadge{
+  font-size:.58rem;padding:.16rem .5rem;border-radius:100px;
+  background:rgba(0,229,255,.1);color:var(--cyan);
+  border:1px solid rgba(0,229,255,.25);letter-spacing:.08em;
+  font-family: var(--font-ui);
+}
+.pbadge.g{background:rgba(16,233,140,.1);color:var(--green);border-color:rgba(16,233,140,.25)}
+.pbadge.d{background:rgba(255,201,71,.1);color:var(--gold);border-color:rgba(255,201,71,.25)}
+.pbody{padding:1.3rem}
+
+/* source bar */
+.src-bar{
+  display:flex;align-items:center;gap:.9rem;padding:.38rem 1.3rem;
+  border-bottom:1px solid var(--glass-bdr);
+  background:rgba(255,255,255,0.015);font-size:.59rem;color:var(--t3);
+}
+[data-theme="light"] .src-bar{background:rgba(0,0,0,.02)}
+.src-file{color:var(--cyan);font-family:var(--font-mono);}
+.src-ts{color:var(--t2);font-family:var(--font-mono);}
+
+/* TWO-COL */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem}
+
+/* OVERVIEW */
+.ovr-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.3rem}
+.lcard{
+  background: var(--card-bg);
+  backdrop-filter: var(--blur-sm);
+  -webkit-backdrop-filter: var(--blur-sm);
+  border:1px solid var(--glass-bdr);border-radius:12px;
+  padding:1rem;position:relative;overflow:hidden;
+  transition:all .35s;
+  box-shadow: var(--shadow-sm);
+}
+.lcard::after{
+  content:'';position:absolute;right:-18px;top:-18px;
+  width:72px;height:72px;border-radius:50%;
+  background:var(--ac,var(--cyan));opacity:.05;pointer-events:none;
+  filter: blur(12px);
+}
+.lcard-title{
+  font-family: var(--font-accent); font-size:.7rem;font-weight:800;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:var(--ac,var(--cyan));margin-bottom:.65rem;
+  display:flex;align-items:center;gap:.45rem;
+}
+.clist{list-style:none;display:flex;flex-direction:column;gap:.3rem}
+.clist li{
+  font-size:.6rem;color:var(--t2);padding:.28rem .52rem;
+  background:rgba(255,255,255,0.03);
+  backdrop-filter: blur(4px);
+  border-radius:4px;
+  border-left:2px solid var(--ac,var(--cyan));
+  display:flex;align-items:center;justify-content:space-between;
+  font-family: var(--font-ui);
+}
+[data-theme="light"] .clist li{background:rgba(0,0,0,.03)}
+.cscore{font-size:.57rem;color:var(--green);font-weight:600;font-family:var(--font-mono);}
+
+/* ONTOLOGY */
+/* onto-vis canvas — transparent glass */
+#onto-vis canvas{ background: transparent !important; }
+.leg-row{
+  display:flex;gap:1.2rem;flex-wrap:wrap;padding:.85rem 1.3rem;
+  border-top:1px solid var(--glass-bdr);background:rgba(255,255,255,0.02);
+}
+[data-theme="light"] .leg-row{background:rgba(0,0,0,.02)}
+.leg-item{display:flex;align-items:center;gap:.38rem;font-size:.6rem;color:var(--t2);font-family:var(--font-ui);}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* DT */
+#dt-wrap{width:100%;overflow-x:auto;padding:.5rem;min-height:100px}
+
+/* ══ VALIDATION ══════════════════════════════════════════ */
+.val-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem}
+
+.radar-canvas-wrap{position:relative;height:380px;width:100%}
+#radarChart{position:absolute;inset:0}
+
+.gap-canvas-wrap{position:relative;height:240px;width:100%}
+#gapChart{position:absolute;inset:0}
+
+/* metric bars */
+#metric-rows{display:flex;flex-direction:column;gap:.55rem}
+.mrow-label{display:flex;justify-content:space-between;margin-bottom:.25rem;font-family:var(--font-ui);}
+.mbar-wrap{flex:1;height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden}
+[data-theme="light"] .mbar-wrap{background:rgba(0,0,0,0.08)}
+.mbar{height:100%;border-radius:3px;transition:width 1.6s cubic-bezier(.16,1,.3,1);width:0%}
+
+/* gap table */
+#gap-table{display:flex;flex-direction:column;gap:.4rem;margin-top:1rem}
+.gap-row{
+  display:grid;grid-template-columns:1fr 52px 52px 52px 56px;
+  align-items:center;gap:.5rem;font-size:.61rem;
+  padding:.36rem .6rem;
+  background: rgba(255,255,255,0.025);
+  backdrop-filter: blur(6px);
+  border-radius:6px;border:1px solid var(--glass-bdr);
+  transition:all .25s;
+  font-family: var(--font-ui);
+}
+.gap-row:hover:not(.hdr){background:rgba(255,255,255,0.04);}
+.gap-row.hdr{background:transparent;border-color:transparent;
+  color:var(--t3);font-size:.55rem;letter-spacing:.1em;text-transform:uppercase}
+.gap-val{text-align:right;font-weight:600;font-family:var(--font-mono);}
+.gap-onto{color:var(--cyan)}.gap-dt{color:var(--gold)}
+.gap-cov{color:var(--green)}.gap-label{color:var(--t2)}
+
+/* score cards — glass */
+.score-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem;margin-top:.9rem}
+.sc-card{
+  background: var(--card-bg);
+  backdrop-filter: var(--blur-sm);
+  -webkit-backdrop-filter: var(--blur-sm);
+  border:1px solid var(--glass-bdr);border-radius:10px;padding:.75rem;
+  transition:all .35s;
+}
+.sc-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm);}
+.sc-card-label{
+  font-size:.56rem;color:var(--t2);letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:.35rem;
+  font-family:var(--font-ui); font-weight:500;
+}
+.sc-card-val{
+  font-family: var(--font-display); font-size:1.8rem;font-weight:700;
+  line-height:1; letter-spacing:-0.02em;
+}
+.sc-card-sub{font-size:.57rem;margin-top:.28rem;font-family:var(--font-ui);}
+
+/* top gaps */
+.top-gap-item{
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:.61rem;padding:.3rem 0;border-bottom:1px solid var(--glass-bdr);
+  font-family:var(--font-ui);
+}
+.top-gap-item:last-child{border-bottom:none}
+
+/* LOADING OVERLAY — glass */
+#overlay{
+  position:fixed;inset:0;z-index:999;
+  background:rgba(3,7,17,.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;
+}
+[data-theme="light"] #overlay{background:rgba(220,228,248,.82)}
+#overlay.show{display:flex}
+.ov-spinner{
+  width:42px;height:42px;
+  border:2px solid rgba(255,255,255,0.1);
+  border-top-color:var(--cyan);border-radius:50%;
+  animation:spin .7s linear infinite;
+  box-shadow: 0 0 20px rgba(0,229,255,0.2);
+}
+.ov-msg{
+  font-family: var(--font-accent); font-size:.82rem;
+  letter-spacing:.15em;color:var(--cyan);text-transform:uppercase;
+}
+.ov-steps{display:flex;flex-direction:column;gap:.35rem}
+.ov-step{font-size:.63rem;color:var(--t3);display:flex;align-items:center;gap:.5rem;transition:color .3s;font-family:var(--font-ui);}
+.ov-step.done{color:var(--green)}.ov-step.active{color:var(--cyan)}
+.ov-step-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
+
+/* TOOLTIPS — glass */
+#ntt,#dtt,#otip{
+  position:fixed;border-radius:10px;padding:9px 13px;
+  font-size:.66rem;pointer-events:none;z-index:1000;display:none;
+  max-width:280px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  font-family: var(--font-ui);
+}
+#ntt{
+  background:rgba(6,11,26,0.88);
+  border:1px solid rgba(0,229,255,.25);
+  box-shadow: var(--gcyan), 0 8px 32px rgba(0,0,0,.4);
+}
+#dtt{
+  background:rgba(6,11,26,0.88);
+  border:1px solid rgba(168,85,247,.25);
+  box-shadow: var(--gviolet), 0 8px 32px rgba(0,0,0,.4);
+}
+#otip{
+  background:rgba(6,11,26,0.90);
+  border:1px solid rgba(0,229,255,.28);
+  box-shadow: var(--gcyan), 0 8px 32px rgba(0,0,0,.4);
+}
+[data-theme="light"] #ntt,[data-theme="light"] #dtt,[data-theme="light"] #otip{
+  background:rgba(248,250,255,.95);
+  border-color:var(--glass-bdr);
+  box-shadow:0 4px 20px rgba(0,40,120,.12);
+}
+
+/* FOOTER — glass */
+footer{
+  position:relative;z-index:1;
+  border-top:1px solid var(--glass-bdr);
+  padding:.85rem 1.5rem;display:flex;align-items:center;
+  justify-content:space-between;font-size:.58rem;color:var(--t3);
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur-sm);
+  -webkit-backdrop-filter: var(--blur-sm);
+  margin-top:2rem;transition:background .35s;
+  font-family: var(--font-ui);
+}
+.fbrand{font-family: var(--font-accent);color:var(--t2);letter-spacing:.08em}
+
+/* ERROR STATE */
+.err-msg{padding:2rem;text-align:center;color:var(--rose);font-size:.72rem;font-family:var(--font-ui);}
+
+/* ══ VIS-NETWORK CONTROLS ════════════════════════════════ */
+#onto-vis{
+  background: transparent !important;
+  border-radius: 0;
+}
+/* vis.js overrides — make canvas transparent */
+#onto-vis canvas{ background: transparent !important; }
+
+.vis-ctrl-btn{
+  display:inline-flex;align-items:center;gap:.38rem;
+  padding:.32rem .75rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--glass-bdr);
+  border-radius: 6px;
+  color: var(--t2);
+  font-size:.62rem; font-family:var(--font-ui); letter-spacing:.06em;
+  cursor:pointer; transition:all .2s;
+  text-transform: uppercase;
+}
+.vis-ctrl-btn:hover{
+  background: rgba(0,229,255,0.08);
+  border-color: rgba(0,229,255,0.3);
+  color: var(--cyan);
+  box-shadow: 0 0 12px rgba(0,229,255,0.1);
+}
+.vis-ctrl-btn.active{
+  background: rgba(0,229,255,0.12);
+  border-color: var(--cyan);
+  color: var(--cyan);
+  box-shadow: 0 0 16px rgba(0,229,255,0.15);
+}
+[data-theme="light"] .vis-ctrl-btn{
+  background: rgba(0,0,0,0.04);
+  border-color: var(--glass-bdr);
+  color: var(--t2);
+}
+[data-theme="light"] .vis-ctrl-btn:hover{
+  background: rgba(0,100,220,0.06);
+  border-color: rgba(0,100,220,0.25);
+  color: #0060cc;
+}
+
+.vis-ctrl-select{
+  padding:.3rem .6rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--glass-bdr);
+  border-radius: 6px;
+  color: var(--t2);
+  font-size:.62rem; font-family:var(--font-ui);
+  cursor:pointer; transition:all .2s;
+  outline:none;
+  -webkit-appearance:none;
+  appearance:none;
+}
+.vis-ctrl-select:focus{
+  border-color: rgba(0,229,255,0.35);
+  color: var(--t1);
+}
+[data-theme="light"] .vis-ctrl-select{
+  background: rgba(255,255,255,0.7);
+  color: var(--t1);
+}
+
+/* Stabilizing indicator */
+.vis-stabilizing{
+  display:none; align-items:center; gap:.4rem;
+  font-size:.6rem; color:var(--gold); font-family:var(--font-ui);
+  animation: vis-fade 1s ease infinite alternate;
+}
+.vis-stabilizing.show{ display:inline-flex; }
+.vis-stab-dot{
+  width:6px; height:6px; border-radius:50%;
+  background:var(--gold); box-shadow:0 0 6px var(--gold);
+  animation:pdot 1s infinite;
+}
+@keyframes vis-fade{ from{opacity:.5} to{opacity:1} }
+
+/* vis.js tooltip override */
+div.vis-tooltip{
+  background: rgba(6,11,26,0.92) !important;
+  border: 1px solid rgba(0,229,255,0.25) !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-family: var(--font-ui) !important;
+  font-size: .66rem !important;
+  color: var(--t1) !important;
+  backdrop-filter: blur(16px) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 20px rgba(0,229,255,0.08) !important;
+  max-width: 260px !important;
+  pointer-events: none !important;
+}
+[data-theme="light"] div.vis-tooltip{
+  background: rgba(248,250,255,0.96) !important;
+  border-color: rgba(0,80,200,0.2) !important;
+  color: var(--t1) !important;
+  box-shadow: 0 4px 20px rgba(0,40,120,0.12) !important;
+}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--glass-bdr);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--bdr2);}
+
+@media(max-width:1100px){
+  .kpi-row{grid-template-columns:repeat(3,1fr)}
+  .two-col,.ovr-grid,.val-grid{grid-template-columns:1fr}
+  .score-cards{grid-template-columns:1fr 1fr}
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UI UX PRO MAX — AI-NATIVE FUTURIST DESIGN INTELLIGENCE LAYER
+   Style: AI-Native UI × Quantum Morphism × Bento Grid Evolution
+   Palette: Deep Space Intelligence — Quantum Cyan + Neural Violet
+   Typography: Outfit (display) + Space Grotesk (ui) + DM Mono (data)
+   Animations: Spring physics · Staggered reveals · Continuous pulse
+   UX Rules: Priority 1→10 applied per SKILL.md spec
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── 0. DESIGN TOKENS OVERRIDE ─────────────────────────────────── */
+:root {
+  /* AI-Native accent system */
+  --q-cyan:     #00f5ff;  /* quantum primary */
+  --q-violet:   #b060ff;  /* neural secondary */
+  --q-green:    #00ff9d;  /* signal positive */
+  --q-amber:    #ffb800;  /* alert warm */
+  --q-rose:     #ff3870;  /* critical */
+  --q-indigo:   #6366f1;  /* depth accent */
+  --q-teal:     #2dd4bf;  /* data cool */
+
+  /* Glow system — multi-layer */
+  --glow-cyan:    0 0 12px rgba(0,245,255,.5), 0 0 40px rgba(0,245,255,.15), 0 0 80px rgba(0,245,255,.05);
+  --glow-violet:  0 0 12px rgba(176,96,255,.5), 0 0 40px rgba(176,96,255,.15);
+  --glow-green:   0 0 12px rgba(0,255,157,.4), 0 0 30px rgba(0,255,157,.1);
+  --glow-rose:    0 0 12px rgba(255,56,112,.4), 0 0 30px rgba(255,56,112,.1);
+
+  /* Quantum glass — deeper opacity levels */
+  --qglass-1:  rgba(255,255,255,0.02);
+  --qglass-2:  rgba(255,255,255,0.04);
+  --qglass-3:  rgba(255,255,255,0.07);
+  --qglass-bdr: rgba(255,255,255,0.08);
+  --qglass-bdr-lit: rgba(0,245,255,0.2);
+
+  /* Motion tokens (SKILL.md §7 — 150-300ms, spring physics) */
+  --motion-fast:   150ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --motion-base:   250ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --motion-slow:   400ms cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-exit:   180ms cubic-bezier(0.4, 0, 1, 1);
+
+  /* Elevation scale */
+  --elev-0: none;
+  --elev-1: 0 1px 3px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.04);
+  --elev-2: 0 4px 16px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.05);
+  --elev-3: 0 8px 32px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06);
+  --elev-4: 0 16px 64px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.08);
+
+  /* Spacing scale (4pt system, SKILL.md §5) */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+}
+
+[data-theme="light"] {
+  --q-cyan:   #0077cc;
+  --q-violet: #7c3aed;
+  --q-green:  #059669;
+  --q-amber:  #d97706;
+  --q-rose:   #e11d48;
+  --glow-cyan:   0 0 8px rgba(0,120,200,.25), 0 0 24px rgba(0,120,200,.08);
+  --glow-violet: 0 0 8px rgba(124,58,237,.2),  0 0 24px rgba(124,58,237,.06);
+  --glow-green:  0 0 8px rgba(5,150,105,.2);
+  --qglass-1: rgba(0,0,0,0.015);
+  --qglass-2: rgba(0,0,0,0.03);
+  --qglass-3: rgba(0,0,0,0.05);
+  --qglass-bdr: rgba(0,60,180,0.1);
+  --qglass-bdr-lit: rgba(0,120,220,0.25);
+  --elev-1: 0 1px 4px rgba(0,40,120,.08), 0 0 0 1px rgba(0,60,180,.06);
+  --elev-2: 0 4px 16px rgba(0,40,120,.1),  0 0 0 1px rgba(0,60,180,.07);
+  --elev-3: 0 8px 32px rgba(0,40,120,.12), 0 0 0 1px rgba(0,60,180,.08);
+}
+
+/* ── 1. DEEP SPACE BACKGROUND (AI-Native atmospherics) ─────────── */
+body {
+  background:
+    radial-gradient(ellipse 1200px 900px at 15% 10%, rgba(0,245,255,0.025) 0%, transparent 60%),
+    radial-gradient(ellipse 900px 700px at 85% 85%, rgba(176,96,255,0.03) 0%, transparent 60%),
+    radial-gradient(ellipse 600px 500px at 50% 50%, rgba(99,102,241,0.02) 0%, transparent 70%),
+    #030711 !important;
+  position: relative;
+}
+[data-theme="light"] body {
+  background: #ffffff !important;
+}
+
+/* Starfield overlay (dark only) */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 15% 25%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 42% 67%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 71% 14%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 45%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 28% 88%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 38%, rgba(0,245,255,0.4) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 93% 72%, rgba(176,96,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 6% 58%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 63% 91%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 79% 33%, rgba(0,255,157,0.3) 0%, transparent 100%);
+}
+[data-theme="light"] body::before { display: none; }
+
+/* Scanline texture (dark only) */
+body::after {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,245,255,0.005) 2px,
+      rgba(0,245,255,0.005) 4px
+    );
+  background-size: 44px 44px, 44px 44px, 100% 4px;
+  animation: scanline-drift 20s linear infinite;
+}
+[data-theme="light"] body::after { display: none; }
+@keyframes scanline-drift {
+  0%   { background-position: 0 0, 0 0, 0 0; }
+  100% { background-position: 0 0, 0 0, 0 -80px; }
+}
+
+/* ── 2. HEADER — Quantum Command Bar ───────────────────────────── */
+header {
+  background: rgba(3,7,17,0.65) !important;
+  backdrop-filter: blur(32px) saturate(200%) brightness(110%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(200%) brightness(110%) !important;
+  border-bottom: 1px solid var(--qglass-bdr) !important;
+  box-shadow:
+    0 1px 0 rgba(0,245,255,0.06),
+    0 8px 32px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.04) !important;
+  transition: background var(--motion-slow), box-shadow var(--motion-slow) !important;
+}
+[data-theme="light"] header {
+  background: rgba(240,244,255,0.72) !important;
+  box-shadow: 0 1px 0 rgba(0,120,220,0.08), 0 4px 24px rgba(0,40,120,0.08) !important;
+}
+
+/* Logo pulse animation */
+.logo-text {
+  background: linear-gradient(135deg, var(--q-cyan) 0%, var(--q-violet) 50%, var(--q-cyan) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: logo-shimmer 4s ease infinite;
+  text-shadow: none !important;
+  filter: drop-shadow(0 0 8px rgba(0,245,255,0.4));
+}
+@keyframes logo-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+[data-theme="light"] .logo-text {
+  background: linear-gradient(135deg, #0055cc 0%, #7c3aed 50%, #0055cc 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: logo-shimmer 4s ease infinite;
+  filter: none;
+}
+
+/* ── 3. NAV — Floating Quantum Tabs ───────────────────────────── */
+nav {
+  background: rgba(255,255,255,0.018) !important;
+  backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid var(--qglass-bdr) !important;
+  position: relative;
+}
+nav::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(0,245,255,0.15) 20%,
+    rgba(176,96,255,0.2) 50%,
+    rgba(0,245,255,0.15) 80%,
+    transparent 100%);
+}
+.nav-tab {
+  position: relative;
+  transition: all var(--motion-base) !important;
+}
+.nav-tab::before {
+  content: '';
+  position: absolute; bottom: -1px; left: 50%; right: 50%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--q-cyan), var(--q-violet));
+  border-radius: 2px 2px 0 0;
+  transition: left var(--motion-base), right var(--motion-base);
+  box-shadow: var(--glow-cyan);
+}
+.nav-tab.active::before { left: 0; right: 0; }
+.nav-tab.active {
+  color: var(--q-cyan) !important;
+  text-shadow: 0 0 20px rgba(0,245,255,0.5);
+}
+.nav-tab:hover { color: rgba(232,240,255,0.9) !important; }
+.nav-tab:hover::before { left: 25%; right: 25%; opacity: 0.5; }
+
+/* ── 4. KPI CARDS — Holographic Data Tiles ────────────────────── */
+.kpi {
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.035) 0%,
+    rgba(255,255,255,0.015) 100%
+  ) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid var(--qglass-bdr) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--elev-2) !important;
+  transition:
+    transform var(--motion-base),
+    box-shadow var(--motion-base),
+    border-color var(--motion-base) !important;
+  overflow: hidden;
+  position: relative;
+}
+/* Holographic top accent glow */
+.kpi::before {
+  content: '';
+  position: absolute; top: 0; left: -20%; right: -20%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ac, var(--q-cyan)) 50%, transparent);
+  box-shadow: 0 0 12px 2px var(--ac, var(--q-cyan));
+  opacity: 0.7;
+}
+/* Inner glow sphere */
+.kpi::after {
+  content: '';
+  position: absolute; right: -20px; top: -20px;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--ac, var(--q-cyan)) 0%, transparent 70%);
+  opacity: 0.07;
+  filter: blur(8px);
+  pointer-events: none;
+  transition: opacity var(--motion-base);
+}
+.kpi:hover {
+  transform: translateY(-4px) scale(1.005) !important;
+  border-color: var(--qglass-bdr-lit) !important;
+  box-shadow:
+    var(--elev-3),
+    0 0 20px rgba(0,245,255,0.06) !important;
+}
+.kpi:hover::after { opacity: 0.14; }
+
+/* KPI value — animated counter feel */
+.kpi-value {
+  font-family: var(--font-display) !important;
+  font-size: 1.75rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1 !important;
+  background: linear-gradient(135deg, var(--ac, var(--q-cyan)) 0%, rgba(255,255,255,0.9) 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 8px var(--ac, rgba(0,245,255,0.4)));
+}
+[data-theme="light"] .kpi-value {
+  background: linear-gradient(135deg, var(--ac, var(--q-cyan)) 0%, #0d1526 80%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: none;
+}
+.kpi-label {
+  font-family: var(--font-ui) !important;
+  font-weight: 500 !important;
+  font-size: 0.58rem !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  color: rgba(122,141,176,0.8) !important;
+}
+
+/* ── 5. PANELS — Quantum Glass Containers ─────────────────────── */
+.panel {
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.04) 0%,
+    rgba(255,255,255,0.015) 50%,
+    rgba(255,255,255,0.025) 100%
+  ) !important;
+  backdrop-filter: blur(24px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
+  border: 1px solid var(--qglass-bdr) !important;
+  border-radius: 18px !important;
+  box-shadow: var(--elev-3) !important;
+  transition:
+    box-shadow var(--motion-slow),
+    border-color var(--motion-slow) !important;
+  animation: panel-enter var(--motion-slow) both !important;
+}
+@keyframes panel-enter {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+.panel::before {
+  content: '';
+  position: absolute; inset: 0; border-radius: 18px; pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.06) 0%,
+    transparent 40%,
+    rgba(0,245,255,0.02) 100%
+  );
+}
+.panel:hover {
+  border-color: rgba(0,245,255,0.12) !important;
+  box-shadow: var(--elev-4), 0 0 40px rgba(0,245,255,0.04) !important;
+}
+[data-theme="light"] .panel {
+  background: rgba(255,255,255,0.72) !important;
+  box-shadow: var(--elev-2) !important;
+}
+.ph {
+  background: rgba(255,255,255,0.025) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+  backdrop-filter: blur(8px);
+}
+[data-theme="light"] .ph { background: rgba(0,0,0,0.025) !important; }
+
+.ptitle {
+  font-family: var(--font-accent) !important;
+  letter-spacing: 0.1em !important;
+  background: linear-gradient(90deg, var(--t1), rgba(122,141,176,0.8));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+[data-theme="light"] .ptitle {
+  background: linear-gradient(90deg, #0d1526, #3a4d70);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* ── 6. CARDS — Bento Grid Evolution ─────────────────────────── */
+.lcard {
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.04) 0%,
+    rgba(255,255,255,0.015) 100%
+  ) !important;
+  backdrop-filter: blur(16px) !important;
+  border: 1px solid var(--qglass-bdr) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--elev-2) !important;
+  transition:
+    transform var(--motion-base),
+    border-color var(--motion-base),
+    box-shadow var(--motion-base) !important;
+}
+.lcard:hover {
+  transform: translateY(-4px) !important;
+  border-color: rgba(0,245,255,0.18) !important;
+  box-shadow: var(--elev-3), var(--glow-cyan) !important;
+}
+/* Accent corner glow */
+.lcard::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px; border-radius: 14px 14px 0 0;
+  background: linear-gradient(90deg, transparent, var(--ac, var(--q-cyan)) 50%, transparent);
+  opacity: 0.6;
+}
+.clist li {
+  background: var(--qglass-1) !important;
+  border: 1px solid var(--qglass-bdr) !important;
+  border-left: 2px solid var(--ac, var(--q-cyan)) !important;
+  border-radius: 6px !important;
+  transition: background var(--motion-fast), transform var(--motion-fast) !important;
+}
+.clist li:hover {
+  background: var(--qglass-2) !important;
+  transform: translateX(3px);
+}
+
+/* ── 7. SCORE CARDS — Holographic Metrics ────────────────────── */
+.sc-card {
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.04) 0%,
+    rgba(255,255,255,0.01) 100%
+  ) !important;
+  backdrop-filter: blur(16px) !important;
+  border: 1px solid var(--qglass-bdr) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--elev-2) !important;
+  transition: transform var(--motion-base), box-shadow var(--motion-base) !important;
+  position: relative; overflow: hidden;
+}
+.sc-card::before {
+  content: '';
+  position: absolute; inset: 0; border-radius: 12px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+.sc-card:hover {
+  transform: translateY(-4px) scale(1.01) !important;
+  box-shadow: var(--elev-3) !important;
+}
+.sc-card-val {
+  font-family: var(--font-display) !important;
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.04em !important;
+  filter: drop-shadow(0 0 8px currentColor);
+}
+[data-theme="light"] .sc-card-val { filter: none; }
+
+/* ── 8. STATUS BAR — Neural Data Feed ─────────────────────────── */
+.status-bar {
+  background: rgba(0,245,255,0.018) !important;
+  border-bottom: 1px solid rgba(0,245,255,0.07) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.59rem !important;
+  letter-spacing: 0.04em !important;
+}
+.src-file {
+  color: var(--q-cyan) !important;
+  text-shadow: 0 0 10px rgba(0,245,255,0.4);
+}
+[data-theme="light"] .src-file { text-shadow: none; }
+
+/* ── 9. GAP TABLE — Data Grid Intelligence ───────────────────── */
+.gap-row {
+  background: var(--qglass-1) !important;
+  border: 1px solid var(--qglass-bdr) !important;
+  border-radius: 8px !important;
+  transition:
+    background var(--motion-fast),
+    transform var(--motion-fast),
+    box-shadow var(--motion-fast) !important;
+}
+.gap-row:not(.hdr):hover {
+  background: var(--qglass-3) !important;
+  transform: translateX(3px) !important;
+  box-shadow: -2px 0 0 var(--q-cyan), var(--elev-1) !important;
+}
+
+/* ── 10. BUTTONS — Quantum CTAs ───────────────────────────────── */
+.reload-btn {
+  background: rgba(0,245,255,0.06) !important;
+  border: 1px solid rgba(0,245,255,0.2) !important;
+  border-radius: 8px !important;
+  color: var(--q-cyan) !important;
+  font-family: var(--font-ui) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.08em !important;
+  transition:
+    background var(--motion-fast),
+    box-shadow var(--motion-fast),
+    transform var(--motion-fast) !important;
+  position: relative; overflow: hidden;
+}
+.reload-btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(0,245,255,0.08) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity var(--motion-fast);
+}
+.reload-btn:hover {
+  background: rgba(0,245,255,0.12) !important;
+  border-color: var(--q-cyan) !important;
+  box-shadow: var(--glow-cyan) !important;
+  transform: translateY(-1px) !important;
+}
+.reload-btn:hover::before { opacity: 1; }
+.reload-btn:active { transform: scale(0.97) translateY(0) !important; }
+
+/* Vis-network controls upgrade */
+.vis-ctrl-btn {
+  background: rgba(0,245,255,0.04) !important;
+  border: 1px solid rgba(0,245,255,0.12) !important;
+  color: var(--t2) !important;
+  transition: all var(--motion-fast) !important;
+  font-family: var(--font-ui) !important;
+  font-weight: 500 !important;
+}
+.vis-ctrl-btn:hover {
+  background: rgba(0,245,255,0.1) !important;
+  border-color: rgba(0,245,255,0.35) !important;
+  color: var(--q-cyan) !important;
+  box-shadow: var(--glow-cyan) !important;
+  transform: translateY(-1px) !important;
+}
+.vis-ctrl-btn.active {
+  background: rgba(0,245,255,0.15) !important;
+  border-color: var(--q-cyan) !important;
+  color: var(--q-cyan) !important;
+  box-shadow: var(--glow-cyan) !important;
+}
+
+/* ── 11. BADGES — Quantum Pills ───────────────────────────────── */
+.pbadge {
+  font-family: var(--font-mono) !important;
+  font-size: 0.57rem !important;
+  letter-spacing: 0.12em !important;
+  border-radius: 100px !important;
+  padding: 0.18rem 0.6rem !important;
+  transition: box-shadow var(--motion-fast) !important;
+}
+.pbadge:hover {
+  box-shadow: 0 0 10px rgba(0,245,255,0.3) !important;
+}
+
+/* ── 12. SECTION TITLES — Neural Headers ─────────────────────── */
+.stitle {
+  font-family: var(--font-accent) !important;
+  font-size: 0.65rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.25em !important;
+  text-transform: uppercase !important;
+  color: transparent !important;
+  background: linear-gradient(90deg, var(--q-cyan) 0%, var(--q-violet) 60%, rgba(122,141,176,0.4) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.stitle::after {
+  background: linear-gradient(90deg, var(--qglass-bdr-lit), transparent) !important;
+}
+[data-theme="light"] .stitle {
+  background: linear-gradient(90deg, var(--q-cyan) 0%, var(--q-violet) 60%, rgba(58,77,112,0.4) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* ── 13. METRIC BARS — Neural Progress ───────────────────────── */
+.mbar-wrap {
+  background: rgba(255,255,255,0.05) !important;
+  border-radius: 4px !important;
+  overflow: hidden;
+  position: relative;
+}
+.mbar-wrap::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255,255,255,0.02) 0px,
+    rgba(255,255,255,0.02) 1px,
+    transparent 1px,
+    transparent 8px
+  );
+}
+.mbar {
+  border-radius: 4px !important;
+  box-shadow: 0 0 8px currentColor !important;
+  position: relative;
+}
+.mbar::after {
+  content: '';
+  position: absolute; top: 0; right: 0; bottom: 0; width: 4px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 0 4px 4px 0;
+  filter: blur(1px);
+}
+
+/* ── 14. LIVE DOT — Animated Bio-metric ──────────────────────── */
+.live-dot {
+  box-shadow:
+    0 0 6px var(--q-green),
+    0 0 14px rgba(0,255,157,0.3),
+    0 0 28px rgba(0,255,157,0.1) !important;
+}
+@keyframes pdot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--q-green), 0 0 14px rgba(0,255,157,0.3); }
+  50%       { opacity: 0.3; box-shadow: 0 0 3px var(--q-green); }
+}
+
+/* ── 15. OVERLAY — Deep Space Loading ────────────────────────── */
+#overlay {
+  background: rgba(3,7,17,0.88) !important;
+  backdrop-filter: blur(32px) saturate(150%) !important;
+}
+.ov-spinner {
+  border-width: 2px !important;
+  border-color: rgba(0,245,255,0.1) !important;
+  border-top-color: var(--q-cyan) !important;
+  box-shadow: var(--glow-cyan) !important;
+  width: 48px !important; height: 48px !important;
+}
+.ov-msg {
+  font-family: var(--font-display) !important;
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.2em !important;
+  background: linear-gradient(90deg, var(--q-cyan), var(--q-violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: logo-shimmer 2s ease infinite;
+  text-shadow: none !important;
+}
+.ov-step {
+  font-family: var(--font-mono) !important;
+  font-size: 0.62rem !important;
+}
+.ov-step.active { text-shadow: 0 0 12px rgba(0,245,255,0.5); }
+
+/* ── 16. SCROLLBAR — Quantum Rail ────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--q-cyan), var(--q-violet));
+  border-radius: 4px;
+  box-shadow: 0 0 6px rgba(0,245,255,0.3);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--q-violet), var(--q-cyan));
+}
+
+/* ── 17. FOOTER — Neural Signature ───────────────────────────── */
+footer {
+  background: rgba(3,7,17,0.6) !important;
+  backdrop-filter: blur(16px) !important;
+  border-top: 1px solid rgba(0,245,255,0.07) !important;
+}
+.fbrand {
+  font-family: var(--font-accent) !important;
+  background: linear-gradient(90deg, var(--q-cyan), var(--q-violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.12em !important;
+}
+[data-theme="light"] footer {
+  background: rgba(240,244,255,0.75) !important;
+}
+
+/* ── 18. STAGGERED ENTRANCE ANIMATIONS ───────────────────────── */
+/* KPI cards — staggered by position */
+.kpi-row .kpi:nth-child(1) { animation: kpi-enter 0.5s var(--motion-slow) 0.05s both; }
+.kpi-row .kpi:nth-child(2) { animation: kpi-enter 0.5s var(--motion-slow) 0.10s both; }
+.kpi-row .kpi:nth-child(3) { animation: kpi-enter 0.5s var(--motion-slow) 0.15s both; }
+.kpi-row .kpi:nth-child(4) { animation: kpi-enter 0.5s var(--motion-slow) 0.20s both; }
+.kpi-row .kpi:nth-child(5) { animation: kpi-enter 0.5s var(--motion-slow) 0.25s both; }
+.kpi-row .kpi:nth-child(6) { animation: kpi-enter 0.5s var(--motion-slow) 0.30s both; }
+@keyframes kpi-enter {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Section panels */
+.section.active .panel {
+  animation: panel-enter 0.4s cubic-bezier(0.16,1,0.3,1) both !important;
+}
+.section.active .panel:nth-child(2) { animation-delay: 0.05s !important; }
+.section.active .panel:nth-child(3) { animation-delay: 0.10s !important; }
+
+/* Overview cards stagger */
+.ovr-grid .lcard:nth-child(1) { animation: kpi-enter 0.5s cubic-bezier(0.16,1,0.3,1) 0.05s both; }
+.ovr-grid .lcard:nth-child(2) { animation: kpi-enter 0.5s cubic-bezier(0.16,1,0.3,1) 0.10s both; }
+.ovr-grid .lcard:nth-child(3) { animation: kpi-enter 0.5s cubic-bezier(0.16,1,0.3,1) 0.15s both; }
+.ovr-grid .lcard:nth-child(4) { animation: kpi-enter 0.5s cubic-bezier(0.16,1,0.3,1) 0.20s both; }
+.ovr-grid .lcard:nth-child(5) { animation: kpi-enter 0.5s cubic-bezier(0.16,1,0.3,1) 0.25s both; }
+.ovr-grid .lcard:nth-child(6) { animation: kpi-enter 0.5s cubic-bezier(0.16,1,0.3,1) 0.30s both; }
+
+/* ── 19. MICRO INTERACTIONS ───────────────────────────────────── */
+/* Scale feedback on press (SKILL.md §7 scale-feedback) */
+.kpi:active             { transform: scale(0.98) translateY(0) !important; }
+.lcard:active           { transform: scale(0.98) !important; }
+.sc-card:active         { transform: scale(0.97) !important; }
+
+/* Cursor enhancements */
+.kpi, .lcard, .sc-card, .panel, .vis-ctrl-btn, .nav-tab { cursor: pointer; }
+main .kpi, main .lcard, main .sc-card { cursor: default; }
+.nav-tab { cursor: pointer; }
+
+/* ── 20. REDUCED MOTION (SKILL.md §1 accessibility) ──────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  body::after { animation: none !important; }
+  .logo-text  { animation: none !important; }
+}
+
+/* ── 21. THEME TOGGLE — Quantum Button ───────────────────────── */
+.theme-btn {
+  background: rgba(0,245,255,0.05) !important;
+  border: 1px solid rgba(0,245,255,0.15) !important;
+  transition: all var(--motion-fast) !important;
+}
+.theme-btn:hover {
+  background: rgba(0,245,255,0.12) !important;
+  border-color: var(--q-cyan) !important;
+  box-shadow: var(--glow-cyan) !important;
+  transform: rotate(20deg) scale(1.05) !important;
+}
+
+/* ── 22. VIS-NETWORK CANVAS — Quantum Graph ──────────────────── */
+#onto-vis {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,245,255,0.015) 0%, transparent 70%),
+    rgba(3,7,17,0.3) !important;
+  border-top: 1px solid var(--qglass-bdr);
+  border-bottom: 1px solid var(--qglass-bdr);
+}
+[data-theme="light"] #onto-vis {
+  background: rgba(240,244,255,0.3) !important;
+}
+
+/* ── 23. LEGEND ROW — Quantum Tags ───────────────────────────── */
+.leg-row {
+  background: rgba(0,245,255,0.015) !important;
+  border-top: 1px solid rgba(0,245,255,0.07) !important;
+}
+.leg-item { font-family: var(--font-ui) !important; font-weight: 500 !important; }
+.leg-dot {
+  box-shadow: 0 0 5px currentColor;
+}
+
+/* ── 24. PBADGE VARIANTS ──────────────────────────────────────── */
+.pbadge {
+  backdrop-filter: blur(8px) !important;
+}
+
+/* ── 25. SOURCE BAR ───────────────────────────────────────────── */
+.src-bar {
+  background: rgba(0,245,255,0.018) !important;
+  border-bottom: 1px solid rgba(0,245,255,0.06) !important;
+}
+
+/* ── 26. SELECTION HIGHLIGHT ─────────────────────────────────── */
+::selection {
+  background: rgba(0,245,255,0.2);
+  color: white;
+}
+
+/* ── 27. SELECTORES / COMBOS — estilo global unificado ───────── */
+select,
+.app-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: var(--card-bg, #ffffff);
+  background-image: linear-gradient(45deg, transparent 50%, var(--t2, #3a4d70) 50%),
+                    linear-gradient(135deg, var(--t2, #3a4d70) 50%, transparent 50%);
+  background-position: calc(100% - 15px) 52%, calc(100% - 10px) 52%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  color: var(--t1, #0d1526);
+  border: 1px solid var(--bdr2, rgba(0,60,180,0.15));
+  border-radius: 7px;
+  padding: .4rem 1.9rem .4rem .7rem;
+  font-family: var(--font-mono, monospace);
+  font-size: .68rem;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: border-color .2s, box-shadow .2s, background-color .2s;
+  outline: none;
+}
+select:hover,
+.app-select:hover {
+  border-color: var(--cyan, #00a3cc);
+  background-color: #ffffff;
+}
+select:focus,
+.app-select:focus {
+  border-color: var(--cyan, #00a3cc);
+  box-shadow: 0 0 0 3px rgba(0,163,204,0.15);
+}
+select option {
+  background: #ffffff;
+  color: var(--t1, #0d1526);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CARD KPI — estilo "UI UX Pro Max · Design Intelligence"
+   (referencia: tarjetas oscuras con icono, número en degradado y
+   etiqueta; sobre fondo blanco resaltan como feature-cards)
+══════════════════════════════════════════════════════════════ */
+.kpi-row { gap: 1rem !important; }
+
+.kpi {
+  background: linear-gradient(158deg, #1e2536 0%, #12161f 100%) !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 24px rgba(8,14,30,0.22) !important;
+  padding: 1.3rem 1rem 1.15rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: .5rem !important;
+  text-align: center !important;
+  min-height: 132px;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease !important;
+}
+/* quita la línea superior holográfica del tema anterior */
+.kpi::before { display: none !important; }
+/* halo ambiental suave en una esquina, como en la imagen */
+.kpi::after {
+  content: '';
+  position: absolute; right: -35px; bottom: -35px; top: auto; left: auto;
+  width: 130px; height: 130px; border-radius: 50%;
+  background: radial-gradient(circle, #5b9dff 0%, transparent 70%);
+  opacity: .10 !important; filter: blur(10px); pointer-events: none;
+}
+.kpi:hover {
+  transform: translateY(-3px) !important;
+  border-color: rgba(120,160,255,0.30) !important;
+  box-shadow: 0 12px 30px rgba(8,14,30,0.38) !important;
+}
+.kpi:hover::after { opacity: .16 !important; }
+
+/* icono superior (SVG con stroke = currentColor) */
+.kpi-icon {
+  order: 1;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; margin-bottom: .15rem;
+  border-radius: 11px;
+  color: #5b9dff;
+  background: rgba(91,157,255,0.10);
+  border: 1px solid rgba(91,157,255,0.18);
+}
+.kpi-icon svg { width: 22px; height: 22px; stroke: currentColor; fill: none;
+  stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+
+/* número grande con degradado azul vertical (como la imagen) */
+.kpi .kpi-value,
+[data-theme="light"] .kpi .kpi-value {
+  order: 2;
+  font-family: var(--font-display) !important;
+  font-size: 2rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1 !important;
+  background: linear-gradient(180deg, #7cc0ff 0%, #3d7dff 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  filter: none !important;
+}
+/* etiqueta debajo, gris, tipo título (sin mayúsculas forzadas) */
+.kpi .kpi-label,
+[data-theme="light"] .kpi .kpi-label {
+  order: 3;
+  font-size: .72rem !important;
+  font-weight: 500 !important;
+  letter-spacing: .01em !important;
+  text-transform: none !important;
+  color: #93a0b8 !important;
+}
+/* subtítulo opcional (delta): pequeño y muy discreto */
+.kpi .kpi-delta { order: 4; font-size: .54rem !important; color: #66748f !important; opacity: .85; }

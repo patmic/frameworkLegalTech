@@ -49,5 +49,395 @@
     ],
     "prev_hash": "dbedc2c2b68cbe6b",
     "hash": "f4be5375f336d890"
+  },
+  {
+    "id": 5,
+    "ts": "2026-07-04T03:44:45Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "captura_evidencia",
+    "detalle": "Corrida 2026-07-04_034438: 10/11 fuentes capturadas con snapshot + SHA-256.",
+    "refs": [
+      "2026-07-04_034438"
+    ],
+    "prev_hash": "f4be5375f336d890",
+    "hash": "7411ebe828df019e"
+  },
+  {
+    "id": 6,
+    "ts": "2026-07-04T03:44:45Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "regeneracion_sdt_cj",
+    "detalle": "SDT_CJ.json regenerado (madurez 46/100); evidencia: 2026-07-04_034438",
+    "refs": [
+      "2026-07-04_034438",
+      "SDT_CJ.json"
+    ],
+    "prev_hash": "7411ebe828df019e",
+    "hash": "622ac86a0936748a"
+  },
+  {
+    "id": 7,
+    "ts": "2026-07-04T03:46:27Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "captura_evidencia",
+    "detalle": "Corrida 2026-07-04_034620: 10/11 fuentes capturadas con snapshot + SHA-256.",
+    "refs": [
+      "2026-07-04_034620"
+    ],
+    "prev_hash": "622ac86a0936748a",
+    "hash": "16c19fb4635aa6f2"
+  },
+  {
+    "id": 8,
+    "ts": "2026-07-04T03:46:27Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "regeneracion_sdt_cj",
+    "detalle": "SDT_CJ.json regenerado (madurez 46/100); evidencia: 2026-07-04_034620",
+    "refs": [
+      "2026-07-04_034620",
+      "SDT_CJ.json"
+    ],
+    "prev_hash": "16c19fb4635aa6f2",
+    "hash": "9e3fd8848242d21e"
+  },
+  {
+    "id": 9,
+    "ts": "2026-07-04T06:24:15Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "captura_evidencia",
+    "detalle": "Corrida 2026-07-04_062408: 10/11 fuentes capturadas con snapshot + SHA-256.",
+    "refs": [
+      "2026-07-04_062408"
+    ],
+    "prev_hash": "9e3fd8848242d21e",
+    "hash": "45bf9df5fb01e35d"
+  },
+  {
+    "id": 10,
+    "ts": "2026-07-04T06:24:15Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "regeneracion_sdt_cj",
+    "detalle": "SDT_CJ.json regenerado (madurez 46/100); evidencia: 2026-07-04_062408",
+    "refs": [
+      "2026-07-04_062408",
+      "SDT_CJ.json"
+    ],
+    "prev_hash": "45bf9df5fb01e35d",
+    "hash": "667d7c4149cdd0ee"
+  },
+  {
+    "id": 11,
+    "ts": "2026-07-04T06:33:18Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "captura_evidencia",
+    "detalle": "Corrida 2026-07-04_063310: 10/11 fuentes capturadas con snapshot + SHA-256.",
+    "refs": [
+      "2026-07-04_063310"
+    ],
+    "prev_hash": "667d7c4149cdd0ee",
+    "hash": "fe41873bd98cc008"
+  },
+  {
+    "id": 12,
+    "ts": "2026-07-04T06:33:18Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "regeneracion_sdt_cj",
+    "detalle": "SDT_CJ.json regenerado (madurez 46/100); evidencia: 2026-07-04_063310",
+    "refs": [
+      "2026-07-04_063310",
+      "SDT_CJ.json"
+    ],
+    "prev_hash": "fe41873bd98cc008",
+    "hash": "5215180c0bd52bb7"
+  },
+  {
+    "id": 13,
+    "ts": "2026-07-04T06:37:45Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "captura_evidencia",
+    "detalle": "Corrida 2026-07-04_063737: 10/11 fuentes capturadas con snapshot + SHA-256.",
+    "refs": [
+      "2026-07-04_063737"
+    ],
+    "prev_hash": "5215180c0bd52bb7",
+    "hash": "3eb5dac82b7d94bc"
+  },
+  {
+    "id": 14,
+    "ts": "2026-07-04T06:37:45Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "regeneracion_sdt_cj",
+    "detalle": "SDT_CJ.json regenerado (madurez 46/100); evidencia: 2026-07-04_063737",
+    "refs": [
+      "2026-07-04_063737",
+      "SDT_CJ.json"
+    ],
+    "prev_hash": "3eb5dac82b7d94bc",
+    "hash": "a02b8b7b83b0a194"
+  },
+  {
+    "id": 15,
+    "ts": "2026-07-04T06:39:53Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "captura_evidencia",
+    "detalle": "Corrida 2026-07-04_063946: 10/11 fuentes capturadas con snapshot + SHA-256.",
+    "refs": [
+      "2026-07-04_063946"
+    ],
+    "prev_hash": "a02b8b7b83b0a194",
+    "hash": "cf998bbe82209397"
+  },
+  {
+    "id": 16,
+    "ts": "2026-07-04T06:39:53Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "regeneracion_sdt_cj",
+    "detalle": "SDT_CJ.json regenerado (madurez 46/100); evidencia: 2026-07-04_063946",
+    "refs": [
+      "2026-07-04_063946",
+      "SDT_CJ.json"
+    ],
+    "prev_hash": "cf998bbe82209397",
+    "hash": "a346faaa2a13f007"
+  },
+  {
+    "id": 17,
+    "ts": "2026-07-05T02:34:56Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "captura_evidencia",
+    "detalle": "Corrida 2026-07-05_023448: 10/11 fuentes capturadas con snapshot + SHA-256.",
+    "refs": [
+      "2026-07-05_023448"
+    ],
+    "prev_hash": "a346faaa2a13f007",
+    "hash": "d4b7ee2dcad1613b"
+  },
+  {
+    "id": 18,
+    "ts": "2026-07-05T02:34:56Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "regeneracion_sdt_cj",
+    "detalle": "SDT_CJ.json regenerado (madurez 46/100); evidencia: 2026-07-05_023448",
+    "refs": [
+      "2026-07-05_023448",
+      "SDT_CJ.json"
+    ],
+    "prev_hash": "d4b7ee2dcad1613b",
+    "hash": "95a102abbdc24c99"
+  },
+  {
+    "id": 19,
+    "ts": "2026-07-05T02:43:29Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "captura_evidencia",
+    "detalle": "Corrida 2026-07-05_024321: 10/11 fuentes capturadas con snapshot + SHA-256.",
+    "refs": [
+      "2026-07-05_024321"
+    ],
+    "prev_hash": "95a102abbdc24c99",
+    "hash": "dbe83392f2ec94df"
+  },
+  {
+    "id": 20,
+    "ts": "2026-07-05T02:43:29Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "regeneracion_sdt_cj",
+    "detalle": "SDT_CJ.json regenerado (madurez 46/100); evidencia: 2026-07-05_024321",
+    "refs": [
+      "2026-07-05_024321",
+      "SDT_CJ.json"
+    ],
+    "prev_hash": "dbe83392f2ec94df",
+    "hash": "bd6aad090fc3351c"
+  },
+  {
+    "id": 21,
+    "ts": "2026-07-05T05:02:07Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "captura_evidencia",
+    "detalle": "Corrida 2026-07-05_050159: 10/11 fuentes capturadas con snapshot + SHA-256.",
+    "refs": [
+      "2026-07-05_050159"
+    ],
+    "prev_hash": "bd6aad090fc3351c",
+    "hash": "a06752ce228dad88"
+  },
+  {
+    "id": 22,
+    "ts": "2026-07-05T05:02:07Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "regeneracion_sdt_cj",
+    "detalle": "SDT_CJ.json regenerado (madurez 46/100); evidencia: 2026-07-05_050159",
+    "refs": [
+      "2026-07-05_050159",
+      "SDT_CJ.json"
+    ],
+    "prev_hash": "a06752ce228dad88",
+    "hash": "29bb1c5fd8da8711"
+  },
+  {
+    "id": 23,
+    "ts": "2026-07-05T05:04:11Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "captura_evidencia",
+    "detalle": "Corrida 2026-07-05_050403: 10/11 fuentes capturadas con snapshot + SHA-256.",
+    "refs": [
+      "2026-07-05_050403"
+    ],
+    "prev_hash": "29bb1c5fd8da8711",
+    "hash": "adef5b1e45f56e7d"
+  },
+  {
+    "id": 24,
+    "ts": "2026-07-05T05:04:11Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "regeneracion_sdt_cj",
+    "detalle": "SDT_CJ.json regenerado (madurez 46/100); evidencia: 2026-07-05_050403",
+    "refs": [
+      "2026-07-05_050403",
+      "SDT_CJ.json"
+    ],
+    "prev_hash": "adef5b1e45f56e7d",
+    "hash": "34b22d04ea6a3319"
+  },
+  {
+    "id": 25,
+    "ts": "2026-07-05T05:46:45Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "captura_evidencia",
+    "detalle": "Corrida 2026-07-05_054637: 10/11 fuentes capturadas con snapshot + SHA-256.",
+    "refs": [
+      "2026-07-05_054637"
+    ],
+    "prev_hash": "34b22d04ea6a3319",
+    "hash": "51dc4daa38179baf"
+  },
+  {
+    "id": 26,
+    "ts": "2026-07-05T05:46:45Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "regeneracion_sdt_cj",
+    "detalle": "SDT_CJ.json regenerado (madurez 46/100); evidencia: 2026-07-05_054637",
+    "refs": [
+      "2026-07-05_054637",
+      "SDT_CJ.json"
+    ],
+    "prev_hash": "51dc4daa38179baf",
+    "hash": "db8774f33ae63257"
+  },
+  {
+    "id": 27,
+    "ts": "2026-07-05T05:52:22Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "captura_evidencia",
+    "detalle": "Corrida 2026-07-05_055214: 10/11 fuentes capturadas con snapshot + SHA-256.",
+    "refs": [
+      "2026-07-05_055214"
+    ],
+    "prev_hash": "db8774f33ae63257",
+    "hash": "f447795924e9cc77"
+  },
+  {
+    "id": 28,
+    "ts": "2026-07-05T05:52:22Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "regeneracion_sdt_cj",
+    "detalle": "SDT_CJ.json regenerado (madurez 46/100); evidencia: 2026-07-05_055214",
+    "refs": [
+      "2026-07-05_055214",
+      "SDT_CJ.json"
+    ],
+    "prev_hash": "f447795924e9cc77",
+    "hash": "e3d53e9bc7ada782"
+  },
+  {
+    "id": 29,
+    "ts": "2026-07-08T18:48:30Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "captura_evidencia",
+    "detalle": "Corrida 2026-07-08_184824: 10/11 fuentes capturadas con snapshot + SHA-256.",
+    "refs": [
+      "2026-07-08_184824"
+    ],
+    "prev_hash": "e3d53e9bc7ada782",
+    "hash": "0650d72bde007e23"
+  },
+  {
+    "id": 30,
+    "ts": "2026-07-08T18:48:30Z",
+    "tipo": "sistema",
+    "actor": "sistema/scraper",
+    "accion": "regeneracion_sdt_cj",
+    "detalle": "SDT_CJ.json regenerado (madurez 46/100); evidencia: 2026-07-08_184824",
+    "refs": [
+      "2026-07-08_184824",
+      "SDT_CJ.json"
+    ],
+    "prev_hash": "0650d72bde007e23",
+    "hash": "2d4d1d76d0f9db77"
+  },
+  {
+    "id": 31,
+    "ts": "2026-07-13T17:54:25Z",
+    "tipo": "adaptacion",
+    "actor": "sistema-adaptativo",
+    "accion": "recalculo_salud_global",
+    "detalle": "Índice empírico — → 36.7 (22/60 actos en plazo, 47 causas). kb=84871451 feriados=df536c52",
+    "refs": [
+      "/api/cogep/salud-global"
+    ],
+    "prev_hash": "2d4d1d76d0f9db77",
+    "hash": "ddfb361c69be6f7e"
+  },
+  {
+    "id": 32,
+    "ts": "2026-07-13T18:01:08Z",
+    "tipo": "adaptacion",
+    "actor": "test-e2e",
+    "accion": "config_metricas_adaptativas",
+    "detalle": "pesos_ranking={'salud': 0.7, 'variabilidad': 0.2, 'drift': 0.1} peso_empirico_radar=0.5 umbrales={'loop_k': 3, 'gap_referencial_dias': 60}",
+    "refs": [
+      "/api/adaptativo/config"
+    ],
+    "prev_hash": "ddfb361c69be6f7e",
+    "hash": "89cee85739adbcc4"
+  },
+  {
+    "id": 33,
+    "ts": "2026-07-13T18:01:09Z",
+    "tipo": "adaptacion",
+    "actor": "test-e2e",
+    "accion": "config_metricas_adaptativas",
+    "detalle": "pesos_ranking={'salud': 0.5, 'variabilidad': 0.25, 'drift': 0.25} peso_empirico_radar=0.5 umbrales={'loop_k': 3, 'gap_referencial_dias': 60}",
+    "refs": [
+      "/api/adaptativo/config"
+    ],
+    "prev_hash": "89cee85739adbcc4",
+    "hash": "a098c08e7d2e7f74"
   }
 ]

@@ -1,0 +1,168 @@
+{
+  "run_id": "2026-07-04_063737",
+  "captured_at": "2026-07-04T06:37:45Z",
+  "user_agent": "MALTG-SDT-Auditor/1.0 (+legaltech-governance-scraper; protocolo v1)",
+  "seed_file": "/data/evidence/sources_semilla.json",
+  "protocol": "/data/evidence/PROTOCOLO.md",
+  "n_total": 11,
+  "n_ok": 10,
+  "entries": [
+    {
+      "slug": "portal_cj",
+      "label": "Portal CJ",
+      "url": "https://www.funcionjudicial.gob.ec/",
+      "ok": true,
+      "status": 200,
+      "bytes": 400000,
+      "sha256": "1e45a4f144783edab595e7bf8ebf75338d97859add0e6f6fbedb6b6985864959",
+      "file": "2026-07-04_063737/portal_cj.html",
+      "ms": 761,
+      "captured_at": "2026-07-04T06:37:38Z",
+      "dimensiones": [
+        "D2"
+      ]
+    },
+    {
+      "slug": "satje_spa",
+      "label": "SATJE Consulta de Procesos (SPA v4.0.1)",
+      "url": "https://procesosjudiciales.funcionjudicial.gob.ec/busqueda",
+      "ok": true,
+      "status": 200,
+      "bytes": 79412,
+      "sha256": "c2b9138e0864fb35bd3045f283b29b548a2f26c09b0686ce874fe75694219a01",
+      "file": "2026-07-04_063737/satje_spa.html",
+      "ms": 314,
+      "captured_at": "2026-07-04T06:37:38Z",
+      "dimensiones": [
+        "D2"
+      ]
+    },
+    {
+      "slug": "esatje_ogje",
+      "label": "e-SATJE 2020 (OGJE)",
+      "url": "https://www.funcionjudicial.gob.ec/satje/",
+      "ok": true,
+      "status": 200,
+      "bytes": 400000,
+      "sha256": "6e98e50c2357140945abdb56fbff50dac975711f72aac2670ff3984c2033b1a0",
+      "file": "2026-07-04_063737/esatje_ogje.html",
+      "ms": 867,
+      "captured_at": "2026-07-04T06:37:39Z",
+      "dimensiones": [
+        "D2"
+      ]
+    },
+    {
+      "slug": "plan_estrategico_2026_2031",
+      "label": "Plan Estrategico 2026-2031",
+      "url": "https://www.funcionjudicial.gob.ec/el-pleno-aprueba-el-plan-estrategico-2026-2031-para-transformar-la-funcion-judicial/",
+      "ok": true,
+      "status": 200,
+      "bytes": 341394,
+      "sha256": "bc786f75228f4d78b4385fa5f63342217b753bafe297e6e5a1653a63df6b6e3c",
+      "file": "2026-07-04_063737/plan_estrategico_2026_2031.html",
+      "ms": 854,
+      "captured_at": "2026-07-04T06:37:40Z",
+      "dimensiones": [
+        "D3"
+      ]
+    },
+    {
+      "slug": "inversion_transf_digital",
+      "label": "Inversion en transformacion digital / infra obsoleta",
+      "url": "https://www.funcionjudicial.gob.ec/consejo-de-la-judicatura-prioriza-inversion-en-la-transformacion-digital-repotenciacion-de-la-infraestructura-y-combate-a-la-impunidad/",
+      "ok": true,
+      "status": 200,
+      "bytes": 342033,
+      "sha256": "3ccf1542536dba90c3511162851c1826960391b4c09c0fb4a3d6560433a71958",
+      "file": "2026-07-04_063737/inversion_transf_digital.html",
+      "ms": 848,
+      "captured_at": "2026-07-04T06:37:41Z",
+      "dimensiones": [
+        "D3"
+      ]
+    },
+    {
+      "slug": "iso37001_sgas",
+      "label": "ISO 37001 Antisoborno (SGAS)",
+      "url": "https://www.funcionjudicial.gob.ec/sistema-de-gestion-antisoborno-de-acuerdo-a-la-norma-iso-37001/",
+      "ok": true,
+      "status": 200,
+      "bytes": 370124,
+      "sha256": "4d0db095baa58c4e3fd058cd2df47aab29a7f8a0088bc0d84b65abcac2c9c1eb",
+      "file": "2026-07-04_063737/iso37001_sgas.html",
+      "ms": 880,
+      "captured_at": "2026-07-04T06:37:42Z",
+      "dimensiones": [
+        "D4"
+      ]
+    },
+    {
+      "slug": "modernizacion_disciplinario",
+      "label": "Modernizacion del sistema disciplinario",
+      "url": "https://www.funcionjudicial.gob.ec/consejo-de-la-judicatura-modernizara-su-sistema-disciplinario-con-plataforma-de-ultima-generacion-y-controles-de-seguridad/",
+      "ok": true,
+      "status": 200,
+      "bytes": 342088,
+      "sha256": "46f20e622b0a345af1333ab249129e26a501248891ede5ebe75d66b37aef781b",
+      "file": "2026-07-04_063737/modernizacion_disciplinario.html",
+      "ms": 781,
+      "captured_at": "2026-07-04T06:37:42Z",
+      "dimensiones": [
+        "D4"
+      ]
+    },
+    {
+      "slug": "plan_integridad_2024_2028",
+      "label": "Plan Nacional de Integridad Publica 2024-2028",
+      "url": "https://www.funcionjudicial.gob.ec/consejo-de-la-judicatura-se-adhiere-al-plan-nacional-de-integridad-publica-y-lucha-contra-la-corrupcion-2024-2028/",
+      "ok": true,
+      "status": 200,
+      "bytes": 342108,
+      "sha256": "268373383052472544f526e2e8fa7e6953e0ae12195bf6294cc0fd38a6e2ad84",
+      "file": "2026-07-04_063737/plan_integridad_2024_2028.html",
+      "ms": 797,
+      "captured_at": "2026-07-04T06:37:43Z",
+      "dimensiones": [
+        "D4"
+      ]
+    },
+    {
+      "slug": "justicia_abierta",
+      "label": "Justicia Abierta — datos abiertos judiciales",
+      "url": "https://www.funcionjudicial.gob.ec/consejo-de-la-judicatura-trabaja-en-el-portal-unico-de-datos-abiertos-y-estadistica-judicial-justicia-abierta-transparentando-la-informacion-para-combatir-la-corrupcion/",
+      "ok": true,
+      "status": 200,
+      "bytes": 340111,
+      "sha256": "d3e0e1d893896e01dea089f490647c1a12cff1bfcad6a6aa1b66988f9e2f1fe8",
+      "file": "2026-07-04_063737/justicia_abierta.html",
+      "ms": 802,
+      "captured_at": "2026-07-04T06:37:44Z",
+      "dimensiones": [
+        "D1"
+      ]
+    },
+    {
+      "slug": "ckan_datosabiertos_cj",
+      "label": "Datos Abiertos Ecuador (CKAN) — organizacion CJ",
+      "url": "https://datosabiertos.gob.ec/dataset/?organization=cj",
+      "ok": false,
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "slug": "portal_estadisticas",
+      "label": "Portal de Estadisticas Judiciales",
+      "url": "https://fsweb.funcionjudicial.gob.ec/estadisticas/datoscj/portalestadistica.html",
+      "ok": true,
+      "status": 200,
+      "bytes": 34218,
+      "sha256": "4bdb1acf8f2e6de7c0c1696842724ba5db8e2d14d515183ceb0a52ed6b379f75",
+      "file": "2026-07-04_063737/portal_estadisticas.html",
+      "ms": 244,
+      "captured_at": "2026-07-04T06:37:45Z",
+      "dimensiones": [
+        "D1"
+      ]
+    }
+  ]
+}

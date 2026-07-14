@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "pesos_ranking": {
+    "salud": 0.5,
+    "variabilidad": 0.25,
+    "drift": 0.25
+  },
+  "peso_empirico_radar": 0.5,
+  "puntos_drift": {
+    "loop": 20,
+    "pingpong": 15,
+    "estancamiento_legal": 25,
+    "estancamiento_ref": 10,
+    "retroceso": 20
+  },
+  "umbrales": {
+    "loop_k": 3,
+    "gap_referencial_dias": 60
+  },
+  "actualizado": "2026-07-13T18:01:09Z",
+  "actor": "test-e2e",
+  "nota": "Pesos y umbrales definidos por el usuario desde el tab Adaptativo (M5: quedan hasheados en contexto_adaptacion)."
+}

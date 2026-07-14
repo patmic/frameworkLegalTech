@@ -69,7 +69,7 @@
       "type": "togaf",
       "cluster": "Foundation",
       "r": 9,
-      "score": "64"
+      "score": "49"
     },
     {
       "id": "Architecture_Vision",
@@ -77,7 +77,7 @@
       "type": "togaf",
       "cluster": "Foundation",
       "r": 9,
-      "score": "65"
+      "score": "58"
     },
     {
       "id": "Business_Architecture",
@@ -85,7 +85,7 @@
       "type": "togaf",
       "cluster": "Foundation",
       "r": 9,
-      "score": "73"
+      "score": "68"
     },
     {
       "id": "Information_Systems_Architecture",
@@ -93,7 +93,7 @@
       "type": "togaf",
       "cluster": "Foundation",
       "r": 9,
-      "score": "75"
+      "score": "67"
     },
     {
       "id": "Technology_Architecture",
@@ -101,7 +101,7 @@
       "type": "togaf",
       "cluster": "Foundation",
       "r": 9,
-      "score": "82"
+      "score": "66"
     },
     {
       "id": "Opportunities_Solutions",
@@ -109,7 +109,7 @@
       "type": "togaf",
       "cluster": "Foundation",
       "r": 9,
-      "score": "88"
+      "score": "51"
     },
     {
       "id": "Migration_Planning",
@@ -117,7 +117,7 @@
       "type": "togaf",
       "cluster": "Foundation",
       "r": 9,
-      "score": "81"
+      "score": "55"
     },
     {
       "id": "Implementation_Governance",
@@ -125,7 +125,7 @@
       "type": "togaf",
       "cluster": "Foundation",
       "r": 9,
-      "score": "85"
+      "score": "55"
     },
     {
       "id": "Architecture_Change_Management",
@@ -133,7 +133,7 @@
       "type": "togaf",
       "cluster": "Foundation",
       "r": 9,
-      "score": "47"
+      "score": "57"
     },
     {
       "id": "Requirements_Management",
@@ -141,7 +141,7 @@
       "type": "togaf",
       "cluster": "Foundation",
       "r": 9,
-      "score": "60"
+      "score": "45"
     },
     {
       "id": "COBIT",
@@ -157,7 +157,7 @@
       "type": "cobit",
       "cluster": "Foundation",
       "r": 9,
-      "score": "92"
+      "score": "63"
     },
     {
       "id": "APO_Domain",
@@ -165,7 +165,7 @@
       "type": "cobit",
       "cluster": "Foundation",
       "r": 9,
-      "score": "88"
+      "score": "61"
     },
     {
       "id": "BAI_Domain",
@@ -173,7 +173,7 @@
       "type": "cobit",
       "cluster": "Foundation",
       "r": 9,
-      "score": "86"
+      "score": "60"
     },
     {
       "id": "DSS_Domain",
@@ -181,7 +181,7 @@
       "type": "cobit",
       "cluster": "Foundation",
       "r": 9,
-      "score": "87"
+      "score": "66"
     },
     {
       "id": "MEA_Domain",
@@ -189,7 +189,7 @@
       "type": "cobit",
       "cluster": "Foundation",
       "r": 9,
-      "score": "85"
+      "score": "58"
     },
     {
       "id": "EDM01_Governance",
@@ -197,7 +197,7 @@
       "type": "cobit",
       "cluster": "Foundation",
       "r": 9,
-      "score": "90"
+      "score": "58"
     },
     {
       "id": "APO12_Risk",
@@ -205,7 +205,7 @@
       "type": "cobit",
       "cluster": "Foundation",
       "r": 9,
-      "score": "84"
+      "score": "61"
     },
     {
       "id": "APO13_Security",
@@ -213,7 +213,7 @@
       "type": "cobit",
       "cluster": "Foundation",
       "r": 9,
-      "score": "86"
+      "score": "62"
     },
     {
       "id": "DSS05_Security_Services",
@@ -221,7 +221,7 @@
       "type": "cobit",
       "cluster": "Foundation",
       "r": 9,
-      "score": "85"
+      "score": "61"
     },
     {
       "id": "MEA03_Compliance",
@@ -229,7 +229,7 @@
       "type": "cobit",
       "cluster": "Foundation",
       "r": 9,
-      "score": "83"
+      "score": "50"
     },
     {
       "id": "ITIL",
@@ -421,7 +421,7 @@
       "type": "ai",
       "cluster": "Technology",
       "r": 9,
-      "score": "84"
+      "score": "98"
     },
     {
       "id": "NLP_Pipeline",
@@ -429,7 +429,7 @@
       "type": "ai",
       "cluster": "Technology",
       "r": 9,
-      "score": "85"
+      "score": "98"
     },
     {
       "id": "Computer_Vision",
@@ -437,7 +437,7 @@
       "type": "ai",
       "cluster": "Technology",
       "r": 9,
-      "score": "72"
+      "score": "97"
     },
     {
       "id": "Predictive_Analytics",
@@ -445,7 +445,7 @@
       "type": "ai",
       "cluster": "Technology",
       "r": 9,
-      "score": "80"
+      "score": "98"
     },
     {
       "id": "Symbolic_Reasoner",
@@ -453,7 +453,7 @@
       "type": "ai",
       "cluster": "Technology",
       "r": 9,
-      "score": "83"
+      "score": "98"
     },
     {
       "id": "Legal_LLM",
@@ -461,7 +461,7 @@
       "type": "ai",
       "cluster": "Technology",
       "r": 9,
-      "score": "78"
+      "score": "100"
     },
     {
       "id": "Explainability_XAI",
@@ -469,7 +469,7 @@
       "type": "ai",
       "cluster": "Technology",
       "r": 9,
-      "score": "81"
+      "score": "98"
     },
     {
       "id": "Bias_Fairness",
@@ -477,7 +477,7 @@
       "type": "ai",
       "cluster": "Technology",
       "r": 9,
-      "score": "74"
+      "score": "98"
     },
     {
       "id": "Model_Governance",
@@ -485,7 +485,7 @@
       "type": "ai",
       "cluster": "Technology",
       "r": 9,
-      "score": "76"
+      "score": "99"
     },
     {
       "id": "Human_Oversight",
@@ -493,7 +493,7 @@
       "type": "ai",
       "cluster": "Technology",
       "r": 9,
-      "score": "79"
+      "score": "100"
     },
     {
       "id": "Blockchain_Layer",
@@ -509,7 +509,7 @@
       "type": "blockchain",
       "cluster": "Technology",
       "r": 9,
-      "score": "80"
+      "score": "46"
     },
     {
       "id": "DLT_Network",
@@ -517,7 +517,7 @@
       "type": "blockchain",
       "cluster": "Technology",
       "r": 9,
-      "score": "81"
+      "score": "47"
     },
     {
       "id": "Consensus_Protocol",
@@ -525,7 +525,7 @@
       "type": "blockchain",
       "cluster": "Technology",
       "r": 9,
-      "score": "82"
+      "score": "48"
     },
     {
       "id": "Tokenization",
@@ -533,7 +533,7 @@
       "type": "blockchain",
       "cluster": "Technology",
       "r": 9,
-      "score": "70"
+      "score": "50"
     },
     {
       "id": "Immutability_Ledger",
@@ -541,7 +541,7 @@
       "type": "blockchain",
       "cluster": "Technology",
       "r": 9,
-      "score": "83"
+      "score": "50"
     },
     {
       "id": "Notarization",
@@ -549,7 +549,7 @@
       "type": "blockchain",
       "cluster": "Technology",
       "r": 9,
-      "score": "78"
+      "score": "50"
     },
     {
       "id": "Hash_SHA256",
@@ -557,7 +557,7 @@
       "type": "blockchain",
       "cluster": "Technology",
       "r": 9,
-      "score": "84"
+      "score": "50"
     },
     {
       "id": "Audit_Trail",
@@ -565,7 +565,7 @@
       "type": "blockchain",
       "cluster": "Technology",
       "r": 9,
-      "score": "80"
+      "score": "54"
     },
     {
       "id": "Digital_Signature",
@@ -573,7 +573,7 @@
       "type": "blockchain",
       "cluster": "Technology",
       "r": 9,
-      "score": "77"
+      "score": "53"
     },
     {
       "id": "Provenance",
@@ -581,7 +581,7 @@
       "type": "blockchain",
       "cluster": "Technology",
       "r": 9,
-      "score": "75"
+      "score": "49"
     },
     {
       "id": "OpenData_Layer",
@@ -685,7 +685,7 @@
       "type": "security",
       "cluster": "Technology",
       "r": 9,
-      "score": "87"
+      "score": "77"
     },
     {
       "id": "Encryption",
@@ -693,7 +693,7 @@
       "type": "security",
       "cluster": "Technology",
       "r": 9,
-      "score": "88"
+      "score": "74"
     },
     {
       "id": "IAM",
@@ -701,7 +701,7 @@
       "type": "security",
       "cluster": "Technology",
       "r": 9,
-      "score": "86"
+      "score": "71"
     },
     {
       "id": "Compliance",
@@ -709,7 +709,7 @@
       "type": "security",
       "cluster": "Technology",
       "r": 9,
-      "score": "84"
+      "score": "80"
     },
     {
       "id": "MFA",
@@ -861,7 +861,7 @@
       "type": "strategic",
       "cluster": "Strategic",
       "r": 9,
-      "score": "49"
+      "score": "45"
     },
     {
       "id": "Portfolio",
@@ -877,7 +877,7 @@
       "type": "strategic",
       "cluster": "Strategic",
       "r": 9,
-      "score": "40"
+      "score": "46"
     },
     {
       "id": "Metrics",
@@ -885,7 +885,7 @@
       "type": "strategic",
       "cluster": "Strategic",
       "r": 9,
-      "score": "48"
+      "score": "52"
     },
     {
       "id": "Roadmap",
@@ -893,7 +893,7 @@
       "type": "strategic",
       "cluster": "Strategic",
       "r": 9,
-      "score": "80"
+      "score": "52"
     },
     {
       "id": "Investment_Governance",
@@ -901,7 +901,7 @@
       "type": "strategic",
       "cluster": "Strategic",
       "r": 9,
-      "score": "81"
+      "score": "51"
     },
     {
       "id": "Value_Realization",
@@ -909,7 +909,7 @@
       "type": "strategic",
       "cluster": "Strategic",
       "r": 9,
-      "score": "79"
+      "score": "51"
     },
     {
       "id": "Stakeholder_Mgmt",
@@ -917,7 +917,7 @@
       "type": "strategic",
       "cluster": "Strategic",
       "r": 9,
-      "score": "78"
+      "score": "51"
     },
     {
       "id": "Strategic_KPIs",
@@ -925,7 +925,7 @@
       "type": "strategic",
       "cluster": "Strategic",
       "r": 9,
-      "score": "82"
+      "score": "47"
     },
     {
       "id": "Benefits_Management",
@@ -933,7 +933,7 @@
       "type": "strategic",
       "cluster": "Strategic",
       "r": 9,
-      "score": "80"
+      "score": "56"
     },
     {
       "id": "LegalTech_Domain",
@@ -949,7 +949,7 @@
       "type": "legaltech",
       "cluster": "Governance",
       "r": 9,
-      "score": "86"
+      "score": "58"
     },
     {
       "id": "Ethics",
@@ -957,7 +957,7 @@
       "type": "legaltech",
       "cluster": "Governance",
       "r": 9,
-      "score": "83"
+      "score": "59"
     },
     {
       "id": "Regulation",
@@ -965,7 +965,7 @@
       "type": "legaltech",
       "cluster": "Governance",
       "r": 9,
-      "score": "84"
+      "score": "57"
     },
     {
       "id": "Audit",
@@ -973,7 +973,7 @@
       "type": "legaltech",
       "cluster": "Governance",
       "r": 9,
-      "score": "85"
+      "score": "59"
     },
     {
       "id": "Contract_Lifecycle_Management",

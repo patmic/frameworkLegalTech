@@ -1,0 +1,90 @@
+[
+  {
+    "id": "CQ01",
+    "pregunta": "¿Qué actos, por etapa, componen el procedimiento sumario?",
+    "tipo": "actos_por_procedimiento",
+    "params": {
+      "proc": "SUMARIO"
+    },
+    "sparql": "SELECT ?etapa ?acto WHERE { cogep:SUMARIO cogep:tieneEtapa ?etapa . ?etapa cogep:contieneActo ?acto }"
+  },
+  {
+    "id": "CQ02",
+    "pregunta": "¿Qué términos (reglas) aplican al procedimiento sumario y qué artículo los fija?",
+    "tipo": "reglas_por_procedimiento",
+    "params": {
+      "proc": "SUMARIO"
+    },
+    "sparql": "SELECT ?regla ?art WHERE { ?regla a cogep:TerminoProcesal ; cogep:aplicaA cogep:SUMARIO ; rdfs:comment ?art }"
+  },
+  {
+    "id": "CQ03",
+    "pregunta": "¿Qué términos aplican al procedimiento monitorio?",
+    "tipo": "reglas_por_procedimiento",
+    "params": {
+      "proc": "MONITORIO"
+    },
+    "sparql": "SELECT ?regla WHERE { ?regla a cogep:TerminoProcesal ; cogep:aplicaA cogep:MONITORIO }"
+  },
+  {
+    "id": "CQ04",
+    "pregunta": "¿Qué término rige la emisión de la sentencia y desde qué acto se computa?",
+    "tipo": "termino_de_acto",
+    "params": {
+      "acto": "act_sentencia"
+    },
+    "sparql": "SELECT ?regla ?desde WHERE { ?regla cogep:actoHasta cogep:act_sentencia ; cogep:actoDesde ?desde }"
+  },
+  {
+    "id": "CQ05",
+    "pregunta": "¿Qué término rige la calificación de la demanda?",
+    "tipo": "termino_de_acto",
+    "params": {
+      "acto": "act_calificacion"
+    },
+    "sparql": "SELECT ?regla WHERE { ?regla cogep:actoHasta cogep:act_calificacion }"
+  },
+  {
+    "id": "CQ06",
+    "pregunta": "¿Qué actos procesales del catálogo no tienen término asociado (no evaluables)?",
+    "tipo": "actos_sin_termino",
+    "params": {},
+    "sparql": "SELECT ?acto WHERE { ?acto a cogep:ActoProcesal . FILTER NOT EXISTS { ?r cogep:actoHasta ?acto } }"
+  },
+  {
+    "id": "CQ07",
+    "pregunta": "¿Qué actos ejecuta el juez?",
+    "tipo": "actos_de_sujeto",
+    "params": {
+      "sujeto": "sj_juez"
+    },
+    "sparql": "SELECT ?acto WHERE { ?acto cogep:ejecutadoPor cogep:sj_juez }"
+  },
+  {
+    "id": "CQ08",
+    "pregunta": "¿Qué actos ejecuta el secretario?",
+    "tipo": "actos_de_sujeto",
+    "params": {
+      "sujeto": "sj_secretario"
+    },
+    "sparql": "SELECT ?acto WHERE { ?acto cogep:ejecutadoPor cogep:sj_secretario }"
+  },
+  {
+    "id": "CQ09",
+    "pregunta": "¿A qué procedimiento corresponde el flujo BPMN 141?",
+    "tipo": "procedimientos_de_flujo",
+    "params": {
+      "flujo": "141"
+    },
+    "sparql": "— mapeo flujo→procedimiento (anotación de la KB) —"
+  },
+  {
+    "id": "CQ10",
+    "pregunta": "¿A qué procedimiento corresponde el flujo BPMN 135?",
+    "tipo": "procedimientos_de_flujo",
+    "params": {
+      "flujo": "135"
+    },
+    "sparql": "— mapeo flujo→procedimiento (anotación de la KB) —"
+  }
+]

@@ -1,0 +1,343 @@
+{
+  "meta": {
+    "title": "Feriados y suspensiones de términos judiciales — Ecuador",
+    "nota": "Editable desde el tab Adaptativo. Fechas base según Ley Orgánica de Feriados; verificar traslados (puentes) por año y añadir suspensiones de término dispuestas por el Consejo de la Judicatura.",
+    "fundamento": "Art. 77 COGEP: en el cómputo de términos no corren los días sábados, domingos y feriados.",
+    "version": 1,
+    "actualizado": null,
+    "actor": "seed inicial"
+  },
+  "feriados": [
+    {
+      "fecha": "2022-01-01",
+      "motivo": "Año Nuevo",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2022-02-28",
+      "motivo": "Carnaval",
+      "ambito": "nacional",
+      "fuente": "calendario oficial (fecha móvil)"
+    },
+    {
+      "fecha": "2022-03-01",
+      "motivo": "Carnaval",
+      "ambito": "nacional",
+      "fuente": "calendario oficial (fecha móvil)"
+    },
+    {
+      "fecha": "2022-04-15",
+      "motivo": "Viernes Santo",
+      "ambito": "nacional",
+      "fuente": "calendario oficial (fecha móvil)"
+    },
+    {
+      "fecha": "2022-05-01",
+      "motivo": "Día del Trabajo",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2022-05-24",
+      "motivo": "Batalla de Pichincha",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2022-08-10",
+      "motivo": "Primer Grito de Independencia",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2022-10-09",
+      "motivo": "Independencia de Guayaquil",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2022-11-02",
+      "motivo": "Día de los Difuntos",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2022-11-03",
+      "motivo": "Independencia de Cuenca",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2022-12-25",
+      "motivo": "Navidad",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2023-01-01",
+      "motivo": "Año Nuevo",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2023-02-20",
+      "motivo": "Carnaval",
+      "ambito": "nacional",
+      "fuente": "calendario oficial (fecha móvil)"
+    },
+    {
+      "fecha": "2023-02-21",
+      "motivo": "Carnaval",
+      "ambito": "nacional",
+      "fuente": "calendario oficial (fecha móvil)"
+    },
+    {
+      "fecha": "2023-04-07",
+      "motivo": "Viernes Santo",
+      "ambito": "nacional",
+      "fuente": "calendario oficial (fecha móvil)"
+    },
+    {
+      "fecha": "2023-05-01",
+      "motivo": "Día del Trabajo",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2023-05-24",
+      "motivo": "Batalla de Pichincha",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2023-08-10",
+      "motivo": "Primer Grito de Independencia",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2023-10-09",
+      "motivo": "Independencia de Guayaquil",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2023-11-02",
+      "motivo": "Día de los Difuntos",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2023-11-03",
+      "motivo": "Independencia de Cuenca",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2023-12-25",
+      "motivo": "Navidad",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2024-01-01",
+      "motivo": "Año Nuevo",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2024-02-12",
+      "motivo": "Carnaval",
+      "ambito": "nacional",
+      "fuente": "calendario oficial (fecha móvil)"
+    },
+    {
+      "fecha": "2024-02-13",
+      "motivo": "Carnaval",
+      "ambito": "nacional",
+      "fuente": "calendario oficial (fecha móvil)"
+    },
+    {
+      "fecha": "2024-03-29",
+      "motivo": "Viernes Santo",
+      "ambito": "nacional",
+      "fuente": "calendario oficial (fecha móvil)"
+    },
+    {
+      "fecha": "2024-05-01",
+      "motivo": "Día del Trabajo",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2024-05-24",
+      "motivo": "Batalla de Pichincha",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2024-08-10",
+      "motivo": "Primer Grito de Independencia",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2024-10-09",
+      "motivo": "Independencia de Guayaquil",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2024-11-02",
+      "motivo": "Día de los Difuntos",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2024-11-03",
+      "motivo": "Independencia de Cuenca",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2024-12-25",
+      "motivo": "Navidad",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2025-01-01",
+      "motivo": "Año Nuevo",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2025-03-03",
+      "motivo": "Carnaval",
+      "ambito": "nacional",
+      "fuente": "calendario oficial (fecha móvil)"
+    },
+    {
+      "fecha": "2025-03-04",
+      "motivo": "Carnaval",
+      "ambito": "nacional",
+      "fuente": "calendario oficial (fecha móvil)"
+    },
+    {
+      "fecha": "2025-04-18",
+      "motivo": "Viernes Santo",
+      "ambito": "nacional",
+      "fuente": "calendario oficial (fecha móvil)"
+    },
+    {
+      "fecha": "2025-05-01",
+      "motivo": "Día del Trabajo",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2025-05-24",
+      "motivo": "Batalla de Pichincha",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2025-08-10",
+      "motivo": "Primer Grito de Independencia",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2025-10-09",
+      "motivo": "Independencia de Guayaquil",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2025-11-02",
+      "motivo": "Día de los Difuntos",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2025-11-03",
+      "motivo": "Independencia de Cuenca",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2025-12-25",
+      "motivo": "Navidad",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2026-01-01",
+      "motivo": "Año Nuevo",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2026-02-16",
+      "motivo": "Carnaval",
+      "ambito": "nacional",
+      "fuente": "calendario oficial (fecha móvil)"
+    },
+    {
+      "fecha": "2026-02-17",
+      "motivo": "Carnaval",
+      "ambito": "nacional",
+      "fuente": "calendario oficial (fecha móvil)"
+    },
+    {
+      "fecha": "2026-04-03",
+      "motivo": "Viernes Santo",
+      "ambito": "nacional",
+      "fuente": "calendario oficial (fecha móvil)"
+    },
+    {
+      "fecha": "2026-05-01",
+      "motivo": "Día del Trabajo",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2026-05-24",
+      "motivo": "Batalla de Pichincha",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2026-08-10",
+      "motivo": "Primer Grito de Independencia",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2026-10-09",
+      "motivo": "Independencia de Guayaquil",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2026-11-02",
+      "motivo": "Día de los Difuntos",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2026-11-03",
+      "motivo": "Independencia de Cuenca",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    },
+    {
+      "fecha": "2026-12-25",
+      "motivo": "Navidad",
+      "ambito": "nacional",
+      "fuente": "Ley Orgánica de Feriados (fecha base)"
+    }
+  ],
+  "suspensiones": []
+}

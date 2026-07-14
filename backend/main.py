@@ -37,7 +37,7 @@ DT_PATH    = SDT_DIR / "SDT_Synthetic.json"          # gemelo digital sintético
 WF_DIR     = DATA_DIR / "workflow"        # directory holding BPMN workflow JSON files
 EXP_DIR    = DATA_DIR / "LegalCase"        # decided cases (causas/juicios) JSON files
 MALTG_PATH = DATA_DIR / "MALTG_architecture.json"  # JSON-LD multidimensional architecture
-SDT_CJ_PATH = SDT_DIR / "SDT_CJ.json"              # Gemelo Digital Estructural del Consejo de la Judicatura (JSON-LD)
+SDT_CJ_PATH = SDT_DIR / "SDT_CJ.json"              # Modelo Digital Estructural (SDT) del Consejo de la Judicatura (JSON-LD)
 FRONT_DIR  = Path("/frontend")
 
 OWL_NS   = "http://www.w3.org/2002/07/owl#"
@@ -587,15 +587,30 @@ def parse_workflow(path=None, row=0):
 
 
 # ─── Hierarchical Coverage Ψ ──────────────────────────────────────────────────
+PESOS_AHP_PATH = DATA_DIR / "pesos_ahp.json"
+_PSI_OVERRIDE = {"w": None}   # usado por /api/sensibilidad para perturbar sin persistir
+
+def _psi_weights():
+    """Pesos de Ψ: AHP / panel de supuestos (pesos_ahp.json) o default 0.40/0.60."""
+    if _PSI_OVERRIDE["w"]: return _PSI_OVERRIDE["w"]
+    try:
+        d = json.loads(PESOS_AHP_PATH.read_text(encoding="utf-8-sig"))
+        r = min(0.9, max(0.1, float((d.get("psi") or {}).get("root", 0.40))))
+        return (round(r, 4), round(1.0 - r, 4))
+    except Exception:
+        return (0.40, 0.60)
+
 def psi(svc_refs_set: set, dt_refs: list) -> float:
     """
-    Ψ(d) = 0.4·𝟙[root_d ∈ R] + 0.6·(|sub_d ∩ R| / |sub_d|)
+    Ψ(d) = w_root·𝟙[root_d ∈ R] + w_subs·(|sub_d ∩ R| / |sub_d|)
+    w_root/w_subs configurables (AHP o panel de supuestos); default 0.40/0.60.
     """
     if not dt_refs: return 0.0
+    W_ROOT, W_SUBS = _psi_weights()
     root, subs = dt_refs[0], dt_refs[1:]
-    root_ok    = 0.40 if root in svc_refs_set else 0.0
-    sub_score  = 0.60 * (sum(1 for r in subs if r in svc_refs_set) / max(1, len(subs))) if subs \
-                 else (0.60 if root in svc_refs_set else 0.0)
+    root_ok    = W_ROOT if root in svc_refs_set else 0.0
+    sub_score  = W_SUBS * (sum(1 for r in subs if r in svc_refs_set) / max(1, len(subs))) if subs \
+                 else (W_SUBS if root in svc_refs_set else 0.0)
     return round(root_ok + sub_score, 4)
 
 
@@ -654,6 +669,27 @@ def compute_validation(dt_file: str = ""):
             "owl_nodes":    len(scored),
         })
 
+    # ── Cierre del ciclo adaptativo (MAPE-K · Execute) ────────────────
+    # Para el gemelo del CJ, la dimensión LEGALTECH mezcla el score declarado
+    # con el índice empírico de /api/cogep/salud-global (expedientes reales).
+    adaptativo = None
+    if dt.get("_file") == "SDT_CJ.json":
+        try:
+            cache = json.loads(SALUD_CACHE.read_text(encoding="utf-8")) if SALUD_CACHE.exists() else None
+            if cache and cache.get("indice_global") is not None:
+                w  = float(load_adapt_cfg().get("peso_empirico_radar", 0.5))
+                lt = next((r for r in results if r["key"] == "LEGALTECH"), None)
+                if lt:
+                    emp_score = round(float(cache["indice_global"]), 1)  # escala 0–100 del radar
+                    lt["dt_score_declarado"] = lt["dt_score"]
+                    lt["dt_score"] = round((1 - w) * lt["dt_score"] + w * emp_score, 1)
+                    lt["empirico"] = {"indice": cache["indice_global"], "score": emp_score,
+                                      "peso": w, "n_causas": cache.get("n_causas"),
+                                      "ts": (cache.get("contexto_adaptacion") or {}).get("timestamp")}
+                    adaptativo = {"aplicado": True, "dimension": "LEGALTECH", **lt["empirico"]}
+        except Exception:
+            pass
+
     onto_vals    = [r["onto_score"] for r in results]
     dt_vals      = [r["dt_score"]   for r in results]
     overall_onto = round(sum(onto_vals)/max(1,len(onto_vals)), 1)
@@ -676,6 +712,7 @@ def compute_validation(dt_file: str = ""):
         "dt_hash":        dt.get("hash",""),
         "dt_file":        dt.get("_file",""),
         "dt_title":       (dt.get("meta") or {}).get("title",""),
+        "adaptativo":     adaptativo,
     }
 
 
@@ -738,8 +775,8 @@ def set_ontology_score(payload: dict = Body(...)):
         return {"error": f"nodo no encontrado: {node}"}
     return {"ok": True, "id": node, "score": score, "updated": updated}
 
-@app.get("/api/dt-arch",     summary="SDT_Synthetic.json (data/sdt) with hash", tags=["MALTG Data"])
-def get_dt_arch():  return parse_dt()
+@app.get("/api/dt-arch",     summary="Gemelo digital (.json en data/sdt) with hash", tags=["MALTG Data"])
+def get_dt_arch(file: str = ""):  return parse_dt(_resolve_sdt_path(file))
 
 @app.get("/api/validation",  summary="9-dim conformance scores",  tags=["MALTG Data"])
 def get_validation(file: str = ""): return compute_validation(file)
@@ -910,13 +947,48 @@ def _parse_dt_str(s):
         except ValueError: continue
     return None
 
+# ── Feriados judiciales configurables (Art. 77 COGEP) — editable desde la UI ──
+FERIADOS_PATH = DATA_DIR / "feriados_judiciales.json"
+_FERIADOS_CACHE = {"mtime": None, "dias": set()}
+
+def load_feriados_doc():
+    if not FERIADOS_PATH.exists():
+        return {"meta": {}, "feriados": [], "suspensiones": []}
+    try:
+        return json.loads(FERIADOS_PATH.read_text(encoding="utf-8-sig"))
+    except Exception as e:
+        return {"meta": {"error": str(e)}, "feriados": [], "suspensiones": []}
+
+def _feriados_set():
+    """Set de fechas no computables (feriados + rangos de suspensión), cacheado por mtime."""
+    if not FERIADOS_PATH.exists(): return set()
+    m = FERIADOS_PATH.stat().st_mtime
+    if _FERIADOS_CACHE["mtime"] == m: return _FERIADOS_CACHE["dias"]
+    dias = set()
+    doc = load_feriados_doc()
+    for f in doc.get("feriados", []):
+        try: dias.add(datetime.strptime(str(f.get("fecha", ""))[:10], "%Y-%m-%d").date())
+        except ValueError: pass
+    for s in doc.get("suspensiones", []):
+        try:
+            a = datetime.strptime(str(s.get("desde", ""))[:10], "%Y-%m-%d").date()
+            b = datetime.strptime(str(s.get("hasta", ""))[:10], "%Y-%m-%d").date()
+            cur = a
+            while cur <= b:
+                dias.add(cur); cur += timedelta(days=1)
+        except ValueError: pass
+    _FERIADOS_CACHE.update(mtime=m, dias=dias)
+    return dias
+
 def business_days(d1: datetime, d2: datetime) -> int:
-    """Días hábiles transcurridos (Art. 73 COGEP — excluye sáb/dom; no feriados)."""
+    """Días hábiles transcurridos (Arts. 73 y 77 COGEP — excluye sáb/dom,
+    feriados y suspensiones de término de /data/feriados_judiciales.json)."""
     if not d1 or not d2 or d2 <= d1: return 0
+    fer = _feriados_set()
     days, cur = 0, d1.date()
     while cur < d2.date():
         cur += timedelta(days=1)
-        if cur.weekday() < 5: days += 1
+        if cur.weekday() < 5 and cur not in fer: days += 1
     return days
 
 def _match_acto(kb, nombre, tipo=""):
@@ -965,7 +1037,10 @@ def razonar_expediente(data):
     """Motor de reglas: evalúa cada término COGEP sobre las actividades reales."""
     kb = load_kb()
     if "error" in kb: return kb
-    umbrales = kb.get("umbrales", {})
+    umbrales = dict(kb.get("umbrales", {}))
+    try:   # override del usuario-experto (panel de supuestos, con límites min-max)
+        umbrales.update({k: v for k, v in (load_adapt_cfg().get("umbrales_razonador") or {}).items() if v is not None})
+    except Exception: pass
     proc = _detect_procedimiento(kb, data)
 
     acts = data.get("actividades") or []
@@ -998,6 +1073,7 @@ def razonar_expediente(data):
                                "dias": None, "exceso": 0, "indicador": regla.get("indicador", False),
                                "dictamen": "No constan en el expediente ambos actos procesales necesarios para evaluar este término."})
             continue
+        regla  = _regla_efectiva(regla, h["fecha"])   # M3: versión de la regla vigente a la fecha del acto
         dias   = business_days(d["fecha"], h["fecha"])
         estado = _verdict(dias, regla["termino_dias"], umbrales)
         res = {"regla": regla["id"], "nombre": regla["nombre"], "articulo": regla["articulo"],
@@ -1656,7 +1732,7 @@ def post_cogep_chat(req: ChatReq):
 
 
 # ═══════════════════════════════════════════════════════════════════
-#  SDT_CJ — Gemelo Digital Estructural del Consejo de la Judicatura (CJ)
+#  SDT_CJ — Modelo Digital Estructural (SDT) del Consejo de la Judicatura (CJ)
 #  Web scraping del portal funcionjudicial.gob.ec + análisis de madurez
 #  LegalTech contra MALTG_ontology.owl → /data/SDT_CJ.json (JSON-LD)
 # ═══════════════════════════════════════════════════════════════════
@@ -1900,7 +1976,7 @@ def build_sdt_cj(scrape_report=None, evidence_run=None):
         },
         "@id":"sdt:SDT_CJ_Ecuador","@type":"sdt:StructuralDigitalTwin",
         "meta":{
-            "title":"SDT_CJ — Gemelo Digital Estructural del Ecosistema Tecnologico del Consejo de la Judicatura del Ecuador",
+            "title":"SDT_CJ — Modelo Digital Estructural (SDT) del Ecosistema Tecnologico del Consejo de la Judicatura del Ecuador",
             "version":"1.0.0",
             "description":"Gemelo digital estructural (SDT) del ecosistema digital del CJ, evaluado contra la ontologia MALTG para determinar su Nivel de Madurez LegalTech.",
             "subject":"Consejo de la Judicatura del Ecuador (funcionjudicial.gob.ec)",
@@ -1931,7 +2007,7 @@ def build_sdt_cj(scrape_report=None, evidence_run=None):
     return doc
 
 @app.post("/api/sdt-cj/scrape", summary="Scraping del portal CJ → genera SDT_CJ.json (JSON-LD)", tags=["SDT_CJ"])
-def post_sdt_cj_scrape():
+def post_sdt_cj_scrape(base: str = ""):
     """Ejecuta scraping en vivo del ecosistema CJ, recalcula la madurez y persiste /data/SDT_CJ.json.
 
     Blindado: nunca propaga una excepción (siempre devuelve JSON válido), de modo que el
@@ -1965,6 +2041,50 @@ def post_sdt_cj_scrape():
                      refs=[r for r in [evidence_run, "SDT_CJ.json"] if r])
     except Exception as e:
         doc["_write_error"] = str(e)
+    # Persistir copia JSON-LD en /data/sdt/LegalTech_<dominio>_<fecha>.json
+    # (dominio de la URL objetivo del tab Simulación: funcionjudicial, corteconstitucional, ...)
+    try:
+        import copy as _copy
+        from urllib.parse import urlparse
+        host = (urlparse(base).hostname or "") if base else ""
+        host = (host or "funcionjudicial.gob.ec").lower()
+        if host.startswith("www."):
+            host = host[4:]
+        dom = re.sub(r"[^a-z0-9]", "", host.split(".")[0]) or "sitio"
+        base_url = base or "https://www.funcionjudicial.gob.ec/"
+
+        # El archivo por dominio hereda el análisis pero con metadatos coherentes
+        # con el sitio realmente auditado (no siempre el CJ).
+        sdt_doc = _copy.deepcopy(doc)
+        for k in ("_written", "_write_error", "_saved_sdt", "_sdt_save_error"):
+            sdt_doc.pop(k, None)
+        DOMAIN_LABELS = {
+            "funcionjudicial":    "Consejo de la Judicatura del Ecuador",
+            "corteconstitucional":"Corte Constitucional del Ecuador",
+            "procesosjudiciales": "SATJE — Procesos Judiciales (Función Judicial)",
+        }
+        ent = DOMAIN_LABELS.get(dom, host)
+        sdt_doc["@id"] = f"sdt:SDT_{dom}"
+        m = sdt_doc.setdefault("meta", {})
+        m["title"] = f"SDT_{dom} — Modelo Digital Estructural (SDT) del Ecosistema Tecnologico de {ent}"
+        m["subject"] = f"{ent} ({host})"
+        m["primary_source"] = base_url
+        m["domain"] = dom
+        m["scraping_target"] = base_url
+
+        fecha = utcnow_iso()[:10].replace("-", "")
+        sdt_dir = DATA_DIR / "sdt"
+        sdt_dir.mkdir(parents=True, exist_ok=True)
+        out = sdt_dir / f"LegalTech_{dom}_{fecha}.json"
+        raw = json.dumps(sdt_doc, ensure_ascii=False, indent=2)
+        sdt_doc["meta"]["self_hash"] = "sha256:" + hashlib.sha256(raw.encode()).hexdigest()[:16]
+        out.write_text(json.dumps(sdt_doc, ensure_ascii=False, indent=2), encoding="utf-8")
+        # Devolver el doc con metadatos del dominio para que el tab Simulación
+        # muestre las secciones coherentes con el sitio auditado.
+        doc = sdt_doc
+        doc["_saved_sdt"] = f"/data/sdt/{out.name}"
+    except Exception as e:
+        doc["_sdt_save_error"] = str(e)
     return doc
 
 @app.get("/api/sdt-cj", summary="Lee /data/SDT_CJ.json (gemelo digital estructural del CJ)", tags=["SDT_CJ"])
@@ -2203,5 +2323,958 @@ def post_bitacora(payload: dict = Body(...)):
     return {"ok": True, "entry": e}
 
 
+# ═══════════════════════════════════════════════════════════════════
+#  CAPA ADAPTATIVA (MAPE-K) — Monitor→Analyze→Plan→Execute sobre las
+#  ontologías (Knowledge). Ver PLAN_ADAPTATIVIDAD.md.
+#  M1 Variabilidad fáctica (IVF) · M2 Process Drift (IDP) ·
+#  M5 Trazabilidad (contexto_adaptacion + bitácora) · M6 Alertas.
+# ═══════════════════════════════════════════════════════════════════
+ADAPT_CFG_PATH = DATA_DIR / "adaptativo_config.json"
+SALUD_CACHE    = DATA_DIR / "salud_global_cache.json"
+RAZONADOR_VERSION = "v3-adaptativo"
+
+DEFAULT_ADAPT_CFG = {
+    "version": 1,
+    "pesos_ranking": {"salud": 0.50, "variabilidad": 0.25, "drift": 0.25},
+    "peso_empirico_radar": 0.50,
+    "puntos_drift": {"loop": 20, "pingpong": 15, "estancamiento_legal": 25,
+                     "estancamiento_ref": 10, "retroceso": 20},
+    "umbrales": {"loop_k": 3, "gap_referencial_dias": 60},
+    "f1_min": 0.85,
+    "umbrales_razonador": {"incumple_factor": 1.25},
+    "actualizado": None, "actor": "sistema",
+}
+
+DISCLAIMER = ("Indicador de apoyo generado por razonamiento simbólico sobre la ontología COGEP — "
+              "no constituye asesoría jurídica ni prejuzga la conducta procesal de los intervinientes.")
+
+def load_adapt_cfg():
+    cfg = json.loads(json.dumps(DEFAULT_ADAPT_CFG))  # deep copy
+    if ADAPT_CFG_PATH.exists():
+        try:
+            user = json.loads(ADAPT_CFG_PATH.read_text(encoding="utf-8-sig"))
+            for k, v in user.items():
+                if isinstance(v, dict) and isinstance(cfg.get(k), dict): cfg[k].update(v)
+                else: cfg[k] = v
+        except Exception: pass
+    return cfg
+
+def _contexto_adaptacion(trigger, extra=None):
+    """M5 — metadatos de contexto: con qué conocimiento/configuración se produjo la salida."""
+    ctx = {"kb_hash": file_hash(KB_PATH), "feriados_hash": file_hash(FERIADOS_PATH),
+           "config_hash": file_hash(ADAPT_CFG_PATH), "ontologia_hash": file_hash(OWL_PATH),
+           "razonador_version": RAZONADOR_VERSION, "timestamp": utcnow_iso(), "trigger": trigger}
+    if extra: ctx.update(extra)
+    return ctx
+
+def _norm_prov(s):
+    return re.sub(r"\s+", " ", str(s or "").strip().upper())
+
+def _iter_causas():
+    if not EXP_DIR.exists(): return
+    for p in sorted(EXP_DIR.glob("*.json")):
+        try: d = json.loads(p.read_text(encoding="utf-8-sig"))
+        except Exception: continue
+        label, juicio = _causa_label(d, p.stem)
+        yield p.name, label, juicio, d
+
+# ── M1 · Variabilidad del Contexto Fáctico (IVF) ─────────────────────
+def variabilidad_causa(kb, data):
+    """IVF = 100·(actos_no_canónicos + actos_faltantes)/(canónicos + no_canónicos).
+    'No canónico' = actividad que no resuelve a ningún acto de la ontología
+    (fuera de frontera de vocabulario — guardrail M4)."""
+    proc = _detect_procedimiento(kb, data)
+    canon = []
+    for e in proc.get("etapas", []):
+        for a in e.get("actos", []):
+            if a not in canon: canon.append(a)
+    matched, extra = set(), {}
+    for a in (data.get("actividades") or []):
+        acto = _match_acto(kb, a.get("NombreProvidencia"), a.get("TipoProvidencia"))
+        if acto: matched.add(acto["id"])
+        else:
+            k = _norm_prov(a.get("NombreProvidencia"))
+            if k: extra[k] = extra.get(k, 0) + 1
+    faltantes = [c for c in canon if c not in matched]
+    ivf = round(min(100.0, 100.0 * (len(extra) + len(faltantes)) / max(1, len(canon) + len(extra))), 1)
+    return {"procedimiento": proc.get("id"), "actos_canonicos": len(canon),
+            "actos_presentes": sorted(matched), "actos_faltantes": faltantes,
+            "fuera_de_frontera": [{"actividad": k, "veces": v} for k, v in sorted(extra.items())],
+            "ivf": ivf}
+
+# ── M2 · Deriva del Proceso (IDP) ────────────────────────────────────
+_DRIFT_EXCLUDE_RETRO = {"act_notificacion"}
+
+def drift_causa(kb, data, cfg, razon=None):
+    """Detectores de dilación: loops, ping-pong, estancamiento (criterio legal COGEP
+    primero; umbral referencial solo sin término aplicable) y retroceso de etapa."""
+    umb, pts = cfg.get("umbrales", {}), cfg.get("puntos_drift", {})
+    proc = _detect_procedimiento(kb, data)
+    acts = sorted((data.get("actividades") or []), key=lambda a: str(a.get("FechaProvidencia") or ""))
+    findings = []
+
+    # 1) Loops — misma providencia repetida ≥ k veces
+    loop_k = safe_int(umb.get("loop_k", 3), 3)
+    counts = {}
+    for a in acts:
+        k = _norm_prov(a.get("NombreProvidencia"))
+        if k: counts[k] = counts.get(k, 0) + 1
+    for k, n in counts.items():
+        if n >= loop_k:
+            findings.append({"tipo": "loop", "severidad": "alta", "puntos": pts.get("loop", 20),
+                             "detalle": f"'{k[:80]}' se repite {n} veces (umbral configurado: {loop_k}). Posible patrón dilatorio."})
+
+    # 2) Ping-pong — alternancia A→B→A→B de actos ontológicos
+    seq = []
+    for a in acts:
+        m = _match_acto(kb, a.get("NombreProvidencia"), a.get("TipoProvidencia"))
+        seq.append(m["id"] if m else None)
+    i = 0
+    while i + 3 < len(seq):
+        a1, b1, a2, b2 = seq[i:i+4]
+        if a1 and b1 and a1 != b1 and a1 == a2 and b1 == b2:
+            findings.append({"tipo": "pingpong", "severidad": "alta", "puntos": pts.get("pingpong", 15),
+                             "detalle": f"Alternancia {a1} ↔ {b1} desde la actuación #{i+1}."})
+            i += 4
+        else:
+            i += 1
+
+    # 3) Estancamiento — criterio primario: término legal COGEP incumplido (razonador)
+    razon = razon or razonar_expediente(data)
+    reglas_eval = razon.get("resultados", []) if isinstance(razon, dict) else []
+    actos_con_regla = set()
+    for r in reglas_eval:
+        if r.get("estado") == "NO_EVALUABLE": continue
+        actos_con_regla.update([r.get("acto_desde"), r.get("acto_hasta")])
+        if r.get("estado") == "INCUMPLE":
+            findings.append({"tipo": "estancamiento_legal", "severidad": "critica",
+                             "puntos": pts.get("estancamiento_legal", 25), "articulo": r.get("articulo"),
+                             "detalle": (f"{r.get('nombre')}: {r.get('dias')} días hábiles frente a un término de "
+                                         f"{r.get('termino_dias')} ({r.get('articulo')} COGEP).")})
+    # criterio de respaldo (sin fundamento normativo — solo referencial)
+    gap_ref = safe_int(umb.get("gap_referencial_dias", 60), 60)
+    prev_f, prev_n = None, ""
+    for a in acts:
+        f = _parse_dt_str(a.get("FechaProvidencia"))
+        if not f: continue
+        if prev_f:
+            gap = business_days(prev_f, f)
+            m = _match_acto(kb, a.get("NombreProvidencia"), a.get("TipoProvidencia"))
+            if gap > gap_ref and (not m or m["id"] not in actos_con_regla):
+                findings.append({"tipo": "estancamiento_ref", "severidad": "media",
+                                 "puntos": pts.get("estancamiento_ref", 10),
+                                 "detalle": (f"{gap} días hábiles sin término COGEP aplicable entre '{prev_n[:50]}' y "
+                                             f"'{_norm_prov(a.get('NombreProvidencia'))[:50]}' "
+                                             f"(umbral referencial configurado: {gap_ref}; sin fundamento normativo).")})
+        prev_f, prev_n = f, _norm_prov(a.get("NombreProvidencia"))
+
+    # 4) Retroceso de etapa
+    etapa_idx = {}
+    for i_e, e in enumerate(proc.get("etapas", [])):
+        for aid in e.get("actos", []):
+            etapa_idx.setdefault(aid, i_e)
+    max_idx, retros = -1, 0
+    for s in seq:
+        if not s or s in _DRIFT_EXCLUDE_RETRO or s not in etapa_idx: continue
+        idx = etapa_idx[s]
+        if idx < max_idx and retros < 3:
+            retros += 1
+            findings.append({"tipo": "retroceso", "severidad": "alta", "puntos": pts.get("retroceso", 20),
+                             "detalle": f"Acto '{s}' (etapa {idx+1}) posterior a actos de la etapa {max_idx+1}."})
+        max_idx = max(max_idx, idx)
+
+    idp = min(100, sum(f.get("puntos", 0) for f in findings))
+    return {"procedimiento": proc.get("id"), "idp": idp, "n_findings": len(findings),
+            "findings": findings, "disclaimer": DISCLAIMER}
+
+# ── Analyze: corrida batch sobre todo /data/LegalCase ────────────────
+def compute_salud_global():
+    kb, cfg = load_kb(), load_adapt_cfg()
+    if "error" in kb: return kb
+    causas, por_proc = [], {}
+    tot_eval, tot_cumple = 0, 0
+    for name, label, juicio, d in _iter_causas():
+        r = razonar_expediente(d)
+        if not isinstance(r, dict) or "error" in r: continue
+        v  = variabilidad_causa(kb, d)
+        dr = drift_causa(kb, d, cfg, r)
+        pid = r.get("procedimiento", {}).get("id") or "?"
+        row = {"file": name, "juicio": juicio, "label": label, "procedimiento": pid,
+               "salud": r.get("salud"), "evaluadas": r.get("evaluadas", 0),
+               "cumple": r.get("cumple", 0), "alertas": r.get("alertas", 0),
+               "incumplimientos": r.get("incumplimientos", 0),
+               "ivf": v["ivf"], "idp": dr["idp"], "drift_findings": dr["n_findings"],
+               "fuera_de_frontera": len(v["fuera_de_frontera"])}
+        causas.append(row)
+        tot_eval += row["evaluadas"]; tot_cumple += row["cumple"]
+        pp = por_proc.setdefault(pid, {"procedimiento": pid, "n_causas": 0, "evaluadas": 0,
+                                       "cumple": 0, "incumplimientos": 0, "salud_sum": 0.0, "salud_n": 0})
+        pp["n_causas"] += 1; pp["evaluadas"] += row["evaluadas"]; pp["cumple"] += row["cumple"]
+        pp["incumplimientos"] += row["incumplimientos"]
+        if row["salud"] is not None: pp["salud_sum"] += row["salud"]; pp["salud_n"] += 1
+    for pp in por_proc.values():
+        pp["indice"] = round(100.0 * pp["cumple"] / max(1, pp["evaluadas"]), 1)
+        pp["salud_media"] = round(pp["salud_sum"] / pp["salud_n"], 1) if pp["salud_n"] else None
+        pp.pop("salud_sum"); pp.pop("salud_n")
+    con_salud = [c["salud"] for c in causas if c["salud"] is not None]
+    indice = round(100.0 * tot_cumple / max(1, tot_eval), 1)
+    out = {"indice_global": indice,
+           "salud_media": round(sum(con_salud) / len(con_salud), 1) if con_salud else None,
+           "actos_en_plazo": tot_cumple, "actos_evaluables": tot_eval,
+           "n_causas": len(causas), "por_procedimiento": sorted(por_proc.values(), key=lambda x: -x["n_causas"]),
+           "causas": causas, "disclaimer": DISCLAIMER,
+           "contexto_adaptacion": _contexto_adaptacion("salud_global", {"n_causas": len(causas)})}
+    # Execute + M5: persistir y asentar en bitácora solo si el índice cambió
+    try:
+        prev = json.loads(SALUD_CACHE.read_text(encoding="utf-8")) if SALUD_CACHE.exists() else {}
+        if prev.get("indice_global") != indice:
+            bitacora_log("sistema-adaptativo", "recalculo_salud_global",
+                         f"Índice empírico {prev.get('indice_global', '—')} → {indice} "
+                         f"({tot_cumple}/{tot_eval} actos en plazo, {len(causas)} causas). "
+                         f"kb={out['contexto_adaptacion']['kb_hash'][:8]} feriados={out['contexto_adaptacion']['feriados_hash'][:8]}",
+                         refs=["/api/cogep/salud-global"], tipo="adaptacion")
+        SALUD_CACHE.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    except Exception: pass
+    return out
+
+# ── Endpoints ────────────────────────────────────────────────────────
+@app.get("/api/cogep/salud-global", summary="Índice empírico procesal (batch sobre /data/LegalCase)", tags=["Adaptativo (MAPE-K)"])
+def get_salud_global():
+    return compute_salud_global()
+
+@app.get("/api/adaptativo/config", summary="Configuración de métricas del usuario (pesos/umbrales)", tags=["Adaptativo (MAPE-K)"])
+def get_adapt_config():
+    return load_adapt_cfg()
+
+@app.post("/api/adaptativo/config", summary="Guardar configuración (normaliza pesos, asienta en bitácora)", tags=["Adaptativo (MAPE-K)"])
+def post_adapt_config(payload: dict = Body(...)):
+    cfg = load_adapt_cfg()
+    for k in ("pesos_ranking", "puntos_drift", "umbrales"):
+        if isinstance(payload.get(k), dict): cfg[k].update(payload[k])
+    if "peso_empirico_radar" in payload:
+        try: cfg["peso_empirico_radar"] = min(1.0, max(0.0, float(payload["peso_empirico_radar"])))
+        except (TypeError, ValueError): pass
+    tot = sum(max(0.0, float(v or 0)) for v in cfg["pesos_ranking"].values()) or 1.0
+    cfg["pesos_ranking"] = {k: round(max(0.0, float(v or 0)) / tot, 4) for k, v in cfg["pesos_ranking"].items()}
+    cfg["actualizado"] = utcnow_iso()
+    cfg["actor"] = str(payload.get("actor", "usuario"))[:80]
+    ADAPT_CFG_PATH.write_text(json.dumps(cfg, ensure_ascii=False, indent=2), encoding="utf-8")
+    bitacora_log(cfg["actor"], "config_metricas_adaptativas",
+                 f"pesos_ranking={cfg['pesos_ranking']} peso_empirico_radar={cfg['peso_empirico_radar']} "
+                 f"umbrales={cfg['umbrales']}", refs=["/api/adaptativo/config"], tipo="adaptacion")
+    return {"ok": True, "config": cfg}
+
+@app.get("/api/adaptativo/feriados", summary="Feriados y suspensiones de término (editable)", tags=["Adaptativo (MAPE-K)"])
+def get_feriados():
+    return load_feriados_doc()
+
+@app.post("/api/adaptativo/feriados", summary="Guardar feriados/suspensiones (valida fechas, asienta en bitácora)", tags=["Adaptativo (MAPE-K)"])
+def post_feriados(payload: dict = Body(...)):
+    doc = load_feriados_doc()
+    def _valid_date(s):
+        try: datetime.strptime(str(s)[:10], "%Y-%m-%d"); return True
+        except ValueError: return False
+    if isinstance(payload.get("feriados"), list):
+        fer = [f for f in payload["feriados"] if isinstance(f, dict) and _valid_date(f.get("fecha"))]
+        doc["feriados"] = sorted(({"fecha": str(f["fecha"])[:10], "motivo": str(f.get("motivo", ""))[:120],
+                                   "ambito": str(f.get("ambito", "nacional"))[:40],
+                                   "fuente": str(f.get("fuente", "usuario"))[:120]} for f in fer),
+                                 key=lambda x: x["fecha"])
+    if isinstance(payload.get("suspensiones"), list):
+        doc["suspensiones"] = [{"desde": str(s["desde"])[:10], "hasta": str(s["hasta"])[:10],
+                                "motivo": str(s.get("motivo", ""))[:160]}
+                               for s in payload["suspensiones"]
+                               if isinstance(s, dict) and _valid_date(s.get("desde")) and _valid_date(s.get("hasta"))]
+    meta = doc.setdefault("meta", {})
+    meta["actualizado"] = utcnow_iso(); meta["actor"] = str(payload.get("actor", "usuario"))[:80]
+    FERIADOS_PATH.write_text(json.dumps(doc, ensure_ascii=False, indent=2), encoding="utf-8")
+    bitacora_log(meta["actor"], "edicion_feriados_judiciales",
+                 f"{len(doc.get('feriados', []))} feriados, {len(doc.get('suspensiones', []))} suspensiones. "
+                 "Afecta el cómputo de días hábiles (Art. 77 COGEP) de todos los dictámenes.",
+                 refs=["/api/adaptativo/feriados"], tipo="adaptacion")
+    return {"ok": True, "feriados": len(doc.get("feriados", [])), "suspensiones": len(doc.get("suspensiones", []))}
+
+@app.get("/api/adaptativo/variabilidad", summary="M1 · IVF de una causa (contexto fáctico vs flujo canónico)", tags=["Adaptativo (MAPE-K)"])
+def get_variabilidad(file: str = ""):
+    kb = load_kb()
+    if "error" in kb: return kb
+    d = get_expediente(file)
+    if "error" in d: return d
+    out = variabilidad_causa(kb, d)
+    out["juicio"] = d.get("juicio"); out["contexto_adaptacion"] = _contexto_adaptacion("variabilidad")
+    return out
+
+@app.get("/api/adaptativo/drift", summary="M2 · Deriva procesal de una causa (loops, ping-pong, estancamiento, retroceso)", tags=["Adaptativo (MAPE-K)"])
+def get_drift(file: str = ""):
+    kb, cfg = load_kb(), load_adapt_cfg()
+    if "error" in kb: return kb
+    d = get_expediente(file)
+    if "error" in d: return d
+    out = drift_causa(kb, d, cfg)
+    out["juicio"] = d.get("juicio"); out["contexto_adaptacion"] = _contexto_adaptacion("drift")
+    return out
+
+@app.get("/api/adaptativo/ranking", summary="Ranking de juicios por proceso según métricas del usuario", tags=["Adaptativo (MAPE-K)"])
+def get_ranking(proc: str = ""):
+    """Score de riesgo = w_salud·(100−salud) + w_var·IVF + w_drift·IDP, con pesos
+    fijados por el usuario en /api/adaptativo/config. Peor score = primero."""
+    cfg = load_adapt_cfg()
+    sg  = compute_salud_global()
+    if "error" in sg: return sg
+    w = cfg["pesos_ranking"]
+    rows = []
+    for c in sg["causas"]:
+        if proc and c["procedimiento"] != proc: continue
+        salud = c["salud"] if c["salud"] is not None else 50.0
+        riesgo = round(w.get("salud", .5) * (100 - salud) + w.get("variabilidad", .25) * c["ivf"]
+                       + w.get("drift", .25) * c["idp"], 1)
+        rows.append({**c, "riesgo": riesgo})
+    rows.sort(key=lambda r: -r["riesgo"])
+    for i, r in enumerate(rows, 1): r["rank"] = i
+    procs = sorted({c["procedimiento"] for c in sg["causas"]})
+    return {"proc": proc or "TODOS", "procedimientos": procs, "pesos": w,
+            "n": len(rows), "ranking": rows, "indice_global": sg["indice_global"],
+            "por_procedimiento": sg["por_procedimiento"],
+            "contexto_adaptacion": sg["contexto_adaptacion"], "disclaimer": DISCLAIMER}
+
+@app.get("/api/adaptativo/alertas", summary="M6 · Seguridad cognitiva: alertas de aspectos fuera de ley", tags=["Adaptativo (MAPE-K)"])
+def get_alertas(file: str = ""):
+    kb, cfg = load_kb(), load_adapt_cfg()
+    if "error" in kb: return kb
+    alertas = []
+    for name, label, juicio, d in _iter_causas():
+        if file and name != file: continue
+        r = razonar_expediente(d)
+        if not isinstance(r, dict) or "error" in r: continue
+        for res in r.get("resultados", []):
+            if res.get("estado") == "INCUMPLE":
+                alertas.append({"nivel": "critica", "tipo": "termino_vencido", "juicio": juicio, "file": name,
+                                "articulo": res.get("articulo"), "titulo": f"Término legal vencido — {res.get('nombre')}",
+                                "hecho": f"{res.get('dias')} días hábiles (término: {res.get('termino_dias')}) "
+                                         f"entre {res.get('desde_fecha')} y {res.get('hasta_fecha')}.",
+                                "fundamento": f"{res.get('articulo')} COGEP · Art. 93 COGEP (sanción por incumplimiento)"})
+        dr = drift_causa(kb, d, cfg, r)
+        for f in dr["findings"]:
+            if f["tipo"] in ("loop", "pingpong", "retroceso"):
+                alertas.append({"nivel": "alta", "tipo": f"drift_{f['tipo']}", "juicio": juicio, "file": name,
+                                "titulo": "Patrón de tramitación con posible dilación",
+                                "hecho": f["detalle"], "fundamento": "Detector M2 (process drift) — patrón, no conducta"})
+        v = variabilidad_causa(kb, d)
+        for x in v["fuera_de_frontera"]:
+            alertas.append({"nivel": "media", "tipo": "fuera_de_frontera", "juicio": juicio, "file": name,
+                            "titulo": "Actuación fuera de la frontera ontológica (guardrail M4)",
+                            "hecho": f"'{x['actividad'][:90]}' ({x['veces']}×) no resuelve a ningún acto de la ontología COGEP.",
+                            "fundamento": "Derivada a criterio humano — el sistema no clasifica fuera de su vocabulario"})
+    orden = {"critica": 0, "alta": 1, "media": 2}
+    alertas.sort(key=lambda a: (orden.get(a["nivel"], 3), a["juicio"]))
+    return {"n": len(alertas),
+            "por_nivel": {k: sum(1 for a in alertas if a["nivel"] == k) for k in ("critica", "alta", "media")},
+            "alertas": alertas, "disclaimer": DISCLAIMER,
+            "contexto_adaptacion": _contexto_adaptacion("alertas")}
+
+
+# ═══════════════════════════════════════════════════════════════════
+#  VALIDACIÓN ADAPTATIVA (PLAN_VALIDACION_ADAPTATIVA.md)
+#  A1 gold standard + eval del razonador · A2 cambio normativo ·
+#  A3 rúbrica + AHP + sensibilidad · A4 OWL + CQs · A5 muestra ·
+#  Panel de supuestos del experto con límites min-max.
+# ═══════════════════════════════════════════════════════════════════
+GOLD_DIR       = DATA_DIR / "gold"
+GOLD_PATH      = GOLD_DIR / "gold_standard.json"
+EVAL_REPORT    = GOLD_DIR / "eval_report.json"
+RUBRICA_PATH   = DATA_DIR / "rubrica_dimensiones.json"
+EVID_DIM_PATH  = DATA_DIR / "evidencia_dimensiones.json"
+KB_CHANGELOG   = DATA_DIR / "kb_changelog.json"
+CQ_PATH        = DATA_DIR / "competency_questions.json"
+COGEP_OWL_PATH = DATA_DIR / "COGEP_ontology.owl"
+
+def _jload(p, default):
+    try: return json.loads(p.read_text(encoding="utf-8-sig"))
+    except Exception: return default
+
+def _jsave(p, obj):
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding="utf-8")
+
+# ── M3 · versión de regla vigente a la fecha del acto ───────────────
+def _regla_efectiva(regla, fecha):
+    hist = regla.get("historial") or []
+    if not hist or not fecha: return regla
+    fd = fecha.strftime("%Y-%m-%d") if hasattr(fecha, "strftime") else str(fecha)[:10]
+    best = None
+    for h in hist:
+        vd = str(h.get("vigencia_desde", ""))[:10]
+        vh = str(h.get("vigencia_hasta") or "9999-12-31")[:10]
+        if vd and vd <= fd <= vh and (best is None or vd >= str(best.get("vigencia_desde", ""))[:10]):
+            best = h
+    if not best: return regla
+    r = dict(regla)
+    r.update({k: v for k, v in best.items() if k in ("termino_dias", "texto_norma", "articulo")})
+    r["_version_vigente_desde"] = best.get("vigencia_desde")
+    return r
+
+# ── Panel de Supuestos del experto (todo valor asumido, con min-max) ─
+SUPUESTOS_DEF = [
+    {"clave": "pesos_ranking.salud",        "grupo": "Ranking", "nombre": "Peso: salud procesal",      "min": 0,   "max": 1,   "paso": 0.05, "descripcion": "Peso de (100−salud) en el score de riesgo. Se normaliza con los otros dos."},
+    {"clave": "pesos_ranking.variabilidad", "grupo": "Ranking", "nombre": "Peso: variabilidad (IVF)",  "min": 0,   "max": 1,   "paso": 0.05, "descripcion": "Peso del Índice de Variabilidad Fáctica en el riesgo."},
+    {"clave": "pesos_ranking.drift",        "grupo": "Ranking", "nombre": "Peso: deriva (IDP)",        "min": 0,   "max": 1,   "paso": 0.05, "descripcion": "Peso del Índice de Deriva Procesal en el riesgo."},
+    {"clave": "peso_empirico_radar",        "grupo": "Radar",   "nombre": "Peso empírico en el radar", "min": 0,   "max": 1,   "paso": 0.05, "descripcion": "Mezcla del índice empírico con el score declarado en la dimensión LegalTech."},
+    {"clave": "psi.root",                   "grupo": "Radar",   "nombre": "Ψ: peso del concepto raíz", "min": 0.1, "max": 0.9, "paso": 0.05, "descripcion": "w_root en Ψ(d); subs = 1 − root. Justificable vía AHP (tab Validación)."},
+    {"clave": "puntos_drift.loop",          "grupo": "Drift",   "nombre": "Puntos: loop",              "min": 0,   "max": 50,  "paso": 1,    "descripcion": "Puntos de IDP por providencia repetida ≥ k veces."},
+    {"clave": "puntos_drift.pingpong",      "grupo": "Drift",   "nombre": "Puntos: ping-pong",         "min": 0,   "max": 50,  "paso": 1,    "descripcion": "Puntos de IDP por alternancia A→B→A→B."},
+    {"clave": "puntos_drift.estancamiento_legal", "grupo": "Drift", "nombre": "Puntos: estancamiento legal", "min": 0, "max": 50, "paso": 1, "descripcion": "Puntos por término COGEP incumplido (criterio normativo)."},
+    {"clave": "puntos_drift.estancamiento_ref",   "grupo": "Drift", "nombre": "Puntos: estancamiento referencial", "min": 0, "max": 50, "paso": 1, "descripcion": "Puntos por gap sin término aplicable (criterio referencial, no normativo)."},
+    {"clave": "puntos_drift.retroceso",     "grupo": "Drift",   "nombre": "Puntos: retroceso de etapa","min": 0,   "max": 50,  "paso": 1,    "descripcion": "Puntos por acto de etapa anterior tras etapa posterior."},
+    {"clave": "umbrales.loop_k",            "grupo": "Drift",   "nombre": "Umbral: repeticiones (k)",  "min": 2,   "max": 10,  "paso": 1,    "descripcion": "Repeticiones mínimas de una providencia para marcar loop."},
+    {"clave": "umbrales.gap_referencial_dias", "grupo": "Drift","nombre": "Umbral: gap referencial",   "min": 5,   "max": 365, "paso": 5,    "descripcion": "Días hábiles sin término aplicable para marcar estancamiento referencial."},
+    {"clave": "umbrales_razonador.incumple_factor", "grupo": "Razonador", "nombre": "Factor ALERTA→INCUMPLE", "min": 1.0, "max": 2.0, "paso": 0.05, "descripcion": "días ≤ término ⇒ CUMPLE · ≤ término×factor ⇒ ALERTA · mayor ⇒ INCUMPLE."},
+    {"clave": "f1_min",                     "grupo": "Validez IA", "nombre": "Umbral de aceptación F1", "min": 0.5, "max": 1.0, "paso": 0.01, "descripcion": "F1 mínimo del mapeo providencia→acto para considerar el razonador apto como indicador agregado."},
+]
+
+def _cfg_get(cfg, dotted):
+    cur = cfg
+    for k in dotted.split("."):
+        if not isinstance(cur, dict) or k not in cur: return None
+        cur = cur[k]
+    return cur
+
+def _cfg_set(cfg, dotted, v):
+    ks = dotted.split(".")
+    cur = cfg
+    for k in ks[:-1]: cur = cur.setdefault(k, {})
+    cur[ks[-1]] = v
+
+@app.get("/api/adaptativo/supuestos", summary="Supuestos del experimento (valor, min, max, procedencia)", tags=["Adaptativo (MAPE-K)"])
+def get_supuestos():
+    cfg = load_adapt_cfg()
+    w_root, _ = _psi_weights()
+    ahp = _jload(PESOS_AHP_PATH, {})
+    out = []
+    for s in SUPUESTOS_DEF:
+        if s["clave"] == "psi.root":
+            val, proc = w_root, ahp.get("procedencia", "default 0.40/0.60 (sin AHP)")
+        else:
+            val, proc = _cfg_get(cfg, s["clave"]), ("configurado por " + str(cfg.get("actor", "sistema"))) if cfg.get("actualizado") else "default del sistema"
+        out.append({**s, "valor": val, "procedencia": proc})
+    return {"supuestos": out, "actualizado": cfg.get("actualizado"), "actor": cfg.get("actor"),
+            "nota": "Todo valor asumido de la simulación es configurable aquí dentro de sus límites; cada cambio queda en bitácora."}
+
+@app.post("/api/adaptativo/supuestos", summary="Fijar supuestos (valida min-max, asienta en bitácora)", tags=["Adaptativo (MAPE-K)"])
+def post_supuestos(payload: dict = Body(...)):
+    valores = payload.get("valores") or {}
+    actor = str(payload.get("actor", "usuario-experto"))[:80]
+    cfg = load_adapt_cfg()
+    aplicados, rechazados = {}, {}
+    for s in SUPUESTOS_DEF:
+        k = s["clave"]
+        if k not in valores: continue
+        try: v = float(valores[k])
+        except (TypeError, ValueError):
+            rechazados[k] = "no numérico"; continue
+        if v < s["min"] or v > s["max"]:
+            rechazados[k] = f"fuera de rango [{s['min']}, {s['max']}]"; continue
+        if s["paso"] == 1: v = int(round(v))
+        if k == "psi.root":
+            ahp = _jload(PESOS_AHP_PATH, {})
+            ahp["psi"] = {"root": round(v, 4), "subs": round(1 - v, 4)}
+            ahp["procedencia"] = f"panel de supuestos ({actor})"
+            _jsave(PESOS_AHP_PATH, ahp)
+        else:
+            _cfg_set(cfg, k, v)
+        aplicados[k] = v
+    if aplicados:
+        tot = sum(max(0.0, float(v or 0)) for v in cfg["pesos_ranking"].values()) or 1.0
+        cfg["pesos_ranking"] = {k: round(max(0.0, float(v or 0)) / tot, 4) for k, v in cfg["pesos_ranking"].items()}
+        cfg["actualizado"] = utcnow_iso(); cfg["actor"] = actor
+        ADAPT_CFG_PATH.write_text(json.dumps(cfg, ensure_ascii=False, indent=2), encoding="utf-8")
+        bitacora_log(actor, "supuestos_experimento", f"aplicados={aplicados} rechazados={rechazados}",
+                     refs=["/api/adaptativo/supuestos"], tipo="adaptacion")
+    return {"ok": True, "aplicados": aplicados, "rechazados": rechazados}
+
+# ── A1 · Gold standard + evaluación del razonador ────────────────────
+@app.get("/api/eval/gold", summary="A1 · Anotaciones gold standard + progreso", tags=["Validez IA"])
+def get_gold():
+    g = _jload(GOLD_PATH, {"anotaciones": []})
+    an = g.get("anotaciones", [])
+    por_proc, anotadores = {}, {}
+    kbp = load_kb()
+    for a in an:
+        por_proc[a.get("procedimiento", "?")] = por_proc.get(a.get("procedimiento", "?"), 0) + 1
+        anotadores[a.get("anotador", "?")] = anotadores.get(a.get("anotador", "?"), 0) + 1
+    actos = [{"id": x["id"], "nombre": x["nombre"], "articulo": x.get("articulo", "")} for x in kbp.get("actos", [])] if "error" not in kbp else []
+    return {"n": len(an), "por_procedimiento": por_proc, "anotadores": anotadores,
+            "anotaciones": an, "actos_catalogo": actos,
+            "veredictos": ["CUMPLE", "ALERTA", "INCUMPLE", "NO_EVALUABLE"]}
+
+@app.get("/api/eval/causa", summary="A1 · Actuaciones de una causa para anotar (con predicción actual)", tags=["Validez IA"])
+def get_eval_causa(file: str = ""):
+    kb = load_kb()
+    if "error" in kb: return kb
+    d = get_expediente(file)
+    if "error" in d: return d
+    proc = _detect_procedimiento(kb, d)
+    g = _jload(GOLD_PATH, {"anotaciones": []})
+    previas = {(a.get("seq")): a for a in g.get("anotaciones", []) if a.get("file") == Path(file).name}
+    filas = []
+    for p in d.get("pasos", []):
+        m = _match_acto(kb, p.get("NombreProvidencia"), p.get("TipoProvidencia"))
+        filas.append({"seq": p["seq"], "actividad": p.get("NombreProvidencia"), "tipo": p.get("TipoProvidencia"),
+                      "fecha": str(p.get("FechaProvidencia") or "")[:10],
+                      "acto_predicho": m["id"] if m else "ninguno",
+                      "anotacion": previas.get(p["seq"])})
+    return {"file": Path(file).name, "juicio": d.get("juicio"), "procedimiento": proc.get("id"), "filas": filas}
+
+@app.post("/api/eval/gold", summary="A1 · Guardar anotaciones del abogado (upsert)", tags=["Validez IA"])
+def post_gold(payload: dict = Body(...)):
+    nuevas = payload.get("anotaciones") or []
+    anotador = str(payload.get("anotador", "")).strip()
+    if not anotador: return {"error": "se requiere 'anotador'"}
+    g = _jload(GOLD_PATH, {"anotaciones": []})
+    idx = {(a.get("file"), a.get("seq"), a.get("anotador")): i for i, a in enumerate(g["anotaciones"])}
+    n_up = 0
+    for a in nuevas:
+        if not a.get("file") or a.get("seq") is None or not a.get("acto_correcto"): continue
+        e = {"file": str(a["file"]), "seq": int(a["seq"]), "actividad": str(a.get("actividad", ""))[:160],
+             "procedimiento": str(a.get("procedimiento", ""))[:20],
+             "acto_correcto": str(a["acto_correcto"])[:40],
+             "veredicto_correcto": str(a.get("veredicto_correcto", ""))[:14] or None,
+             "anotador": anotador[:80], "fecha": utcnow_iso(), "notas": str(a.get("notas", ""))[:300]}
+        key = (e["file"], e["seq"], anotador)
+        if key in idx: g["anotaciones"][idx[key]] = e
+        else: idx[key] = len(g["anotaciones"]); g["anotaciones"].append(e)
+        n_up += 1
+    _jsave(GOLD_PATH, g)
+    bitacora_log(anotador, "anotacion_gold_standard", f"{n_up} actuaciones anotadas/actualizadas (total {len(g['anotaciones'])}).",
+                 refs=["/api/eval/gold"], tipo="adaptacion")
+    return {"ok": True, "guardadas": n_up, "total": len(g["anotaciones"])}
+
+def _prf(conf, labels):
+    """precision/recall/F1 macro desde una matriz de confusión dict[gold][pred]."""
+    per = {}
+    for c in labels:
+        tp = conf.get(c, {}).get(c, 0)
+        fp = sum(conf.get(g, {}).get(c, 0) for g in labels if g != c)
+        fn = sum(conf.get(c, {}).get(p, 0) for p in labels if p != c)
+        prec = tp / (tp + fp) if (tp + fp) else 0.0
+        rec  = tp / (tp + fn) if (tp + fn) else 0.0
+        f1   = 2 * prec * rec / (prec + rec) if (prec + rec) else 0.0
+        per[c] = {"precision": round(prec, 3), "recall": round(rec, 3), "f1": round(f1, 3), "n": tp + fn}
+    usados = [c for c in labels if per[c]["n"] > 0]
+    macro = {k: round(sum(per[c][k] for c in usados) / max(1, len(usados)), 3) for k in ("precision", "recall", "f1")}
+    return per, macro
+
+@app.post("/api/eval/run", summary="A1 · Evaluar el razonador contra el gold standard (F1, matriz, kappa)", tags=["Validez IA"])
+def post_eval_run(payload: dict = Body(default={})):
+    kb = load_kb()
+    if "error" in kb: return kb
+    g = _jload(GOLD_PATH, {"anotaciones": []})
+    an = g.get("anotaciones", [])
+    if not an: return {"error": "no hay anotaciones gold; anote actuaciones primero"}
+    causas_cache, razon_cache = {}, {}
+    conf, errores, aciertos, total = {}, [], 0, 0
+    v_conf, v_tot, v_ok = {}, 0, 0
+    for a in an:
+        f = a["file"]
+        if f not in causas_cache:
+            causas_cache[f] = get_expediente(f)
+        d = causas_cache[f]
+        if "error" in d: continue
+        paso = next((p for p in d.get("pasos", []) if p["seq"] == a["seq"]), None)
+        if not paso: continue
+        m = _match_acto(kb, paso.get("NombreProvidencia"), paso.get("TipoProvidencia"))
+        pred, gold = (m["id"] if m else "ninguno"), a["acto_correcto"]
+        conf.setdefault(gold, {}); conf[gold][pred] = conf[gold].get(pred, 0) + 1
+        total += 1
+        if pred == gold: aciertos += 1
+        else: errores.append({"file": f, "seq": a["seq"], "actividad": a.get("actividad", ""),
+                              "gold": gold, "prediccion": pred, "anotador": a.get("anotador")})
+        # veredicto: comparar estado de la regla cuyo acto_hasta = acto anotado
+        if a.get("veredicto_correcto"):
+            if f not in razon_cache: razon_cache[f] = razonar_expediente(d)
+            r = razon_cache[f]
+            res = next((x for x in r.get("resultados", []) if x.get("acto_hasta") == gold), None)
+            estado = res.get("estado") if res else "NO_EVALUABLE"
+            v_conf.setdefault(a["veredicto_correcto"], {})
+            v_conf[a["veredicto_correcto"]][estado] = v_conf[a["veredicto_correcto"]].get(estado, 0) + 1
+            v_tot += 1
+            if estado == a["veredicto_correcto"]: v_ok += 1
+    labels = sorted({l for l in list(conf.keys()) + [p for v in conf.values() for p in v]})
+    per_clase, macro = _prf(conf, labels)
+    # kappa de Cohen si hay 2 anotadores con ítems comunes
+    kappa = None
+    por_anot = {}
+    for a in an: por_anot.setdefault(a["anotador"], {})[(a["file"], a["seq"])] = a["acto_correcto"]
+    if len(por_anot) >= 2:
+        (a1, m1), (a2, m2) = list(por_anot.items())[:2]
+        comunes = set(m1) & set(m2)
+        if len(comunes) >= 10:
+            po = sum(1 for k in comunes if m1[k] == m2[k]) / len(comunes)
+            cats = {m1[k] for k in comunes} | {m2[k] for k in comunes}
+            pe = sum((sum(1 for k in comunes if m1[k] == c) / len(comunes)) *
+                     (sum(1 for k in comunes if m2[k] == c) / len(comunes)) for c in cats)
+            kappa = round((po - pe) / (1 - pe), 3) if pe < 1 else 1.0
+            kappa = {"valor": kappa, "anotadores": [a1, a2], "n_comunes": len(comunes)}
+    cfg = load_adapt_cfg()
+    report = {"n_anotaciones": total, "exactitud_mapeo": round(aciertos / max(1, total), 3),
+              "macro": macro, "por_clase": per_clase, "matriz_confusion": conf, "labels": labels,
+              "veredicto": {"n": v_tot, "exactitud": round(v_ok / max(1, v_tot), 3) if v_tot else None,
+                            "matriz": v_conf},
+              "errores": errores[:60], "kappa": kappa,
+              "f1_min_aceptado": cfg.get("f1_min", 0.85),
+              "apto": macro["f1"] >= float(cfg.get("f1_min", 0.85)),
+              "contexto_adaptacion": _contexto_adaptacion("eval_razonador", {"n_gold": total})}
+    _jsave(EVAL_REPORT, report)
+    bitacora_log("evaluador", "evaluacion_razonador",
+                 f"N={total} · exactitud={report['exactitud_mapeo']} · F1_macro={macro['f1']} · "
+                 f"apto={'SÍ' if report['apto'] else 'NO'} (umbral {report['f1_min_aceptado']})",
+                 refs=["/api/eval/run"], tipo="adaptacion")
+    return report
+
+@app.get("/api/eval/report", summary="A1 · Último reporte de evaluación (chip de validez)", tags=["Validez IA"])
+def get_eval_report():
+    r = _jload(EVAL_REPORT, None)
+    if not r: return {"disponible": False, "chip": "sin validez medida"}
+    return {"disponible": True, "chip": f"F1 {r['macro']['f1']} · N={r['n_anotaciones']}",
+            "apto": r.get("apto"), **r}
+
+# ── A2 · Cambio normativo / jurisprudencial ──────────────────────────
+@app.get("/api/adaptativo/kb-changelog", summary="A2 · Historial de cambios normativos de la KB", tags=["Adaptativo (MAPE-K)"])
+def get_kb_changelog():
+    kb = load_kb()
+    return {"version": (kb.get("meta") or {}).get("version", "1.0"),
+            "cambios": _jload(KB_CHANGELOG, []),
+            "reglas": [{"id": r["id"], "nombre": r["nombre"], "articulo": r["articulo"],
+                        "termino_dias": r["termino_dias"], "procedimientos": r.get("procedimientos", []),
+                        "versiones": len(r.get("historial", [])) or 1} for r in kb.get("reglas", [])]}
+
+@app.post("/api/adaptativo/kb-cambio", summary="A2 · Registrar reforma/jurisprudencia sobre una regla (validado)", tags=["Adaptativo (MAPE-K)"])
+def post_kb_cambio(payload: dict = Body(...)):
+    kb = load_kb()
+    if "error" in kb: return kb
+    rid = str(payload.get("regla_id", ""))
+    regla = next((r for r in kb.get("reglas", []) if r["id"] == rid), None)
+    if not regla: return {"error": f"regla desconocida (guardrail ontológico): {rid}"}
+    try:
+        nuevo = int(payload.get("termino_dias_nuevo"))
+        assert 1 <= nuevo <= 365
+    except Exception:
+        return {"error": "termino_dias_nuevo debe ser un entero entre 1 y 365"}
+    vd = str(payload.get("vigencia_desde", ""))[:10]
+    try: datetime.strptime(vd, "%Y-%m-%d")
+    except ValueError: return {"error": "vigencia_desde inválida (YYYY-MM-DD)"}
+    fuente = {"tipo": str(payload.get("fuente_tipo", "reforma"))[:30],
+              "ref": str(payload.get("fuente_ref", ""))[:160], "url": str(payload.get("fuente_url", ""))[:300]}
+    if not fuente["ref"]: return {"error": "se requiere la referencia de la fuente (Registro Oficial / sentencia)"}
+    actor = str(payload.get("actor", "usuario-experto"))[:80]
+    antes = regla["termino_dias"]
+    if not regla.get("historial"):
+        regla["historial"] = [{"termino_dias": antes, "vigencia_desde": "2016-05-22",
+                               "fuente": {"tipo": "original", "ref": regla["articulo"] + " COGEP (RO-S 506)"}}]
+    regla["historial"].append({"termino_dias": nuevo, "vigencia_desde": vd, "fuente": fuente})
+    regla["termino_dias"] = nuevo
+    meta = kb.setdefault("meta", {})
+    try: meta["version"] = str(round(float(meta.get("version", "1.0")) + 0.1, 1))
+    except Exception: meta["version"] = "1.1"
+    KB_PATH.write_text(json.dumps(kb, ensure_ascii=False, indent=2), encoding="utf-8")
+    log = _jload(KB_CHANGELOG, [])
+    cambio = {"id": len(log) + 1, "ts": utcnow_iso(), "regla_id": rid, "campo": "termino_dias",
+              "antes": antes, "despues": nuevo, "vigencia_desde": vd, "fuente": fuente,
+              "actor": actor, "motivo": str(payload.get("motivo", ""))[:300], "kb_version": meta["version"]}
+    log.append(cambio); _jsave(KB_CHANGELOG, log)
+    bitacora_log(actor, "cambio_normativo",
+                 f"Regla {rid}: término {antes}→{nuevo} días desde {vd} ({fuente['tipo']}: {fuente['ref']}). KB v{meta['version']}.",
+                 refs=["/api/adaptativo/kb-cambio"], tipo="adaptacion")
+    return {"ok": True, "cambio": cambio, "kb_version": meta["version"]}
+
+@app.get("/api/adaptativo/impacto", summary="A2 · Delta de dictámenes de un cambio normativo sobre el corpus", tags=["Adaptativo (MAPE-K)"])
+def get_impacto(cambio: int = 0):
+    log = _jload(KB_CHANGELOG, [])
+    if not log: return {"error": "no hay cambios normativos registrados"}
+    c = next((x for x in log if x["id"] == cambio), log[-1])
+    kb = load_kb()
+    umb = dict(kb.get("umbrales", {}))
+    umb.update(load_adapt_cfg().get("umbrales_razonador") or {})
+    deltas, n_eval = [], 0
+    for name, label, juicio, d in _iter_causas():
+        r = razonar_expediente(d)
+        if not isinstance(r, dict) or "error" in r: continue
+        res = next((x for x in r.get("resultados", []) if x.get("regla") == c["regla_id"]
+                    and x.get("estado") != "NO_EVALUABLE"), None)
+        if not res: continue
+        n_eval += 1
+        e_antes  = _verdict(res["dias"], c["antes"], umb)
+        e_despues = _verdict(res["dias"], c["despues"], umb)
+        if e_antes != e_despues:
+            deltas.append({"juicio": juicio, "file": name, "dias": res["dias"],
+                           "antes": e_antes, "despues": e_despues})
+    return {"cambio": c, "causas_evaluadas": n_eval, "causas_afectadas": len(deltas), "deltas": deltas,
+            "contexto_adaptacion": _contexto_adaptacion("impacto_normativo", {"cambio_id": c["id"]}),
+            "disclaimer": DISCLAIMER}
+
+# ── A3 · Rúbrica + evidencia por dimensión + AHP + sensibilidad ──────
+@app.get("/api/rubrica", summary="A3 · Rúbrica 0-100 por dimensión + evidencias registradas", tags=["Validez IA"])
+def get_rubrica():
+    return {"rubrica": _jload(RUBRICA_PATH, {}), "evidencias": _jload(EVID_DIM_PATH, {})}
+
+@app.post("/api/rubrica/evidencia", summary="A3 · Registrar evidencia documental de una dimensión", tags=["Validez IA"])
+def post_evidencia_dim(payload: dict = Body(...)):
+    dim = str(payload.get("dimension", "")).upper()
+    if dim not in {d["key"] for d in DIMENSIONS}: return {"error": f"dimensión desconocida: {dim}"}
+    e = {"url": str(payload.get("url", ""))[:400], "snapshot_ref": str(payload.get("snapshot_ref", ""))[:160],
+         "extracto": str(payload.get("extracto", ""))[:400], "criterio_rubrica": str(payload.get("criterio", ""))[:200],
+         "actor": str(payload.get("actor", "usuario-experto"))[:80], "fecha": utcnow_iso()}
+    if not e["url"] and not e["snapshot_ref"]: return {"error": "se requiere url o snapshot_ref"}
+    ev = _jload(EVID_DIM_PATH, {})
+    ev.setdefault(dim, []).append(e)
+    _jsave(EVID_DIM_PATH, ev)
+    bitacora_log(e["actor"], "evidencia_dimension", f"{dim}: {e['url'] or e['snapshot_ref']}",
+                 refs=["/api/rubrica/evidencia"], tipo="adaptacion")
+    return {"ok": True, "dimension": dim, "n": len(ev[dim])}
+
+def _ahp_eigen(M):
+    n = len(M)
+    w = [1.0 / n] * n
+    for _ in range(100):
+        nw = [sum(M[i][j] * w[j] for j in range(n)) for i in range(n)]
+        s = sum(nw) or 1.0
+        w = [x / s for x in nw]
+    lam = sum(sum(M[i][j] * w[j] for j in range(n)) / w[i] for i in range(n)) / n
+    RI = {1: 0, 2: 0, 3: .58, 4: .9, 5: 1.12, 6: 1.24, 7: 1.32, 8: 1.41, 9: 1.45}.get(n, 1.49)
+    CI = (lam - n) / (n - 1) if n > 1 else 0.0
+    return [round(x, 4) for x in w], round(lam, 3), (round(CI / RI, 4) if RI else 0.0)
+
+@app.get("/api/ahp", summary="A3 · Pesos Ψ vigentes y juicios de expertos", tags=["Validez IA"])
+def get_ahp():
+    d = _jload(PESOS_AHP_PATH, {})
+    w_root, w_subs = _psi_weights()
+    return {"psi": {"root": w_root, "subs": w_subs}, "procedencia": d.get("procedencia", "default 0.40/0.60 (sin AHP)"),
+            "expertos": d.get("expertos_psi", []),
+            "escala_saaty": [{"v": 1, "t": "igual importancia"}, {"v": 3, "t": "moderadamente más importante"},
+                             {"v": 5, "t": "fuertemente más importante"}, {"v": 7, "t": "muy fuertemente"},
+                             {"v": 9, "t": "extremadamente más importante"}]}
+
+@app.post("/api/ahp", summary="A3 · Registrar juicio AHP de un experto (raíz vs subconceptos)", tags=["Validez IA"])
+def post_ahp(payload: dict = Body(...)):
+    experto = str(payload.get("experto", "")).strip()[:80]
+    if not experto: return {"error": "se requiere 'experto'"}
+    try:
+        a = float(payload.get("saaty"))
+        assert 1/9 <= a <= 9
+    except Exception:
+        return {"error": "saaty debe estar entre 1/9 y 9 (use valores negativos de UI como recíprocos)"}
+    w, lam, cr = _ahp_eigen([[1, a], [1 / a, 1]])
+    d = _jload(PESOS_AHP_PATH, {})
+    exps = [e for e in d.get("expertos_psi", []) if e.get("experto") != experto]
+    exps.append({"experto": experto, "saaty": a, "root": w[0], "subs": w[1], "cr": cr, "ts": utcnow_iso()})
+    d["expertos_psi"] = exps
+    root_m = round(sum(e["root"] for e in exps) / len(exps), 4)
+    d["psi"] = {"root": root_m, "subs": round(1 - root_m, 4)}
+    d["procedencia"] = f"AHP ({len(exps)} experto(s), media aritmética; CR=0 en matriz 2×2)"
+    _jsave(PESOS_AHP_PATH, d)
+    bitacora_log(experto, "juicio_ahp_psi", f"saaty={a} → root={w[0]} · agregado root={root_m} ({len(exps)} expertos)",
+                 refs=["/api/ahp"], tipo="adaptacion")
+    return {"ok": True, "experto": {"root": w[0], "subs": w[1]}, "agregado": d["psi"], "n_expertos": len(exps)}
+
+@app.get("/api/sensibilidad", summary="A3 · Sensibilidad ±10/20% de pesos Ψ y del ranking (tornado)", tags=["Validez IA"])
+def get_sensibilidad():
+    base_root, _ = _psi_weights()
+    tornado = []
+    try:
+        for f in (-0.20, -0.10, 0.0, 0.10, 0.20):
+            r = min(0.9, max(0.1, base_root * (1 + f)))
+            _PSI_OVERRIDE["w"] = (r, round(1 - r, 4))
+            v = compute_validation("SDT_CJ.json")
+            tornado.append({"delta_pct": int(f * 100), "root": round(r, 3),
+                            "overall_dt": v.get("overall_dt"), "legaltech": (v.get("legaltech_dim") or {}).get("dt_score")})
+    finally:
+        _PSI_OVERRIDE["w"] = None
+    base_dt = next((t["overall_dt"] for t in tornado if t["delta_pct"] == 0), None)
+    max_dev = max((abs((t["overall_dt"] or 0) - (base_dt or 0)) for t in tornado), default=0)
+    # estabilidad del top-1 del ranking ante ±20% en cada peso
+    cfg = load_adapt_cfg(); w0 = cfg["pesos_ranking"]
+    sg = _jload(SALUD_CACHE, None) or compute_salud_global()
+    def top1(w):
+        best, bj = -1, None
+        for c in sg.get("causas", []):
+            salud = c["salud"] if c["salud"] is not None else 50.0
+            riesgo = w["salud"] * (100 - salud) + w["variabilidad"] * c["ivf"] + w["drift"] * c["idp"]
+            if riesgo > best: best, bj = riesgo, c["juicio"]
+        return bj
+    base_top = top1(w0); estable_rk = True; pruebas = []
+    for k in w0:
+        for f in (-0.2, 0.2):
+            w = dict(w0); w[k] = max(0.0, w[k] * (1 + f))
+            tot = sum(w.values()) or 1.0
+            w = {kk: vv / tot for kk, vv in w.items()}
+            t = top1(w); pruebas.append({"peso": k, "delta_pct": int(f * 100), "top1": t})
+            if t != base_top: estable_rk = False
+    return {"psi_base_root": base_root, "tornado": tornado, "max_desviacion_overall": round(max_dev, 2),
+            "radar_estable_10pct": max((abs((t["overall_dt"] or 0) - (base_dt or 0))
+                                        for t in tornado if abs(t["delta_pct"]) <= 10), default=0) < 5,
+            "ranking": {"top1_base": base_top, "estable_20pct": estable_rk, "pruebas": pruebas},
+            "contexto_adaptacion": _contexto_adaptacion("sensibilidad")}
+
+# ── A4 · COGEP → OWL + verificación estructural + competency questions ─
+def kb_to_owl(kb):
+    NS = "http://maltg.arch/onto/cogep#"
+    def esc(s): return str(s or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
+    L = ['<?xml version="1.0"?>',
+         f'<rdf:RDF xmlns:rdf="{RDF_NS}" xmlns:rdfs="{RDFS_NS}" xmlns:owl="{OWL_NS}" xmlns="{NS}" xml:base="{NS[:-1]}">',
+         f'  <owl:Ontology rdf:about="{NS[:-1]}"><rdfs:comment>Ontología COGEP generada desde cogep_kb.json v{esc((kb.get("meta") or {}).get("version","1.0"))}</rdfs:comment></owl:Ontology>']
+    for c in ("Procedimiento", "Etapa", "ActoProcesal", "TerminoProcesal", "SujetoProcesal"):
+        L.append(f'  <owl:Class rdf:about="{NS}{c}"/>')
+    for p, dom, rng in (("tieneEtapa", "Procedimiento", "Etapa"), ("contieneActo", "Etapa", "ActoProcesal"),
+                        ("actoDesde", "TerminoProcesal", "ActoProcesal"), ("actoHasta", "TerminoProcesal", "ActoProcesal"),
+                        ("sujetoObligado", "TerminoProcesal", "SujetoProcesal"), ("aplicaA", "TerminoProcesal", "Procedimiento"),
+                        ("ejecutadoPor", "ActoProcesal", "SujetoProcesal")):
+        L.append(f'  <owl:ObjectProperty rdf:about="{NS}{p}"><rdfs:domain rdf:resource="{NS}{dom}"/><rdfs:range rdf:resource="{NS}{rng}"/></owl:ObjectProperty>')
+    for s in kb.get("sujetos", []):
+        L.append(f'  <owl:NamedIndividual rdf:about="{NS}{esc(s["id"])}"><rdf:type rdf:resource="{NS}SujetoProcesal"/><rdfs:label>{esc(s.get("nombre"))}</rdfs:label></owl:NamedIndividual>')
+    for a in kb.get("actos", []):
+        suj = f'<ejecutadoPor rdf:resource="{NS}{esc(a["sujeto"])}"/>' if a.get("sujeto") else ""
+        L.append(f'  <owl:NamedIndividual rdf:about="{NS}{esc(a["id"])}"><rdf:type rdf:resource="{NS}ActoProcesal"/><rdfs:label>{esc(a.get("nombre"))}</rdfs:label><rdfs:comment>{esc(a.get("articulo"))}</rdfs:comment>{suj}</owl:NamedIndividual>')
+    for p in kb.get("procedimientos", []):
+        ets = "".join(f'<tieneEtapa rdf:resource="{NS}{esc(e["id"])}"/>' for e in p.get("etapas", []))
+        L.append(f'  <owl:NamedIndividual rdf:about="{NS}{esc(p["id"])}"><rdf:type rdf:resource="{NS}Procedimiento"/><rdfs:label>{esc(p.get("nombre"))}</rdfs:label><rdfs:comment>{esc(p.get("articulos"))}</rdfs:comment>{ets}</owl:NamedIndividual>')
+        for e in p.get("etapas", []):
+            acts = "".join(f'<contieneActo rdf:resource="{NS}{esc(x)}"/>' for x in e.get("actos", []))
+            L.append(f'  <owl:NamedIndividual rdf:about="{NS}{esc(e["id"])}"><rdf:type rdf:resource="{NS}Etapa"/><rdfs:label>{esc(e.get("nombre"))}</rdfs:label>{acts}</owl:NamedIndividual>')
+    for r in kb.get("reglas", []):
+        procs = "".join(f'<aplicaA rdf:resource="{NS}{esc(x)}"/>' for x in r.get("procedimientos", []))
+        suj = f'<sujetoObligado rdf:resource="{NS}{esc(r["sujeto_obligado"])}"/>' if r.get("sujeto_obligado") else ""
+        L.append(f'  <owl:NamedIndividual rdf:about="{NS}{esc(r["id"])}"><rdf:type rdf:resource="{NS}TerminoProcesal"/>'
+                 f'<rdfs:label>{esc(r.get("nombre"))}</rdfs:label><rdfs:comment>{esc(r.get("articulo"))} · {r.get("termino_dias")} días hábiles</rdfs:comment>'
+                 f'<actoDesde rdf:resource="{NS}{esc(r["acto_desde"])}"/><actoHasta rdf:resource="{NS}{esc(r["acto_hasta"])}"/>{suj}{procs}</owl:NamedIndividual>')
+    L.append('</rdf:RDF>')
+    return "\n".join(L)
+
+@app.post("/api/cogep/owl/generar", summary="A4 · Generar COGEP_ontology.owl desde la KB", tags=["Validez IA"])
+def post_owl_generar():
+    kb = load_kb()
+    if "error" in kb: return kb
+    xml = kb_to_owl(kb)
+    COGEP_OWL_PATH.write_text(xml, encoding="utf-8")
+    h = file_hash(COGEP_OWL_PATH)
+    bitacora_log("sistema", "generacion_owl_cogep", f"COGEP_ontology.owl regenerado (sha {h[:10]}) desde KB v{(kb.get('meta') or {}).get('version','1.0')}.",
+                 refs=["/api/cogep/owl/generar"], tipo="adaptacion")
+    return {"ok": True, "path": "/data/COGEP_ontology.owl", "hash": h,
+            "individuos": {"actos": len(kb.get("actos", [])), "reglas": len(kb.get("reglas", [])),
+                           "procedimientos": len(kb.get("procedimientos", [])), "sujetos": len(kb.get("sujetos", []))}}
+
+@app.get("/api/cogep/owl/verificacion", summary="A4 · Verificación estructural de la ontología COGEP", tags=["Validez IA"])
+def get_owl_verificacion():
+    kb = load_kb()
+    if "error" in kb: return kb
+    actos = {a["id"] for a in kb.get("actos", [])}
+    sujetos = {s["id"] for s in kb.get("sujetos", [])}
+    procs = {p["id"] for p in kb.get("procedimientos", [])}
+    checks = []
+    def chk(cid, desc, fallos):
+        checks.append({"id": cid, "descripcion": desc, "ok": not fallos, "detalles": fallos[:15]})
+    chk("C1", "Todo acto referenciado en etapas existe en el catálogo de actos",
+        [f"{p['id']}/{e['id']}: {x}" for p in kb.get("procedimientos", []) for e in p.get("etapas", []) for x in e.get("actos", []) if x not in actos])
+    chk("C2", "Toda regla referencia actos existentes (acto_desde/acto_hasta)",
+        [f"{r['id']}: {x}" for r in kb.get("reglas", []) for x in (r.get("acto_desde"), r.get("acto_hasta")) if x not in actos])
+    chk("C3", "Toda regla aplica a procedimientos existentes",
+        [f"{r['id']}: {x}" for r in kb.get("reglas", []) for x in r.get("procedimientos", []) if x not in procs])
+    chk("C4", "Todo sujeto referenciado existe",
+        [f"{r['id']}: {r.get('sujeto_obligado')}" for r in kb.get("reglas", []) if r.get("sujeto_obligado") and r["sujeto_obligado"] not in sujetos] +
+        [f"{a['id']}: {a.get('sujeto')}" for a in kb.get("actos", []) if a.get("sujeto") and a["sujeto"] not in sujetos])
+    chk("C5", "Términos con valor positivo y artículo citado",
+        [r["id"] for r in kb.get("reglas", []) if not (isinstance(r.get("termino_dias"), int) and r["termino_dias"] > 0 and r.get("articulo"))])
+    chk("C6", "Actos con keywords para el matching (frontera de vocabulario)",
+        [a["id"] for a in kb.get("actos", []) if not a.get("keywords")])
+    en_etapas = {x for p in kb.get("procedimientos", []) for e in p.get("etapas", []) for x in e.get("actos", [])}
+    chk("C7", "Sin actos huérfanos (advertencia: acto fuera de todas las etapas)",
+        sorted(actos - en_etapas))
+    consistente = all(c["ok"] for c in checks if c["id"] != "C7")
+    return {"consistente": consistente, "checks": checks,
+            "owl_hash": file_hash(COGEP_OWL_PATH) if COGEP_OWL_PATH.exists() else None,
+            "nota": ("Verificación estructural automatizada sobre la KB/OWL. La verificación con razonador DL "
+                     "(HermiT/Pellet en Protégé) y el escaneo OOPS! se ejecutan externamente y se registran en bitácora."),
+            "contexto_adaptacion": _contexto_adaptacion("verificacion_ontologica")}
+
+def _cq_resolver(kb, tipo, params):
+    p = params or {}
+    if tipo == "actos_por_procedimiento":
+        proc = next((x for x in kb["procedimientos"] if x["id"] == p.get("proc")), None)
+        if not proc: return None
+        return [{"etapa": e["nombre"], "actos": e.get("actos", [])} for e in proc.get("etapas", [])]
+    if tipo == "reglas_por_procedimiento":
+        return [{"regla": r["id"], "nombre": r["nombre"], "articulo": r["articulo"], "termino_dias": r["termino_dias"]}
+                for r in kb["reglas"] if p.get("proc") in r.get("procedimientos", [])]
+    if tipo == "termino_de_acto":
+        return [{"regla": r["id"], "articulo": r["articulo"], "termino_dias": r["termino_dias"],
+                 "procedimientos": r.get("procedimientos", [])} for r in kb["reglas"] if r.get("acto_hasta") == p.get("acto")]
+    if tipo == "sujeto_obligado":
+        r = next((x for x in kb["reglas"] if x["id"] == p.get("regla")), None)
+        if not r: return None
+        s = next((x for x in kb["sujetos"] if x["id"] == r.get("sujeto_obligado")), None)
+        return {"regla": r["id"], "sujeto": (s or {}).get("nombre", r.get("sujeto_obligado")), "articulo": r["articulo"]}
+    if tipo == "actos_sin_termino":
+        con = {r.get("acto_hasta") for r in kb["reglas"]}
+        return sorted(a["id"] for a in kb["actos"] if a["id"] not in con)
+    if tipo == "actos_de_sujeto":
+        return sorted(a["id"] for a in kb["actos"] if a.get("sujeto") == p.get("sujeto"))
+    if tipo == "procedimientos_de_flujo":
+        return [x["id"] for x in kb["procedimientos"] if p.get("flujo") in (x.get("flujos") or [x.get("flujo")])]
+    return None
+
+@app.get("/api/cogep/cq", summary="A4 · Ejecutar las competency questions sobre la ontología", tags=["Validez IA"])
+def get_cq():
+    kb = load_kb()
+    if "error" in kb: return kb
+    cqs = _jload(CQ_PATH, [])
+    out = []
+    for c in cqs:
+        try: resp = _cq_resolver(kb, c.get("tipo"), c.get("params"))
+        except Exception as e: resp = None
+        out.append({**c, "respuesta": resp, "responde": resp is not None and resp != []})
+    return {"n": len(out), "responden": sum(1 for c in out if c["responde"]), "cqs": out,
+            "contexto_adaptacion": _contexto_adaptacion("competency_questions")}
+
+@app.post("/api/cogep/cq", summary="A4 · Añadir una competency question (tipos predefinidos)", tags=["Validez IA"])
+def post_cq(payload: dict = Body(...)):
+    tipos = ("actos_por_procedimiento", "reglas_por_procedimiento", "termino_de_acto",
+             "sujeto_obligado", "actos_sin_termino", "actos_de_sujeto", "procedimientos_de_flujo")
+    tipo = str(payload.get("tipo", ""))
+    if tipo not in tipos: return {"error": f"tipo debe ser uno de {tipos}"}
+    pregunta = str(payload.get("pregunta", "")).strip()[:300]
+    if not pregunta: return {"error": "se requiere 'pregunta'"}
+    cqs = _jload(CQ_PATH, [])
+    cq = {"id": f"CQ{len(cqs)+1:02d}", "pregunta": pregunta, "tipo": tipo,
+          "params": payload.get("params") or {}, "sparql": str(payload.get("sparql", ""))[:600],
+          "autor": str(payload.get("actor", "usuario-experto"))[:80]}
+    cqs.append(cq); _jsave(CQ_PATH, cqs)
+    bitacora_log(cq["autor"], "nueva_competency_question", f"{cq['id']}: {pregunta}", refs=["/api/cogep/cq"], tipo="adaptacion")
+    return {"ok": True, "cq": cq}
+
+# ── A5 · Caracterización de la muestra ───────────────────────────────
+@app.get("/api/adaptativo/muestra", summary="A5 · Caracterización de la muestra de expedientes", tags=["Adaptativo (MAPE-K)"])
+def get_muestra():
+    kb = load_kb()
+    filas = []
+    for name, label, juicio, d in _iter_causas():
+        proc = _detect_procedimiento(kb, d) if "error" not in kb else {}
+        cab = d.get("cabecera") or {}
+        j = str(juicio or "")
+        filas.append({"juicio": j, "procedimiento": proc.get("id", "?"),
+                      "provincia": j[:2] if len(j) >= 2 else "?",
+                      "anio": j[5:9] if len(j) >= 9 and j[5:9].isdigit() else "?",
+                      "materia": cab.get("Materia") or cab.get("Tipo Accion") or "?",
+                      "n_actividades": len(d.get("actividades") or [])})
+    def agg(key):
+        c = {}
+        for f in filas: c[f[key]] = c.get(f[key], 0) + 1
+        return dict(sorted(c.items(), key=lambda x: -x[1]))
+    return {"n": len(filas), "por_procedimiento": agg("procedimiento"), "por_provincia": agg("provincia"),
+            "por_anio": agg("anio"), "por_materia": agg("materia"), "causas": filas,
+            "declaracion": ("Muestreo intencional (no probabilístico) estratificado por procedimiento y provincia, "
+                            "sobre causas COGEP consultables en el portal público SATJE. Permite generalización "
+                            "analítica del método (detección de incumplimientos); NO habilita inferencia estadística "
+                            "poblacional. El índice empírico global es un indicador sobre la muestra estudiada.")}
+
+
 if FRONT_DIR.exists():
     app.mount("/", StaticFiles(directory=str(FRONT_DIR), html=True), name="static")
+# MALTG v3 — capa adaptativa MAPE-K activa

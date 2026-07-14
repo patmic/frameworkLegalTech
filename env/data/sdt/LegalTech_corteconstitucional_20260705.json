@@ -1,0 +1,1233 @@
+{
+  "@context": {
+    "maltg": "http://maltg.arch/onto#",
+    "sdt": "http://maltg.arch/sdt#",
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "label": "skos:prefLabel",
+    "title": "dcterms:title",
+    "description": "dcterms:description",
+    "score": "maltg:maturityScore",
+    "level": "maltg:maturityLevel",
+    "evidence": "sdt:evidence",
+    "findings": "sdt:findings",
+    "gaps": "sdt:gaps",
+    "maltg_ref": {
+      "@id": "maltg:mapsTo",
+      "@type": "@id"
+    },
+    "maltg_refs": {
+      "@id": "maltg:mapsTo",
+      "@type": "@id"
+    },
+    "services": "sdt:hasComponent",
+    "connections": "sdt:hasFlow",
+    "dimensions": "sdt:hasDimension",
+    "from": {
+      "@id": "sdt:source",
+      "@type": "@id"
+    },
+    "to": {
+      "@id": "sdt:target",
+      "@type": "@id"
+    }
+  },
+  "@id": "sdt:SDT_corteconstitucional",
+  "@type": "sdt:StructuralDigitalTwin",
+  "meta": {
+    "title": "SDT_corteconstitucional — Gemelo Digital Estructural del Ecosistema Tecnologico de Corte Constitucional del Ecuador",
+    "version": "1.0.0",
+    "description": "Gemelo digital estructural (SDT) del ecosistema digital del CJ, evaluado contra la ontologia MALTG para determinar su Nivel de Madurez LegalTech.",
+    "subject": "Corte Constitucional del Ecuador (corteconstitucional.gob.ec)",
+    "auditor": "Auditor Principal de Arquitectura de Software / Consultor Senior LegalTech Governance",
+    "method": "Web scraping + analisis multidimensional contra MALTG_ontology.owl",
+    "generated": "2026-07-05T05:04:11Z",
+    "maltg_compliance": "MALTG v4.1 · TOGAF · COBIT · NIST CSF · ISO 37001 · GDPR/eIDAS",
+    "ontology_source": "/data/MALTG_ontology.owl",
+    "primary_source": "https://www.corteconstitucional.gob.ec/",
+    "protocol": {
+      "instrumento": "Analisis documental sistematico de fuentes oficiales (web scraping con snapshots verificables)",
+      "documento": "/data/evidence/PROTOCOLO.md",
+      "semillas": "/data/evidence/sources_semilla.json",
+      "user_agent": "MALTG-SDT-Auditor/1.0 (+legaltech-governance-scraper; protocolo v1)",
+      "evidence_run": "2026-07-05_050403",
+      "fases": [
+        "identificacion",
+        "captura (snapshot + SHA-256)",
+        "verificacion de integridad",
+        "codificacion contra rubrica"
+      ]
+    },
+    "self_hash": "sha256:07bff8216c4d4182",
+    "domain": "corteconstitucional",
+    "scraping_target": "https://www.corteconstitucional.gob.ec/"
+  },
+  "maturity": {
+    "overall_score": 46,
+    "overall_level": "Nivel 3 · Definido",
+    "scale": [
+      {
+        "level": 1,
+        "name": "Inicial",
+        "range": "0-20",
+        "desc": "Procesos manuales / ad-hoc, sin estructura digital."
+      },
+      {
+        "level": 2,
+        "name": "En Transicion",
+        "range": "21-40",
+        "desc": "Islas digitales, datos en silos, sin interoperabilidad."
+      },
+      {
+        "level": 3,
+        "name": "Definido",
+        "range": "41-60",
+        "desc": "Procesos definidos y portales modernos emergentes; brechas de ejecucion."
+      },
+      {
+        "level": 4,
+        "name": "Gestionado",
+        "range": "61-80",
+        "desc": "Servicios medidos, APIs e integracion semantica parcial."
+      },
+      {
+        "level": 5,
+        "name": "Optimizado / Semantico",
+        "range": "81-100",
+        "desc": "Datos enlazados, gemelos digitales, automatizacion gobernada."
+      }
+    ],
+    "dimensions_summary": [
+      {
+        "id": "D1",
+        "label": "Capa de Datos e Interoperabilidad Semantica",
+        "score": 28,
+        "level": "Nivel 2 · En Transicion"
+      },
+      {
+        "id": "D2",
+        "label": "Arquitectura de Integracion (APIs y Frontend)",
+        "score": 42,
+        "level": "Nivel 3 · Definido"
+      },
+      {
+        "id": "D3",
+        "label": "Transformacion e Innovacion Declarada",
+        "score": 55,
+        "level": "Nivel 3 · Definido"
+      },
+      {
+        "id": "D4",
+        "label": "Cumplimiento Regulatorio y Automatizacion (Compliance)",
+        "score": 58,
+        "level": "Nivel 3 · Definido"
+      }
+    ]
+  },
+  "scrape_report": {
+    "scanned_at": "2026-07-05T05:03:57Z",
+    "online": true,
+    "wordpress_elementor_confirmado": true,
+    "enlaces_legacy_jsf": 6,
+    "enlaces_legacy_php": 13,
+    "satje_spa_confirmado": true,
+    "referencia_datos_abiertos": true,
+    "referencia_iso37001": true,
+    "web_semantica_jsonld_detectada": false,
+    "api_publica_detectada": false,
+    "targets": {
+      "portal": {
+        "url": "https://www.funcionjudicial.gob.ec/",
+        "status": 200,
+        "ok": true,
+        "bytes": 399749,
+        "ms": 3143,
+        "generator": ""
+      },
+      "satje_spa": {
+        "url": "https://procesosjudiciales.funcionjudicial.gob.ec/busqueda",
+        "status": 200,
+        "ok": true,
+        "bytes": 79412,
+        "ms": 157,
+        "generator": ""
+      },
+      "esatje": {
+        "url": "https://www.funcionjudicial.gob.ec/satje/",
+        "status": 200,
+        "ok": true,
+        "bytes": 399783,
+        "ms": 909,
+        "generator": ""
+      },
+      "estadistica": {
+        "url": "https://fsweb.funcionjudicial.gob.ec/estadisticas/datoscj/portalestadistica.html",
+        "status": 200,
+        "ok": true,
+        "bytes": 34143,
+        "ms": 123,
+        "generator": ""
+      },
+      "iso37001": {
+        "url": "https://www.funcionjudicial.gob.ec/sistema-de-gestion-antisoborno-de-acuerdo-a-la-norma-iso-37001/",
+        "status": 200,
+        "ok": true,
+        "bytes": 369844,
+        "ms": 931,
+        "generator": ""
+      }
+    }
+  },
+  "canvas": {
+    "width": 1136,
+    "height": 706
+  },
+  "colorTypes": {
+    "external": "#ff9a3c",
+    "modern": "#10e98c",
+    "legacy": "#ff4d6d",
+    "service": "#a855f7",
+    "data": "#00e5ff",
+    "semantic": "#b060ff",
+    "compliance": "#60a5fa",
+    "strategic": "#ffc947"
+  },
+  "layers": [
+    {
+      "id": "l_ext",
+      "label": "CIUDADANIA / EXTERNAL",
+      "x": 8,
+      "y": 8,
+      "width": 120,
+      "height": 690,
+      "fill": "#0a1020"
+    },
+    {
+      "id": "l_front",
+      "label": "PRESENTACION / FRONTEND",
+      "x": 136,
+      "y": 8,
+      "width": 152,
+      "height": 690,
+      "fill": "#0a1018"
+    },
+    {
+      "id": "l_leg",
+      "label": "INTEGRACION LEGACY",
+      "x": 296,
+      "y": 8,
+      "width": 152,
+      "height": 690,
+      "fill": "#160a12"
+    },
+    {
+      "id": "l_svc",
+      "label": "APLICACIONES / SERVICIOS",
+      "x": 456,
+      "y": 8,
+      "width": 152,
+      "height": 690,
+      "fill": "#100a1a"
+    },
+    {
+      "id": "l_data",
+      "label": "DATOS & WEB SEMANTICA",
+      "x": 616,
+      "y": 8,
+      "width": 164,
+      "height": 690,
+      "fill": "#081820"
+    },
+    {
+      "id": "l_gov",
+      "label": "GOBERNANZA & COMPLIANCE",
+      "x": 788,
+      "y": 8,
+      "width": 172,
+      "height": 690,
+      "fill": "#081020"
+    },
+    {
+      "id": "l_str",
+      "label": "ESTRATEGIA / INNOVACION",
+      "x": 968,
+      "y": 8,
+      "width": 160,
+      "height": 690,
+      "fill": "#1a1608"
+    }
+  ],
+  "services": [
+    {
+      "id": "ciudadano",
+      "label": "Ciudadano",
+      "subtitle": "Usuario final",
+      "colorType": "external",
+      "x": 16,
+      "y": 150,
+      "width": 140,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "LegalTech_Domain"
+      ],
+      "description": "Ciudadano que consulta causas y tramites via portal y SATJE.",
+      "evidence": "",
+      "dimension": ""
+    },
+    {
+      "id": "abogado",
+      "label": "Abogado",
+      "subtitle": "Firma electronica",
+      "colorType": "external",
+      "x": 16,
+      "y": 260,
+      "width": 140,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Digital_Signature",
+        "eIDAS_Compliance"
+      ],
+      "description": "Profesional que opera e-SATJE con firma electronica.",
+      "evidence": "",
+      "dimension": ""
+    },
+    {
+      "id": "interop_ent",
+      "label": "Entidades",
+      "subtitle": "TCE / Fiscalia",
+      "colorType": "external",
+      "x": 16,
+      "y": 370,
+      "width": 140,
+      "height": 46,
+      "status": "partial",
+      "maltg_ref": [
+        "Court_System_Integration",
+        "Interoperability"
+      ],
+      "description": "Otras entidades de la Funcion Judicial; codigo fuente SATJE entregado al TCE (2024).",
+      "evidence": "TCE recibe codigo SATJE (2024)",
+      "dimension": "D2"
+    },
+    {
+      "id": "portal_wp",
+      "label": "Portal CJ",
+      "subtitle": "WordPress+Elementor",
+      "colorType": "legacy",
+      "x": 144,
+      "y": 70,
+      "width": 140,
+      "height": 46,
+      "status": "legacy",
+      "maltg_ref": [
+        "Technology_Architecture"
+      ],
+      "description": "Portal publico sobre WordPress + Elementor (PHP/jQuery, CMS acoplado).",
+      "evidence": "meta-generator Elementor",
+      "dimension": "D2"
+    },
+    {
+      "id": "satje_spa",
+      "label": "SATJE v4",
+      "subtitle": "SPA desacoplada",
+      "colorType": "modern",
+      "x": 144,
+      "y": 160,
+      "width": 140,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "APIs",
+        "Technology_Architecture"
+      ],
+      "description": "Consulta de Procesos SATJE v4.0.1: SPA moderna desacoplada.",
+      "evidence": "SPA v4.0.1",
+      "dimension": "D2"
+    },
+    {
+      "id": "esatje",
+      "label": "e-SATJE OGJE",
+      "subtitle": "Gestion 24/7",
+      "colorType": "modern",
+      "x": 144,
+      "y": 250,
+      "width": 140,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Case_Management",
+        "Workflows",
+        "Digital_Signature"
+      ],
+      "description": "Oficina de Gestion Judicial Electronica (e-SATJE 2020), 24/7.",
+      "evidence": "e-SATJE 2020",
+      "dimension": "D2"
+    },
+    {
+      "id": "supa",
+      "label": "SUPA",
+      "subtitle": "Pensiones aliment.",
+      "colorType": "service",
+      "x": 144,
+      "y": 340,
+      "width": 140,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Case_Management"
+      ],
+      "description": "Sistema Unico de Pensiones Alimenticias.",
+      "evidence": "",
+      "dimension": ""
+    },
+    {
+      "id": "serv_linea",
+      "label": "Servicios en Linea",
+      "subtitle": "Hub de servicios",
+      "colorType": "service",
+      "x": 144,
+      "y": 430,
+      "width": 140,
+      "height": 46,
+      "status": "partial",
+      "maltg_ref": [
+        "Service_Catalog"
+      ],
+      "description": "Hub que enlaza aplicaciones heredadas y modernas.",
+      "evidence": "",
+      "dimension": ""
+    },
+    {
+      "id": "jsf_remates",
+      "label": "Remates JSF",
+      "subtitle": "PrimeFaces/.jsf",
+      "colorType": "legacy",
+      "x": 304,
+      "y": 80,
+      "width": 140,
+      "height": 46,
+      "status": "legacy",
+      "maltg_ref": [
+        "Technology_Architecture"
+      ],
+      "description": "Remates Judiciales sobre JavaServer Faces (portal.jsf).",
+      "evidence": "remates portal.jsf",
+      "dimension": "D2"
+    },
+    {
+      "id": "jsf_dir",
+      "label": "Directorio JSF",
+      "subtitle": ".jsf heredado",
+      "colorType": "legacy",
+      "x": 304,
+      "y": 170,
+      "width": 140,
+      "height": 46,
+      "status": "legacy",
+      "maltg_ref": [
+        "Technology_Architecture"
+      ],
+      "description": "Directorio telefonico sobre JSF (directorio.jsf).",
+      "evidence": "directorio.jsf",
+      "dimension": "D2"
+    },
+    {
+      "id": "php_siscadep",
+      "label": "SISCADEP",
+      "subtitle": "Guia .php",
+      "colorType": "legacy",
+      "x": 304,
+      "y": 260,
+      "width": 140,
+      "height": 46,
+      "status": "legacy",
+      "maltg_ref": [
+        "Technology_Architecture"
+      ],
+      "description": "Guia de Servicios sobre PHP heredado (frmConsultaExterna.php).",
+      "evidence": "siscadep .php",
+      "dimension": "D2"
+    },
+    {
+      "id": "citaciones",
+      "label": "Citaciones",
+      "subtitle": "Consulta",
+      "colorType": "service",
+      "x": 304,
+      "y": 350,
+      "width": 140,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Notarization"
+      ],
+      "description": "Consulta de Citaciones Judiciales.",
+      "evidence": "",
+      "dimension": ""
+    },
+    {
+      "id": "biometrico",
+      "label": "Biometrico",
+      "subtitle": "Control interno",
+      "colorType": "legacy",
+      "x": 304,
+      "y": 440,
+      "width": 140,
+      "height": 46,
+      "status": "legacy",
+      "maltg_ref": [
+        "IAM",
+        "Access_Control"
+      ],
+      "description": "Sistema biometrico institucional.",
+      "evidence": "",
+      "dimension": ""
+    },
+    {
+      "id": "gestion_doc",
+      "label": "Gestion Documental",
+      "subtitle": "Interno",
+      "colorType": "service",
+      "x": 464,
+      "y": 80,
+      "width": 140,
+      "height": 46,
+      "status": "partial",
+      "maltg_ref": [
+        "Case_Management",
+        "Audit_Trail"
+      ],
+      "description": "Sistema de gestion documental institucional.",
+      "evidence": "",
+      "dimension": ""
+    },
+    {
+      "id": "concursos",
+      "label": "Concursos",
+      "subtitle": "Seleccion jueces",
+      "colorType": "service",
+      "x": 464,
+      "y": 170,
+      "width": 140,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Workflows"
+      ],
+      "description": "Sistema de Concursos para meritocracia judicial.",
+      "evidence": "",
+      "dimension": ""
+    },
+    {
+      "id": "mediacion",
+      "label": "Mediacion",
+      "subtitle": "CNM",
+      "colorType": "service",
+      "x": 464,
+      "y": 260,
+      "width": 140,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Smart_Legal_Contracts"
+      ],
+      "description": "Centro Nacional de Mediacion.",
+      "evidence": "",
+      "dimension": ""
+    },
+    {
+      "id": "exp_disc",
+      "label": "Expedientes Disc.",
+      "subtitle": "Disciplinario",
+      "colorType": "compliance",
+      "x": 464,
+      "y": 350,
+      "width": 140,
+      "height": 46,
+      "status": "partial",
+      "maltg_ref": [
+        "Compliance",
+        "Audit",
+        "Regulatory_Compliance_Engine"
+      ],
+      "description": "Expedientes/resoluciones disciplinarias (COFJ); automatizacion parcial.",
+      "evidence": "Portal expedientes disc.",
+      "dimension": "D4"
+    },
+    {
+      "id": "escuela",
+      "label": "Escuela FJ",
+      "subtitle": "Formacion",
+      "colorType": "service",
+      "x": 464,
+      "y": 440,
+      "width": 140,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Legal_Knowledge_Base"
+      ],
+      "description": "Escuela de la Funcion Judicial.",
+      "evidence": "",
+      "dimension": ""
+    },
+    {
+      "id": "estadistica",
+      "label": "Portal Estadistica",
+      "subtitle": "HTML estatico",
+      "colorType": "data",
+      "x": 624,
+      "y": 70,
+      "width": 140,
+      "height": 46,
+      "status": "partial",
+      "maltg_ref": [
+        "Data_Portal",
+        "Strategic_KPIs"
+      ],
+      "description": "Portal de Estadisticas Judiciales (HTML/descargas), no Linked Data.",
+      "evidence": "portalestadistica.html",
+      "dimension": "D1"
+    },
+    {
+      "id": "datos_abiertos",
+      "label": "Datos Abiertos",
+      "subtitle": "CKAN nacional",
+      "colorType": "data",
+      "x": 624,
+      "y": 160,
+      "width": 140,
+      "height": 46,
+      "status": "partial",
+      "maltg_ref": [
+        "OpenData_Layer",
+        "DCAT_Catalog",
+        "Open_Standards"
+      ],
+      "description": "Participacion en datosabiertos.gob.ec (CKAN/DCAT), sin JSON-LD judicial propio.",
+      "evidence": "datosabiertos.gob.ec/cj",
+      "dimension": "D1"
+    },
+    {
+      "id": "justicia_abierta",
+      "label": "Justicia Abierta",
+      "subtitle": "En construccion",
+      "colorType": "data",
+      "x": 624,
+      "y": 250,
+      "width": 140,
+      "height": 46,
+      "status": "planned",
+      "maltg_ref": [
+        "OpenData_Layer",
+        "Data_Portal"
+      ],
+      "description": "Portal unico de datos abiertos 'Justicia Abierta', en construccion.",
+      "evidence": "Portal Justicia Abierta",
+      "dimension": "D1"
+    },
+    {
+      "id": "bdd_jur",
+      "label": "Repositorio Jurisd.",
+      "subtitle": "BDD operativa",
+      "colorType": "data",
+      "x": 624,
+      "y": 340,
+      "width": 140,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Data_Lakes",
+        "Provenance"
+      ],
+      "description": "Repositorio que integra datos jurisdiccionales/operativos diarios.",
+      "evidence": "",
+      "dimension": "D1"
+    },
+    {
+      "id": "semantic_layer",
+      "label": "Capa Semantica",
+      "subtitle": "Ontologias/JSON-LD",
+      "colorType": "semantic",
+      "x": 624,
+      "y": 430,
+      "width": 140,
+      "height": 46,
+      "status": "absent",
+      "maltg_ref": [
+        "JSON_LD",
+        "FAIR_Principles",
+        "Open_API_Spec",
+        "Interoperability"
+      ],
+      "description": "AUSENTE: sin ontologias/Linked Data/JSON-LD/FAIR judicial. Oportunidad MALTG.",
+      "evidence": "Sin Web Semantica publica",
+      "dimension": "D1"
+    },
+    {
+      "id": "dt_judicial",
+      "label": "Gemelos Digitales",
+      "subtitle": "DT judicial",
+      "colorType": "semantic",
+      "x": 624,
+      "y": 520,
+      "width": 140,
+      "height": 46,
+      "status": "absent",
+      "maltg_ref": [
+        "Process_Mining",
+        "Predictive_Analytics",
+        "Symbolic_Reasoner"
+      ],
+      "description": "AUSENTE: sin facilidades para Gemelos Digitales Judiciales.",
+      "evidence": "Sin Digital Twins",
+      "dimension": "D1"
+    },
+    {
+      "id": "iso37001",
+      "label": "ISO 37001 SGAS",
+      "subtitle": "Antisoborno",
+      "colorType": "compliance",
+      "x": 796,
+      "y": 70,
+      "width": 140,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Compliance",
+        "MEA03_Compliance",
+        "Ethics",
+        "Risk_Assessment"
+      ],
+      "description": "Sistema de Gestion Antisoborno ISO 37001 (Resol. CJ-DG-2025-049).",
+      "evidence": "CJ-DG-2025-049",
+      "dimension": "D4"
+    },
+    {
+      "id": "compliance_jud",
+      "label": "Compliance Judicial",
+      "subtitle": "Modelo gestion",
+      "colorType": "compliance",
+      "x": 796,
+      "y": 160,
+      "width": 140,
+      "height": 46,
+      "status": "partial",
+      "maltg_ref": [
+        "Regulatory_Compliance_Engine",
+        "Governance_Compliance_Layer"
+      ],
+      "description": "Modelo de Gestion para el Compliance Judicial (documento).",
+      "evidence": "Modelo Compliance Judicial",
+      "dimension": "D4"
+    },
+    {
+      "id": "sist_disc",
+      "label": "Sistema Disciplinario",
+      "subtitle": "Modernizacion",
+      "colorType": "compliance",
+      "x": 796,
+      "y": 250,
+      "width": 140,
+      "height": 46,
+      "status": "planned",
+      "maltg_ref": [
+        "Audit_Trail",
+        "Continuous_Monitoring",
+        "DSS05_Security_Services"
+      ],
+      "description": "Modernizacion del sistema disciplinario con plataforma de ultima generacion.",
+      "evidence": "Modernizacion disciplinario",
+      "dimension": "D4"
+    },
+    {
+      "id": "denuncias",
+      "label": "Denuncias Corrupcion",
+      "subtitle": "Canal digital",
+      "colorType": "compliance",
+      "x": 796,
+      "y": 340,
+      "width": 140,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Detect_Function"
+      ],
+      "description": "Canales de Denuncias de Actos de Corrupcion.",
+      "evidence": "",
+      "dimension": "D4"
+    },
+    {
+      "id": "plan_integridad",
+      "label": "Plan Integridad",
+      "subtitle": "2024-2028",
+      "colorType": "compliance",
+      "x": 796,
+      "y": 430,
+      "width": 140,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Govern_Function",
+        "Regulation"
+      ],
+      "description": "Adhesion al Plan Nacional de Integridad Publica 2024-2028.",
+      "evidence": "Plan Integridad 2024-2028",
+      "dimension": "D4"
+    },
+    {
+      "id": "lotaip",
+      "label": "LOTAIP",
+      "subtitle": "Transparencia",
+      "colorType": "compliance",
+      "x": 796,
+      "y": 520,
+      "width": 140,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Audit",
+        "Regulation",
+        "Metrics"
+      ],
+      "description": "Portal de transparencia LOTAIP y rendicion de cuentas.",
+      "evidence": "",
+      "dimension": ""
+    },
+    {
+      "id": "plan_estr",
+      "label": "Plan Estrategico",
+      "subtitle": "2026-2031",
+      "colorType": "strategic",
+      "x": 976,
+      "y": 120,
+      "width": 140,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Strategic_Layer",
+        "Strategic_KPIs",
+        "Planning"
+      ],
+      "description": "Plan Estrategico 2026-2031 aprobado por el Pleno.",
+      "evidence": "Pleno aprueba PE 2026-2031",
+      "dimension": "D3"
+    },
+    {
+      "id": "eje_digital",
+      "label": "Eje Transf. Digital",
+      "subtitle": "Innovacion tecno.",
+      "colorType": "strategic",
+      "x": 976,
+      "y": 230,
+      "width": 140,
+      "height": 46,
+      "status": "partial",
+      "maltg_ref": [
+        "Architecture_Vision",
+        "Roadmap",
+        "Migration_Planning"
+      ],
+      "description": "Eje 'Transformacion digital e innovacion tecnologica' del PE.",
+      "evidence": "Eje transf. digital",
+      "dimension": "D3"
+    },
+    {
+      "id": "plan_inv",
+      "label": "Plan Inversion",
+      "subtitle": "2026-2029",
+      "colorType": "strategic",
+      "x": 976,
+      "y": 340,
+      "width": 140,
+      "height": 46,
+      "status": "active",
+      "maltg_ref": [
+        "Investment_Governance",
+        "Value_Realization"
+      ],
+      "description": "Plan Anual y Plurianual de Inversion 2026-2029.",
+      "evidence": "Plan Inversion 2026-2029",
+      "dimension": "D3"
+    },
+    {
+      "id": "infra_obsoleta",
+      "label": "Infra Obsoleta",
+      "subtitle": "Riesgo 90%",
+      "colorType": "legacy",
+      "x": 976,
+      "y": 450,
+      "width": 140,
+      "height": 46,
+      "status": "legacy",
+      "maltg_ref": [
+        "Technology_Architecture",
+        "APO12_Risk"
+      ],
+      "description": "Brecha critica: ~90% de la infraestructura tecnologica obsoleta.",
+      "evidence": "90% infra obsoleta",
+      "dimension": "D3"
+    }
+  ],
+  "connections": [
+    {
+      "from": "ciudadano",
+      "to": "portal_wp",
+      "style": "solid"
+    },
+    {
+      "from": "ciudadano",
+      "to": "satje_spa",
+      "style": "solid"
+    },
+    {
+      "from": "abogado",
+      "to": "satje_spa",
+      "style": "solid"
+    },
+    {
+      "from": "abogado",
+      "to": "esatje",
+      "style": "solid"
+    },
+    {
+      "from": "interop_ent",
+      "to": "satje_spa",
+      "style": "dashed"
+    },
+    {
+      "from": "portal_wp",
+      "to": "serv_linea",
+      "style": "solid"
+    },
+    {
+      "from": "satje_spa",
+      "to": "esatje",
+      "style": "solid"
+    },
+    {
+      "from": "satje_spa",
+      "to": "bdd_jur",
+      "style": "solid"
+    },
+    {
+      "from": "esatje",
+      "to": "gestion_doc",
+      "style": "solid"
+    },
+    {
+      "from": "serv_linea",
+      "to": "jsf_remates",
+      "style": "solid"
+    },
+    {
+      "from": "serv_linea",
+      "to": "php_siscadep",
+      "style": "solid"
+    },
+    {
+      "from": "serv_linea",
+      "to": "citaciones",
+      "style": "solid"
+    },
+    {
+      "from": "serv_linea",
+      "to": "jsf_dir",
+      "style": "dashed"
+    },
+    {
+      "from": "supa",
+      "to": "bdd_jur",
+      "style": "solid"
+    },
+    {
+      "from": "concursos",
+      "to": "bdd_jur",
+      "style": "solid"
+    },
+    {
+      "from": "gestion_doc",
+      "to": "bdd_jur",
+      "style": "solid"
+    },
+    {
+      "from": "exp_disc",
+      "to": "sist_disc",
+      "style": "solid"
+    },
+    {
+      "from": "bdd_jur",
+      "to": "estadistica",
+      "style": "solid"
+    },
+    {
+      "from": "bdd_jur",
+      "to": "datos_abiertos",
+      "style": "solid"
+    },
+    {
+      "from": "datos_abiertos",
+      "to": "justicia_abierta",
+      "style": "dashed"
+    },
+    {
+      "from": "bdd_jur",
+      "to": "semantic_layer",
+      "style": "dashed"
+    },
+    {
+      "from": "semantic_layer",
+      "to": "dt_judicial",
+      "style": "dashed"
+    },
+    {
+      "from": "datos_abiertos",
+      "to": "semantic_layer",
+      "style": "dashed"
+    },
+    {
+      "from": "sist_disc",
+      "to": "iso37001",
+      "style": "solid"
+    },
+    {
+      "from": "denuncias",
+      "to": "iso37001",
+      "style": "solid"
+    },
+    {
+      "from": "iso37001",
+      "to": "compliance_jud",
+      "style": "solid"
+    },
+    {
+      "from": "plan_integridad",
+      "to": "compliance_jud",
+      "style": "solid"
+    },
+    {
+      "from": "lotaip",
+      "to": "compliance_jud",
+      "style": "dashed"
+    },
+    {
+      "from": "plan_estr",
+      "to": "eje_digital",
+      "style": "solid"
+    },
+    {
+      "from": "eje_digital",
+      "to": "plan_inv",
+      "style": "solid"
+    },
+    {
+      "from": "eje_digital",
+      "to": "satje_spa",
+      "style": "dashed"
+    },
+    {
+      "from": "plan_inv",
+      "to": "infra_obsoleta",
+      "style": "solid"
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "D1",
+      "key": "datos_interop_semantica",
+      "label": "Capa de Datos e Interoperabilidad Semantica",
+      "maltg_layer": "Technology_Integration_Layer / OpenData_Layer",
+      "maltg_refs": [
+        "JSON_LD",
+        "DCAT_Catalog",
+        "OpenData_Layer",
+        "FAIR_Principles",
+        "Open_Standards",
+        "Interoperability",
+        "Data_Portal"
+      ],
+      "score": 28,
+      "weight": 0.25,
+      "findings": [
+        "Estadistica judicial via Portal de Estadisticas (HTML) y participacion en el CKAN nacional datosabiertos.gob.ec (DCAT).",
+        "Repositorio que integra datos jurisdiccionales/operativos diarios; portal 'Justicia Abierta' en construccion."
+      ],
+      "gaps": [
+        "Sin evidencia de ontologias, Web Semantica, JSON-LD ni Linked Data judicial.",
+        "Sin facilidades para Gemelos Digitales Judiciales ni API abierta documentada.",
+        "Datos como descargas/HTML (silos), no recursos FAIR interoperables."
+      ],
+      "level": "Nivel 2 · En Transicion"
+    },
+    {
+      "id": "D2",
+      "key": "arquitectura_integracion",
+      "label": "Arquitectura de Integracion (APIs y Frontend)",
+      "maltg_layer": "Technology_Integration_Layer / Foundation (TOGAF Tech)",
+      "maltg_refs": [
+        "APIs",
+        "Open_API_Spec",
+        "Technology_Architecture",
+        "Orchestration",
+        "Service_Catalog"
+      ],
+      "score": 42,
+      "weight": 0.25,
+      "findings": [
+        "SATJE 'Consulta de Procesos' migro a una SPA moderna y desacoplada (v4.0.1).",
+        "e-SATJE (OGJE) ofrece gestion judicial electronica 24/7."
+      ],
+      "gaps": [
+        "El portal publico depende de WordPress + Elementor (PHP/jQuery, acoplado).",
+        "Persisten aplicaciones heredadas JSF/PrimeFaces (.jsf) y PHP (remates, directorio, SISCADEP).",
+        "Sin API REST publica documentada (OpenAPI) ni API gateway de integracion."
+      ],
+      "level": "Nivel 3 · Definido"
+    },
+    {
+      "id": "D3",
+      "key": "transformacion_innovacion",
+      "label": "Transformacion e Innovacion Declarada",
+      "maltg_layer": "Strategic_Layer",
+      "maltg_refs": [
+        "Strategic_Layer",
+        "Architecture_Vision",
+        "Roadmap",
+        "Strategic_KPIs",
+        "Investment_Governance",
+        "Migration_Planning"
+      ],
+      "score": 55,
+      "weight": 0.25,
+      "findings": [
+        "Plan Estrategico 2026-2031 con eje explicito 'Transformacion digital e innovacion tecnologica'.",
+        "Plan de Inversion 2026-2029 prioriza la transformacion del sistema digital."
+      ],
+      "gaps": [
+        "Brecha de ejecucion: el CJ reconoce ~90% de infraestructura tecnologica obsoleta.",
+        "Alta intencion declarada con baja materializacion real en la arquitectura desplegada."
+      ],
+      "level": "Nivel 3 · Definido"
+    },
+    {
+      "id": "D4",
+      "key": "compliance_automatizacion",
+      "label": "Cumplimiento Regulatorio y Automatizacion (Compliance)",
+      "maltg_layer": "Governance_Compliance_Layer",
+      "maltg_refs": [
+        "Compliance",
+        "MEA03_Compliance",
+        "Regulatory_Compliance_Engine",
+        "Audit_Trail",
+        "Ethics",
+        "Govern_Function",
+        "Risk_Assessment"
+      ],
+      "score": 58,
+      "weight": 0.25,
+      "findings": [
+        "Sistema de Gestion Antisoborno ISO 37001 (Resol. CJ-DG-2025-049; Politica Antisoborno 2025).",
+        "Modelo de Compliance Judicial, canales de denuncia y Plan Nacional de Integridad 2024-2028.",
+        "Modernizacion del sistema disciplinario con plataforma de ultima generacion."
+      ],
+      "gaps": [
+        "Compliance sustentado mayormente en politicas/PDF, no en motores regulatorios automatizados.",
+        "Automatizacion de procesos disciplinarios en transicion (anunciada, no consolidada)."
+      ],
+      "level": "Nivel 3 · Definido"
+    }
+  ],
+  "sources": [
+    {
+      "slug": "portal_cj",
+      "label": "Portal CJ",
+      "url": "https://www.funcionjudicial.gob.ec/",
+      "dimensiones": [
+        "D2"
+      ]
+    },
+    {
+      "slug": "satje_spa",
+      "label": "SATJE Consulta de Procesos (SPA v4.0.1)",
+      "url": "https://procesosjudiciales.funcionjudicial.gob.ec/busqueda",
+      "dimensiones": [
+        "D2"
+      ]
+    },
+    {
+      "slug": "esatje_ogje",
+      "label": "e-SATJE 2020 (OGJE)",
+      "url": "https://www.funcionjudicial.gob.ec/satje/",
+      "dimensiones": [
+        "D2"
+      ]
+    },
+    {
+      "slug": "plan_estrategico_2026_2031",
+      "label": "Plan Estrategico 2026-2031",
+      "url": "https://www.funcionjudicial.gob.ec/el-pleno-aprueba-el-plan-estrategico-2026-2031-para-transformar-la-funcion-judicial/",
+      "dimensiones": [
+        "D3"
+      ]
+    },
+    {
+      "slug": "inversion_transf_digital",
+      "label": "Inversion en transformacion digital / infra obsoleta",
+      "url": "https://www.funcionjudicial.gob.ec/consejo-de-la-judicatura-prioriza-inversion-en-la-transformacion-digital-repotenciacion-de-la-infraestructura-y-combate-a-la-impunidad/",
+      "dimensiones": [
+        "D3"
+      ]
+    },
+    {
+      "slug": "iso37001_sgas",
+      "label": "ISO 37001 Antisoborno (SGAS)",
+      "url": "https://www.funcionjudicial.gob.ec/sistema-de-gestion-antisoborno-de-acuerdo-a-la-norma-iso-37001/",
+      "dimensiones": [
+        "D4"
+      ]
+    },
+    {
+      "slug": "modernizacion_disciplinario",
+      "label": "Modernizacion del sistema disciplinario",
+      "url": "https://www.funcionjudicial.gob.ec/consejo-de-la-judicatura-modernizara-su-sistema-disciplinario-con-plataforma-de-ultima-generacion-y-controles-de-seguridad/",
+      "dimensiones": [
+        "D4"
+      ]
+    },
+    {
+      "slug": "plan_integridad_2024_2028",
+      "label": "Plan Nacional de Integridad Publica 2024-2028",
+      "url": "https://www.funcionjudicial.gob.ec/consejo-de-la-judicatura-se-adhiere-al-plan-nacional-de-integridad-publica-y-lucha-contra-la-corrupcion-2024-2028/",
+      "dimensiones": [
+        "D4"
+      ]
+    },
+    {
+      "slug": "justicia_abierta",
+      "label": "Justicia Abierta — datos abiertos judiciales",
+      "url": "https://www.funcionjudicial.gob.ec/consejo-de-la-judicatura-trabaja-en-el-portal-unico-de-datos-abiertos-y-estadistica-judicial-justicia-abierta-transparentando-la-informacion-para-combatir-la-corrupcion/",
+      "dimensiones": [
+        "D1"
+      ]
+    },
+    {
+      "slug": "ckan_datosabiertos_cj",
+      "label": "Datos Abiertos Ecuador (CKAN) — organizacion CJ",
+      "url": "https://datosabiertos.gob.ec/dataset/?organization=cj",
+      "dimensiones": [
+        "D1"
+      ]
+    },
+    {
+      "slug": "portal_estadisticas",
+      "label": "Portal de Estadisticas Judiciales",
+      "url": "https://fsweb.funcionjudicial.gob.ec/estadisticas/datoscj/portalestadistica.html",
+      "dimensiones": [
+        "D1"
+      ]
+    }
+  ]
+}
