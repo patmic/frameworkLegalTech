@@ -1,0 +1,242 @@
+\begin{thebibliography}{999}
+
+\bibitem[Dahl et~al.(2024)Dahl, Magesh, Suzgun, and Ho]{Dahl2024}
+Dahl, M.; Magesh, V.; Suzgun, M.; Ho, D.E.
+\newblock Large Legal Fictions: Profiling Legal Hallucinations in Large
+  Language Models.
+\newblock {\em Journal of Legal Analysis} {\bf 2024}, {\em 16},~64--93.
+\newblock {\url{https://doi.org/10.1093/jla/laae003}}.
+
+\bibitem[Magesh et~al.(2025)Magesh, Surani, Dahl, Suzgun, Manning, and
+  Ho]{Magesh2025}
+Magesh, V.; Surani, F.; Dahl, M.; Suzgun, M.; Manning, C.D.; Ho, D.E.
+\newblock Hallucination-Free? Assessing the Reliability of Leading AI Legal
+  Research Tools.
+\newblock {\em Journal of Empirical Legal Studies} {\bf 2025}, {\em
+  22},~216--242.
+\newblock {\url{https://doi.org/10.1111/jels.12413}}.
+
+\bibitem[Ji et~al.(2023)Ji, Lee, Frieske, Yu, Su, Xu, Ishii, Bang, Madotto, and
+  Fung]{Ji2023}
+Ji, Z.; Lee, N.; Frieske, R.; Yu, T.; Su, D.; Xu, Y.; Ishii, E.; Bang, Y.;
+  Madotto, A.; Fung, P.
+\newblock Survey of Hallucination in Natural Language Generation.
+\newblock {\em ACM Computing Surveys} {\bf 2023}, {\em 55},~248.
+\newblock {\url{https://doi.org/10.1145/3571730}}.
+
+\bibitem[Huang et~al.(2025)Huang, Yu, Ma, Zhong, Feng, Wang, Chen, Peng, Feng,
+  Qin, and Liu]{Huang2025}
+Huang, L.; Yu, W.; Ma, W.; Zhong, W.; Feng, Z.; Wang, H.; Chen, Q.; Peng, W.;
+  Feng, X.; Qin, B.;  et~al.
+\newblock A Survey on Hallucination in Large Language Models: Principles,
+  Taxonomy, Challenges, and Open Questions.
+\newblock {\em ACM Transactions on Information Systems} {\bf 2025}, {\em
+  43},~42.
+\newblock {\url{https://doi.org/10.1145/3703155}}.
+
+\bibitem[Rudin(2019)]{Rudin2019}
+Rudin, C.
+\newblock Stop explaining black box machine learning models for high stakes
+  decisions and use interpretable models instead.
+\newblock {\em Nature Machine Intelligence} {\bf 2019}, {\em 1},~206--215.
+\newblock {\url{https://doi.org/10.1038/s42256-019-0048-x}}.
+
+\bibitem[Barredo~Arrieta et~al.(2020)Barredo~Arrieta, D{\'i}az-Rodr{\'i}guez,
+  Del~Ser, Bennetot, Tabik, Barbado, Garc{\'i}a, Gil-L{\'o}pez, Molina,
+  Benjamins, Chatila, and Herrera]{BarredoArrieta2020}
+Barredo~Arrieta, A.; D{\'i}az-Rodr{\'i}guez, N.; Del~Ser, J.; Bennetot, A.;
+  Tabik, S.; Barbado, A.; Garc{\'i}a, S.; Gil-L{\'o}pez, S.; Molina, D.;
+  Benjamins, R.;  et~al.
+\newblock Explainable Artificial Intelligence (XAI): Concepts, taxonomies,
+  opportunities and challenges toward responsible AI.
+\newblock {\em Information Fusion} {\bf 2020}, {\em 58},~82--115.
+\newblock {\url{https://doi.org/10.1016/j.inffus.2019.12.012}}.
+
+\bibitem[Sarker et~al.(2021)Sarker, Zhou, Eberhart, and Hitzler]{Sarker2021}
+Sarker, M.K.; Zhou, L.; Eberhart, A.; Hitzler, P.
+\newblock Neuro-symbolic artificial intelligence: Current trends.
+\newblock {\em AI Communications} {\bf 2021}, {\em 34},~197--209.
+\newblock {\url{https://doi.org/10.3233/AIC-210084}}.
+
+\bibitem[Pan et~al.(2024)Pan, Luo, Wang, Chen, Wang, and Wu]{Pan2024}
+Pan, S.; Luo, L.; Wang, Y.; Chen, C.; Wang, J.; Wu, X.
+\newblock Unifying Large Language Models and Knowledge Graphs: A Roadmap.
+\newblock {\em IEEE Transactions on Knowledge and Data Engineering} {\bf 2024},
+  {\em 36},~3580--3599.
+\newblock {\url{https://doi.org/10.1109/TKDE.2024.3352100}}.
+
+\bibitem[Rosa et~al.(2013)Rosa, Teixeira, and Sousa~Pinto]{Rosa2013}
+Rosa, J.; Teixeira, C.; Sousa~Pinto, J.
+\newblock Risk factors in e-justice information systems.
+\newblock {\em Government Information Quarterly} {\bf 2013}, {\em
+  30},~241--256.
+\newblock {\url{https://doi.org/10.1016/j.giq.2013.02.002}}.
+
+\bibitem[Lupo and Bailey(2014)]{Lupo2014}
+Lupo, G.; Bailey, J.
+\newblock Designing and Implementing e-Justice Systems: Some Lessons Learned
+  from EU and Canadian Examples.
+\newblock {\em Laws} {\bf 2014}, {\em 3},~353--387.
+\newblock {\url{https://doi.org/10.3390/laws3020353}}.
+
+\bibitem[Janssen et~al.(2012)Janssen, Charalabidis, and
+  Zuiderwijk]{Janssen2012}
+Janssen, M.; Charalabidis, Y.; Zuiderwijk, A.
+\newblock Benefits, Adoption Barriers and Myths of Open Data and Open
+  Government.
+\newblock {\em Information Systems Management} {\bf 2012}, {\em 29},~258--268.
+\newblock {\url{https://doi.org/10.1080/10580530.2012.716740}}.
+
+\bibitem[Attard et~al.(2015)Attard, Orlandi, Scerri, and Auer]{Attard2015}
+Attard, J.; Orlandi, F.; Scerri, S.; Auer, S.
+\newblock A systematic review of open government data initiatives.
+\newblock {\em Government Information Quarterly} {\bf 2015}, {\em
+  32},~399--418.
+\newblock {\url{https://doi.org/10.1016/j.giq.2015.07.006}}.
+
+\bibitem[Haber and Stornetta(1991)]{Haber1991}
+Haber, S.; Stornetta, W.S.
+\newblock How to time-stamp a digital document.
+\newblock {\em Journal of Cryptology} {\bf 1991}, {\em 3},~99--111.
+\newblock {\url{https://doi.org/10.1007/BF00196791}}.
+
+\bibitem[Bizer et~al.(2009)Bizer, Heath, and Berners-Lee]{Bizer2009}
+Bizer, C.; Heath, T.; Berners-Lee, T.
+\newblock Linked Data --- The Story So Far.
+\newblock {\em International Journal on Semantic Web and Information Systems}
+  {\bf 2009}, {\em 5},~1--22.
+\newblock {\url{https://doi.org/10.4018/jswis.2009081901}}.
+
+\bibitem[Guha et~al.(2016)Guha, Brickley, and Macbeth]{Guha2016}
+Guha, R.V.; Brickley, D.; Macbeth, S.
+\newblock Schema.org: Evolution of Structured Data on the Web.
+\newblock {\em Communications of the ACM} {\bf 2016}, {\em 59},~44--51.
+\newblock {\url{https://doi.org/10.1145/2844544}}.
+
+\bibitem[Zheng et~al.(2018)Zheng, Xie, Dai, Chen, and Wang]{Zheng2018}
+Zheng, Z.; Xie, S.; Dai, H.N.; Chen, X.; Wang, H.
+\newblock Blockchain challenges and opportunities: a survey.
+\newblock {\em International Journal of Web and Grid Services} {\bf 2018}, {\em
+  14},~352--375.
+\newblock {\url{https://doi.org/10.1504/IJWGS.2018.095647}}.
+
+\bibitem[Casino et~al.(2019)Casino, Dasaklis, and Patsakis]{Casino2019}
+Casino, F.; Dasaklis, T.K.; Patsakis, C.
+\newblock A systematic literature review of blockchain-based applications:
+  Current status, classification and open issues.
+\newblock {\em Telematics and Informatics} {\bf 2019}, {\em 36},~55--81.
+\newblock {\url{https://doi.org/10.1016/j.tele.2018.11.006}}.
+
+\bibitem[Hogan et~al.(2021)Hogan, Blomqvist, Cochez, d'Amato, de~Melo,
+  Guti{\'e}rrez, Kirrane, Labra~Gayo, Navigli, Neumaier, Ngonga~Ngomo,
+  Polleres, Rashid, Rula, Schmelzeisen, Sequeda, Staab, and
+  Zimmermann]{Hogan2021}
+Hogan, A.; Blomqvist, E.; Cochez, M.; d'Amato, C.; de~Melo, G.; Guti{\'e}rrez,
+  C.; Kirrane, S.; Labra~Gayo, J.E.; Navigli, R.; Neumaier, S.;  et~al.
+\newblock Knowledge Graphs.
+\newblock {\em ACM Computing Surveys} {\bf 2021}, {\em 54},~71.
+\newblock {\url{https://doi.org/10.1145/3447772}}.
+
+\bibitem[Bench-Capon et~al.(2012)Bench-Capon, Araszkiewicz, Ashley, Atkinson,
+  Bex, Borges, Bourcier, Bourgine, Conrad, Francesconi, Gordon, Governatori,
+  Leidner, Lewis, Loui, McCarty, Prakken, Schilder, Schweighofer, Thompson,
+  Tyrrell, Verheij, Walton, and Wyner]{BenchCapon2012}
+Bench-Capon, T.; Araszkiewicz, M.; Ashley, K.; Atkinson, K.; Bex, F.; Borges,
+  F.; Bourcier, D.; Bourgine, P.; Conrad, J.G.; Francesconi, E.;  et~al.
+\newblock A history of AI and Law in 50 papers: 25 years of the international
+  conference on AI and Law.
+\newblock {\em Artificial Intelligence and Law} {\bf 2012}, {\em 20},~215--319.
+\newblock {\url{https://doi.org/10.1007/s10506-012-9131-x}}.
+
+\bibitem[Casanovas et~al.(2016)Casanovas, Palmirani, Peroni, van Engers, and
+  Vitali]{Casanovas2016}
+Casanovas, P.; Palmirani, M.; Peroni, S.; van Engers, T.; Vitali, F.
+\newblock Semantic Web for the Legal Domain: The next step.
+\newblock {\em Semantic Web} {\bf 2016}, {\em 7},~213--227.
+\newblock {\url{https://doi.org/10.3233/SW-160224}}.
+
+\bibitem[Gruber(1993)]{Gruber1993}
+Gruber, T.R.
+\newblock A translation approach to portable ontology specifications.
+\newblock {\em Knowledge Acquisition} {\bf 1993}, {\em 5},~199--220.
+\newblock {\url{https://doi.org/10.1006/knac.1993.1008}}.
+
+\bibitem[Uschold and Gruninger(1996)]{Uschold1996}
+Uschold, M.; Gruninger, M.
+\newblock Ontologies: principles, methods and applications.
+\newblock {\em The Knowledge Engineering Review} {\bf 1996}, {\em 11},~93--136.
+\newblock {\url{https://doi.org/10.1017/S0269888900007797}}.
+
+\bibitem[Katz et~al.(2017)Katz, Bommarito, and Blackman]{Katz2017}
+Katz, D.M.; Bommarito, M.J.; Blackman, J.
+\newblock A general approach for predicting the behavior of the Supreme Court
+  of the United States.
+\newblock {\em PLoS ONE} {\bf 2017}, {\em 12},~e0174698.
+\newblock {\url{https://doi.org/10.1371/journal.pone.0174698}}.
+
+\bibitem[Medvedeva et~al.(2020)Medvedeva, Vols, and Wieling]{Medvedeva2020}
+Medvedeva, M.; Vols, M.; Wieling, M.
+\newblock Using machine learning to predict decisions of the European Court of
+  Human Rights.
+\newblock {\em Artificial Intelligence and Law} {\bf 2020}, {\em 28},~237--266.
+\newblock {\url{https://doi.org/10.1007/s10506-019-09255-y}}.
+
+\bibitem[Chinosi and Trombetta(2012)]{Chinosi2012}
+Chinosi, M.; Trombetta, A.
+\newblock BPMN: An introduction to the standard.
+\newblock {\em Computer Standards \& Interfaces} {\bf 2012}, {\em
+  34},~124--134.
+\newblock {\url{https://doi.org/10.1016/j.csi.2011.06.002}}.
+
+\bibitem[van~der Aalst(2013)]{Aalst2013}
+van~der Aalst, W.M.P.
+\newblock Business Process Management: A Comprehensive Survey.
+\newblock {\em ISRN Software Engineering} {\bf 2013}, {\em 2013},~507984.
+\newblock {\url{https://doi.org/10.1155/2013/507984}}.
+
+\bibitem[Rozinat and van~der Aalst(2008)]{Rozinat2008}
+Rozinat, A.; van~der Aalst, W.M.P.
+\newblock Conformance checking of processes based on monitoring real behavior.
+\newblock {\em Information Systems} {\bf 2008}, {\em 33},~64--95.
+\newblock {\url{https://doi.org/10.1016/j.is.2007.07.001}}.
+
+\bibitem[{\O}lnes et~al.(2017){\O}lnes, Ubacht, and Janssen]{Olnes2017}
+{\O}lnes, S.; Ubacht, J.; Janssen, M.
+\newblock Blockchain in government: Benefits and implications of distributed
+  ledger technology for information sharing.
+\newblock {\em Government Information Quarterly} {\bf 2017}, {\em
+  34},~355--364.
+\newblock {\url{https://doi.org/10.1016/j.giq.2017.09.007}}.
+
+\bibitem[Christidis and Devetsikiotis(2016)]{Christidis2016}
+Christidis, K.; Devetsikiotis, M.
+\newblock Blockchains and Smart Contracts for the Internet of Things.
+\newblock {\em IEEE Access} {\bf 2016}, {\em 4},~2292--2303.
+\newblock {\url{https://doi.org/10.1109/ACCESS.2016.2566339}}.
+
+\bibitem[Governatori et~al.(2018)Governatori, Idelberger, Milosevic, Riveret,
+  Sartor, and Xu]{Governatori2018}
+Governatori, G.; Idelberger, F.; Milosevic, Z.; Riveret, R.; Sartor, G.; Xu, X.
+\newblock On legal contracts, imperative and declarative smart contracts, and
+  blockchain systems.
+\newblock {\em Artificial Intelligence and Law} {\bf 2018}, {\em 26},~377--409.
+\newblock {\url{https://doi.org/10.1007/s10506-018-9223-3}}.
+
+\bibitem[Wilkinson et~al.(2016)Wilkinson, Dumontier, Aalbersberg, Appleton,
+  Axton, Baak, Blomberg, Boiten, da~Silva~Santos, Bourne,
+  et~al.]{Wilkinson2016}
+Wilkinson, M.D.; Dumontier, M.; Aalbersberg, I.J.; Appleton, G.; Axton, M.;
+  Baak, A.; Blomberg, N.; Boiten, J.W.; da~Silva~Santos, L.B.; Bourne, P.E.;
+  et~al.
+\newblock The FAIR Guiding Principles for scientific data management and
+  stewardship.
+\newblock {\em Scientific Data} {\bf 2016}, {\em 3},~160018.
+\newblock {\url{https://doi.org/10.1038/sdata.2016.18}}.
+
+\bibitem[Kephart and Chess(2003)]{Kephart2003}
+Kephart, J.O.; Chess, D.M.
+\newblock The Vision of Autonomic Computing.
+\newblock {\em Computer} {\bf 2003}, {\em 36},~41--50.
+\newblock {\url{https://doi.org/10.1109/MC.2003.1160055}}.
+
+\end{thebibliography}

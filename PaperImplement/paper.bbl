@@ -1,0 +1,265 @@
+\begin{thebibliography}{999}
+
+\bibitem[Rosa et~al.(2013)Rosa, Teixeira, and Sousa~Pinto]{Rosa2013}
+Rosa, J.; Teixeira, C.; Sousa~Pinto, J.
+\newblock Risk factors in e-justice information systems.
+\newblock {\em Government Information Quarterly} {\bf 2013}, {\em
+  30},~241--256.
+\newblock {\url{https://doi.org/10.1016/j.giq.2013.02.002}}.
+
+\bibitem[Lupo and Bailey(2014)]{Lupo2014}
+Lupo, G.; Bailey, J.
+\newblock Designing and Implementing e-Justice Systems: Some Lessons Learned
+  from EU and Canadian Examples.
+\newblock {\em Laws} {\bf 2014}, {\em 3},~353--387.
+\newblock {\url{https://doi.org/10.3390/laws3020353}}.
+
+\bibitem[Dahl et~al.(2024)Dahl, Magesh, Suzgun, and Ho]{Dahl2024}
+Dahl, M.; Magesh, V.; Suzgun, M.; Ho, D.E.
+\newblock Large Legal Fictions: Profiling Legal Hallucinations in Large
+  Language Models.
+\newblock {\em Journal of Legal Analysis} {\bf 2024}, {\em 16},~64--93.
+\newblock {\url{https://doi.org/10.1093/jla/laae003}}.
+
+\bibitem[Magesh et~al.(2025)Magesh, Surani, Dahl, Suzgun, Manning, and
+  Ho]{Magesh2025}
+Magesh, V.; Surani, F.; Dahl, M.; Suzgun, M.; Manning, C.D.; Ho, D.E.
+\newblock Hallucination-Free? Assessing the Reliability of Leading AI Legal
+  Research Tools.
+\newblock {\em Journal of Empirical Legal Studies} {\bf 2025}, {\em
+  22},~216--242.
+\newblock {\url{https://doi.org/10.1111/jels.12413}}.
+
+\bibitem[Rudin(2019)]{Rudin2019}
+Rudin, C.
+\newblock Stop explaining black box machine learning models for high stakes
+  decisions and use interpretable models instead.
+\newblock {\em Nature Machine Intelligence} {\bf 2019}, {\em 1},~206--215.
+\newblock {\url{https://doi.org/10.1038/s42256-019-0048-x}}.
+
+\bibitem[Kritzinger et~al.(2018)Kritzinger, Karner, Traar, Henjes, and
+  Sihn]{Kritzinger2018}
+Kritzinger, W.; Karner, M.; Traar, G.; Henjes, J.; Sihn, W.
+\newblock Digital Twin in manufacturing: A categorical literature review and
+  classification.
+\newblock {\em IFAC-PapersOnLine} {\bf 2018}, {\em 51},~1016--1022.
+\newblock {\url{https://doi.org/10.1016/j.ifacol.2018.08.474}}.
+
+\bibitem[Jones et~al.(2020)Jones, Snider, Nassehi, Yon, and Hicks]{Jones2020}
+Jones, D.; Snider, C.; Nassehi, A.; Yon, J.; Hicks, B.
+\newblock Characterising the Digital Twin: A systematic literature review.
+\newblock {\em CIRP Journal of Manufacturing Science and Technology} {\bf
+  2020}, {\em 29},~36--52.
+\newblock {\url{https://doi.org/10.1016/j.cirpj.2020.02.002}}.
+
+\bibitem[Brauner et~al.(2022)Brauner, Dalibor, Jarke, Kunze, Koren, Lakemeyer,
+  Liebenberg, Michael, Pennekamp, Quix, Rumpe, van~der Aalst, Wehrle, Wortmann,
+  and Ziefle]{Brauner2022}
+Brauner, P.; Dalibor, M.; Jarke, M.; Kunze, I.; Koren, I.; Lakemeyer, G.;
+  Liebenberg, M.; Michael, J.; Pennekamp, J.; Quix, C.;  et~al.
+\newblock A Computer Science Perspective on Digital Transformation in
+  Production.
+\newblock {\em ACM Transactions on Internet of Things} {\bf 2022}, {\em 3},~15.
+\newblock {\url{https://doi.org/10.1145/3502265}}.
+
+\bibitem[Bench-Capon et~al.(2012)Bench-Capon, Araszkiewicz, Ashley, Atkinson,
+  Bex, Borges, Bourcier, Bourgine, Conrad, Francesconi, Gordon, Governatori,
+  Leidner, Lewis, Loui, McCarty, Prakken, Schilder, Schweighofer, Thompson,
+  Tyrrell, Verheij, Walton, and Wyner]{BenchCapon2012}
+Bench-Capon, T.; Araszkiewicz, M.; Ashley, K.; Atkinson, K.; Bex, F.; Borges,
+  F.; Bourcier, D.; Bourgine, P.; Conrad, J.G.; Francesconi, E.;  et~al.
+\newblock A history of AI and Law in 50 papers: 25 years of the international
+  conference on AI and Law.
+\newblock {\em Artificial Intelligence and Law} {\bf 2012}, {\em 20},~215--319.
+\newblock {\url{https://doi.org/10.1007/s10506-012-9131-x}}.
+
+\bibitem[Casanovas et~al.(2016)Casanovas, Palmirani, Peroni, van Engers, and
+  Vitali]{Casanovas2016}
+Casanovas, P.; Palmirani, M.; Peroni, S.; van Engers, T.; Vitali, F.
+\newblock Semantic Web for the Legal Domain: The next step.
+\newblock {\em Semantic Web} {\bf 2016}, {\em 7},~213--227.
+\newblock {\url{https://doi.org/10.3233/SW-160224}}.
+
+\bibitem[Sarker et~al.(2021)Sarker, Zhou, Eberhart, and Hitzler]{Sarker2021}
+Sarker, M.K.; Zhou, L.; Eberhart, A.; Hitzler, P.
+\newblock Neuro-symbolic artificial intelligence: Current trends.
+\newblock {\em AI Communications} {\bf 2021}, {\em 34},~197--209.
+\newblock {\url{https://doi.org/10.3233/AIC-210084}}.
+
+\bibitem[Pan et~al.(2024)Pan, Luo, Wang, Chen, Wang, and Wu]{Pan2024}
+Pan, S.; Luo, L.; Wang, Y.; Chen, C.; Wang, J.; Wu, X.
+\newblock Unifying Large Language Models and Knowledge Graphs: A Roadmap.
+\newblock {\em IEEE Transactions on Knowledge and Data Engineering} {\bf 2024},
+  {\em 36},~3580--3599.
+\newblock {\url{https://doi.org/10.1109/TKDE.2024.3352100}}.
+
+\bibitem[{\O}lnes et~al.(2017){\O}lnes, Ubacht, and Janssen]{Olnes2017}
+{\O}lnes, S.; Ubacht, J.; Janssen, M.
+\newblock Blockchain in government: Benefits and implications of distributed
+  ledger technology for information sharing.
+\newblock {\em Government Information Quarterly} {\bf 2017}, {\em
+  34},~355--364.
+\newblock {\url{https://doi.org/10.1016/j.giq.2017.09.007}}.
+
+\bibitem[Janssen et~al.(2012)Janssen, Charalabidis, and
+  Zuiderwijk]{Janssen2012}
+Janssen, M.; Charalabidis, Y.; Zuiderwijk, A.
+\newblock Benefits, Adoption Barriers and Myths of Open Data and Open
+  Government.
+\newblock {\em Information Systems Management} {\bf 2012}, {\em 29},~258--268.
+\newblock {\url{https://doi.org/10.1080/10580530.2012.716740}}.
+
+\bibitem[Attard et~al.(2015)Attard, Orlandi, Scerri, and Auer]{Attard2015}
+Attard, J.; Orlandi, F.; Scerri, S.; Auer, S.
+\newblock A systematic review of open government data initiatives.
+\newblock {\em Government Information Quarterly} {\bf 2015}, {\em
+  32},~399--418.
+\newblock {\url{https://doi.org/10.1016/j.giq.2015.07.006}}.
+
+\bibitem[Karabulut et~al.(2024)Karabulut, Pileggi, Groth, and
+  Degeler]{Karabulut2024}
+Karabulut, E.; Pileggi, S.F.; Groth, P.; Degeler, V.
+\newblock Ontologies in digital twins: A systematic literature review.
+\newblock {\em Future Generation Computer Systems} {\bf 2024}, {\em
+  153},~442--456.
+\newblock {\url{https://doi.org/10.1016/j.future.2023.12.013}}.
+
+\bibitem[Hevner et~al.(2004)Hevner, March, Park, and Ram]{Hevner2004}
+Hevner, A.R.; March, S.T.; Park, J.; Ram, S.
+\newblock Design Science in Information Systems Research.
+\newblock {\em MIS Quarterly} {\bf 2004}, {\em 28},~75--105.
+\newblock {\url{https://doi.org/10.2307/25148625}}.
+
+\bibitem[March and Smith(1995)]{March1995}
+March, S.T.; Smith, G.F.
+\newblock Design and natural science research on information technology.
+\newblock {\em Decision Support Systems} {\bf 1995}, {\em 15},~251--266.
+\newblock {\url{https://doi.org/10.1016/0167-9236(94)00041-2}}.
+
+\bibitem[Peffers et~al.(2007)Peffers, Tuunanen, Rothenberger, and
+  Chatterjee]{Peffers2007}
+Peffers, K.; Tuunanen, T.; Rothenberger, M.A.; Chatterjee, S.
+\newblock A Design Science Research Methodology for Information Systems
+  Research.
+\newblock {\em Journal of Management Information Systems} {\bf 2007}, {\em
+  24},~45--77.
+\newblock {\url{https://doi.org/10.2753/MIS0742-1222240302}}.
+
+\bibitem[Venable et~al.(2016)Venable, Pries-Heje, and Baskerville]{Venable2016}
+Venable, J.; Pries-Heje, J.; Baskerville, R.
+\newblock FEDS: a Framework for Evaluation in Design Science Research.
+\newblock {\em European Journal of Information Systems} {\bf 2016}, {\em
+  25},~77--89.
+\newblock {\url{https://doi.org/10.1057/ejis.2014.36}}.
+
+\bibitem[Gregor and Hevner(2013)]{Gregor2013}
+Gregor, S.; Hevner, A.R.
+\newblock Positioning and Presenting Design Science Research for Maximum
+  Impact.
+\newblock {\em MIS Quarterly} {\bf 2013}, {\em 37},~337--355.
+\newblock {\url{https://doi.org/10.25300/MISQ/2013/37.2.01}}.
+
+\bibitem[Baskerville et~al.(2018)Baskerville, Baiyere, Gregor, Hevner, and
+  Rossi]{Baskerville2018}
+Baskerville, R.; Baiyere, A.; Gregor, S.; Hevner, A.; Rossi, M.
+\newblock Design Science Research Contributions: Finding a Balance between
+  Artifact and Theory.
+\newblock {\em Journal of the Association for Information Systems} {\bf 2018},
+  {\em 19},~358--376.
+\newblock {\url{https://doi.org/10.17705/1jais.00495}}.
+
+\bibitem[Gregor and Jones(2007)]{GregorJones2007}
+Gregor, S.; Jones, D.
+\newblock The Anatomy of a Design Theory.
+\newblock {\em Journal of the Association for Information Systems} {\bf 2007},
+  {\em 8},~312--335.
+\newblock {\url{https://doi.org/10.17705/1jais.00129}}.
+
+\bibitem[Gruber(1993)]{Gruber1993}
+Gruber, T.R.
+\newblock A translation approach to portable ontology specifications.
+\newblock {\em Knowledge Acquisition} {\bf 1993}, {\em 5},~199--220.
+\newblock {\url{https://doi.org/10.1006/knac.1993.1008}}.
+
+\bibitem[Uschold and Gruninger(1996)]{Uschold1996}
+Uschold, M.; Gruninger, M.
+\newblock Ontologies: principles, methods and applications.
+\newblock {\em The Knowledge Engineering Review} {\bf 1996}, {\em 11},~93--136.
+\newblock {\url{https://doi.org/10.1017/S0269888900007797}}.
+
+\bibitem[Guarino and Welty(2002)]{Guarino2002}
+Guarino, N.; Welty, C.
+\newblock Evaluating ontological decisions with OntoClean.
+\newblock {\em Communications of the ACM} {\bf 2002}, {\em 45},~61--65.
+\newblock {\url{https://doi.org/10.1145/503124.503150}}.
+
+\bibitem[Rozinat and van~der Aalst(2008)]{Rozinat2008}
+Rozinat, A.; van~der Aalst, W.M.P.
+\newblock Conformance checking of processes based on monitoring real behavior.
+\newblock {\em Information Systems} {\bf 2008}, {\em 33},~64--95.
+\newblock {\url{https://doi.org/10.1016/j.is.2007.07.001}}.
+
+\bibitem[Haber and Stornetta(1991)]{Haber1991}
+Haber, S.; Stornetta, W.S.
+\newblock How to time-stamp a digital document.
+\newblock {\em Journal of Cryptology} {\bf 1991}, {\em 3},~99--111.
+\newblock {\url{https://doi.org/10.1007/BF00196791}}.
+
+\bibitem[Kephart and Chess(2003)]{Kephart2003}
+Kephart, J.O.; Chess, D.M.
+\newblock The Vision of Autonomic Computing.
+\newblock {\em Computer} {\bf 2003}, {\em 36},~41--50.
+\newblock {\url{https://doi.org/10.1109/MC.2003.1160055}}.
+
+\bibitem[Saaty(1990)]{Saaty1990}
+Saaty, T.L.
+\newblock How to make a decision: The Analytic Hierarchy Process.
+\newblock {\em European Journal of Operational Research} {\bf 1990}, {\em
+  48},~9--26.
+\newblock {\url{https://doi.org/10.1016/0377-2217(90)90057-I}}.
+
+\bibitem[Cohen(1960)]{Cohen1960}
+Cohen, J.
+\newblock A Coefficient of Agreement for Nominal Scales.
+\newblock {\em Educational and Psychological Measurement} {\bf 1960}, {\em
+  20},~37--46.
+\newblock {\url{https://doi.org/10.1177/001316446002000104}}.
+
+\bibitem[Lawshe(1975)]{Lawshe1975}
+Lawshe, C.H.
+\newblock A quantitative approach to content validity.
+\newblock {\em Personnel Psychology} {\bf 1975}, {\em 28},~563--575.
+\newblock {\url{https://doi.org/10.1111/j.1744-6570.1975.tb01393.x}}.
+
+\bibitem[Spearman(1904)]{Spearman1904}
+Spearman, C.
+\newblock The Proof and Measurement of Association between Two Things.
+\newblock {\em The American Journal of Psychology} {\bf 1904}, {\em
+  15},~72--101.
+\newblock {\url{https://doi.org/10.2307/1412159}}.
+
+\bibitem[Bizer et~al.(2009)Bizer, Heath, and Berners-Lee]{Bizer2009}
+Bizer, C.; Heath, T.; Berners-Lee, T.
+\newblock Linked Data --- The Story So Far.
+\newblock {\em International Journal on Semantic Web and Information Systems}
+  {\bf 2009}, {\em 5},~1--22.
+\newblock {\url{https://doi.org/10.4018/jswis.2009081901}}.
+
+\bibitem[Wilkinson et~al.(2016)Wilkinson, Dumontier, Aalbersberg, Appleton,
+  Axton, Baak, Blomberg, Boiten, da~Silva~Santos, Bourne,
+  et~al.]{Wilkinson2016}
+Wilkinson, M.D.; Dumontier, M.; Aalbersberg, I.J.; Appleton, G.; Axton, M.;
+  Baak, A.; Blomberg, N.; Boiten, J.W.; da~Silva~Santos, L.B.; Bourne, P.E.;
+  et~al.
+\newblock The FAIR Guiding Principles for scientific data management and
+  stewardship.
+\newblock {\em Scientific Data} {\bf 2016}, {\em 3},~160018.
+\newblock {\url{https://doi.org/10.1038/sdata.2016.18}}.
+
+\bibitem[Guha et~al.(2016)Guha, Brickley, and Macbeth]{Guha2016}
+Guha, R.V.; Brickley, D.; Macbeth, S.
+\newblock Schema.org: Evolution of Structured Data on the Web.
+\newblock {\em Communications of the ACM} {\bf 2016}, {\em 59},~44--51.
+\newblock {\url{https://doi.org/10.1145/2844544}}.
+
+\end{thebibliography}

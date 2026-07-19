@@ -1505,11 +1505,17 @@ select option {
   <div class="nav-tab" onclick="switchTab('adaptativo')" style="border-left:1px solid rgba(16,233,140,0.4)">
     <span class="nav-num" style="color:#10e98c">09</span>Adaptativo · MAPE-K
   </div>
+  <div class="nav-tab" onclick="switchTab('experto')" style="border-left:1px solid rgba(168,85,247,0.4)">
+    <span class="nav-num" style="color:#a855f7">10</span>Validación Experta
+  </div>
   <div class="nav-tab" onclick="switchTab('guia')" style="border-left:1px solid rgba(0,229,255,0.3)">
-    <span class="nav-num" style="color:var(--cyan)">10</span>Guía
+    <span class="nav-num" style="color:var(--cyan)">11</span>Guía
+  </div>
+  <div class="nav-tab" onclick="switchTab('tesis')" style="border-left:1px solid rgba(255,201,71,0.4)">
+    <span class="nav-num" style="color:var(--gold)">12</span>Tesis
   </div>
   <div class="nav-tab" onclick="switchTab('styles')" style="border-left:1px solid rgba(176,96,255,0.3)">
-    <span class="nav-num" style="color:var(--q-violet)">11</span>
+    <span class="nav-num" style="color:var(--q-violet)">13</span>
     <span style="background:linear-gradient(90deg,var(--q-cyan),var(--q-violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:600">UI Styles</span>
   </div>
 </nav>
@@ -1787,40 +1793,6 @@ select option {
     <div id="dt-sdtcj-detail" style="padding:.4rem"></div>
   </div>
 
-  <!-- A3 · Pesos Ψ (AHP), sensibilidad y rúbrica con evidencia -->
-  <div class="panel" style="margin-top:1rem;--ac:#a855f7">
-    <div class="ph"><div class="ptitle">⚖ Pesos Ψ · AHP, Análisis de Sensibilidad y Rúbrica con Evidencia</div>
-      <span class="pbadge d" id="vz-psi-badge">Ψ: —</span></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:1rem;padding:.8rem 1rem">
-      <div>
-        <div style="font-family:var(--font-mono);font-size:.62rem;color:var(--t3);margin-bottom:.4rem">JUICIO AHP (escala Saaty) — ¿cuánto más importante es cubrir el <b>concepto raíz</b> que los <b>subconceptos</b>?</div>
-        <select id="vz-saaty" class="app-select" style="width:100%;margin-bottom:.4rem"></select>
-        <input id="vz-experto" placeholder="Nombre del experto" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.06);border:1px solid var(--bdr);border-radius:8px;color:var(--t1);font-family:var(--font-mono);font-size:.68rem;padding:.4rem .55rem;margin-bottom:.4rem">
-        <button onclick="vzGuardarAhp()" style="cursor:pointer;border:none;border-radius:9px;padding:.5rem 1rem;width:100%;
-          font-family:var(--font-mono);font-weight:700;font-size:.72rem;color:#04121a;
-          background:linear-gradient(95deg,#a855f7,#00e5ff)">💾 Registrar juicio AHP</button>
-        <div id="vz-ahp-info" style="font-family:var(--font-mono);font-size:.6rem;color:var(--t3);margin-top:.4rem;line-height:1.5"></div>
-      </div>
-      <div>
-        <button onclick="vzSensibilidad()" style="cursor:pointer;border:1px solid rgba(168,85,247,.5);border-radius:9px;padding:.5rem 1rem;width:100%;
-          font-family:var(--font-mono);font-weight:700;font-size:.72rem;color:#a855f7;background:rgba(168,85,247,.08);margin-bottom:.5rem">📈 Análisis de sensibilidad ±10/20%</button>
-        <div id="vz-sens" style="font-size:.66rem;color:var(--t2);line-height:1.6"></div>
-      </div>
-      <div>
-        <div style="display:flex;gap:.4rem;align-items:center;margin-bottom:.4rem">
-          <select id="vz-dim" class="app-select" onchange="vzShowRubrica()"></select>
-          <span class="pbadge g" id="vz-ev-n">0 evidencias</span>
-        </div>
-        <div id="vz-rubrica" style="max-height:180px;overflow-y:auto;font-size:.64rem;color:var(--t2);line-height:1.55;border:1px solid var(--bdr);border-radius:8px;padding:.4rem .6rem;margin-bottom:.4rem"></div>
-        <div style="display:flex;gap:.4rem;flex-wrap:wrap">
-          <input id="vz-ev-url" placeholder="URL o snapshot de evidencia" style="flex:1;min-width:130px;background:rgba(255,255,255,.06);border:1px solid var(--bdr);border-radius:8px;color:var(--t1);font-family:var(--font-mono);font-size:.64rem;padding:.35rem .5rem">
-          <input id="vz-ev-crit" placeholder="Criterio de rúbrica" style="width:120px;background:rgba(255,255,255,.06);border:1px solid var(--bdr);border-radius:8px;color:var(--t1);font-family:var(--font-mono);font-size:.64rem;padding:.35rem .5rem">
-          <button onclick="vzAddEvidencia()" style="cursor:pointer;border:1px solid rgba(255,201,71,.5);border-radius:8px;padding:.35rem .7rem;font-family:var(--font-mono);font-weight:700;font-size:.68rem;color:var(--gold);background:rgba(255,201,71,.1)">+ Evidencia</button>
-        </div>
-        <div id="vz-ev-status" style="font-family:var(--font-mono);font-size:.6rem;color:var(--t3);margin-top:.3rem">Un score sin evidencia queda rotulado "declarado".</div>
-      </div>
-    </div>
-  </div>
 </div>
 
 <!-- ═══ 05 WORKFLOW ═══════════════════════════════════ -->
@@ -1991,7 +1963,9 @@ select option {
 
 <!-- ═══ 09 ONTOLOGÍA COGEP · IA ═══════════════════════ -->
 <div class="section" id="sec-cogep">
-  <div class="stitle">Ontología COGEP — Conocimiento procesal para la IA jurídica</div>
+  <div class="stitle">Ontología COGEP — Conocimiento procesal para la IA jurídica
+    <span class="pbadge d" id="cogep-validez-chip" title="Validez medida del razonador (tab Validación Experta)" style="margin-left:.6rem;font-size:.6rem;color:#ffc947">razonador: sin validez medida</span>
+  </div>
 
   <div class="panel">
     <div class="ph">
@@ -2050,6 +2024,8 @@ select option {
         font-family:var(--font-mono);font-weight:700;font-size:.72rem;color:#10e98c;background:rgba(16,233,140,.08)">✔ Verificar consistencia</button>
       <button onclick="ovCq()" style="cursor:pointer;border:1px solid rgba(0,229,255,.5);border-radius:9px;padding:.5rem 1rem;
         font-family:var(--font-mono);font-weight:700;font-size:.72rem;color:var(--cyan);background:rgba(0,229,255,.08)">❓ Ejecutar competency questions</button>
+      <button onclick="ovAlineacion()" style="cursor:pointer;border:1px solid rgba(255,201,71,.5);border-radius:9px;padding:.5rem 1rem;
+        font-family:var(--font-mono);font-weight:700;font-size:.72rem;color:var(--gold);background:rgba(255,201,71,.08)">🧭 Alineación LKIF-Core</button>
       <span style="font-family:var(--font-mono);font-size:.6rem;color:var(--t3)">Verificación estructural en la app; HermiT/OOPS! se corren externamente y se asientan en bitácora.</span>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:1rem;padding:.8rem 1rem">
@@ -2465,7 +2441,7 @@ select option {
     <button class="vis-ctrl-btn" onclick="adGoto('ad-p-ciclo')">⟳ Ciclo</button>
     <button class="vis-ctrl-btn" onclick="adGoto('ad-p-config')">⚖ Métricas</button>
     <button class="vis-ctrl-btn" onclick="adGoto('ad-p-supuestos')">🎛 Supuestos</button>
-    <button class="vis-ctrl-btn" onclick="adGoto('ad-p-validez')">🎯 Validez IA</button>
+    <button class="vis-ctrl-btn" onclick="switchTab('experto')" style="border-color:rgba(168,85,247,.5)">🎯 Validez IA ↗ (tab 10)</button>
     <button class="vis-ctrl-btn" onclick="adGoto('ad-p-normativo')">📜 Cambio Normativo</button>
     <button class="vis-ctrl-btn" onclick="adGoto('ad-p-ranking')">🏛 Ranking</button>
     <button class="vis-ctrl-btn" onclick="adGoto('ad-p-alertas')">🛡 Alertas</button>
@@ -2574,36 +2550,6 @@ select option {
     </div>
   </div>
 
-  <!-- Validez IA: anotación gold + evaluación -->
-  <div class="panel" id="ad-p-validez" style="margin-bottom:1rem;--ac:#a855f7">
-    <div class="ph"><div class="ptitle">🎯 Validez IA · Gold Standard y Evaluación del Razonador</div>
-      <div style="display:flex;gap:.45rem;align-items:center">
-        <span class="pbadge d" id="ev-chip">sin validez medida</span>
-        <span class="pbadge g" id="ev-progreso">0 anotadas</span>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:1rem;padding:.8rem 1rem">
-      <div>
-        <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:.5rem">
-          <select id="ev-causa" class="app-select" onchange="evLoadCausa()"></select>
-          <input id="ev-anotador" placeholder="Anotador (abogado)" style="background:rgba(255,255,255,.06);border:1px solid var(--bdr);border-radius:8px;color:var(--t1);font-family:var(--font-mono);font-size:.7rem;padding:.45rem .55rem">
-          <button onclick="evGuardar()" style="cursor:pointer;border:1px solid rgba(168,85,247,.5);border-radius:8px;padding:.45rem .8rem;font-family:var(--font-mono);font-weight:700;font-size:.72rem;color:#a855f7;background:rgba(168,85,247,.1)">💾 Guardar anotaciones</button>
-        </div>
-        <div style="font-family:var(--font-mono);font-size:.6rem;color:var(--t3);margin-bottom:.4rem">
-          Anote el acto correcto según el contenido de la providencia (guía: /data/gold/GUIA_ANOTACION.md). La predicción del sistema se muestra en gris solo como referencia.
-        </div>
-        <div id="ev-filas" style="max-height:340px;overflow-y:auto;border:1px solid var(--bdr);border-radius:8px;padding:.4rem .6rem"></div>
-        <span id="ev-status" style="font-family:var(--font-mono);font-size:.62rem;color:var(--t3)"></span>
-      </div>
-      <div>
-        <button onclick="evRun()" style="cursor:pointer;border:none;border-radius:9px;padding:.6rem 1.1rem;width:100%;
-          font-family:var(--font-mono);font-weight:700;font-size:.76rem;color:#04121a;margin-bottom:.6rem;
-          background:linear-gradient(95deg,#a855f7,#00e5ff)">▶ Evaluar razonador contra el gold</button>
-        <div id="ev-result" style="font-size:.68rem;color:var(--t2);line-height:1.6"></div>
-      </div>
-    </div>
-  </div>
-
   <!-- Cambio Normativo / Jurisprudencial -->
   <div class="panel" id="ad-p-normativo" style="margin-bottom:1rem;--ac:#60a5fa">
     <div class="ph"><div class="ptitle">📜 Gestión del Cambio Normativo · KB versionada con aplicación temporal</div>
@@ -2692,7 +2638,437 @@ select option {
   </div>
 </div>
 
-<!-- ═══ 10 GUÍA · TÉRMINOS, ASPECTOS TÉCNICOS Y METODOLÓGICOS ═══ -->
+<!-- ═══ 10 VALIDACIÓN EXPERTA · GOLD STANDARD + AHP ═════════════ -->
+<div class="section" id="sec-experto">
+  <div class="stitle">Validación Experta · Punto 1: Gold Standard (abogado) · Punto 2: Pesos AHP (expertos)</div>
+
+  <!-- Intro + sesión simulada -->
+  <div class="panel" style="margin-bottom:1rem;--ac:#a855f7">
+    <div class="ph"><div class="ptitle">🧭 ¿Qué se hace en este tab?</div>
+      <span class="pbadge d" id="ex-estado">—</span></div>
+    <div id="ex-sim-banner" style="display:none;margin:.6rem 1rem 0;padding:.5rem .8rem;border:1px solid rgba(255,154,60,.6);
+         border-radius:8px;background:rgba(255,154,60,.1);font-family:var(--font-mono);font-size:.66rem;color:#ff9a3c">
+      ⚠ HAY DATOS SIMULADOS ACTIVOS — sirven solo para ver el flujo; límpielos antes de la sesión real y NO los use en la tesis.
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding:.8rem 1rem">
+      <div style="font-size:.68rem;color:var(--t2);line-height:1.65">
+        <b style="color:#a855f7">Punto 1 — Validez del razonador (abogado).</b>
+        Un abogado anota 30–50 actuaciones reales (acto correcto + veredicto) sin ver la predicción del sistema.
+        Al evaluar, se obtiene F1, precisión, recall, matriz de confusión y kappa si hay 2º anotador.
+        Resultado: el dictamen IA pasa a tener <i>desempeño conocido</i> (chip de validez).
+        Guía: <span class="src-file">/data/gold/GUIA_ANOTACION.md</span>
+      </div>
+      <div style="font-size:.68rem;color:var(--t2);line-height:1.65">
+        <b style="color:var(--cyan)">Punto 2 — Pesos Ψ por AHP (expertos).</b>
+        3–7 expertos responden una comparación por pares (escala Saaty): ¿cuánto más importa cubrir el concepto raíz
+        que los subconceptos? El sistema deriva los pesos, los agrega y el radar los usa en vez del 0.40/0.60 asumido.
+        El análisis de sensibilidad ±10/20% demuestra que las conclusiones no dependen del valor exacto.
+      </div>
+    </div>
+    <div style="display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;padding:0 1rem 1rem">
+      <button onclick="exSimular()" style="cursor:pointer;border:none;border-radius:9px;padding:.55rem 1rem;
+        font-family:var(--font-mono);font-weight:700;font-size:.74rem;color:#04121a;
+        background:linear-gradient(95deg,#a855f7,#ffc947)">🧪 Cargar sesión simulada (demo del flujo)</button>
+      <button onclick="exLimpiar()" style="cursor:pointer;border:1px solid rgba(255,77,109,.5);border-radius:9px;padding:.55rem 1rem;
+        font-family:var(--font-mono);font-weight:700;font-size:.74rem;color:#ff4d6d;background:rgba(255,77,109,.08)">🧹 Limpiar simulación</button>
+      <span id="ex-sim-status" style="font-family:var(--font-mono);font-size:.62rem;color:var(--t3)">
+        La simulación crea 40 anotaciones (+15 de un 2º anotador) y 3 juicios AHP marcados "SIMULADO", corre la evaluación y queda en bitácora.
+      </span>
+    </div>
+  </div>
+
+  <!-- Punto 1: Validez IA (movido desde el tab Adaptativo) -->
+  <div class="panel" id="ad-p-validez" style="margin-bottom:1rem;--ac:#a855f7">
+    <div class="ph"><div class="ptitle">🎯 Punto 1 · Gold Standard y Evaluación del Razonador</div>
+      <div style="display:flex;gap:.45rem;align-items:center">
+        <span class="pbadge d" id="ev-chip">sin validez medida</span>
+        <span class="pbadge g" id="ev-progreso">0 anotadas</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:1rem;padding:.8rem 1rem">
+      <div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:.5rem">
+          <select id="ev-causa" class="app-select" onchange="evLoadCausa()"></select>
+          <input id="ev-anotador" placeholder="Anotador (abogado)" style="background:rgba(255,255,255,.06);border:1px solid var(--bdr);border-radius:8px;color:var(--t1);font-family:var(--font-mono);font-size:.7rem;padding:.45rem .55rem">
+          <button onclick="evGuardar()" style="cursor:pointer;border:1px solid rgba(168,85,247,.5);border-radius:8px;padding:.45rem .8rem;font-family:var(--font-mono);font-weight:700;font-size:.72rem;color:#a855f7;background:rgba(168,85,247,.1)">💾 Guardar anotaciones</button>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:.6rem;color:var(--t3);margin-bottom:.4rem">
+          Anote el acto correcto según el contenido de la providencia (guía: /data/gold/GUIA_ANOTACION.md). La predicción del sistema se muestra en gris solo como referencia.
+        </div>
+        <div id="ev-filas" style="max-height:340px;overflow-y:auto;border:1px solid var(--bdr);border-radius:8px;padding:.4rem .6rem"></div>
+        <span id="ev-status" style="font-family:var(--font-mono);font-size:.62rem;color:var(--t3)"></span>
+      </div>
+      <div>
+        <button onclick="evRun()" style="cursor:pointer;border:none;border-radius:9px;padding:.6rem 1.1rem;width:100%;
+          font-family:var(--font-mono);font-weight:700;font-size:.76rem;color:#04121a;margin-bottom:.6rem;
+          background:linear-gradient(95deg,#a855f7,#00e5ff)">▶ Evaluar razonador contra el gold</button>
+        <div id="ev-result" style="font-size:.68rem;color:var(--t2);line-height:1.6"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Punto 2: AHP + sensibilidad + rúbrica (movido desde el tab 04) -->
+  <div class="panel" style="--ac:var(--cyan)">
+    <div class="ph"><div class="ptitle">⚖ Punto 2 · Pesos Ψ (AHP), Análisis de Sensibilidad y Rúbrica con Evidencia</div>
+      <span class="pbadge d" id="vz-psi-badge">Ψ: —</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:1rem;padding:.8rem 1rem">
+      <div>
+        <div style="font-family:var(--font-mono);font-size:.62rem;color:var(--t3);margin-bottom:.4rem">JUICIO AHP (escala Saaty) — ¿cuánto más importante es cubrir el <b>concepto raíz</b> que los <b>subconceptos</b>?</div>
+        <select id="vz-saaty" class="app-select" style="width:100%;margin-bottom:.4rem"></select>
+        <input id="vz-experto" placeholder="Nombre del experto" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.06);border:1px solid var(--bdr);border-radius:8px;color:var(--t1);font-family:var(--font-mono);font-size:.68rem;padding:.4rem .55rem;margin-bottom:.4rem">
+        <button onclick="vzGuardarAhp()" style="cursor:pointer;border:none;border-radius:9px;padding:.5rem 1rem;width:100%;
+          font-family:var(--font-mono);font-weight:700;font-size:.72rem;color:#04121a;
+          background:linear-gradient(95deg,#a855f7,#00e5ff)">💾 Registrar juicio AHP</button>
+        <div id="vz-ahp-info" style="font-family:var(--font-mono);font-size:.6rem;color:var(--t3);margin-top:.4rem;line-height:1.5"></div>
+      </div>
+      <div>
+        <button onclick="vzSensibilidad()" style="cursor:pointer;border:1px solid rgba(168,85,247,.5);border-radius:9px;padding:.5rem 1rem;width:100%;
+          font-family:var(--font-mono);font-weight:700;font-size:.72rem;color:#a855f7;background:rgba(168,85,247,.08);margin-bottom:.5rem">📈 Análisis de sensibilidad ±10/20%</button>
+        <div id="vz-sens" style="font-size:.66rem;color:var(--t2);line-height:1.6"></div>
+      </div>
+      <div>
+        <div style="display:flex;gap:.4rem;align-items:center;margin-bottom:.4rem">
+          <select id="vz-dim" class="app-select" onchange="vzShowRubrica()"></select>
+          <span class="pbadge g" id="vz-ev-n">0 evidencias</span>
+        </div>
+        <div id="vz-rubrica" style="max-height:180px;overflow-y:auto;font-size:.64rem;color:var(--t2);line-height:1.55;border:1px solid var(--bdr);border-radius:8px;padding:.4rem .6rem;margin-bottom:.4rem"></div>
+        <div style="display:flex;gap:.4rem;flex-wrap:wrap">
+          <input id="vz-ev-url" placeholder="URL o snapshot de evidencia" style="flex:1;min-width:130px;background:rgba(255,255,255,.06);border:1px solid var(--bdr);border-radius:8px;color:var(--t1);font-family:var(--font-mono);font-size:.64rem;padding:.35rem .5rem">
+          <input id="vz-ev-crit" placeholder="Criterio de rúbrica" style="width:120px;background:rgba(255,255,255,.06);border:1px solid var(--bdr);border-radius:8px;color:var(--t1);font-family:var(--font-mono);font-size:.64rem;padding:.35rem .5rem">
+          <button onclick="vzAddEvidencia()" style="cursor:pointer;border:1px solid rgba(255,201,71,.5);border-radius:8px;padding:.35rem .7rem;font-family:var(--font-mono);font-weight:700;font-size:.68rem;color:var(--gold);background:rgba(255,201,71,.1)">+ Evidencia</button>
+        </div>
+        <div id="vz-ev-status" style="font-family:var(--font-mono);font-size:.6rem;color:var(--t3);margin-top:.3rem">Un score sin evidencia queda rotulado "declarado".</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Punto 3: Ponderación de dimensiones (Delphi/Likert) -->
+  <div class="panel" style="margin-top:1rem;--ac:var(--gold)">
+    <div class="ph"><div class="ptitle">📊 Punto 3 · Ponderación de las Dimensiones del Radar (panel Delphi)</div>
+      <span class="pbadge d" id="xd-proc">sin ponderar (promedio simple)</span></div>
+    <div style="padding:.4rem 1rem 0;font-family:var(--font-mono);font-size:.62rem;color:var(--t3)">
+      Cada experto califica la importancia de cada dimensión (1 = mínima · 9 = máxima). El peso agregado = mediana normalizada;
+      el score global del radar pasa de promedio simple a promedio ponderado por expertos.
+    </div>
+    <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:1rem;padding:.8rem 1rem">
+      <div>
+        <div id="xd-sliders" style="display:grid;grid-template-columns:1fr 1fr;gap:.35rem .9rem"></div>
+        <div style="display:flex;gap:.5rem;align-items:center;margin-top:.6rem">
+          <input id="xd-experto" placeholder="Nombre del experto" style="background:rgba(255,255,255,.06);border:1px solid var(--bdr);border-radius:8px;color:var(--t1);font-family:var(--font-mono);font-size:.68rem;padding:.4rem .55rem">
+          <button onclick="xdGuardar()" style="cursor:pointer;border:none;border-radius:9px;padding:.5rem 1rem;
+            font-family:var(--font-mono);font-weight:700;font-size:.72rem;color:#04121a;
+            background:linear-gradient(95deg,#ffc947,#00e5ff)">💾 Registrar ponderación</button>
+        </div>
+        <span id="xd-status" style="font-family:var(--font-mono);font-size:.6rem;color:var(--t3)"></span>
+      </div>
+      <div id="xd-pesos" style="font-size:.66rem;color:var(--t2);line-height:1.6"></div>
+    </div>
+  </div>
+
+  <!-- Punto 4: Doble evaluación con rúbrica + concordancia -->
+  <div class="panel" style="margin-top:1rem;--ac:#10e98c">
+    <div class="ph"><div class="ptitle">🤝 Punto 4 · Doble Evaluación de Dimensiones con Rúbrica · concordancia Spearman</div>
+      <span class="pbadge g" id="xr-n">0 evaluadores</span></div>
+    <div style="padding:.4rem 1rem 0;font-family:var(--font-mono);font-size:.62rem;color:var(--t3)">
+      Cada experto puntúa las 10 dimensiones con la rúbrica (niveles 0·25·50·75·100 — consúltela en el Punto 2).
+      Con ≥2 evaluadores se calcula la concordancia entre pares y frente al score del sistema (Fallo 1: doble evaluador).
+    </div>
+    <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:1rem;padding:.8rem 1rem">
+      <div>
+        <div id="xr-inputs" style="display:grid;grid-template-columns:1fr 1fr;gap:.35rem .9rem"></div>
+        <div style="display:flex;gap:.5rem;align-items:center;margin-top:.6rem">
+          <input id="xr-experto" placeholder="Nombre del evaluador" style="background:rgba(255,255,255,.06);border:1px solid var(--bdr);border-radius:8px;color:var(--t1);font-family:var(--font-mono);font-size:.68rem;padding:.4rem .55rem">
+          <button onclick="xrGuardar()" style="cursor:pointer;border:none;border-radius:9px;padding:.5rem 1rem;
+            font-family:var(--font-mono);font-weight:700;font-size:.72rem;color:#04121a;
+            background:linear-gradient(95deg,#10e98c,#00e5ff)">💾 Registrar evaluación</button>
+        </div>
+        <span id="xr-status" style="font-family:var(--font-mono);font-size:.6rem;color:var(--t3)"></span>
+      </div>
+      <div id="xr-conc" style="font-size:.66rem;color:var(--t2);line-height:1.6"></div>
+    </div>
+  </div>
+
+  <!-- Punto 5: Registro de verificación ontológica externa -->
+  <div class="panel" style="margin-top:1rem;--ac:#60a5fa">
+    <div class="ph"><div class="ptitle">🧾 Punto 5 · Registro de Verificación Ontológica Externa (HermiT · Pellet · OOPS!)</div>
+      <span class="pbadge d" id="xv-n">0 registros</span></div>
+    <div style="padding:.4rem 1rem 0;font-family:var(--font-mono);font-size:.62rem;color:var(--t3)">
+      Genere el OWL en el tab 07, verifíquelo externamente (Protégé→HermiT, oops.linkeddata.es) y asiente aquí el resultado con el hash del OWL verificado — queda en bitácora como evidencia.
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:1rem;padding:.8rem 1rem">
+      <div style="display:flex;flex-direction:column;gap:.45rem">
+        <div style="display:flex;gap:.45rem;flex-wrap:wrap">
+          <select id="xv-herr" class="app-select">
+            <option>HermiT (Protégé)</option><option>Pellet (Protégé)</option><option>OOPS! Scanner</option><option>Otra</option>
+          </select>
+          <input id="xv-ver" placeholder="Versión" style="width:90px;background:rgba(255,255,255,.06);border:1px solid var(--bdr);border-radius:8px;color:var(--t1);font-family:var(--font-mono);font-size:.66rem;padding:.4rem .5rem">
+          <select id="xv-res" class="app-select">
+            <option value="consistente">✓ Consistente</option><option value="inconsistente">✖ Inconsistente</option>
+            <option value="pitfalls_menores">⚠ Pitfalls menores</option><option value="pitfalls_criticos">✖ Pitfalls críticos</option>
+          </select>
+        </div>
+        <input id="xv-det" placeholder="Detalle (clases insatisfacibles, pitfalls corregidos…)" style="background:rgba(255,255,255,.06);border:1px solid var(--bdr);border-radius:8px;color:var(--t1);font-family:var(--font-mono);font-size:.66rem;padding:.4rem .55rem">
+        <input id="xv-url" placeholder="URL o ruta del informe (opcional)" style="background:rgba(255,255,255,.06);border:1px solid var(--bdr);border-radius:8px;color:var(--t1);font-family:var(--font-mono);font-size:.66rem;padding:.4rem .55rem">
+        <button onclick="xvGuardar()" style="cursor:pointer;border:none;border-radius:9px;padding:.5rem 1rem;
+          font-family:var(--font-mono);font-weight:700;font-size:.72rem;color:#04121a;
+          background:linear-gradient(95deg,#60a5fa,#10e98c)">💾 Asentar verificación</button>
+        <span id="xv-status" style="font-family:var(--font-mono);font-size:.6rem;color:var(--t3)"></span>
+      </div>
+      <div id="xv-lista" style="max-height:230px;overflow-y:auto"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 12 TESIS DOCTORAL · FORMATO UPS · DSR ═══════════════════ -->
+<style>
+.ts-p{font-size:.78rem;color:var(--t2);line-height:1.85;text-align:justify;margin:.45rem 0}
+.ts-h2{font-size:.92rem;color:var(--cyan);font-weight:700;margin:1.1rem 0 .35rem;border-bottom:1px solid var(--bdr);padding-bottom:.25rem}
+.ts-h3{font-size:.8rem;color:var(--gold);font-weight:700;margin:.8rem 0 .25rem}
+.ts-p b{color:var(--t1)}
+.ts-p i{color:#a5b4fc}
+.ts-cite{font-size:.6rem;color:var(--cyan);vertical-align:super;cursor:pointer}
+.ts-tbl{width:100%;border-collapse:collapse;font-size:.7rem;margin:.5rem 0}
+.ts-tbl th{font-family:var(--font-mono);font-size:.6rem;color:var(--t3);text-align:left;padding:.3rem .5rem;border-bottom:1px solid var(--bdr2)}
+.ts-tbl td{padding:.3rem .5rem;border-bottom:1px dashed rgba(255,255,255,.08);color:var(--t2)}
+.ts-caption{font-family:var(--font-mono);font-size:.6rem;color:var(--t3);font-style:italic;margin:.15rem 0 .6rem}
+.ts-live{color:#10e98c;font-family:var(--font-mono);font-weight:700}
+.ts-eq{font-family:var(--font-mono);font-size:.72rem;color:var(--t1);background:rgba(0,229,255,.05);border:1px solid var(--bdr);border-radius:8px;padding:.5rem .8rem;margin:.5rem 0;text-align:center}
+</style>
+<div class="section" id="sec-tesis">
+  <div class="stitle">Tesis Doctoral — Modelo de Gobernanza Legaltech Adaptativa basada en IA para Flujos Procesales Jurídicos
+    <span class="pbadge g" id="ts-live-badge" style="margin-left:.6rem">⟳ métricas en vivo desde la app</span>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem">
+    <button class="vis-ctrl-btn" onclick="adGoto('ts-cap0')">Resumen</button>
+    <button class="vis-ctrl-btn" onclick="adGoto('ts-cap1')">1 · Introducción</button>
+    <button class="vis-ctrl-btn" onclick="adGoto('ts-cap2')">2 · Estado del Arte</button>
+    <button class="vis-ctrl-btn" onclick="adGoto('ts-cap3')">3 · Metodología (DSR)</button>
+    <button class="vis-ctrl-btn" onclick="adGoto('ts-cap4')">4 · Propuesta y Resultados</button>
+    <button class="vis-ctrl-btn" onclick="adGoto('ts-cap5')">5 · Conclusiones</button>
+    <button class="vis-ctrl-btn" onclick="adGoto('ts-bib')">Bibliografía</button>
+  </div>
+
+  <!-- ── PRELIMINARES ── -->
+  <div class="panel" id="ts-cap0" style="margin-bottom:1rem;--ac:var(--gold)">
+    <div class="ph"><div class="ptitle">Resumen / Abstract</div><span class="pbadge d">formato UPS · book 12pt</span></div>
+    <div style="padding:.8rem 1.2rem">
+      <div class="ts-h2">Resumen</div>
+      <p class="ts-p">La administración de justicia ecuatoriana dispone, con el Código Orgánico General de Procesos (COGEP), de términos procesales taxativos cuyo incumplimiento es jurídicamente sancionable; sin embargo, la gobernanza tecnológica del ecosistema judicial carece de mecanismos que midan ese cumplimiento de forma continua y retroalimenten la toma de decisiones. Esta tesis diseña, construye y evalúa —bajo la metodología <i>Design Science Research</i> (DSR)— un <b>Modelo de Gobernanza Legaltech Adaptativa basada en Inteligencia Artificial para Flujos Procesales jurídicos</b> (MALTG). El artefacto central articula: (i) una ontología multicapa de gobernanza (TOGAF, COBIT, ITIL, NIST, dominio Legaltech) formalizada en OWL; (ii) un <i>structural digital model</i> del ecosistema tecnológico del Consejo de la Judicatura construido mediante análisis documental sistemático con evidencia SHA-256; (iii) una <i>cognitive digital shadow</i> que razona simbólicamente sobre expedientes reales del sistema e-SATJE aplicando las reglas de término del COGEP; y (iv) un ciclo adaptativo <i>MAPE-K</i> (<i>Monitor–Analyze–Plan–Execute over Knowledge</i>) que recalibra los indicadores de gobernanza desde la realidad procesal, gestiona el cambio normativo con aplicación temporal de la norma y emplea las ontologías como <i>guardrails</i> anti-alucinación de la IA. La evaluación sobre <span class="ts-live" data-ts="causas">47</span> causas reales combina métricas de desempeño del razonador (<i>precision, recall, F1, confusion matrix</i>, κ de Cohen), medición empírica del cumplimiento procesal (índice global <span class="ts-live" data-ts="indice">—</span>/100), detección de <i>process drift</i> dilatorio, ponderación experta (<i>AHP</i>/Delphi con análisis de sensibilidad) y verificación ontológica (<i>competency questions</i>, consistencia estructural, alineación LKIF-Core). Los resultados muestran que la brecha entre la madurez tecnológica declarada y el desempeño procesal medido es cuantificable, trazable y sensible a la adaptación normativa, y que un razonador simbólico acotado por ontologías produce dictámenes explicables con validez medible. La contribución principal es un artefacto DSR reproducible que convierte la gobernanza legaltech de un ejercicio declarativo en un sistema de medición adaptativo con trazabilidad criptográfica.</p>
+      <p class="ts-p"><b>Palabras clave:</b> gobernanza adaptativa, <i>legaltech</i>, <i>design science research</i>, <i>digital twin</i>, ontologías legales, razonamiento simbólico, <i>process drift</i>, COGEP.</p>
+      <div class="ts-h2">Abstract</div>
+      <p class="ts-p" style="font-style:italic">Ecuador's procedural code (COGEP) establishes mandatory procedural terms whose breach is legally sanctionable, yet the technological governance of the judicial ecosystem lacks mechanisms to continuously measure compliance and feed decision-making. Following the Design Science Research (DSR) methodology, this thesis designs, builds and evaluates an <b>Adaptive Legaltech Governance Model based on Artificial Intelligence for judicial procedural flows</b> (MALTG). The artifact articulates a multilayer governance ontology (OWL), a structural digital model of the Judiciary Council's technological ecosystem built from hash-verified documentary evidence, a cognitive digital shadow that symbolically reasons over real e-SATJE case files, and a MAPE-K adaptive loop that recalibrates governance indicators from procedural reality, manages regulatory change with temporal application of norms, and uses ontologies as anti-hallucination guardrails. Evaluation over 47 real cases combines reasoner performance metrics (precision, recall, F1, Cohen's κ), empirical compliance measurement, dilatory process-drift detection, expert weighting (AHP/Delphi with sensitivity analysis) and ontology verification (competency questions, LKIF-Core alignment). Results show the gap between declared technological maturity and measured procedural performance is quantifiable, traceable and responsive to normative adaptation. The main contribution is a reproducible DSR artifact that turns legaltech governance from a declarative exercise into an adaptive measurement system with cryptographic traceability.</p>
+    </div>
+  </div>
+
+  <!-- ── CAPÍTULO 1 ── -->
+  <div class="panel" id="ts-cap1" style="margin-bottom:1rem;--ac:var(--cyan)">
+    <div class="ph"><div class="ptitle">Capítulo 1 · Introducción</div><span class="pbadge d">§1.1–§1.6</span></div>
+    <div style="padding:.8rem 1.2rem">
+      <p class="ts-p">La transformación digital de la justicia ha producido sistemas de expediente electrónico —en Ecuador, el e-SATJE del Consejo de la Judicatura— que registran cada actuación procesal con fecha, tipo y responsable. Esa telemetría procesal, sin embargo, se usa casi exclusivamente para consulta: no alimenta la gobernanza tecnológica de la institución ni permite verificar de forma continua el cumplimiento de los términos que el COGEP impone bajo sanción (Art. 93). Al mismo tiempo, los marcos de gobernanza de TI (TOGAF, COBIT, ITIL, NIST CSF) se evalúan mediante autodeclaraciones de madurez, desacopladas del desempeño real del proceso judicial que dichas tecnologías deben servir. Esta tesis aborda ese doble desacoplamiento con un artefacto que une ambos mundos mediante un ciclo adaptativo gobernado por ontologías.</p>
+      <div class="ts-h2">1.1 Planteamiento del problema</div>
+      <p class="ts-p">El problema se descompone en cuatro déficits observables: <b>(D1)</b> los modelos de gobernanza legaltech son estáticos: sus indicadores se declaran, no se miden, y no reaccionan ante cambios en los datos, la norma o el contexto <span class="ts-cite">[7]</span>; <b>(D2)</b> la variabilidad del contexto fáctico —las actuaciones reales de los jueces— y la <i>process drift</i> dilatoria (providencias repetidas, alternancias, estancamientos) no se detectan sistemáticamente <span class="ts-cite">[10,11]</span>; <b>(D3)</b> la aplicación de IA al dominio jurídico enfrenta el riesgo de alucinación: un sistema que "inventa" actos o plazos es inadmisible en un dominio donde cada afirmación exige fundamento normativo <span class="ts-cite">[16,17]</span>; y <b>(D4)</b> el cambio normativo y jurisprudencial altera las reglas de cómputo, pero los sistemas no versionan el conocimiento jurídico ni aplican la norma vigente a la fecha de cada acto.</p>
+      <div class="ts-h2">1.2 Preguntas de investigación e hipótesis</div>
+      <table class="ts-tbl"><thead><tr><th>ID</th><th>Pregunta de investigación</th><th>Hipótesis asociada</th></tr></thead><tbody>
+        <tr><td><b>RQ1</b></td><td>¿Puede un modelo de gobernanza legaltech recalibrar sus indicadores desde la medición empírica del cumplimiento procesal, en lugar de valores declarados?</td><td><b>H1:</b> Un ciclo MAPE-K que consuma expedientes reales produce indicadores de gobernanza que difieren significativamente de los declarados y son trazables a evidencia verificable.</td></tr>
+        <tr><td><b>RQ2</b></td><td>¿Puede un razonador simbólico acotado por una ontología procesal emitir dictámenes de cumplimiento de términos con validez medible y sin alucinaciones?</td><td><b>H2:</b> El mapeo providencia→acto alcanza un F1 macro susceptible de medición contra <i>gold standard</i>, y toda salida fuera del vocabulario ontológico es rechazada (frontera), no inventada.</td></tr>
+        <tr><td><b>RQ3</b></td><td>¿Es posible detectar patrones de dilación procesal (<i>process drift</i>) y variabilidad fáctica desde las trazas del expediente electrónico, con criterio normativo primario?</td><td><b>H3:</b> Los detectores de <i>loops</i>, alternancia, estancamiento legal y retroceso de etapa identifican causas atípicas cuyo ranking es estable ante perturbaciones ±20% de los pesos.</td></tr>
+        <tr><td><b>RQ4</b></td><td>¿Puede la adaptación (datos, calendario, norma, supuestos del experto) mantenerse trazable y reproducible?</td><td><b>H4:</b> Metadatos de contexto (hashes de KB, calendario, configuración) y una bitácora <i>hash-chained</i> permiten reproducir cualquier resultado histórico.</td></tr>
+      </tbody></table>
+      <div class="ts-caption">Tabla 1.1 — Preguntas de investigación e hipótesis.</div>
+      <div class="ts-h2">1.3 Objetivos de la investigación</div>
+      <div class="ts-h3">1.3.1 Objetivo general</div>
+      <p class="ts-p">Diseñar, construir y evaluar, mediante <i>Design Science Research</i>, un modelo de gobernanza legaltech adaptativa basada en inteligencia artificial que mida el cumplimiento de los flujos procesales del COGEP sobre expedientes reales y recalibre continuamente los indicadores de gobernanza tecnológica del ecosistema judicial, con garantías de explicabilidad, no-alucinación y trazabilidad.</p>
+      <div class="ts-h3">1.3.2 Objetivos específicos</div>
+      <p class="ts-p"><b>OE1.</b> Formalizar una ontología multicapa de gobernanza legaltech (MALTG) y una ontología procesal COGEP (Procedimiento→Etapa→Acto→Término→Sujeto) verificables con estándares de ingeniería ontológica <span class="ts-cite">[12,13]</span>. <b>OE2.</b> Construir un <i>structural digital model</i> del ecosistema tecnológico del Consejo de la Judicatura desde fuentes oficiales, con protocolo documental reproducible y evidencia con hash criptográfico. <b>OE3.</b> Implementar una <i>cognitive digital shadow</i>: razonador simbólico determinista que aplique las reglas de término del COGEP sobre las trazas del e-SATJE, con calendario judicial configurable (Arts. 73 y 77). <b>OE4.</b> Diseñar el ciclo adaptativo MAPE-K: índice empírico global, detectores de variabilidad (IVF) y deriva (IDP), gestión del cambio normativo con aplicación temporal, y panel de supuestos con límites mín–máx fijados por el usuario-experto. <b>OE5.</b> Evaluar el artefacto con <i>gold standard</i> anotado por experto jurídico (F1, κ), ponderación experta (AHP/Delphi, CR, Spearman) y análisis de sensibilidad.</p>
+      <div class="ts-h2">1.4 Contribuciones de la tesis</div>
+      <p class="ts-p">Siguiendo la clasificación de contribuciones DSR de Gregor y Hevner <span class="ts-cite">[3]</span>: <b>(C1)</b> <i>artefacto de nivel 2</i> — el sistema MALTG operativo (12 módulos, API de 60+ <i>endpoints</i>, contenedor Docker) que instancia el modelo; <b>(C2)</b> <i>teoría de diseño incipiente (nivel 3)</i> — el patrón "gobernanza adaptativa gobernada por ontologías": MAPE-K donde el <i>Knowledge</i> es una ontología legal que actúa simultáneamente como vocabulario de medición y como <i>guardrail</i> de la IA; <b>(C3)</b> instrumentos de medición reutilizables — IVF, IDP, índice empírico procesal, protocolo de evidencia SHA-256 y bitácora <i>hash-chained</i>; <b>(C4)</b> el primer <i>dataset</i> estructurado de cumplimiento de términos COGEP sobre causas públicas del e-SATJE, con diseño muestral declarado.</p>
+      <div class="ts-h2">1.5 Publicaciones previas y lineamientos de la tesis</div>
+      <p class="ts-p">La tesis culmina una trayectoria arbitrada del autor que estableció sus lineamientos de forma incremental: <b>P1</b> — <i>LegalTech Governance in Ecuador: A Systematic Review</i> (IEEE) <span class="ts-cite">[23]</span>: SLR con enfoque M3S (2008–2025) que documenta empíricamente la ausencia de un modelo integral — justifica D1–D4 y las brechas B1–B5; <b>P2</b> — <i>Architecture for LegalTech Governance: A Holistic Multidimensional Framework</i> (COLIM 2026) <span class="ts-cite">[24]</span>: la arquitectura multidimensional que MALTG instancia como ontología y radar; <b>P3</b> — <i>From Silos to Synergy: A Foundation Layer Architecture</i> (IEEE) <span class="ts-cite">[25]</span>: la capa de fundamentos que integra los marcos aislados, base del SDT; <b>P4</b> — <i>Verifiable Semantic Governance and Algorithmic Transparency (MALTG)</i> (IEEE ETCM 2026) <span class="ts-cite">[26]</span>: ontología OWL/RDF (54 clases, ~500 tripletas), <i>Bimodal Audit Method</i> y GTI=80.89 (TOGAF 91.7, LegalTech 69.1); <b>P5</b> — <i>Structural Digital Twin-Driven Conformance Assessment</i> (<i>Information</i>, MDPI) <span class="ts-cite">[27]</span>: SDT JSON-LD + <i>hierarchical coverage function</i> (origen de Ψ) + métrica de brecha, prueba de concepto reproducible. La progresión problema→arquitectura→formalización→medición deja a esta tesis el eslabón restante: la <b>adaptatividad con garantías</b> — de la <i>conformance assessment</i> puntual (P5) a la gobernanza adaptativa continua. Las contribuciones teóricas del artefacto (constructos IVF/IDP/I<sub>emp</sub>/frontera ontológica/contexto de adaptación; principios PD1–PD5; proposiciones y mutabilidad) se explicitan como teoría de diseño según Gregor &amp; Jones <span class="ts-cite">[28]</span> en el Cap. 4.</p>
+      <div class="ts-h2">1.6 Alcance y limitaciones</div>
+      <p class="ts-p">El alcance cubre procedimientos civiles COGEP (sumario, monitorio, ordinario, ejecución, apelación) sobre causas públicas del portal SATJE (2022–2024). El artefacto es una <i>digital shadow</i>: no retroalimenta al sistema judicial real (condición que definiría un <i>digital twin</i> pleno <span class="ts-cite">[5]</span>, declarada como trabajo futuro). La muestra (N=<span class="ts-live" data-ts="causas">47</span>) es intencional estratificada: habilita generalización analítica del método, no inferencia estadística poblacional. El razonador es simbólico-léxico; su validez depende del <i>gold standard</i> anotado y se reporta con transparencia (chip de validez visible en toda la interfaz).</p>
+      <div class="ts-h2">1.7 Estructura del documento</div>
+      <p class="ts-p">El Capítulo 2 revisa el estado del arte en gobernanza adaptativa, gemelos digitales, ontologías legales, <i>process mining</i> e IA jurídica, e identifica las brechas. El Capítulo 3 formaliza el diseño metodológico DSR: ciclos, actividades, datos, variables, métricas y garantías de reproducibilidad. El Capítulo 4 describe el artefacto y reporta la experimentación completa con sus resultados. El Capítulo 5 concluye, responde las preguntas de investigación y traza el trabajo futuro.</p>
+    </div>
+  </div>
+
+  <!-- ── CAPÍTULO 2 ── -->
+  <div class="panel" id="ts-cap2" style="margin-bottom:1rem;--ac:var(--violet)">
+    <div class="ph"><div class="ptitle">Capítulo 2 · Estado del Arte</div><span class="pbadge d">§2.1–§2.5</span></div>
+    <div style="padding:.8rem 1.2rem">
+      <div class="ts-h2">2.1 Fundamentos conceptuales y teóricos</div>
+      <p class="ts-p"><b>Gobernanza adaptativa.</b> Janssen y van der Voort <span class="ts-cite">[7]</span> caracterizan la <i>adaptive governance</i> como la capacidad institucional de responder a entornos cambiantes manteniendo estabilidad y rendición de cuentas; en gobierno digital, ello exige que los indicadores se recalculen desde datos operativos y que cada adaptación quede trazada. El referente computacional es la <i>autonomic computing</i> de Kephart y Chess <span class="ts-cite">[4]</span>, cuyo patrón <b>MAPE-K</b> (Monitor–Analyze–Plan–Execute sobre una base de <i>Knowledge</i>) estructura sistemas que se autorregulan; esta tesis lo traslada a la gobernanza legaltech haciendo del <i>Knowledge</i> una ontología jurídica.</p>
+      <p class="ts-p"><b>Gemelos digitales.</b> La taxonomía de Kritzinger et al. <span class="ts-cite">[5]</span> distingue <i>digital model</i> (sin flujo automático de datos), <i>digital shadow</i> (flujo unidireccional real→digital) y <i>digital twin</i> (bidireccional); Tao et al. <span class="ts-cite">[21]</span> consolidan el estado del arte industrial, y Zheng et al. <span class="ts-cite">[6]</span> introducen el <i>cognitive digital twin</i> como aquel que incorpora capacidades de razonamiento. La literatura es predominantemente manufacturera; su aplicación a ecosistemas judiciales carece de precedentes sistemáticos, y el rigor taxonómico (no sobre-reclamar "twin" donde hay "shadow") es una exigencia metodológica que esta tesis adopta explícitamente.</p>
+      <p class="ts-p"><b>Ontologías legales y estándares.</b> La ingeniería ontológica jurídica dispone de LKIF-Core como ontología de conceptos legales básicos y de LegalRuleML para reglas normativas; Casanovas et al. <span class="ts-cite">[14]</span> sintetizan la agenda del <i>Semantic Web</i> jurídico. Las metodologías NeOn <span class="ts-cite">[13]</span> y las <i>competency questions</i> definen el estándar de construcción y evaluación, complementadas por detectores de <i>pitfalls</i> como OOPS! <span class="ts-cite">[12]</span>.</p>
+      <p class="ts-p"><b>Process mining y drift.</b> van der Aalst <span class="ts-cite">[10]</span> establece el análisis de procesos desde <i>event logs</i>; Bose et al. <span class="ts-cite">[11]</span> formalizan la detección de <i>concept drift</i> en procesos. El expediente judicial electrónico es un <i>event log</i> natural (actividad, <i>timestamp</i>, recurso), pero su explotación para detectar dilación con criterio normativo —no meramente estadístico— permanece inexplorada.</p>
+      <p class="ts-p"><b>IA jurídica y guardrails.</b> Treinta años de <i>AI &amp; Law</i> <span class="ts-cite">[15,17]</span> consolidaron el razonamiento basado en reglas y casos, explicable por construcción. La irrupción de modelos generativos reactivó el problema de la alucinación; la corriente neurosimbólica <span class="ts-cite">[16]</span> propone acotar la inferencia con conocimiento estructurado. La noción de <i>restricción de frontera ontológica</i> —el sistema solo clasifica dentro de un vocabulario cerrado y deriva a humano lo que no encaja— operacionaliza ese principio en el dominio procesal.</p>
+      <div class="ts-h2">2.2 Enfoques, modelos y técnicas existentes</div>
+      <p class="ts-p">Se distinguen cuatro familias: (i) <b>marcos de gobernanza TI</b> (TOGAF/ADM, COBIT/EDM-APO-BAI-DSS-MEA, ITIL, NIST CSF) — prescriptivos, evaluados por <i>assessment</i> declarativo; (ii) <b>modelos de madurez de justicia digital</b> (CEPEJ, OCDE) — índices compuestos sin telemetría procesal; (iii) <b>sistemas de <i>court analytics</i></b> — métricas de congestión y duración, sin fundamento normativo por regla; y (iv) <b>razonadores jurídicos</b> — alta explicabilidad pero desconectados de la gobernanza institucional. Ninguna familia integra medición procesal normativa + gobernanza tecnológica + adaptación trazable en un solo artefacto.</p>
+      <div class="ts-h2">2.3 Métricas, criterios de evaluación y escenarios experimentales</div>
+      <p class="ts-p">La literatura evalúa clasificadores jurídicos con <i>precision/recall/F1</i> y acuerdo inter-anotador (κ de Cohen <span class="ts-cite">[9]</span>); ponderaciones multicriterio con AHP y su razón de consistencia CR&lt;0.10 <span class="ts-cite">[8]</span>; concordancia de jueces con ρ de Spearman <span class="ts-cite">[20]</span> e interpretación de κ según Landis y Koch <span class="ts-cite">[19]</span>; y robustez con análisis de sensibilidad <span class="ts-cite">[22]</span>. Los escenarios experimentales típicos usan <i>datasets</i> anotados pequeños (decenas a centenas de instancias) con declaración explícita del muestreo — patrón que esta tesis replica sobre causas reales ecuatorianas.</p>
+      <div class="ts-h2">2.4 Análisis crítico y brechas de investigación</div>
+      <table class="ts-tbl"><thead><tr><th>Brecha</th><th>Descripción</th><th>Cómo la aborda esta tesis</th></tr></thead><tbody>
+        <tr><td><b>B1</b></td><td>Gobernanza legaltech declarativa, sin cierre empírico</td><td>Ciclo MAPE-K: índice empírico procesal recalibra el radar de madurez (peso configurable)</td></tr>
+        <tr><td><b>B2</b></td><td>Gemelos digitales sin precedente judicial ni rigor taxonómico</td><td><i>Structural digital model</i> + <i>cognitive digital shadow</i> clasificados según [5,6]</td></tr>
+        <tr><td><b>B3</b></td><td>Drift procesal detectado solo estadísticamente</td><td>Detectores con criterio normativo primario (término COGEP) y umbral referencial subsidiario</td></tr>
+        <tr><td><b>B4</b></td><td>IA jurídica sin garantías operativas anti-alucinación</td><td>Ontología como <i>guardrail</i>: frontera de vocabulario + cadena acto→regla→artículo verificada</td></tr>
+        <tr><td><b>B5</b></td><td>Cambio normativo no versionado en sistemas de cumplimiento</td><td>KB versionada con <i>historial</i> y aplicación temporal de la regla vigente a la fecha del acto</td></tr>
+      </tbody></table>
+      <div class="ts-caption">Tabla 2.1 — Brechas de investigación y respuesta del artefacto.</div>
+      <div class="ts-h2">2.5 Síntesis y posicionamiento de la tesis</div>
+      <p class="ts-p">La tesis se posiciona en la intersección de cuatro literaturas que no dialogan entre sí (gobernanza adaptativa, gemelos digitales, ontologías legales y <i>process mining</i> judicial) y propone que su integración —bajo DSR y con el patrón MAPE-K ontológicamente gobernado— constituye una clase de artefacto nueva: el <b>modelo de gobernanza legaltech adaptativa</b>, cuya utilidad, rigor y evaluabilidad se demuestran en los capítulos siguientes.</p>
+    </div>
+  </div>
+
+  <!-- ── CAPÍTULO 3 ── -->
+  <div class="panel" id="ts-cap3" style="margin-bottom:1rem;--ac:#10e98c">
+    <div class="ph"><div class="ptitle">Capítulo 3 · Metodología y diseño de la investigación (Design Science Research)</div><span class="pbadge d">§3.1–§3.7</span></div>
+    <div style="padding:.8rem 1.2rem">
+      <div class="ts-h2">3.1 Enfoque metodológico</div>
+      <p class="ts-p">Se adopta <b>Design Science Research</b> por la naturaleza del problema: la respuesta a las RQ no es una teoría descriptiva sino un artefacto cuya utilidad debe demostrarse <span class="ts-cite">[1]</span>. El diseño sigue los tres ciclos de Hevner: el <b>ciclo de relevancia</b> ancla el artefacto en el entorno real (COGEP, e-SATJE, Consejo de la Judicatura, causas públicas); el <b>ciclo de rigor</b> lo fundamenta en las bases de conocimiento del Capítulo 2 (MAPE-K, taxonomía de gemelos, AHP, métricas de clasificación); y el <b>ciclo de diseño</b> itera construcción y evaluación. Complementariamente, la organización de actividades sigue la DSRM de Peffers et al. <span class="ts-cite">[2]</span> y la evaluación en contexto se apoya en principios de <i>Action Design Research</i> <span class="ts-cite">[18]</span>, dado que el artefacto se refinó en interacción continua con datos reales.</p>
+      <table class="ts-tbl"><thead><tr><th>Actividad DSRM [2]</th><th>Instanciación en esta tesis</th><th>Evidencia trazable</th></tr></thead><tbody>
+        <tr><td>1. Identificación del problema</td><td>Déficits D1–D4 (§1.1); análisis de fallos conceptuales documentado</td><td>PLAN_CORRECCION_FALLOS.md · bitácora</td></tr>
+        <tr><td>2. Objetivos de la solución</td><td>OE1–OE5 con criterios de aceptación cuantitativos (§3.6)</td><td>Tabla 3.3</td></tr>
+        <tr><td>3. Diseño y desarrollo</td><td>Artefactos A1–A6 (§3.2) en 3 iteraciones de diseño</td><td>Código versionado + bitácora hash-chained</td></tr>
+        <tr><td>4. Demostración</td><td>Operación sobre 47 causas reales; sesión simulada reproducible (semilla 42)</td><td>Tabs 04–10 de la aplicación</td></tr>
+        <tr><td>5. Evaluación</td><td>Gold standard (F1, κ), AHP/Delphi (CR, Spearman), sensibilidad ±10/20%, CQs</td><td>eval_report.json · pesos_ahp.json</td></tr>
+        <tr><td>6. Comunicación</td><td>Esta tesis + la propia aplicación como demostrador interactivo</td><td>Tab Tesis (este documento)</td></tr>
+      </tbody></table>
+      <div class="ts-caption">Tabla 3.1 — Mapeo de las seis actividades DSRM al proyecto.</div>
+      <div class="ts-h2">3.2 Diseño general de la investigación</div>
+      <p class="ts-p">El artefacto se descompone en seis componentes de diseño: <b>A1</b> — ontología MALTG multicapa (OWL/JSON-LD; capas TOGAF, COBIT, ITIL, NIST, tecnologías emergentes y dominio Legaltech; 10 dimensiones de validación); <b>A2</b> — <i>structural digital model</i> SDT_CJ del ecosistema del Consejo de la Judicatura (JSON-LD con capas, servicios, conexiones y fuentes); <b>A3</b> — ontología procesal COGEP (7 procedimientos, 16 actos, 11 reglas de término, 4 sujetos) con exportación OWL; <b>A4</b> — razonador simbólico determinista (<i>cognitive digital shadow</i>) con calendario judicial configurable; <b>A5</b> — capa adaptativa MAPE-K (índice empírico, IVF, IDP, ranking configurable, alertas, cambio normativo con aplicación temporal, supuestos mín–máx); <b>A6</b> — instrumentos de validación experta (anotación <i>gold</i>, AHP, Delphi dimensional, doble evaluación con rúbrica, registro de verificación externa). La iteración de diseño siguió tres ciclos: (i) validador estático MALTG↔SDT; (ii) cierre del ciclo adaptativo; (iii) instrumentación de validez.</p>
+      <div class="ts-h2">3.3 Datos, materiales y recursos</div>
+      <p class="ts-p"><b>Corpus procesal:</b> <span class="ts-live" data-ts="causas">47</span> causas públicas del portal SATJE (2022–2024), en formato JSON con cabecera e historial de actuaciones (<i>NombreProvidencia, TipoProvidencia, FechaProvidencia, IdJudicatura, IdGrafoFlujoEstructura</i>), estratificadas por procedimiento y provincia (12 provincias). <b>Corpus documental:</b> 15 corridas de captura de evidencia sobre fuentes oficiales (*.funcionjudicial.gob.ec) con <i>manifest</i> SHA-256 por <i>snapshot</i>. <b>Conocimiento normativo:</b> COGEP consolidado; KB versionada con vigencias. <b>Flujos canónicos:</b> diagramas BPMN del e-SATJE (flujos 132–288). <b>Infraestructura:</b> FastAPI/Python 3.12 dockerizado, frontend HTML/JS, sin dependencias de servicios externos de IA (la inferencia es local y determinista).</p>
+      <div class="ts-h2">3.4 Variables, factores y escenarios de estudio</div>
+      <table class="ts-tbl"><thead><tr><th>Variable</th><th>Definición operacional</th><th>Rango</th></tr></thead><tbody>
+        <tr><td>Salud procesal</td><td>Media de puntos por término evaluado (CUMPLE=100, ALERTA=60, INCUMPLE=0) por causa</td><td>0–100</td></tr>
+        <tr><td>Índice empírico global</td><td>actos en plazo / actos evaluables, corpus completo</td><td>0–100</td></tr>
+        <tr><td>IVF</td><td>100·(actos no canónicos + faltantes)/(canónicos + no canónicos)</td><td>0–100</td></tr>
+        <tr><td>IDP</td><td>Σ puntos por hallazgo de drift (loop, ping-pong, estancamiento legal/referencial, retroceso), acotada</td><td>0–100</td></tr>
+        <tr><td>Riesgo</td><td>w₁·(100−salud) + w₂·IVF + w₃·IDP, pesos del usuario-experto normalizados</td><td>0–100</td></tr>
+        <tr><td>Ψ(d)</td><td>w_root·𝟙[raíz∈R] + w_subs·|sub∩R|/|sub| — cobertura de dimensión en el SDT</td><td>0–1</td></tr>
+        <tr><td>F1 macro</td><td>Media armónica precision/recall por clase de acto, promediada</td><td>0–1</td></tr>
+        <tr><td>κ, ρ, CR</td><td>Cohen inter-anotador; Spearman inter-evaluador; consistencia AHP</td><td>—</td></tr>
+      </tbody></table>
+      <div class="ts-caption">Tabla 3.2 — Variables del estudio. Los factores manipulables (14 supuestos con límites mín–máx) se declaran en el panel de Supuestos y quedan hasheados en cada resultado.</div>
+      <p class="ts-p">Los <b>escenarios experimentales</b> son cinco: <b>E1</b> medición empírica <i>baseline</i> del corpus; <b>E2</b> perturbación de supuestos (pesos, umbrales, calendario) y observación de la propagación; <b>E3</b> cambio normativo simulado con re-evaluación de impacto; <b>E4</b> validación del razonador contra <i>gold standard</i>; <b>E5</b> ponderación experta y análisis de sensibilidad.</p>
+      <div class="ts-h2">3.5 Métodos y técnicas empleadas</div>
+      <p class="ts-p">(a) <b>Análisis documental sistemático</b> con protocolo de cuatro fases (identificación→captura con SHA-256→verificación→codificación contra rúbrica) para construir el SDT; (b) <b>razonamiento simbólico basado en reglas</b>: <i>matching</i> léxico providencia→acto sobre vocabulario cerrado, cómputo de días hábiles (Arts. 73/77 COGEP, calendario configurable) y veredicto por regla con factor configurable; (c) <b>detección de <i>process drift</i></b> con criterio normativo primario y umbral referencial subsidiario <span class="ts-cite">[10,11]</span>; (d) <b>AHP</b> por comparación de pares con verificación CR <span class="ts-cite">[8]</span> y <b>Delphi/Likert</b> con mediana normalizada para pesos dimensionales; (e) <b>evaluación de clasificador</b> contra <i>gold standard</i> anotado con guía de una página y doble anotación parcial (κ <span class="ts-cite">[9]</span>); (f) <b>verificación ontológica</b>: chequeos estructurales C1–C7, <i>competency questions</i> ejecutables, exportación OWL y alineación LKIF-Core/LegalRuleML <span class="ts-cite">[12,13,14]</span>; (g) <b>análisis de sensibilidad</b> por perturbación ±10/20% con verificación de estabilidad del score global y del <i>top-1</i> del ranking.</p>
+      <div class="ts-h2">3.6 Métricas y criterios de evaluación</div>
+      <table class="ts-tbl"><thead><tr><th>Dimensión evaluada</th><th>Métrica</th><th>Criterio de aceptación</th></tr></thead><tbody>
+        <tr><td>Validez del mapeo IA</td><td>F1 macro vs gold standard</td><td>F1 ≥ 0.85 (umbral configurable) para uso como indicador agregado</td></tr>
+        <tr><td>Objetividad de la tarea</td><td>κ de Cohen entre 2 anotadores</td><td>κ ≥ 0.70 (acuerdo sustancial)</td></tr>
+        <tr><td>Consistencia experta</td><td>CR de AHP</td><td>CR &lt; 0.10 por experto</td></tr>
+        <tr><td>Concordancia de evaluadores</td><td>ρ de Spearman (rúbrica dimensional)</td><td>ρ ≥ 0.70 entre pares</td></tr>
+        <tr><td>Robustez del modelo</td><td>Δ score global ante ±10% en pesos</td><td>Δ &lt; 5 puntos y top-1 del ranking invariante ante ±20%</td></tr>
+        <tr><td>Adecuación ontológica</td><td>CQs respondidas; checks C1–C6</td><td>100% CQs; 0 fallos críticos</td></tr>
+        <tr><td>No-alucinación</td><td>Salidas fuera de frontera</td><td>0 respuestas inventadas: todo lo no clasificable se deriva a humano</td></tr>
+      </tbody></table>
+      <div class="ts-caption">Tabla 3.3 — Métricas y criterios de aceptación del artefacto.</div>
+      <div class="ts-h2">3.7 Consideraciones éticas y de reproducibilidad</div>
+      <p class="ts-p"><b>Ética:</b> se usan exclusivamente causas de consulta pública del portal SATJE; los indicadores por <i>login</i> se rotulan "patrón de tramitación" y nunca "conducta del funcionario", con <i>disclaimer</i> fijo en toda salida ("indicador de apoyo — no constituye asesoría jurídica ni prejuzga la conducta procesal"); el sistema rechaza clasificar fuera de su vocabulario en lugar de aventurar respuestas. <b>Reproducibilidad:</b> (i) toda fuente documental está congelada con SHA-256; (ii) cada resultado porta <i>contexto_adaptacion</i> (hashes de KB, calendario, configuración y versión del razonador); (iii) la bitácora <i>append-only</i> encadenada por hash registra toda decisión metodológica y cambio de supuestos; (iv) la sesión simulada usa semilla fija (42) y sus datos quedan marcados SIMULADO, separados de los reales; (v) el artefacto completo es un contenedor Docker autocontenido y los datos son archivos JSON versionables.</p>
+    </div>
+  </div>
+
+  <!-- ── CAPÍTULO 4 ── -->
+  <div class="panel" id="ts-cap4" style="margin-bottom:1rem;--ac:#ff9a3c">
+    <div class="ph"><div class="ptitle">Capítulo 4 · Propuesta y resultados experimentales</div>
+      <span class="pbadge g">las cifras marcadas en verde se leen en vivo de la aplicación</span></div>
+    <div style="padding:.8rem 1.2rem">
+      <div class="ts-h2">4.1 Descripción general de la propuesta</div>
+      <p class="ts-p">MALTG es un sistema de gobernanza que opera como ciclo MAPE-K sobre dos ontologías. En la fase <b>Monitor</b>, el sistema observa dos flujos: el corpus de expedientes del e-SATJE (telemetría procesal) y el ecosistema documental del Consejo de la Judicatura (capturas verificables). En <b>Analyze</b>, el razonador simbólico aplica las reglas de término del COGEP a cada causa y los detectores calculan IVF e IDP. En <b>Plan</b>, se agregan el índice empírico global, el ranking de riesgo por procedimiento y las alertas de seguridad cognitiva. En <b>Execute</b>, el radar de validación de las 10 dimensiones de gobernanza se recalibra mezclando el score declarado con el empírico según el peso configurado, y toda la cadena queda asentada en la bitácora. El <b>Knowledge</b> —las ontologías MALTG y COGEP— cumple doble función: vocabulario de medición y frontera de lo que la IA puede afirmar.</p>
+      <div class="ts-eq">Ψ(d) = w_root·𝟙[root_d ∈ R] + w_subs·(|sub_d ∩ R| / |sub_d|) &nbsp;&nbsp;·&nbsp;&nbsp; riesgo(c) = w₁·(100−salud_c) + w₂·IVF_c + w₃·IDP_c &nbsp;&nbsp;·&nbsp;&nbsp; score_LT = (1−λ)·declarado + λ·índice_empírico</div>
+      <div class="ts-caption">Ecuaciones centrales: cobertura de dimensión, riesgo por causa y cierre adaptativo del radar (λ = peso empírico configurable).</div>
+      <div class="ts-h2">4.2 Componentes y funcionamiento del modelo</div>
+      <table class="ts-tbl"><thead><tr><th>Componente (tab)</th><th>Función</th><th>Salida verificable</th></tr></thead><tbody>
+        <tr><td>Methodology / MALTG / Ontology</td><td>Modelo formal ⟨Ω,Δ,Γ,Ψ,δ⟩ y ontología multicapa</td><td>MALTG_ontology.owl + grafo D3</td></tr>
+        <tr><td>SDS (04) + GET-SDS (05)</td><td>Structural digital model del CJ + radar de 10 dimensiones</td><td>SDT_CJ.json (JSON-LD) + validación Ψ</td></tr>
+        <tr><td>Workflow (06)</td><td>Flujos BPMN canónicos + trayectoria real de cada causa</td><td>Grafo procesal con alertas por nodo</td></tr>
+        <tr><td>COGEP·IA (07)</td><td>Cognitive digital shadow: razonador + chat + análisis de PDF + verificación ontológica</td><td>Dictámenes con cadena acto→regla→artículo</td></tr>
+        <tr><td>Bitácora (08)</td><td>Evidencia SHA-256 y registro hash-chained</td><td>manifests + cadena verificable</td></tr>
+        <tr><td>Adaptativo (09)</td><td>MAPE-K: supuestos mín–máx, calendario, ranking, alertas, cambio normativo, muestra</td><td>salud-global + contexto_adaptacion</td></tr>
+        <tr><td>Validación Experta (10)</td><td>Gold standard, AHP, Delphi dimensional, doble evaluación, verificación externa</td><td>eval_report + pesos_ahp + concordancias</td></tr>
+      </tbody></table>
+      <div class="ts-caption">Tabla 4.1 — Componentes del artefacto y su evidencia.</div>
+      <div class="ts-h2">4.3 Implementación y configuración experimental</div>
+      <p class="ts-p">Implementación: backend FastAPI (Python 3.12) con ~65 <i>endpoints</i>, frontend HTML/JS autocontenido, despliegue Docker Compose con <i>hot-reload</i> y <i>healthcheck</i>; persistencia en JSON/JSON-LD/OWL versionables. La configuración experimental se gobierna desde el <b>panel de supuestos</b>: 14 parámetros con límites mín–máx validados en servidor (pesos del ranking, λ empírico, w_root de Ψ, puntos y umbrales de drift, factor ALERTA→INCUMPLE, umbral F1), cada cambio con actor y hash en bitácora. El calendario judicial (55 feriados 2022–2026 + suspensiones del CJ) es editable y afecta el cómputo de todos los términos (Arts. 73/77). KB COGEP v<span class="ts-live" data-ts="kbv">—</span>.</p>
+      <div class="ts-h2">4.4 Resultados experimentales</div>
+      <div class="ts-h3">4.4.1 E1 — Medición empírica del cumplimiento procesal (baseline)</div>
+      <p class="ts-p">Sobre <span class="ts-live" data-ts="causas">—</span> causas (<span class="ts-live" data-ts="evaluables">—</span> términos evaluables), el <b>índice empírico global</b> es <span class="ts-live" data-ts="indice">—</span>/100 (actos en plazo <span class="ts-live" data-ts="enplazo">—</span>/<span class="ts-live" data-ts="evaluables2">—</span>), con salud media por causa de <span class="ts-live" data-ts="salud">—</span>/100. El desglose por procedimiento se muestra en la Tabla 4.2 (generada en vivo). Este resultado responde afirmativamente a <b>RQ1/H1</b>: el indicador empírico difiere sustancialmente del nivel declarado en las fuentes institucionales y recalibra la dimensión Legaltech del radar (score declarado 50.8 → mezclado según λ).</p>
+      <table class="ts-tbl"><thead><tr><th>Procedimiento</th><th>N causas</th><th>Términos evaluados</th><th>En plazo</th><th>Incumplimientos</th><th>Índice</th><th>Salud media</th></tr></thead>
+      <tbody id="ts-t-proc"><tr><td colspan="7" style="color:var(--t3)">cargando…</td></tr></tbody></table>
+      <div class="ts-caption">Tabla 4.2 — Cumplimiento por procedimiento (datos en vivo del corpus).</div>
+      <div class="ts-h3">4.4.2 E2 — Variabilidad, deriva y seguridad cognitiva</div>
+      <p class="ts-p">Los detectores M1/M2 identifican causas con IVF de hasta 87.5 e IDP saturado (100) por acumulación de <i>loops</i> y estancamientos; el sistema de alertas reporta <span class="ts-live" data-ts="alertas">—</span> alertas (<span class="ts-live" data-ts="criticas">—</span> críticas con artículo COGEP citado, <span class="ts-live" data-ts="altas">—</span> altas por patrón dilatorio, <span class="ts-live" data-ts="medias">—</span> medias por actuaciones fuera de la frontera ontológica). Cada alerta expone hecho observable, fundamento normativo y <i>disclaimer</i>, cumpliendo el requisito de seguridad cognitiva (<b>RQ3/H3</b>). Las actuaciones no clasificables se derivan a criterio humano: el conteo de "fuera de frontera" opera como métrica de no-alucinación (criterio Tabla 3.3, fila 7).</p>
+      <div class="ts-h3">4.4.3 E3 — Adaptación normativa</div>
+      <p class="ts-p">El escenario de reforma simulada (regla R_CALIF: término 5→3 días, vigencia 2024-01-01, fuente RO-TEST declarada como simulación) demostró la cadena completa: la KB versionó la regla (v1.0→v1.1), el razonador aplicó la norma vigente a la fecha de cada acto, y la re-evaluación de impacto identificó 1 de 3 causas evaluables cambiando de dictamen (CUMPLE→INCUMPLE, 5 días computados frente al nuevo término de 3). El delta se propagó a ranking, alertas y radar en la misma corrida, con asiento en bitácora (<b>RQ4/H4</b>).</p>
+      <div class="ts-h3">4.4.4 E4 — Validez del razonador (gold standard)</div>
+      <p class="ts-p">Estado actual: <span class="ts-live" data-ts="f1chip">sin validez medida</span>. La <b>sesión simulada</b> reproducible (semilla 42; 40 anotaciones + 15 de segundo anotador + 3 juicios AHP, todos marcados SIMULADO) demuestra el instrumento de punta a punta: F1 macro 0.621 sobre N=55 con κ=0.833 — un razonador <i>no apto</i> frente al umbral 0.85, con la <i>confusion matrix</i> señalando las clases a reforzar (escenario deliberadamente pedagógico: la anotación simulada discrepa ~15% del sistema). La sesión real con abogado anotador sustituirá estas cifras; el chip de validez de toda la interfaz se actualiza automáticamente y ninguna pantalla oculta el estado de validez vigente (<b>RQ2/H2</b> — instrumentación completa; medición definitiva pendiente de la sesión real).</p>
+      <div class="ts-h3">4.4.5 E5 — Ponderación experta y sensibilidad</div>
+      <p class="ts-p">El instrumento AHP (matriz 2×2 raíz/subconceptos, CR=0 por construcción; agregación por media entre expertos) y el panel Delphi dimensional (importancia 1–9, mediana normalizada) alimentan pesos con procedencia declarada; en la corrida de prueba, la ponderación dimensional desplazó el score global de 23.4 a 26.2, evidenciando que el radar responde a los juicios expertos. El análisis de sensibilidad (±10/±20% sobre w_root y sobre los pesos del ranking) reporta desviación máxima del score global &lt; 1 punto y <i>top-1</i> del ranking invariante — el criterio de robustez de la Tabla 3.3 se cumple con los pesos por defecto. La doble evaluación con rúbrica registró, en la corrida de instrumentación, ρ=0.718 entre evaluadores de prueba y ρ=0.88/0.84 frente al sistema (valores demostrativos; la sesión real los reemplaza).</p>
+      <div class="ts-h3">4.4.6 Verificación ontológica</div>
+      <p class="ts-p">La ontología COGEP exportada a OWL (16 <i>ActoProcesal</i>, 11 <i>TerminoProcesal</i>, 7 <i>Procedimiento</i>, 4 <i>SujetoProcesal</i>, 7 <i>object properties</i>) supera los chequeos estructurales C1–C6 (única advertencia C7: actos válidos fuera de etapas, justificados como transversales); las 10 <i>competency questions</i> se responden en su totalidad con su consulta SPARQL equivalente documentada; y la alineación declarativa con LKIF-Core/LegalRuleML (6 correspondencias, relación <i>closeMatch/subClassOf</i>) demuestra expresabilidad en los estándares del dominio <span class="ts-cite">[12,13,14]</span>. La verificación DL externa (HermiT/Protégé) y OOPS! se asientan mediante el registro del Punto 5 del tab Validación Experta.</p>
+      <div class="ts-h2">4.5 Análisis y discusión</div>
+      <p class="ts-p">Tres hallazgos estructuran la discusión. <b>Primero</b>, la brecha declarado-vs-medido: el ecosistema exhibe madurez documental media (score declarado ~50/100 en la dimensión Legaltech) mientras el cumplimiento procesal medido es sustancialmente menor (<span class="ts-live" data-ts="indice2">—</span>/100); un modelo estático jamás revelaría esta distancia, que es precisamente el objeto de la gobernanza adaptativa <span class="ts-cite">[7]</span>. <b>Segundo</b>, el criterio normativo primario en la detección de drift evita el falso positivo estadístico: un intervalo largo solo es "estancamiento" si viola un término del COGEP; lo demás se rotula referencial sin fundamento normativo — distinción inexistente en el <i>process mining</i> convencional <span class="ts-cite">[11]</span>. <b>Tercero</b>, el guardrail ontológico convierte la limitación del matching léxico en virtud metodológica: el sistema exhibe sus rechazos ("fuera de frontera") en lugar de ocultarlos, y su validez es una cifra pública (chip F1) en vez de una promesa.</p>
+      <div class="ts-h2">4.6 Amenazas a la validez</div>
+      <p class="ts-p"><b>Validez de constructo:</b> IVF/IDP son proxies de variabilidad y dilación; se mitigó anclando el estancamiento al término legal y declarando los umbrales como supuestos configurables. <b>Validez interna:</b> el cómputo de días hábiles depende del calendario configurado; feriados o suspensiones omitidos producen falsos INCUMPLE — mitigado con calendario editable y trazado. <b>Validez externa:</b> muestreo intencional (N=<span class="ts-live" data-ts="causas2">—</span>, 3 procedimientos dominantes): las conclusiones son analíticas, no poblacionales; la ampliación a N≥100 se declara como trabajo futuro. <b>Validez de conclusión:</b> las métricas de validez del razonador provienen, a la fecha de este texto, de la sesión simulada; el diseño obliga a reemplazarlas por la sesión real antes de cualquier afirmación definitiva — el propio artefacto lo señala con el banner de datos simulados.</p>
+    </div>
+  </div>
+
+  <!-- ── CAPÍTULO 5 ── -->
+  <div class="panel" id="ts-cap5" style="margin-bottom:1rem;--ac:var(--cyan)">
+    <div class="ph"><div class="ptitle">Capítulo 5 · Conclusiones y trabajo futuro</div><span class="pbadge d">§5.1–§5.4</span></div>
+    <div style="padding:.8rem 1.2rem">
+      <div class="ts-h2">5.1 Aportes y contribuciones de la tesis</div>
+      <p class="ts-p">La tesis demuestra que la gobernanza legaltech puede dejar de ser declarativa: <b>(RQ1)</b> el ciclo MAPE-K implementado recalibra el radar de 10 dimensiones desde la medición empírica de <span class="ts-live" data-ts="evaluables3">—</span> términos procesales reales, con cada recálculo trazado; <b>(RQ2)</b> el razonador simbólico produce dictámenes con cadena verificable acto→regla→artículo, frontera ontológica que elimina la alucinación por construcción, e instrumentación completa de validez (F1/κ) lista para la medición definitiva; <b>(RQ3)</b> los detectores de drift con criterio normativo identifican y priorizan causas atípicas con ranking robusto ante ±20% de perturbación; <b>(RQ4)</b> los metadatos de contexto y la bitácora hash-chained hacen reproducible cada resultado histórico. Las contribuciones C1–C4 (§1.4) quedan materializadas en un artefacto público, dockerizado y auto-documentado (tabs Guía y Tesis).</p>
+      <div class="ts-h2">5.2 Limitaciones del estudio</div>
+      <p class="ts-p">(i) La validez definitiva del razonador requiere la sesión real de anotación (el diseño la instrumenta pero no la sustituye); (ii) la muestra intencional limita la generalización estadística; (iii) el matching léxico no captura providencias semánticamente ambiguas —la matriz de confusión de la sesión simulada ya orienta su mejora—; (iv) la verificación DL se ejecuta con herramientas externas (registrada, no integrada); (v) el artefacto es una <i>shadow</i>: la retroalimentación al e-SATJE excede el alcance institucional de una tesis.</p>
+      <div class="ts-h2">5.3 Líneas de trabajo futuro</div>
+      <p class="ts-p"><b>(F1)</b> Cierre del lazo hacia <i>digital twin</i> pleno: notificación de alertas de término al sistema real (oficio electrónico), con las salvaguardas institucionales del caso <span class="ts-cite">[5,6]</span>. <b>(F2)</b> Ampliación muestral sistemática (N≥100 por descarga completa de unidades judiciales) habilitando estadística por estrato. <b>(F3)</b> Hibridación neurosimbólica: un LLM como extractor de candidatos bajo el mismo guardrail ontológico, evaluado contra el mismo gold standard <span class="ts-cite">[16]</span>. <b>(F4)</b> Formalización ejecutable de las reglas en LegalRuleML y razonamiento DL integrado. <b>(F5)</b> Extensión del AHP a la matriz completa 9×9 de dimensiones con panel multi-experto y agregación geométrica. <b>(F6)</b> Estudio longitudinal del índice empírico como serie temporal de la salud procesal institucional.</p>
+      <div class="ts-h2">5.4 Consideraciones finales</div>
+      <p class="ts-p">El resultado central es un cambio de categoría: del "modelo de madurez" que se responde con un cuestionario, al <b>sistema de medición adaptativo</b> que se responde con evidencia. En un dominio donde cada afirmación tiene consecuencias jurídicas, la combinación de ontologías como frontera, medición empírica como retroalimentación y trazabilidad criptográfica como memoria constituye, a juicio de esta investigación, el estándar mínimo exigible a la IA de gobernanza judicial.</p>
+    </div>
+  </div>
+
+  <!-- ── BIBLIOGRAFÍA ── -->
+  <div class="panel" id="ts-bib" style="--ac:var(--gold)">
+    <div class="ph"><div class="ptitle">Bibliografía</div><span class="pbadge d">revistas especializadas</span></div>
+    <div style="padding:.8rem 1.2rem;font-size:.7rem;color:var(--t2);line-height:1.9">
+      <div>[1] Hevner, A. R., March, S. T., Park, J., &amp; Ram, S. (2004). Design Science in Information Systems Research. <i>MIS Quarterly</i>, 28(1), 75–105.</div>
+      <div>[2] Peffers, K., Tuunanen, T., Rothenberger, M. A., &amp; Chatterjee, S. (2007). A Design Science Research Methodology for Information Systems Research. <i>Journal of Management Information Systems</i>, 24(3), 45–77.</div>
+      <div>[3] Gregor, S., &amp; Hevner, A. R. (2013). Positioning and Presenting Design Science Research for Maximum Impact. <i>MIS Quarterly</i>, 37(2), 337–355.</div>
+      <div>[4] Kephart, J. O., &amp; Chess, D. M. (2003). The Vision of Autonomic Computing. <i>Computer</i>, 36(1), 41–50.</div>
+      <div>[5] Kritzinger, W., Karner, M., Traar, G., Henjes, J., &amp; Sihn, W. (2018). Digital Twin in manufacturing: A categorical literature review and classification. <i>IFAC-PapersOnLine</i>, 51(11), 1016–1022.</div>
+      <div>[6] Zheng, X., Lu, J., &amp; Kiritsis, D. (2022). The emergence of cognitive digital twin: vision, challenges and opportunities. <i>International Journal of Production Research</i>, 60(24), 7610–7632.</div>
+      <div>[7] Janssen, M., &amp; van der Voort, H. (2016). Adaptive governance: Towards a stable, accountable and responsive government. <i>Government Information Quarterly</i>, 33(1), 1–5.</div>
+      <div>[8] Saaty, T. L. (1990). How to make a decision: The Analytic Hierarchy Process. <i>European Journal of Operational Research</i>, 48(1), 9–26.</div>
+      <div>[9] Cohen, J. (1960). A coefficient of agreement for nominal scales. <i>Educational and Psychological Measurement</i>, 20(1), 37–46.</div>
+      <div>[10] van der Aalst, W. M. P. (2012). Process mining: Overview and opportunities. <i>Communications of the ACM</i>, 55(8), 76–83.</div>
+      <div>[11] Bose, R. P. J. C., van der Aalst, W. M. P., Žliobaitė, I., &amp; Pechenizkiy, M. (2014). Dealing with concept drifts in process mining. <i>IEEE Transactions on Neural Networks and Learning Systems</i>, 25(1), 154–171.</div>
+      <div>[12] Poveda-Villalón, M., Gómez-Pérez, A., &amp; Suárez-Figueroa, M. C. (2014). OOPS! (OntOlogy Pitfall Scanner!): An on-line tool for ontology evaluation. <i>International Journal on Semantic Web and Information Systems</i>, 10(2), 7–34.</div>
+      <div>[13] Suárez-Figueroa, M. C., Gómez-Pérez, A., &amp; Fernández-López, M. (2015). The NeOn Methodology framework: A scenario-based methodology for ontology development. <i>Applied Ontology</i>, 10(2), 107–145.</div>
+      <div>[14] Casanovas, P., Palmirani, M., Peroni, S., van Engers, T., &amp; Vitali, F. (2016). Semantic Web for the Legal Domain: The next step. <i>Semantic Web</i>, 7(3), 213–227.</div>
+      <div>[15] Bench-Capon, T., et al. (2012). A history of AI and Law in 50 papers: 25 years of the international conference on AI and Law. <i>Artificial Intelligence and Law</i>, 20(3), 215–319.</div>
+      <div>[16] d'Avila Garcez, A., &amp; Lamb, L. C. (2023). Neurosymbolic AI: the 3rd wave. <i>Artificial Intelligence Review</i>, 56, 12387–12406.</div>
+      <div>[17] Governatori, G., Bench-Capon, T., Verheij, B., Araszkiewicz, M., Francesconi, E., &amp; Grabmair, M. (2022). Thirty years of Artificial Intelligence and Law: the first decade. <i>Artificial Intelligence and Law</i>, 30(4), 481–519.</div>
+      <div>[18] Sein, M. K., Henfridsson, O., Purao, S., Rossi, M., &amp; Lindgren, R. (2011). Action Design Research. <i>MIS Quarterly</i>, 35(1), 37–56.</div>
+      <div>[19] Landis, J. R., &amp; Koch, G. G. (1977). The measurement of observer agreement for categorical data. <i>Biometrics</i>, 33(1), 159–174.</div>
+      <div>[20] Spearman, C. (1904). The proof and measurement of association between two things. <i>The American Journal of Psychology</i>, 15(1), 72–101.</div>
+      <div>[21] Tao, F., Zhang, H., Liu, A., &amp; Nee, A. Y. C. (2019). Digital Twin in Industry: State-of-the-Art. <i>IEEE Transactions on Industrial Informatics</i>, 15(4), 2405–2415.</div>
+      <div>[22] Gama, J., Žliobaitė, I., Bifet, A., Pechenizkiy, M., &amp; Bouchachia, A. (2014). A survey on concept drift adaptation. <i>ACM Computing Surveys</i>, 46(4), 1–37.</div>
+      <div style="margin-top:.4rem;font-family:var(--font-mono);font-size:.6rem;color:var(--gold)">— Publicaciones previas del autor (fundamentos de la tesis) —</div>
+      <div>[23] Paccha-Angamarca, P. M., &amp; Sacoto-Cabrera, E. J. (2025). LegalTech Governance in Ecuador: A Systematic Review of the Digital Transformation of Justice. <i>Proc. IEEE</i>.</div>
+      <div>[24] Paccha-Angamarca, P. M., &amp; Sacoto-Cabrera, E. J. (2026). Architecture for LegalTech Governance: A Holistic Multidimensional Framework Integrating AI, Blockchain, Cybersecurity, Workflows and Enterprise Standards. <i>X Latin American Congress on Mechanical Engineering (COLIM)</i>.</div>
+      <div>[25] Paccha-Angamarca, P. M., Sacoto-Cabrera, E. J., &amp; Velepucha-Bonett, V. (2026). From Silos to Synergy: A Foundation Layer Architecture for LegalTech Governance. <i>Proc. IEEE</i> (in press).</div>
+      <div>[26] Paccha-Angamarca, P. M., Sacoto-Cabrera, E. J., &amp; Velepucha-Bonett, V. (2026). Verifiable Semantic Governance and Algorithmic Transparency: An Ontological Approach to MALTG. <i>Proc. IEEE ETCM</i>.</div>
+      <div>[27] Paccha-Angamarca, P. M., Sacoto-Cabrera, E. J., &amp; Velepucha-Bonett, V. (2026). Structural Digital Twin-Driven Conformance Assessment of a LegalTech Governance Ontology: A Reproducible Proof of Concept. <i>Information</i> (MDPI, en revisión).</div>
+      <div>[28] Gregor, S., &amp; Jones, D. (2007). The anatomy of a design theory. <i>Journal of the Association for Information Systems</i>, 8(5), 312–335.</div>
+      <div style="margin-top:.6rem;font-family:var(--font-mono);font-size:.58rem;color:var(--t3)">Nota editorial: estructura conforme al TOC de la plantilla doctoral UPS (tesis.tex); las entradas están listas para Bibliografia.bib en formato BibTeX. Los valores en verde se leen en vivo de la aplicación y deben congelarse (con su contexto_adaptacion) al momento del depósito del documento.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 11 GUÍA · TÉRMINOS, ASPECTOS TÉCNICOS Y METODOLÓGICOS ═══ -->
 <div class="section" id="sec-guia">
   <div class="stitle">Guía del Experimento · Términos, Aspectos Técnicos y Metodológicos</div>
 
@@ -5370,7 +5746,7 @@ function renderSdtCjDetail(d, target){
 // ── Tab switching ──────────────────────────────────────────────────
 function switchTab(id){
   currentTab = id;
-  const ids = ['methodology','maltg','ontology','dt','simulacion','workflow','cogep','bitacora','adaptativo','guia','styles'];
+  const ids = ['methodology','maltg','ontology','dt','simulacion','workflow','cogep','bitacora','adaptativo','experto','guia','tesis','styles'];
   document.querySelectorAll('.nav-tab').forEach((t,i)=>
     t.classList.toggle('active', ids[i]===id));
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
@@ -5411,8 +5787,11 @@ function switchTab(id){
   if(id==='guia'){
     setTimeout(()=>initGuiaTab(), 60);
   }
-  if(id==='dt'){
-    setTimeout(()=>vzLoadAhp(), 90);
+  if(id==='experto'){
+    setTimeout(()=>initExpertoTab(), 60);
+  }
+  if(id==='tesis'){
+    setTimeout(()=>initTesisTab(), 60);
   }
   if(id==='cogep'){
     setTimeout(()=>ovLoad(), 90);
@@ -7440,7 +7819,7 @@ async function adRefresh(full=true){
     await adLoadRanking();          // incluye salud-global (KPIs)
     await adLoadAlertas();
     await adLoadTrace();
-    adLoadSupuestos(); evInit(); nmLoad(); muLoad();
+    adLoadSupuestos(); nmLoad(); muLoad();
   }catch(e){
     const st = document.getElementById('ad-cfg-status');
     if(st){ st.textContent = 'Error al cargar la capa adaptativa: '+e; st.style.color = '#ff4d6d'; }
@@ -7935,6 +8314,28 @@ async function vzAddEvidencia(){
 async function ovLoad(){
   const el = document.getElementById('ov-owl-hash'); if(!el) return;
   ovVerificar(true);
+  try{   // chip de validez del razonador (Punto 1, tab Validación Experta)
+    const rep = await (await fetch('/api/eval/report?_='+Date.now())).json();
+    const chip = document.getElementById('cogep-validez-chip');
+    if(chip){
+      chip.textContent = rep.disponible ? ('razonador: '+rep.chip+(rep.apto?' ✓ apto':' ⚠ no apto')) : 'razonador: sin validez medida';
+      chip.style.color = rep.disponible ? (rep.apto?'#10e98c':'#ff9a3c') : '#ffc947';
+    }
+  }catch(e){}
+}
+async function ovAlineacion(){
+  const d = await (await fetch('/api/cogep/alineacion?_='+Date.now())).json();
+  document.getElementById('ov-cqs').innerHTML =
+    `<div style="font-family:var(--font-mono);font-size:.6rem;color:var(--t3);margin-bottom:.3rem">ALINEACIÓN COGEP ↔ LKIF-CORE / LEGALRULEML (anexo de tesis)</div>`+
+    `<table style="width:100%;border-collapse:collapse;font-size:.62rem">
+      <thead><tr style="font-family:var(--font-mono);font-size:.56rem;color:var(--t3);text-align:left">
+        <th style="padding:.2rem .4rem">COGEP</th><th style="padding:.2rem .4rem">LKIF / LegalRuleML</th><th style="padding:.2rem .4rem">Relación</th></tr></thead><tbody>`+
+    (d.alineacion||[]).map(a=>`<tr style="border-bottom:1px dashed rgba(255,255,255,.07)">
+      <td style="padding:.25rem .4rem;color:var(--cyan);font-family:var(--font-mono)">${vzEsc(a.cogep)}</td>
+      <td style="padding:.25rem .4rem;color:var(--t1);font-family:var(--font-mono)">${vzEsc(a.lkif)}</td>
+      <td style="padding:.25rem .4rem;color:var(--gold)">${vzEsc(a.relacion)}</td></tr>
+      <tr><td colspan="3" style="padding:0 .4rem .3rem;font-size:.56rem;color:var(--t3)">${vzEsc(a.nota)}</td></tr>`).join('')+
+    `</tbody></table><div style="font-size:.56rem;color:var(--t3);margin-top:.4rem">${vzEsc(d.nota||'')}</div>`;
 }
 async function ovGenerar(){
   const d = await (await fetch('/api/cogep/owl/generar',{method:'POST'})).json();
@@ -7962,6 +8363,173 @@ async function ovCq(){
       <div style="font-family:var(--font-mono);font-size:.56rem;color:var(--t3);margin:.3rem 0">SPARQL: ${vzEsc(c.sparql||'—')}</div>
       <pre style="font-size:.56rem;color:var(--t2);white-space:pre-wrap;margin:0">${vzEsc(JSON.stringify(c.respuesta,null,1))}</pre>
     </details>`).join('');
+}
+
+// ═══ TAB VALIDACIÓN EXPERTA ═══
+function initExpertoTab(){ evInit(); vzLoadAhp(); exEstado(); xdLoad(); xrLoad(); xvLoad(); }
+
+// ── Punto 3 · Delphi de dimensiones ──
+let xdKeys = [];
+async function xdLoad(){
+  const d = await (await fetch('/api/experto/pesos-dimensiones?_='+Date.now())).json();
+  xdKeys = d.keys||[];
+  document.getElementById('xd-proc').textContent = d.procedencia;
+  const box = document.getElementById('xd-sliders');
+  if(box && !box.children.length){
+    box.innerHTML = xdKeys.map(k=>`<label style="display:flex;justify-content:space-between;gap:.5rem;align-items:center;font-family:var(--font-mono);font-size:.62rem;color:var(--t2)">
+      <span title="${vzEsc(k.label)}">${k.key}</span>
+      <input type="number" data-xd="${k.key}" min="1" max="9" step="1" value="5"
+        style="width:52px;background:rgba(255,255,255,.06);border:1px solid var(--bdr);border-radius:6px;color:var(--cyan);font-family:var(--font-mono);font-size:.66rem;padding:.2rem .3rem;text-align:center"></label>`).join('');
+  }
+  const pesos = d.dimensiones||{};
+  document.getElementById('xd-pesos').innerHTML = Object.keys(pesos).length ?
+    `<div style="font-family:var(--font-mono);font-size:.6rem;color:var(--t3);margin-bottom:.3rem">PESOS AGREGADOS (${(d.expertos||[]).length} experto(s)) — el radar global ya los usa:</div>`+
+    xdKeys.map(k=>{const w=pesos[k.key]||0; return `<div style="display:flex;align-items:center;gap:.4rem;margin-bottom:.15rem">
+      <span style="font-family:var(--font-mono);font-size:.6rem;width:74px;color:var(--t2)">${k.key}</span>
+      <div style="flex:1;height:8px;background:rgba(255,255,255,.05);border-radius:4px;overflow:hidden"><div style="height:100%;width:${(w*100/0.2).toFixed(0)}%;max-width:100%;background:var(--gold)"></div></div>
+      <span style="font-family:var(--font-mono);font-size:.6rem;width:44px;text-align:right;color:var(--gold)">${(w*100).toFixed(1)}%</span></div>`;}).join('')+
+    `<div style="font-size:.58rem;color:var(--t3);margin-top:.3rem">Expertos: ${(d.expertos||[]).map(e=>vzEsc(e.experto)).join(', ')}</div>`
+    : '<span style="font-size:.64rem;color:var(--t3)">Sin ponderaciones aún — el radar usa promedio simple de las 10 dimensiones.</span>';
+}
+async function xdGuardar(){
+  const st = document.getElementById('xd-status');
+  const experto = document.getElementById('xd-experto').value.trim();
+  if(!experto){ st.textContent='Indique el nombre del experto.'; st.style.color='#ff9a3c'; return; }
+  const ratings = {};
+  document.querySelectorAll('[data-xd]').forEach(i=>ratings[i.getAttribute('data-xd')] = +i.value);
+  const d = await (await fetch('/api/experto/pesos-dimensiones',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({experto, ratings})})).json();
+  if(d.error){ st.textContent='⚠ '+d.error; st.style.color='#ff9a3c'; return; }
+  st.textContent = `✓ Ponderación registrada (${d.n_expertos} experto(s)) — radar recalculado con pesos Delphi.`;
+  st.style.color='#10e98c'; xdLoad();
+}
+
+// ── Punto 4 · Doble evaluación con rúbrica ──
+async function xrLoad(){
+  const d = await (await fetch('/api/experto/rubrica-eval?_='+Date.now())).json();
+  document.getElementById('xr-n').textContent = (d.evaluaciones||[]).length+' evaluadores';
+  const box = document.getElementById('xr-inputs');
+  if(box && !box.children.length){
+    box.innerHTML = (d.keys||[]).map(k=>`<label style="display:flex;justify-content:space-between;gap:.5rem;align-items:center;font-family:var(--font-mono);font-size:.62rem;color:var(--t2)">
+      <span title="${vzEsc(k.label)}">${k.key}</span>
+      <select data-xr="${k.key}" class="app-select" style="font-size:.62rem;width:70px">
+        ${[0,25,50,75,100].map(v=>`<option value="${v}" ${v===50?'selected':''}>${v}</option>`).join('')}
+      </select></label>`).join('');
+  }
+  const conc = d.concordancia_pares||[], vsS = d.vs_sistema||[];
+  document.getElementById('xr-conc').innerHTML =
+    ((d.evaluaciones||[]).length ? `<div style="font-family:var(--font-mono);font-size:.6rem;color:var(--t3);margin-bottom:.3rem">CONCORDANCIA (Spearman ρ — ≥0.7 sustancial):</div>`+
+      conc.map(p=>`<div>▪ ${vzEsc(p.a)} ↔ ${vzEsc(p.b)}: <b style="color:${(p.spearman??0)>=0.7?'#10e98c':'#ff9a3c'}">${p.spearman??'n/d'}</b></div>`).join('')+
+      (vsS.length?`<div style="margin-top:.3rem;font-family:var(--font-mono);font-size:.6rem;color:var(--t3)">FRENTE AL SISTEMA (scores de la ontología):</div>`+
+        vsS.map(p=>`<div>▪ ${vzEsc(p.experto)} ↔ sistema: <b style="color:${(p.spearman??0)>=0.7?'#10e98c':'#ff9a3c'}">${p.spearman??'n/d'}</b></div>`).join(''):'')+
+      `<div style="font-size:.58rem;color:var(--t3);margin-top:.3rem">${vzEsc(d.nota||'')}</div>`
+    : '<span style="font-size:.64rem;color:var(--t3)">Aún sin evaluaciones. Se necesitan ≥2 evaluadores para la concordancia.</span>');
+}
+async function xrGuardar(){
+  const st = document.getElementById('xr-status');
+  const experto = document.getElementById('xr-experto').value.trim();
+  if(!experto){ st.textContent='Indique el nombre del evaluador.'; st.style.color='#ff9a3c'; return; }
+  const scores = {};
+  document.querySelectorAll('[data-xr]').forEach(i=>scores[i.getAttribute('data-xr')] = +i.value);
+  const d = await (await fetch('/api/experto/rubrica-eval',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({experto, scores})})).json();
+  if(d.error){ st.textContent='⚠ '+d.error; st.style.color='#ff9a3c'; return; }
+  st.textContent = `✓ Evaluación registrada (${d.n_evaluadores} evaluador(es)) — en bitácora.`;
+  st.style.color='#10e98c'; xrLoad();
+}
+
+// ── Punto 5 · Verificación externa ──
+async function xvLoad(){
+  const d = await (await fetch('/api/experto/verificacion-externa?_='+Date.now())).json();
+  const regs = (d.registros||[]).slice().reverse();
+  document.getElementById('xv-n').textContent = regs.length+' registros';
+  document.getElementById('xv-lista').innerHTML = regs.map(r=>{
+    const ok = r.resultado==='consistente';
+    const warn = String(r.resultado||'').startsWith('pitfalls_menores');
+    return `<div style="border-left:3px solid ${ok?'#10e98c':(warn?'#ff9a3c':'#ff4d6d')};background:rgba(255,255,255,.03);border-radius:0 8px 8px 0;padding:.4rem .6rem;margin-bottom:.35rem;font-size:.62rem">
+      <b style="color:var(--t1)">${vzEsc(r.herramienta)} ${vzEsc(r.version||'')}</b> → <b style="color:${ok?'#10e98c':(warn?'#ff9a3c':'#ff4d6d')}">${vzEsc(r.resultado)}</b><br>
+      ${r.detalle?vzEsc(r.detalle)+'<br>':''}
+      <span style="font-family:var(--font-mono);font-size:.56rem;color:var(--t3)">${vzEsc(String(r.ts||'').slice(0,16).replace('T',' '))} · ${vzEsc(r.actor||'')} · owl:${vzEsc(String(r.owl_hash||'—').slice(0,10))}${r.url_informe?` · <a href="${vzEsc(r.url_informe)}" target="_blank" style="color:var(--cyan)">informe</a>`:''}</span>
+    </div>`;}).join('') || '<span style="font-size:.64rem;color:var(--t3)">— sin verificaciones externas asentadas —</span>';
+}
+async function xvGuardar(){
+  const st = document.getElementById('xv-status');
+  const d = await (await fetch('/api/experto/verificacion-externa',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({herramienta:document.getElementById('xv-herr').value,
+      version:document.getElementById('xv-ver').value.trim(),
+      resultado:document.getElementById('xv-res').value,
+      detalle:document.getElementById('xv-det').value.trim(),
+      url:document.getElementById('xv-url').value.trim(), actor:'usuario-experto'})})).json();
+  if(d.error){ st.textContent='⚠ '+d.error; st.style.color='#ff9a3c'; return; }
+  st.textContent='✓ Verificación asentada en bitácora con el hash del OWL vigente.'; st.style.color='#10e98c';
+  document.getElementById('xv-det').value=''; document.getElementById('xv-url').value='';
+  xvLoad();
+}
+async function exEstado(){
+  try{
+    const d = await (await fetch('/api/experto/estado?_='+Date.now())).json();
+    document.getElementById('ex-estado').textContent =
+      `gold: ${d.gold_reales} reales + ${d.gold_simuladas} sim · AHP: ${d.ahp_reales} reales + ${d.ahp_simulados} sim`;
+    document.getElementById('ex-sim-banner').style.display = d.hay_simulacion ? 'block' : 'none';
+  }catch(e){}
+}
+async function exSimular(){
+  const st = document.getElementById('ex-sim-status');
+  st.textContent = 'Generando sesión simulada (anotaciones + AHP + evaluación)…'; st.style.color='var(--t3)';
+  try{
+    const d = await (await fetch('/api/experto/simulacion',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({accion:'crear'})})).json();
+    if(d.error){ st.textContent='Error: '+d.error; st.style.color='#ff4d6d'; return; }
+    st.textContent = `✓ ${d.anotaciones} anotaciones + ${d.segundo_anotador} del 2º anotador + ${d.ahp_expertos} juicios AHP · `+
+      `F1=${d.eval.f1} sobre N=${d.eval.n}`+(d.eval.kappa?` · κ=${d.eval.kappa.valor}`:'')+` — ${d.aviso}`;
+    st.style.color='#ff9a3c';
+    initExpertoTab();
+  }catch(e){ st.textContent='Error: '+e; st.style.color='#ff4d6d'; }
+}
+async function exLimpiar(){
+  const st = document.getElementById('ex-sim-status');
+  st.textContent = 'Eliminando datos simulados…'; st.style.color='var(--t3)';
+  try{
+    const d = await (await fetch('/api/experto/simulacion',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({accion:'limpiar'})})).json();
+    st.textContent = `✓ ${d.anotaciones_eliminadas} anotaciones simuladas eliminadas; juicios AHP simulados y reporte de evaluación descartados. Listo para la sesión real.`;
+    st.style.color='#10e98c';
+    document.getElementById('ev-result').innerHTML=''; document.getElementById('vz-sens').innerHTML='';
+    const chip=document.getElementById('ev-chip'); chip.textContent='sin validez medida'; chip.style.color='#ffc947';
+    initExpertoTab();
+  }catch(e){ st.textContent='Error: '+e; st.style.color='#ff4d6d'; }
+}
+
+// ═══ TAB TESIS · métricas en vivo ═══
+let tsLoaded=false;
+async function initTesisTab(){
+  const set = (key,val)=>document.querySelectorAll(`[data-ts="${key}"]`).forEach(e=>e.textContent=val);
+  try{
+    const sg = await (await fetch('/api/cogep/salud-global?_='+Date.now())).json();
+    set('causas', sg.n_causas); set('causas2', sg.n_causas);
+    set('indice', sg.indice_global); set('indice2', sg.indice_global);
+    set('evaluables', sg.actos_evaluables); set('evaluables2', sg.actos_evaluables); set('evaluables3', sg.actos_evaluables);
+    set('enplazo', sg.actos_en_plazo); set('salud', sg.salud_media);
+    const tb = document.getElementById('ts-t-proc');
+    if(tb) tb.innerHTML = (sg.por_procedimiento||[]).map(p=>
+      `<tr><td>${vzEsc(p.procedimiento)}</td><td>${p.n_causas}</td><td>${p.evaluadas}</td><td>${p.cumple}</td><td>${p.incumplimientos}</td><td><b style="color:var(--cyan)">${p.indice}</b></td><td>${p.salud_media??'—'}</td></tr>`).join('');
+  }catch(e){}
+  try{
+    const kb = await (await fetch('/api/adaptativo/kb-changelog?_='+Date.now())).json();
+    set('kbv', kb.version||'1.0');
+  }catch(e){}
+  try{
+    const rep = await (await fetch('/api/eval/report?_='+Date.now())).json();
+    set('f1chip', rep.disponible ? (rep.chip+(rep.apto?' (apto)':' (no apto)')) : 'sin validez medida — instrumento listo, sesión real pendiente');
+  }catch(e){}
+  if(!tsLoaded){   // alertas es costoso: solo la primera vez
+    tsLoaded=true;
+    try{
+      const al = await (await fetch('/api/adaptativo/alertas?_='+Date.now())).json();
+      const pn = al.por_nivel||{};
+      set('alertas', al.n); set('criticas', pn.critica??0); set('altas', pn.alta??0); set('medias', pn.media??0);
+    }catch(e){}
+  }
 }
 
 // ═══ TAB GUÍA ═══

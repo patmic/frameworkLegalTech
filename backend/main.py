@@ -690,10 +690,23 @@ def compute_validation(dt_file: str = ""):
         except Exception:
             pass
 
-    onto_vals    = [r["onto_score"] for r in results]
-    dt_vals      = [r["dt_score"]   for r in results]
-    overall_onto = round(sum(onto_vals)/max(1,len(onto_vals)), 1)
-    overall_dt   = round(sum(dt_vals)/max(1,len(dt_vals)),     1)
+    # Pesos de dimensiones del panel de expertos (Delphi); sin panel → promedio simple
+    wdims, wdims_src = {}, None
+    try:
+        _pa = json.loads(PESOS_AHP_PATH.read_text(encoding="utf-8-sig"))
+        wdims = _pa.get("dimensiones") or {}
+        wdims_src = _pa.get("procedencia_dim")
+    except Exception:
+        pass
+    if wdims and sum(wdims.get(r["key"], 0) for r in results) > 0:
+        tot = sum(wdims.get(r["key"], 0) for r in results)
+        overall_onto = round(sum(r["onto_score"] * wdims.get(r["key"], 0) for r in results) / tot, 1)
+        overall_dt   = round(sum(r["dt_score"]   * wdims.get(r["key"], 0) for r in results) / tot, 1)
+    else:
+        onto_vals    = [r["onto_score"] for r in results]
+        dt_vals      = [r["dt_score"]   for r in results]
+        overall_onto = round(sum(onto_vals)/max(1,len(onto_vals)), 1)
+        overall_dt   = round(sum(dt_vals)/max(1,len(dt_vals)),     1)
     overall_gap  = round(overall_onto - overall_dt, 1)
     gap_pct      = round((overall_gap / max(1, overall_onto))*100, 1)
     top_gaps     = sorted(results, key=lambda r: r["gap"], reverse=True)[:3]
@@ -713,6 +726,7 @@ def compute_validation(dt_file: str = ""):
         "dt_file":        dt.get("_file",""),
         "dt_title":       (dt.get("meta") or {}).get("title",""),
         "adaptativo":     adaptativo,
+        "pesos_dimensiones": ({"pesos": wdims, "procedencia": wdims_src} if wdims else None),
     }
 
 
@@ -3248,6 +3262,259 @@ def post_cq(payload: dict = Body(...)):
     cqs.append(cq); _jsave(CQ_PATH, cqs)
     bitacora_log(cq["autor"], "nueva_competency_question", f"{cq['id']}: {pregunta}", refs=["/api/cogep/cq"], tipo="adaptacion")
     return {"ok": True, "cq": cq}
+
+# ── Verificación externa (HermiT/Pellet/OOPS!) registrada por el experto ─
+VERIF_EXT_PATH = DATA_DIR / "verificacion_externa.json"
+
+@app.get("/api/experto/verificacion-externa", summary="Registros de verificación ontológica externa", tags=["Validez IA"])
+def get_verif_externa():
+    return {"registros": _jload(VERIF_EXT_PATH, [])}
+
+@app.post("/api/experto/verificacion-externa", summary="Registrar resultado de HermiT/Pellet/OOPS! (externo)", tags=["Validez IA"])
+def post_verif_externa(payload: dict = Body(...)):
+    herr = str(payload.get("herramienta", "")).strip()[:60]
+    res  = str(payload.get("resultado", "")).strip()[:40]
+    if not herr or not res: return {"error": "se requieren 'herramienta' y 'resultado'"}
+    reg = {"id": None, "ts": utcnow_iso(), "herramienta": herr,
+           "version": str(payload.get("version", ""))[:40], "resultado": res,
+           "detalle": str(payload.get("detalle", ""))[:500], "url_informe": str(payload.get("url", ""))[:300],
+           "owl_hash": file_hash(COGEP_OWL_PATH) if COGEP_OWL_PATH.exists() else None,
+           "actor": str(payload.get("actor", "usuario-experto"))[:80]}
+    regs = _jload(VERIF_EXT_PATH, [])
+    reg["id"] = len(regs) + 1
+    regs.append(reg); _jsave(VERIF_EXT_PATH, regs)
+    bitacora_log(reg["actor"], "verificacion_ontologica_externa",
+                 f"{herr} {reg['version']}: {res}. {reg['detalle'][:120]} (owl {str(reg['owl_hash'])[:10]})",
+                 refs=["/api/experto/verificacion-externa"], tipo="adaptacion")
+    return {"ok": True, "registro": reg}
+
+# ── Alineación con LKIF-Core (ontología legal de referencia) ─────────
+LKIF_ALINEACION = [
+    {"cogep": "ActoProcesal",    "lkif": "lkif:Legal_Speech_Act / lkif:Act",     "relacion": "subClassOf",
+     "nota": "Todo acto procesal es un acto jurídico de habla (providencia con efectos)."},
+    {"cogep": "TerminoProcesal", "lkif": "lkif:Obligation + lkif:Time_Interval",  "relacion": "closeMatch",
+     "nota": "El término es una obligación temporal: sujeto obligado + intervalo de días hábiles."},
+    {"cogep": "SujetoProcesal",  "lkif": "lkif:Legal_Role / lkif:Agent",          "relacion": "subClassOf",
+     "nota": "Juez, secretario y partes son agentes con rol jurídico."},
+    {"cogep": "Procedimiento",   "lkif": "lkif:Legal_Procedure (Process)",        "relacion": "closeMatch",
+     "nota": "Secuencia normada de etapas y actos (COGEP Libro IV)."},
+    {"cogep": "Etapa",           "lkif": "lkif:Process_Stage",                    "relacion": "closeMatch",
+     "nota": "Subdivisión ordenada del procedimiento."},
+    {"cogep": "regla de término (instancia)", "lkif": "LegalRuleML: Obligation rule", "relacion": "expresable",
+     "nota": "Cada regla es expresable como <lrml:Obligation> con <lrml:hasBearer> (sujeto) y condición temporal — ver anexo de la tesis."},
+]
+
+@app.get("/api/cogep/alineacion", summary="Alineación COGEP ↔ LKIF-Core / LegalRuleML (anexo)", tags=["Validez IA"])
+def get_alineacion():
+    return {"alineacion": LKIF_ALINEACION,
+            "nota": ("Alineación declarativa con LKIF-Core (Hoekstra et al., 2007) y LegalRuleML: demuestra que los "
+                     "conceptos y reglas del razonador son expresables en los estándares de ontologías legales, "
+                     "sin re-implementar el motor. Las equivalencias fuertes se evitan (closeMatch) por prudencia formal.")}
+
+# ── Ponderación de dimensiones por panel de expertos (Delphi/Likert) ─
+def _median(xs):
+    xs = sorted(xs); n = len(xs)
+    return xs[n // 2] if n % 2 else (xs[n // 2 - 1] + xs[n // 2]) / 2.0
+
+@app.post("/api/experto/pesos-dimensiones", summary="Registrar importancia 1-9 de cada dimensión (Delphi)", tags=["Validez IA"])
+def post_pesos_dim(payload: dict = Body(...)):
+    experto = str(payload.get("experto", "")).strip()[:80]
+    if not experto: return {"error": "se requiere 'experto'"}
+    keys = [d["key"] for d in DIMENSIONS]
+    ratings = {}
+    for k in keys:
+        try:
+            v = float((payload.get("ratings") or {}).get(k))
+            assert 1 <= v <= 9
+            ratings[k] = v
+        except Exception:
+            return {"error": f"rating inválido para {k} (rango 1-9)"}
+    d = _jload(PESOS_AHP_PATH, {})
+    exps = [e for e in d.get("expertos_dim", []) if e.get("experto") != experto]
+    exps.append({"experto": experto, "ratings": ratings, "ts": utcnow_iso()})
+    d["expertos_dim"] = exps
+    medianas = {k: _median([e["ratings"][k] for e in exps]) for k in keys}
+    tot = sum(medianas.values()) or 1.0
+    d["dimensiones"] = {k: round(v / tot, 4) for k, v in medianas.items()}
+    d["procedencia_dim"] = f"Delphi/Likert ({len(exps)} experto(s), mediana normalizada)"
+    _jsave(PESOS_AHP_PATH, d)
+    bitacora_log(experto, "ponderacion_dimensiones",
+                 f"ratings={ratings} → pesos agregados de {len(exps)} experto(s) aplicados al radar.",
+                 refs=["/api/experto/pesos-dimensiones"], tipo="adaptacion")
+    return {"ok": True, "pesos": d["dimensiones"], "n_expertos": len(exps)}
+
+@app.get("/api/experto/pesos-dimensiones", summary="Pesos vigentes de dimensiones y juicios", tags=["Validez IA"])
+def get_pesos_dim():
+    d = _jload(PESOS_AHP_PATH, {})
+    return {"dimensiones": d.get("dimensiones") or {}, "expertos": d.get("expertos_dim", []),
+            "procedencia": d.get("procedencia_dim", "sin ponderar (promedio simple en el radar)"),
+            "keys": [{"key": x["key"], "label": x["label"]} for x in DIMENSIONS]}
+
+# ── Doble evaluación de dimensiones con rúbrica + concordancia ───────
+RUBRICA_EVAL_PATH = DATA_DIR / "eval_dimensiones.json"
+
+def _spearman(a, b):
+    """Correlación de Spearman entre dos listas pareadas."""
+    n = len(a)
+    if n < 3: return None
+    def ranks(xs):
+        order = sorted(range(n), key=lambda i: xs[i])
+        r = [0.0] * n
+        i = 0
+        while i < n:
+            j = i
+            while j + 1 < n and xs[order[j + 1]] == xs[order[i]]: j += 1
+            avg = (i + j) / 2.0 + 1
+            for k in range(i, j + 1): r[order[k]] = avg
+            i = j + 1
+        return r
+    ra, rb = ranks(a), ranks(b)
+    ma, mb = sum(ra) / n, sum(rb) / n
+    num = sum((ra[i] - ma) * (rb[i] - mb) for i in range(n))
+    den = (sum((x - ma) ** 2 for x in ra) * sum((x - mb) ** 2 for x in rb)) ** 0.5
+    return round(num / den, 3) if den else None
+
+@app.post("/api/experto/rubrica-eval", summary="Registrar evaluación 0-100 de las dimensiones con la rúbrica", tags=["Validez IA"])
+def post_rubrica_eval(payload: dict = Body(...)):
+    experto = str(payload.get("experto", "")).strip()[:80]
+    if not experto: return {"error": "se requiere 'experto'"}
+    keys = [d["key"] for d in DIMENSIONS]
+    scores = {}
+    for k in keys:
+        try:
+            v = float((payload.get("scores") or {}).get(k))
+            assert 0 <= v <= 100
+            scores[k] = v
+        except Exception:
+            return {"error": f"score inválido para {k} (rango 0-100, use los niveles de la rúbrica)"}
+    evs = _jload(RUBRICA_EVAL_PATH, [])
+    evs = [e for e in evs if e.get("experto") != experto]
+    evs.append({"experto": experto, "scores": scores, "ts": utcnow_iso()})
+    _jsave(RUBRICA_EVAL_PATH, evs)
+    bitacora_log(experto, "evaluacion_rubrica_dimensiones", f"scores={scores}",
+                 refs=["/api/experto/rubrica-eval"], tipo="adaptacion")
+    return {"ok": True, "n_evaluadores": len(evs)}
+
+@app.get("/api/experto/rubrica-eval", summary="Evaluaciones registradas + concordancia (Spearman)", tags=["Validez IA"])
+def get_rubrica_eval():
+    evs = _jload(RUBRICA_EVAL_PATH, [])
+    keys = [d["key"] for d in DIMENSIONS]
+    # referencia del sistema: onto_score por dimensión
+    try:
+        val = compute_validation("SDT_CJ.json")
+        sistema = {r["key"]: r["onto_score"] for r in val.get("dimensions", [])}
+    except Exception:
+        sistema = {}
+    pares = []
+    for i in range(len(evs)):
+        for j in range(i + 1, len(evs)):
+            a = [evs[i]["scores"].get(k, 0) for k in keys]
+            b = [evs[j]["scores"].get(k, 0) for k in keys]
+            pares.append({"a": evs[i]["experto"], "b": evs[j]["experto"], "spearman": _spearman(a, b)})
+    vs_sistema = []
+    if sistema:
+        s = [sistema.get(k, 0) for k in keys]
+        for e in evs:
+            vs_sistema.append({"experto": e["experto"],
+                               "spearman": _spearman([e["scores"].get(k, 0) for k in keys], s)})
+    return {"evaluaciones": evs, "concordancia_pares": pares, "vs_sistema": vs_sistema,
+            "keys": [{"key": x["key"], "label": x["label"]} for x in DIMENSIONS],
+            "sistema": sistema,
+            "nota": "Spearman ≥ 0.7 se considera concordancia sustancial; reporte el valor en la tesis (Fallo 1, doble evaluador)."}
+
+# ── Sesión simulada (demo del flujo de validación experta) ──────────
+SIM_TAG = "SIMULADO"
+
+@app.get("/api/experto/estado", summary="Estado de la validación experta (datos reales vs simulados)", tags=["Validez IA"])
+def get_experto_estado():
+    g = _jload(GOLD_PATH, {"anotaciones": []})
+    sim_g  = sum(1 for a in g["anotaciones"] if str(a.get("anotador", "")).startswith(SIM_TAG))
+    real_g = len(g["anotaciones"]) - sim_g
+    d = _jload(PESOS_AHP_PATH, {})
+    exps = d.get("expertos_psi", [])
+    sim_a  = sum(1 for e in exps if str(e.get("experto", "")).startswith(SIM_TAG))
+    return {"gold_simuladas": sim_g, "gold_reales": real_g,
+            "ahp_simulados": sim_a, "ahp_reales": len(exps) - sim_a,
+            "hay_simulacion": bool(sim_g or sim_a),
+            "eval_report": EVAL_REPORT.exists()}
+
+@app.post("/api/experto/simulacion", summary="Crear/limpiar una sesión simulada completa (anotaciones + AHP + eval)", tags=["Validez IA"])
+def post_simulacion(payload: dict = Body(default={})):
+    accion = str(payload.get("accion", "crear"))
+    if accion == "limpiar":
+        g = _jload(GOLD_PATH, {"anotaciones": []})
+        antes = len(g["anotaciones"])
+        g["anotaciones"] = [a for a in g["anotaciones"] if not str(a.get("anotador", "")).startswith(SIM_TAG)]
+        _jsave(GOLD_PATH, g)
+        d = _jload(PESOS_AHP_PATH, {})
+        exps = [e for e in d.get("expertos_psi", []) if not str(e.get("experto", "")).startswith(SIM_TAG)]
+        if exps:
+            d["expertos_psi"] = exps
+            root_m = round(sum(e["root"] for e in exps) / len(exps), 4)
+            d["psi"] = {"root": root_m, "subs": round(1 - root_m, 4)}
+            d["procedencia"] = f"AHP ({len(exps)} experto(s), media aritmética)"
+            _jsave(PESOS_AHP_PATH, d)
+        elif PESOS_AHP_PATH.exists():
+            PESOS_AHP_PATH.unlink()
+        if EVAL_REPORT.exists(): EVAL_REPORT.unlink()
+        bitacora_log("sistema", "limpieza_simulacion",
+                     f"{antes - len(g['anotaciones'])} anotaciones simuladas y juicios AHP simulados eliminados; "
+                     "eval_report descartado (regenerar con datos reales).",
+                     refs=["/api/experto/simulacion"], tipo="adaptacion")
+        return {"ok": True, "anotaciones_eliminadas": antes - len(g["anotaciones"])}
+
+    # accion = crear — sesión reproducible (semilla fija) claramente marcada SIMULADO
+    import random
+    rnd = random.Random(42)
+    kb = load_kb()
+    if "error" in kb: return kb
+    acto_ids = [a["id"] for a in kb.get("actos", [])]
+    n_max = min(80, safe_int(payload.get("n", 40), 40))
+    anot1, anot2 = [], []
+    razon_cache = {}
+    for name, label, juicio, dta in _iter_causas():
+        if len(anot1) >= n_max: break
+        d = get_expediente(name)
+        if "error" in d: continue
+        proc = _detect_procedimiento(kb, d)
+        for p in d.get("pasos", [])[:6]:
+            if len(anot1) >= n_max: break
+            m = _match_acto(kb, p.get("NombreProvidencia"), p.get("TipoProvidencia"))
+            pred = m["id"] if m else "ninguno"
+            r = rnd.random()   # el "abogado" coincide ~85% con el sistema (escenario realista)
+            if r < 0.85: gold = pred
+            elif r < 0.95: gold = "ninguno" if pred != "ninguno" else rnd.choice(acto_ids)
+            else: gold = rnd.choice([x for x in acto_ids if x != pred] or acto_ids)
+            ver = None
+            if gold != "ninguno" and rnd.random() < 0.3:
+                if name not in razon_cache: razon_cache[name] = razonar_expediente(d)
+                res = next((x for x in razon_cache[name].get("resultados", [])
+                            if x.get("acto_hasta") == gold and x.get("estado") != "NO_EVALUABLE"), None)
+                if res:
+                    ver = res["estado"] if rnd.random() < 0.8 else rnd.choice(["CUMPLE", "ALERTA", "INCUMPLE"])
+            e = {"file": name, "seq": p["seq"], "actividad": str(p.get("NombreProvidencia", ""))[:160],
+                 "procedimiento": proc.get("id", ""), "acto_correcto": gold, "veredicto_correcto": ver,
+                 "anotador": SIM_TAG + "·abogado-1", "fecha": utcnow_iso(),
+                 "notas": "anotación simulada (demo, semilla=42)"}
+            anot1.append(e)
+            if len(anot2) < 15:   # segundo anotador sobre un subconjunto → kappa
+                e2 = dict(e); e2["anotador"] = SIM_TAG + "·abogado-2"
+                if rnd.random() < 0.1: e2["acto_correcto"] = rnd.choice(acto_ids)
+                anot2.append(e2)
+    g = _jload(GOLD_PATH, {"anotaciones": []})
+    g["anotaciones"] = [a for a in g["anotaciones"] if not str(a.get("anotador", "")).startswith(SIM_TAG)] + anot1 + anot2
+    _jsave(GOLD_PATH, g)
+    for exp, sa in ((SIM_TAG + "·experta-1", 1.0), (SIM_TAG + "·experto-2", 3.0), (SIM_TAG + "·experto-3", round(1/3, 4))):
+        post_ahp({"experto": exp, "saaty": sa})
+    bitacora_log("sistema", "sesion_simulada",
+                 f"{len(anot1)} anotaciones + {len(anot2)} de 2º anotador + 3 juicios AHP simulados (semilla=42). "
+                 "Marcados SIMULADO — NO usar en resultados de tesis.",
+                 refs=["/api/experto/simulacion"], tipo="adaptacion")
+    rep = post_eval_run({})
+    return {"ok": True, "anotaciones": len(anot1), "segundo_anotador": len(anot2), "ahp_expertos": 3,
+            "eval": {"f1": (rep.get("macro") or {}).get("f1"), "n": rep.get("n_anotaciones"),
+                     "kappa": rep.get("kappa"), "apto": rep.get("apto")},
+            "aviso": "Datos marcados SIMULADO — use 'Limpiar simulación' antes de la sesión real."}
 
 # ── A5 · Caracterización de la muestra ───────────────────────────────
 @app.get("/api/adaptativo/muestra", summary="A5 · Caracterización de la muestra de expedientes", tags=["Adaptativo (MAPE-K)"])
