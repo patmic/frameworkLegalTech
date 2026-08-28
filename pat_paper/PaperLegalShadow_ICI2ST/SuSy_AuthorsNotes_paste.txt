@@ -1,0 +1,74 @@
+TEXTO PARA PEGAR EN "Author's Notes to Academic Editor" (SuSy)
+Pegar tal cual en la caja de texto. Está en inglés y cabe en el recuadro.
+====================================================================
+
+Dear Academic Editor,
+
+Thank you for a report that was demanding in the most useful way. All five
+major points identified real weaknesses, and addressing them improved the
+paper: the delimitation requested in 3.3 forced us to state the direction of
+validation precisely, which turned out to be the clearest expression of what
+the contribution is.
+
+Please note one change in the title, which we make explicit so that it is not
+mistaken for an inconsistency between versions:
+
+  Previous: "... for Semantic Validation of Judicial Digital Ecosystems"
+  Revised:  "... for Semantic Validation of LegalTech Ecosystems"
+
+The revised wording places the paper within the LegalTech research line to
+which it belongs and aligns the title with the governance ontology the
+instrument validates against, in which the LegalTech domain is one of the ten
+dimensions. No claim in the paper changes as a consequence.
+
+Summary of the revisions:
+
+- 3.1 External validity. A dedicated block separates what generalises from what
+  does not: the numerical result describes one institution over a one-month
+  window of 17 runs; the diagnostic pattern is stated as a hypothesis only a
+  multi-institutional study can test; only the instrument generalises. A
+  four-step transfer protocol names the one step carrying real cost.
+
+- 3.2 Scoring and mapping. A new subsection states what Gamma is: a versioned,
+  deterministic table of signal-to-class rules, each firing on a syntactic
+  condition re-evaluable on the stored snapshot, with concrete instances. We
+  also clarified that the ontology drives the acquisition, so Gamma is that
+  same rule table read in the opposite direction. onto(d) and Psi(d) are now
+  distinguished by epistemic status, which enables partial replication by a
+  reviewer who rejects our rubric.
+
+- 3.3 Novelty. A new Section 2, "Related Work and Delimitation", with nine new
+  third-party references and a comparison table, positions the work against the
+  three lines you name. The claim is bounded to the scope of that comparison
+  and "to the best of our knowledge" has been removed.
+
+- 3.4 Presentation. A JSON-LD listing shows one real shadow component; a worked
+  example carries the security posture dimension from HTTP evidence to its
+  position on the remediation agenda; the four-versus-ten contrast is now a
+  titled paragraph of its own.
+
+- 3.5 Reflexive finding. Developed along both axes: a methodological
+  measurement floor (coverage is a joint property of the ecosystem and of its
+  publication practices, so a low Psi cannot distinguish weak governance from
+  undisclosed governance) and a concrete publication agenda of three low-cost
+  acts.
+
+- 4 Minor issues. Over-claims removed, terminology fixed on first mention, all
+  figures and tables described in the running text, and the relationship with
+  our previous MALTG work stated as an explicit inventory of what is reused and
+  what is new.
+
+Two points we flag proactively. Our response to 3.1 deliberately weakens rather
+than strengthens several claims about generalisation; we judged a narrow claim
+supported by the evidence preferable to a broad one, but will revisit this if
+you read it differently. The Discussion was consolidated from eight paragraphs
+into five because three restated the reflexive finding and transferability; no
+content was removed.
+
+All artefacts needed to reproduce every figure are openly deposited at Zenodo
+(DOI: 10.5281/zenodo.21942315).
+
+A detailed point-by-point response is attached.
+
+Yours sincerely,
+Patricio M. Paccha-Angamarca, on behalf of all authors

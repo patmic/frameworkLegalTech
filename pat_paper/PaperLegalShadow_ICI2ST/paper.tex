@@ -1,0 +1,353 @@
+%% ============================================================
+%% LegalShadow — ICI2ST 2026 · CONFERENCE VERSION
+%% MDPI Engineering Proceedings · Proceeding Paper · max 8 pages incl. references
+%% Compile: pdflatex paper && bibtex paper && pdflatex paper && pdflatex paper
+%% ============================================================
+\documentclass[engproc,proceedingpaper,submit,moreauthors]{Definitions/mdpi}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepackage{xcolor}
+\newcounter{algo}
+\renewcommand{\thealgo}{\arabic{algo}}
+
+%% ── Colour palette (conceptual diagrams only; shadow data stays grey) ──
+\definecolor{lsBlue}{HTML}{2563EB}
+\definecolor{lsCyan}{HTML}{0891B2}
+\definecolor{lsViolet}{HTML}{7C3AED}
+\definecolor{lsAmber}{HTML}{D97706}
+\definecolor{lsSlate}{HTML}{475569}
+
+%% MDPI internal commands - do not modify
+\firstpage{1}
+\makeatletter
+\setcounter{page}{\@firstpage}
+\makeatother
+\pubvolume{1}
+\issuenum{1}
+\articlenumber{0}
+\pubyear{2026}
+\copyrightyear{2026}
+\datereceived{ }
+\daterevised{ }
+\dateaccepted{ }
+\datepublished{ }
+\doinum{}
+
+%% The provisional DOI placeholder is blanked; the editorial office
+%% assigns the definitive DOI on acceptance.
+\makeatletter
+\renewcommand{\@doinum}{}
+\makeatother
+
+%% ── Title ──────────────────────────────────────────────────
+\Title{LegalShadow: An Ontology-Guided Digital Shadow Architecture via JSON-LD for Automated Semantic Validation of LegalTech Ecosystems}
+
+\newcommand{\orcidauthorA}{0000-0001-6285-7390} % P.M. Paccha-Angamarca
+\newcommand{\orcidauthorB}{0000-0003-2916-0369} % E.J. Sacoto-Cabrera
+\newcommand{\orcidauthorC}{0000-0002-7335-2571} % V.V. Velepucha-Bonett
+
+\Author{
+    Patricio M. Paccha-Angamarca $^{1,2,}$*\orcidA{},
+    Erwin J. Sacoto-Cabrera $^{2}$\orcidB{} and
+    V\'ictor V. Velepucha-Bonett $^{1}$\orcidC{}
+}
+\AuthorNames{
+    Patricio M. Paccha-Angamarca,
+    Erwin J. Sacoto-Cabrera and
+    V\'ictor V. Velepucha-Bonett
+}
+\address{
+    $^{1}$ \quad Software Engineering Creation, Application and Management Group (GI-CreAGSoft),
+    National Polytechnic School, Ladr\'on de Guevara E11-253, Quito 170525, Ecuador;
+    victor.velepucha@epn.edu.ec\\
+    $^{2}$ \quad Cloud Computing, Smart Cities \& High-Performance Computing Group (GIHP4C),
+    Salesian Polytechnic University, Calle Vieja 12-30, Cuenca 010105, Ecuador;
+    esacoto@ups.edu.ec
+}
+\corres{Correspondence: patricio.paccha@epn.edu.ec}
+
+
+%% ── Abstract ───────────────────────────────────────────────
+\abstract{Judicial digital transformation produces heterogeneous ecosystems whose governance maturity is rarely auditable in an automated, reproducible and semantically grounded way. We present \emph{LegalShadow}, an ontology-guided digital shadow architecture that builds a JSON-LD structural representation of a judicial institution's public digital ecosystem from read-only web evidence and validates it against a multi-standard governance ontology (TOGAF, COBIT, ITIL, NIST CSF, artificial intelligence, distributed ledger technology, open data, security, interoperability and a LegalTech domain). A hierarchical coverage function $\Psi$ measures how much of each ontological dimension the shadow materialises, and a gap function $\delta$ orders remediation. A containerised implementation was exercised on the Ecuadorian Judiciary Council over 17 dated runs (2 July--4 August 2026; 187 read-only requests, 170 snapshots re-verified by SHA-256 with 0 mismatches). The shadow (34 components, 32 flows, 7 layers) yields a declarative maturity index of 46/100 (Level 3), yet semantic coverage reaches only $\Psi_{\mathrm{global}}=34.9\%$, against $90.5\%$ for a synthetic control. Three dimensions have zero coverage. The gap between declared digitalisation and machine-actionable governance is the central finding.}
+
+\keyword{digital shadow; ontology; JSON-LD; LegalTech; e-government; open judicial data; digital maturity}
+
+\begin{document}
+
+%% ============================================================
+\section{Introduction}
+\label{sec:intro}
+
+Judicial systems are digitalising rapidly, combining institutional portals, case management systems and statistical repositories into ecosystems where modern single-page applications, generic content managers and legacy applications coexist with uneven interoperability. E-justice research documents specific risk factors---organisational complexity, vendor dependence, fragmentation---that hinder governance \cite{Rosa2013}, while open government data studies report a persistent gap between nominal publication and effective machine-readable reuse \cite{Janssen2012,Attard2015}.
+
+Cyber-physical systems engineering offers a suitable abstraction. Kritzinger et al.\ distinguish digital model, digital shadow and digital twin by the automation of the information flow between object and virtual counterpart \cite{Kritzinger2018}: in the \emph{digital shadow} the real-to-virtual flow is automatic while feedback stays under human control. This is exactly the right configuration for the judicial domain, where acting on public institutional infrastructure is a state competence and automatic intervention would be improper; the artefact's value lies in observation and diagnosis. The paradigm has expanded from manufacturing \cite{Tao2019} to cities and public services \cite{Shahat2021,Brauner2022}, and Sepasgozar warns that conflating twin and shadow delays adoption \cite{Sepasgozar2021}. Crucially, the systematic review of Karabulut et al.\ finds no established method to \emph{verify} that a twin actually materialises its semantic model \cite{Karabulut2024}. The legal domain, in turn, has a mature tradition in knowledge representation \cite{Casanovas2016} and judicial decision prediction \cite{Medvedeva2020}, but both presuppose accessible structured data.
+
+To the best of our systematic comparison of the works reviewed above, no reported architecture simultaneously (i) builds a structural digital shadow of a judicial technological ecosystem automatically from public web evidence, (ii) serialises it as a JSON-LD knowledge graph anchored to a governance ontology, and (iii) validates that anchoring through a hierarchical coverage metric. Accordingly, this paper contributes: \textbf{(C1)} the LegalShadow reference architecture and its coverage/gap model $\langle\Psi,\delta\rangle$; \textbf{(C2)} an auditable, non-invasive acquisition protocol with per-snapshot cryptographic provenance, specified as an executable procedure (Algorithm~\ref{alg:sds}); and \textbf{(C3)} an empirical study of the Ecuadorian Judiciary Council over 17 dated runs that quantifies the distance between declared digitalisation and machine-actionable governance, with a synthetic control isolating instrument effects from ecosystem effects.
+
+%% ============================================================
+\section{Formal Model}
+\label{sec:formal}
+
+The model answers one question with arithmetic instead of opinion: \emph{how much of what the governance standards prescribe can actually be seen in the institution's digital surface?} The ontology $\Omega=\langle C,P,I,\sigma\rangle$ states what should exist---classes $C$ carrying a maturity score $\sigma:C\to[0,100]$ assigned against the published rubric of Section~\ref{sec:results}; the shadow $\Delta=G(V,E,\lambda)$ records what was observed---components $V$, flows $E$, labels $\lambda$ carrying layer, evidence and metadata; and the anchoring $\Gamma:V\to 2^{C}$ links the two through the \texttt{maltg:mapsTo} property. The measurement then reduces to three steps.
+
+\textbf{Step 1---what did we actually see?} Each component declares which ontology classes it materialises, so the classes evidenced anywhere in the ecosystem are the union of those declarations:
+\begin{equation}
+R \;=\; \bigcup_{v \in V} \Gamma(v) \;\subseteq\; C .
+\label{eq:coverage-set}
+\end{equation}
+
+\textbf{Step 2---how much of a dimension is there?} A governance dimension $d$ is not a flat list: it has a \emph{root} concept $r_d$ (the framework itself, e.g.\ \texttt{ITIL}) and \emph{subconcepts} $S_d$ that make it concrete (e.g.\ incident management). Naming a framework without operationalising it differs from the converse, so the two parts are scored separately and added:
+\begin{equation}
+\Psi(d) \;=\; \underbrace{w_r \cdot \mathbb{1}\!\left[\, r_d \in R \,\right]}_{\text{is the framework there at all?}} \;+\; \underbrace{w_s \cdot \frac{\lvert S_d \cap R \rvert}{\lvert S_d \rvert}}_{\text{how much of its detail is there?}}\;\in\;[0,1],
+\label{eq:psi}
+\end{equation}
+with $w_r+w_s=1$. In plain terms, with the default $(w_r,w_s)=(0.40,\,0.60)$: \emph{40\% for showing up, 60\% for the substance}. Two consequences matter. Publishing more evidence can never lower the score, since both terms grow with $R$; and $\Psi(d)=1$ requires root \emph{and} every subconcept, so a perfect score is unreachable by declaration alone. The weights admit calibration by the analytic hierarchy process \cite{Saaty1990}---not performed here---and the conclusions do not depend on them: sweeping $w_r\in[0.10,0.90]$ moves the global score only from 26.9 to 23.9 and leaves the top of the remediation agenda unchanged.
+
+\textbf{Step 3---what is that worth, and what should be fixed first?} With $\mathrm{onto}(d)$ the maturity the ontology prescribes (the mean expert score of its classes), what the shadow delivers is that prescription discounted by visibility, and the gap is the remainder:
+\begin{equation}
+\mathrm{sds}(d) \;=\; \mathrm{onto}(d)\cdot\Psi(d),
+\qquad
+\delta(d) \;=\; \mathrm{onto}(d)\,\bigl(1-\Psi(d)\bigr).
+\label{eq:delta}
+\end{equation}
+A dimension becomes a priority only when it is \emph{both} important (high $\mathrm{onto}$) \emph{and} poorly evidenced (low $\Psi$), so sorting by $\delta$ yields the remediation agenda directly. Aggregating with dimension weights $\omega_d$ summing to one---a simple mean, since no expert panel was convened---gives the headline figure
+\begin{equation}
+\Psi_{\mathrm{global}}=\frac{\mathrm{SDS}_{\mathrm{global}}}{\mathrm{Onto}_{\mathrm{global}}}=\frac{\sum_d \omega_d\,\mathrm{sds}(d)}{\sum_d \omega_d\,\mathrm{onto}(d)}.
+\label{eq:global}
+\end{equation} The institutional index is read through a five-level step function $L$ (1~Initial 0--20, 2~In transition 21--40, 3~Defined 41--60, 4~Managed 61--80, 5~Optimised 81--100), analogous to IT governance maturity models \cite{DeHaes2013}. The \emph{coverage-scoring stage} is linear: computing $R$ costs $O(|V|\cdot k)$, with $k$ the mean number of anchors per component, and evaluating Equations~\eqref{eq:psi}--\eqref{eq:global} costs $O(\sum_d|S_d|)$. Ontology parsing and graph construction dominate the remaining cost and are performed once per ingestion; we therefore claim linearity for the scoring stage, not for the pipeline as a whole.
+
+Figure~\ref{fig:psiexample} carries three real dimensions of the observed institution through the arithmetic, chosen because they exhibit the three qualitatively distinct outcomes. \emph{Open data} is fully covered ($\Psi=0.40\cdot 1+0.60\cdot\frac{4}{4}=1.00$). \emph{TOGAF} is partially covered: root absent, two of six subconcepts present ($\Psi=0.20$)---the institution exposes technology-architecture artefacts without an architecture practice around them. \emph{ITIL} is absent altogether ($\Psi=0$), losing all 79.5 points. A single scalar would report TOGAF and ITIL as ``both weak''; $\Psi$ distinguishes an incomplete practice from a missing one, and those call for different remediation.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.92, transform shape,
+  root/.style={draw, thick, rounded corners=3pt, minimum width=2.25cm, minimum height=0.58cm, font=\scriptsize, align=center},
+  sub/.style={draw, rounded corners=2pt, minimum width=0.50cm, minimum height=0.40cm, font=\tiny},
+  on/.style={fill=black!45, draw=black!70},
+  off/.style={fill=white, draw=black!45, densely dashed},
+  ttl/.style={font=\scriptsize\bfseries},
+  res/.style={font=\scriptsize}]
+\node[ttl] at (0,1.30) {Open data};
+\node[root, on] at (0,0.72) {\texttt{OpenData\_Layer}};
+\foreach \i in {0,1,2,3}{\node[sub, on] at ($(-0.84,0)+(\i*0.56,0)$) {};}
+\node[res, align=center] at (0,-0.60) {$\Psi=0.40(1)+0.60\tfrac{4}{4}$\\[1pt] $=\mathbf{1.00}$ \quad $\delta=0.0$};
+
+\node[ttl] at (4.6,1.30) {Governance (TOGAF)};
+\node[root, off] at (4.6,0.72) {\texttt{TOGAF}};
+\foreach \i/\s in {0/on,1/on,2/off,3/off,4/off,5/off}{\node[sub, \s] at ($(3.20,0)+(\i*0.56,0)$) {};}
+\node[res, align=center] at (4.6,-0.60) {$\Psi=0.40(0)+0.60\tfrac{2}{6}$\\[1pt] $=\mathbf{0.20}$ \quad $\delta=48.2$};
+
+\node[ttl] at (9.2,1.30) {Service mgmt (ITIL)};
+\node[root, off] at (9.2,0.72) {\texttt{ITIL}};
+\foreach \i in {0,1,2,3,4}{\node[sub, off] at ($(8.08,0)+(\i*0.56,0)$) {};}
+\node[res, align=center] at (9.2,-0.60) {$\Psi=0.40(0)+0.60\tfrac{0}{5}$\\[1pt] $=\mathbf{0.00}$ \quad $\delta=79.5$};
+
+\node[font=\tiny] at (4.6,-1.38) {%
+  \tikz\node[sub,on]{};~evidenced in $R$ (lit) \quad
+  \tikz\node[sub,off]{};~not evidenced (dim) \quad
+  upper box $=$ root $r_d$; lower row $=$ subconcepts $S_d$};
+\end{tikzpicture}
+\caption{The coverage function on three real dimensions. Filled nodes are concepts evidenced by at least one shadow component; hollow dashed nodes are prescribed but unobserved.\label{fig:psiexample}}
+\end{figure}
+
+%% ============================================================
+\section{Architecture and Acquisition}
+\label{sec:arch}
+
+LegalShadow is organised in four decoupled layers deployed as Docker containers: \textbf{acquisition}, which runs the web observation protocol; \textbf{semantic}, holding $\Omega$ in OWL~2 and producing $\Delta$ in JSON-LD; \textbf{validation}, computing $\Psi$, $\delta$ and $L$; and \textbf{presentation}, exposing a REST API and an interactive three-dimensional graph. The flow is unidirectional from the observed ecosystem to presentation---the architectural translation of the artefact's \emph{shadow} rather than twin character \cite{Kritzinger2018,Sepasgozar2021}. The evaluation cycle follows the MAPE-K loop of autonomic computing \cite{Kephart2003}, with the deliberate caveat that execution is restricted to recommendations: closing the loop on the observed system is the institution's prerogative.
+
+\textbf{Acquisition protocol.} The module issues read-only HTTP probes against public targets declared in a versioned seed file. Following the ethical and legal recommendations of the literature \cite{Krotov2020}, the agent identifies itself with an explicit \emph{User-Agent} stating its purpose, accesses only unauthenticated public resources, submits no forms and performs no writes, caps each response at 400~KB with a 10--12~s timeout, and records every capture with a UTC timestamp and SHA-256 checksum. Runs, verifications and methodological decisions are written to an append-only hash-chained ledger, so a third party can re-execute the capture at a new cut-off date, verify that cited snapshots were not altered, and audit the chronology. Deterministic \emph{signals} are then computed from the markup: generating technology, legacy links (JSF/PHP), SPA confirmation, references to open data and integrity policies, and---crucially---presence of embedded structured data (JSON-LD/\texttt{schema.org} \cite{Guha2016}) and of a documented public API.
+
+\textbf{Semantic projection.} Signals are projected into a JSON-LD instance whose \texttt{@context} reuses standard vocabularies (Dublin Core, SKOS, Schema.org) and defines the \texttt{maltg:} namespace for governance terms. JSON-LD was chosen for its native fit with web development \cite{Guha2016}, its gateway status into linked data \cite{Bizer2009} and its alignment with FAIR interoperability \cite{Wilkinson2016}. Each component is serialised with its layer, evidence (URL, status, size, latency), findings, gaps and anchoring $\Gamma$, turning the shadow into a queryable knowledge subgraph \cite{Hogan2021}.
+
+\textbf{The GET-SDS console} (Figure~\ref{fig:getsds}) implements the acquisition experiment. It takes a configurable target URL, runs the protocol, and renders $\Omega$ as a three-dimensional star field where each class is a star and each governance cluster a named constellation. The field starts uniformly dim; the scan lights only classes for which evidence was found, making $\Gamma$ and the coverage set $R$ of Equation~\eqref{eq:coverage-set} directly observable. Because the target URL is a parameter rather than a constant, the same console runs unchanged on any institution.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.86, transform shape,
+  stg/.style={draw=lsBlue!70!black, rounded corners=2pt, minimum width=1.66cm, minimum height=0.72cm, align=center, font=\scriptsize, fill=lsBlue!12},
+  arr/.style={-{Stealth[length=2.2mm]}, thick, lsBlue!75!black},
+  lit/.style={circle, fill=lsAmber, draw=lsAmber!60!black, inner sep=0pt, minimum size=2.6pt},
+  dim/.style={circle, fill=white, draw=lsSlate!55, inner sep=0pt, minimum size=2.4pt},
+  cst/.style={font=\tiny, text=lsSlate}]
+\node[stg] (s0) at (0,0)    {Target URL\\\scriptsize(parameter)};
+\node[stg] (s1) at (1.90,0) {Read-only\\HTTP probe};
+\node[stg] (s2) at (3.80,0) {Snapshot\\+ SHA-256};
+\node[stg] (s3) at (5.70,0) {Signal\\extraction};
+\node[stg, draw=lsCyan!70!black, fill=lsCyan!14] (s4) at (7.60,0) {JSON-LD\\projection};
+\node[stg, draw=lsViolet!70!black, fill=lsViolet!14] (s5) at (9.50,0) {Anchoring $\Gamma$\\$\rightarrow R$};
+\foreach \a/\b in {s0/s1,s1/s2,s2/s3,s3/s4,s4/s5}{\draw[arr] (\a) -- (\b);}
+\node[font=\tiny, text=lsSlate, anchor=north] at (4.75,-0.55)
+  {identified agent $\cdot$ no writes $\cdot$ 400\,KB cap $\cdot$ append-only hash-chained ledger};
+\node[font=\scriptsize\bfseries, anchor=west] at (-1.85,0) {(\textbf{a})};
+
+\begin{scope}[shift={(4.75,-3.25)}]
+\draw[lsSlate!35] (0,0) circle (1.92);
+\draw[lsSlate!22] (0,0) ellipse (1.92 and 0.66);
+\draw[lsSlate!22] (0,0) ellipse (0.66 and 1.92);
+\draw[lsSlate!18] (0,0) ellipse (1.36 and 1.92);
+\node[circle, fill=lsCyan, draw=lsCyan!60!black, inner sep=0pt, minimum size=6pt] at (0,0) {};
+\node[font=\tiny, text=lsCyan!60!black, anchor=west] at (0.16,0.05) {Ontology core};
+\foreach \x/\y in {-0.28/-1.52, 0.02/-1.63, 0.32/-1.50, -0.11/-1.33, 0.47/-1.29, 0.68/-1.50}{\node[lit] at (\x,\y) {};}
+\node[cst, anchor=north] at (0.2,-1.73) {Open Data};
+\foreach \x/\y in {1.24/-0.68, 1.48/-0.49, 1.35/-0.26, 1.59/-0.81}{\node[lit] at (\x,\y) {};}
+\node[cst, anchor=west] at (1.69,-0.52) {Interop.};
+\foreach \x/\y in {0.96/1.14, 1.20/0.96, 1.37/1.18, 1.07/1.39, 0.81/0.96}{\node[lit] at (\x,\y) {};}
+\node[cst, anchor=west] at (1.46,1.14) {LegalTech};
+\foreach \x/\y in {-1.42/0.86, -1.22/1.07, -1.57/1.09, -1.35/1.27}{\node[dim] at (\x,\y) {};}
+\node[cst, anchor=east] at (-1.65,1.07) {TOGAF};
+\foreach \x/\y in {-1.67/0.15, -1.50/-0.06, -1.74/-0.26, -1.52/0.37, -1.31/-0.19}{\node[dim] at (\x,\y) {};}
+\node[cst, anchor=east] at (-1.84,0.06) {ITIL};
+\foreach \x/\y in {-1.12/-1.01, -1.35/-0.81, -0.96/-1.24, -1.29/-1.22, -0.90/-0.86}{\node[dim] at (\x,\y) {};}
+\node[cst, anchor=east] at (-1.44,-1.09) {COBIT};
+\foreach \x/\y in {-0.22/1.57, 0.06/1.71, 0.30/1.52, -0.02/1.39}{\node[dim] at (\x,\y) {};}
+\node[cst, anchor=south] at (0.05,1.80) {NIST CSF};
+\foreach \x/\y in {0.68/-0.99, 0.88/-0.79, 0.56/-0.73, 0.94/-1.14}{\node[dim] at (\x,\y) {};}
+\node[cst, anchor=west] at (1.03,-0.96) {AI};
+\foreach \x/\y in {-0.68/0.64, -0.49/0.86, -0.82/0.94}{\node[dim] at (\x,\y) {};}
+\node[cst, anchor=east] at (-0.92,0.81) {DLT};
+\foreach \p in {(0.2,-1.45),(1.4,-0.52),(1.13,1.12),(-1.36,1.07),(-1.59,0.09),(-1.12,-1.03),(0.03,1.55),(0.77,-0.92),(-0.66,0.81)}
+  {\draw[lsSlate!25] (0,0) -- \p;}
+\end{scope}
+\node[font=\scriptsize\bfseries, anchor=west] at (-1.85,-3.25) {(\textbf{b})};
+\node[font=\tiny, text=lsSlate, anchor=north, align=center] at (4.75,-5.42)
+  {\tikz\node[lit]{};~lit: class evidenced, $\in R$ \qquad \tikz\node[dim]{};~dim: prescribed by $\Omega$, unobserved\\[1pt]
+   observed institution: 50 of 131 classes lit (38.2\%), 144 relations};
+\end{tikzpicture}
+\caption{The GET-SDS acquisition process. (\textbf{a}) Non-invasive pipeline, from a parameterised target URL to the coverage set $R$. (\textbf{b}) The ontology as a celestial sphere: each class a star, each governance cluster a constellation. Open data, interoperability and LegalTech light up; TOGAF, COBIT, ITIL, NIST CSF, AI and DLT remain dim.\label{fig:getsds}}
+\end{figure}
+
+Algorithm~\ref{alg:sds} states the procedure executed on every run, so that a third party can re-run it at a new cut-off date and compare artefacts.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{\textwidth}
+\small
+\refstepcounter{algo}\label{alg:sds}%
+\rule{\textwidth}{0.6pt}\\[2pt]
+\textbf{Algorithm \thealgo:} Digital shadow generation and semantic validation\\[-6pt]
+\rule{\textwidth}{0.4pt}
+\begin{tabbing}
+xx\=xx\=\kill
+\textbf{Input:} seed targets $T$; ontology $\Omega$; dimensions $D$; weights $(w_r,w_s)$\\
+\textbf{Output:} shadow $\Delta$; coverage set $R$; per-dimension $\Psi,\mathrm{sds},\delta$; index $L$\\[2pt]
+1.\> \textbf{for each} $\tau\in T$: fetch $\tau$ read-only (identified agent, 400\,KB cap);\\
+\> store snapshot, record URL, UTC timestamp, bytes, latency and SHA-256 in the manifest\\
+2.\> verify integrity: re-hash each snapshot, abort on mismatch, append the run to the ledger\\
+3.\> extract deterministic signals from the markup (generator, legacy links, JSON-LD, API)\\
+4.\> project signals into $\Delta=G(V,E,\lambda)$ and serialise as JSON-LD with the \texttt{@context} of $\Omega$\\
+5.\> \textbf{for each} $v\in V$: resolve $\Gamma(v)\subseteq C$ via \texttt{maltg:mapsTo}; reject dangling identifiers\\
+6.\> $R \leftarrow \bigcup_{v\in V}\Gamma(v)$\hfill\textit{// Eq.~\eqref{eq:coverage-set}}\\
+7.\> \textbf{for each} $d\in D$: $\Psi(d)\leftarrow$ Eq.~\eqref{eq:psi}; then $\mathrm{sds}(d)$ and $\delta(d)$ by Eq.~\eqref{eq:delta}\\
+8.\> aggregate to $\Psi_{\mathrm{global}}$ (Eq.~\eqref{eq:global}); $L\leftarrow$ band; sort $D$ by $\delta$ descending\\
+9.\> persist the dated artefact with the ontology and shadow digests
+\end{tabbing}
+\vspace{-6pt}\rule{\textwidth}{0.6pt}
+\end{minipage}
+\end{figure}
+
+%% ============================================================
+\section{Case Study and Results}
+\label{sec:results}
+
+The study applies LegalShadow to the public digital ecosystem of the Ecuadorian Judiciary Council (\texttt{funcionjudicial\-.gob\-.ec}) and validates the resulting shadow against the full ontology (131 classes, 144 relations, 14 cross-cutting), contrasted with a synthetic control shadow of 39 components built to saturate the engine.
+
+\textbf{Scoring protocol.} The ontological scores $\sigma$ were not elicited ad hoc. Each of the ten dimensions has a versioned rubric fixing five observable levels (0, 25, 50, 75, 100) with explicit criteria---for TOGAF, for instance, level~50 requires the BDAT domains to be identified with named owners, and level~75 requires an operating ADM cycle with an architecture repository. A score with no associated evidence is flagged \emph{declared} rather than \emph{observed}, which is precisely what separates the declarative index of the next paragraph from the coverage figure that follows it. The rubric, the seed sources and the evidence manifests are versioned alongside the shadows, so the coding is auditable; it was, however, applied by the authors rather than by an independent panel (Section~\ref{sec:conclusions}).
+
+\textbf{Evidence corpus.} Over 17 dated runs between 2 July and 4 August 2026 the module issued 187 read-only requests, of which 170 succeeded (90.9\%). Re-hashing every stored snapshot against its manifest yields \textbf{170 matches and 0 mismatches}: full integrity of the evidence base. The ledger holds 37 chained entries from \texttt{GENESIS} to head \texttt{6c7d2847932a606f}. Latencies (median 788.5~ms, p95 954.4~ms, range 67--2810~ms) confirm the probe imposes negligible load, a design requirement of the ethical protocol \cite{Krotov2020}.
+
+\textbf{Institutional shadow and declarative maturity.} The shadow from the 4 August run contains \textbf{34 components, 32 flows and 7 architectural layers} anchored to 11 seed sources, with anchoring \emph{total and referentially closed}: every component carries at least one anchor (mean 2.00, maximum 4) and all 50 distinct references resolve to existing ontology classes, with zero dangling identifiers. Signals show a modern portal on a generic content manager still surfacing 16 legacy links (6 JSF, 10 PHP), a confirmed case-consultation SPA with no documented public API, and the total absence of embedded JSON-LD despite declarative references to open data policies---exactly the gap between nominal publication and effective reuse reported in the open government literature \cite{Janssen2012,Attard2015}. The four-dimension assessment gives a global index of \textbf{46/100}, which $L$ places at Level 3 (``Defined''): data and semantic interoperability 28, integration architecture 42, declared transformation 55, regulatory compliance 58. The index was stable across all five regenerated shadows in the series, the only signal drift being the legacy PHP count (13~$\rightarrow$~10 between 5 and 30 July), attributable to content editing on the observed portal.
+
+\textbf{Ten-dimension semantic validation.} Applying the engine of Section~\ref{sec:formal} to the same real shadow (Table~\ref{tab:validation}, Figure~\ref{fig:gaps}) gives $\Psi_{\mathrm{global}}=25.8/73.9=\mathbf{0.349}$: the shadow materialises only 34.9\% of the maturity the ontology prescribes, leaving an aggregate gap of 48.1 points (65.1\%). The synthetic control reaches $\Psi_{\mathrm{global}}=66.9/73.9=90.5\%$ with a residual gap of 7.0, confirming that the low real coverage is a property of the observed ecosystem, not an artefact of the engine.
+
+A result visible only through the shared apparatus is that both shadows light almost the same number of stars---50 of 131 for the real shadow against 51 for the control---yet their global coverage differs by a factor of 2.6. Coverage \emph{breadth} is not what $\Psi$ measures: \emph{which} concepts are anchored matters far more than how many. The control spreads its 51 anchors across all ten dimensions; the real ecosystem concentrates its 50 in open data, interoperability and LegalTech, leaving whole dimensions untouched. A naive count of evidenced nodes would have rated the two artefacts equivalent.
+
+Three dimensions have \emph{zero} coverage because neither root nor subconcepts appear in $R$: service management (ITIL, $\delta=79.5$), control (COBIT, $\delta=62.7$) and distributed ledger ($\delta=52.4$). The single largest gap is AI integration ($\delta=82.4$), where a high ontological score (96.9) is almost entirely unrealised. Conversely open data attains full coverage and interoperability 0.85, reflecting genuine participation in the national open data catalogue. This is the central contrast: an institution self-reporting a ``Defined'' maturity of 46/100 on declarative dimensions materialises barely a third of the governance semantics that the same frameworks prescribe.
+
+\begin{table}[H]
+\small
+\caption{Hierarchical coverage validation of the real institutional shadow, $(w_r,w_s)=(0.40,\,0.60)$. The last column reports the synthetic control for the same dimension.\label{tab:validation}}
+\begin{tabularx}{\textwidth}{Xcccccc}
+\toprule
+\textbf{Dimension} & $\mathbf{onto(d)}$ & \textbf{Root} & $\mathbf{\Psi(d)}$ & $\mathbf{sds(d)}$ & $\boldsymbol{\delta}\mathbf{(d)}$ & $\mathbf{\Psi}$ \textbf{ctrl}\\
+\midrule
+AI integration            & 96.9 & No  & 0.15 & 14.5 & \textbf{82.4} & 0.85\\
+Service management (ITIL) & 79.5 & No  & 0.00 & 0.0  & \textbf{79.5} & 1.00\\
+Resilience (NIST CSF)     & 72.0 & No  & 0.12 & 8.6  & 63.4 & 1.00\\
+Control (COBIT)           & 62.7 & No  & 0.00 & 0.0  & 62.7 & 1.00\\
+Security posture          & 80.4 & No  & 0.30 & 24.1 & 56.3 & 1.00\\
+Distributed ledger        & 52.4 & No  & 0.00 & 0.0  & 52.4 & 0.85\\
+Governance (TOGAF)        & 60.3 & No  & 0.20 & 12.1 & 48.2 & 0.70\\
+LegalTech domain          & 75.5 & Yes & 0.67 & 50.8 & 24.7 & 0.60\\
+Interoperability          & 81.2 & Yes & 0.85 & 69.0 & 12.2 & 1.00\\
+Open data                 & 78.5 & Yes & 1.00 & 78.5 & 0.0  & 1.00\\
+\midrule
+\textbf{Global (simple mean)} & \textbf{73.9} & 3/10 & \textbf{0.349} & \textbf{25.8} & \textbf{48.1} & \textbf{0.905}\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  ybar,
+  width=\textwidth, height=5.4cm,
+  bar width=5pt,
+  ymin=0, ymax=112,
+  ylabel={Score (0--100)},
+  ylabel style={font=\scriptsize},
+  symbolic x coords={AI,ITIL,NIST,COBIT,Security,DLT,TOGAF,LegalTech,Interop.,Open data},
+  xtick=data,
+  x tick label style={rotate=30, anchor=east, font=\scriptsize},
+  ytick={0,20,40,60,80,100},
+  yticklabel style={font=\scriptsize},
+  legend style={font=\scriptsize, at={(0.5,1.02)}, anchor=south, legend columns=3, draw=none},
+  ymajorgrids, major grid style={black!20},
+]
+\addplot+[draw=lsBlue!80!black, fill=lsBlue!35] coordinates
+  {(AI,96.9) (ITIL,79.5) (NIST,72.0) (COBIT,62.7) (Security,80.4) (DLT,52.4) (TOGAF,60.3) (LegalTech,75.5) (Interop.,81.2) (Open data,78.5)};
+\addplot+[draw=black, fill=black!62] coordinates
+  {(AI,14.5) (ITIL,0) (NIST,8.6) (COBIT,0) (Security,24.1) (DLT,0) (TOGAF,12.1) (LegalTech,50.8) (Interop.,69.0) (Open data,78.5)};
+\addplot[sharp plot, very thick, dashed, black, mark=*, mark size=1.2pt] coordinates
+  {(AI,82.4) (ITIL,79.5) (NIST,63.4) (COBIT,62.7) (Security,56.3) (DLT,52.4) (TOGAF,48.2) (LegalTech,24.7) (Interop.,12.2) (Open data,0)};
+\legend{$\mathrm{onto}(d)$ ontology, $\mathrm{sds}(d)$ observed shadow, $\delta(d)$ gap}
+\end{axis}
+\end{tikzpicture}
+\caption{Ontological versus effective maturity of the real institutional shadow, ordered by decreasing gap. The dashed line traces $\delta(d)$ and constitutes the remediation agenda.\label{fig:gaps}}
+\end{figure}
+
+%% ============================================================
+\section{Discussion and Conclusions}
+\label{sec:conclusions}
+
+\textbf{Declarative maturity is not machine-actionable governance.} On its own declarative dimensions the institution scores 46/100, a figure a conventional assessment would report as reasonable progress. Evaluated against the semantics of the very frameworks it invokes, its observable ecosystem materialises 34.9\%, with three of ten dimensions at zero anchored concepts. The instrument separates what an institution \emph{declares} from what its digital surface \emph{exposes in machine-processable form}---quantities that maturity questionnaires conflate.
+
+\textbf{A reflexive finding.} The most deficient signal is precisely the absence of JSON-LD and of a public API: the observed institution lacks the very instrument---structured data---that the digital shadow uses to represent it. Adopting semantic markup would, besides improving findability \cite{Guha2016}, directly lift the weakest dimension and let third parties build value-added services on judicial data \cite{Attard2015,Wilkinson2016}.
+
+\textbf{Contribution to an open problem.} Karabulut et al.\ note the absence of methods to verify that a twin materialises its semantic model \cite{Karabulut2024}. $\Psi$ offers an operational answer: computable in linear time, bounded, monotone, and interpretable dimension by dimension, it enables continuous audits of ontology--artefact alignment, and its root/subconcept decomposition localises the deficit---distinguishing ITIL (entirely absent) from interoperability (merely incomplete), a distinction no scalar score can express.
+
+\textbf{Limitations.} The shadow observes only the \emph{public surface}: scores are \emph{observable} maturity, a lower bound on real maturity, and dimensions such as ITIL or COBIT may operate internally without public trace, so their zero coverage measures published evidence rather than practice. The ontological scores $\sigma$ were assigned by the authors against the versioned rubric rather than elicited from an independent panel; no Delphi round, content-validity ratio \cite{Lawshe1975} or inter-rater agreement has yet been computed, so $\mathrm{onto}(d)$---and therefore the absolute value of $\delta$---carries unquantified judgement. The sensitivity sweep bounds the effect of $(w_r,w_s)$ but not that of $\sigma$. Aggregation uses a simple mean. External validity is limited to one institution studied in depth. Signal detection depends on portal markup stability; the cryptographic record attenuates, without eliminating, observer drift.
+
+\textbf{Conclusions and future work.} LegalShadow instantiates the digital shadow paradigm over a judicial technological ecosystem with three distinctive properties: automatic generation from public web evidence with cryptographically verifiable provenance, semantic grounding in a multi-standard governance ontology serialised in JSON-LD, and quantitative validation through $\Psi$ and $\delta$. Nothing in the architecture is country-specific---the ontology encodes international frameworks, the protocol runs over standard HTTP, the context reuses global vocabularies---so dated shadows per institution enable longitudinal and cross-sectional comparison, extending to justice the logic of comparable urban twins \cite{Shahat2021}. Future work targets multi-institutional studies with full $\Psi/\delta$ evaluation per institution, assisted loop closure preserving human decision under MAPE-K \cite{Kephart2003}, automatic ontology alignment to enrich $\Gamma$ \cite{Hogan2021}, and a behavioural dimension built on procedural performance indicators \cite{Medvedeva2020}.
+
+\vspace{6pt}
+
+\authorcontributions{Conceptualisation, methodology, software, validation and writing---original draft, P.M.P.-A.; supervision, formal analysis and writing---review and editing, E.J.S.-C. and V.V.V.-B. All authors have read and agreed to the published version of the manuscript.}
+
+\funding{This research received no external funding.}
+
+\dataavailability{The LegalShadow source code, the OWL ontology, the dated JSON-LD shadows and the SHA-256 evidence manifests are available from the corresponding author on request. Observed data originate from public resources of the Ecuadorian Judiciary Council.}
+
+\conflictsofinterest{The authors declare no conflicts of interest.}
+
+%% ============================================================
+\begin{adjustwidth}{-\extralength}{0cm}
+\reftitle{References}
+\bibliography{references}
+\end{adjustwidth}
+
+\end{document}

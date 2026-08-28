@@ -1,0 +1,234 @@
+%% ============================================================
+%%  Response to Reviewer 1 — MDPI template structure, LaTeX version
+%%  engproc-4523067 · Engineering Proceedings · ICI2ST 2026
+%%  Standalone: compile with pdflatex (two passes).
+%%  AUTOR: completar la columna "Reviewer's Evaluation" con las
+%%         valoraciones que figuran en Peer Review Reports (SuSy).
+%% ============================================================
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage[left=2.0cm,right=2.0cm,top=1.9cm,bottom=1.9cm]{geometry}
+\usepackage{microtype}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage[hidelinks]{hyperref}
+
+%% ── Paleta ───────────────────────────────────────────────────
+\definecolor{mdpiblue}{HTML}{1F4E79}
+\definecolor{hdrbg}{HTML}{EEF2F7}
+\definecolor{cmtbg}{HTML}{F5F5F5}
+\definecolor{cmtrule}{HTML}{9AA5B1}
+\definecolor{revred}{HTML}{C00000}
+\definecolor{notegrey}{HTML}{5A6672}
+
+\newcommand{\rev}[1]{\textcolor{revred}{#1}}
+\newcommand{\shead}[1]{\vspace{8pt}\noindent{\color{mdpiblue}\large\bfseries #1}\par\vspace{3pt}\hrule height 0.7pt\vspace{6pt}}
+
+\newenvironment{revcomment}
+  {\begin{mdframed}[backgroundcolor=cmtbg, linecolor=cmtrule, linewidth=0.5pt,
+     innertopmargin=5pt, innerbottommargin=5pt, innerleftmargin=7pt,
+     innerrightmargin=7pt, skipabove=5pt, skipbelow=5pt]\small\itshape}
+  {\end{mdframed}}
+
+\newcommand{\cmt}[2]{\noindent\textbf{Comments #1:}\begin{revcomment}#2\end{revcomment}}
+\newcommand{\rsp}[1]{\noindent\textbf{Response #1:}\ }
+
+\setlist[itemize]{leftmargin=1.3em, itemsep=2pt, topsep=3pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+
+\pagestyle{fancy}\fancyhf{}
+\renewcommand{\headrulewidth}{0.4pt}
+\lhead{\footnotesize Response to Reviewer 1 --- \texttt{engproc-4523067}}
+\rhead{\footnotesize\thepage}
+
+\begin{document}
+
+%% ============================================================
+%%  ENCABEZADO — metadatos del manuscrito según SuSy
+%% ============================================================
+\begin{center}
+{\color{mdpiblue}\Large\bfseries Engineering Proceedings}\\[2pt]
+{\small MDPI --- ISSN 2673-4591}
+\end{center}
+
+\vspace{2pt}
+\noindent\colorbox{hdrbg}{%
+\begin{minipage}{\dimexpr\textwidth-2\fboxsep}
+\vspace{3pt}
+\small
+\begin{tabularx}{\linewidth}{@{}>{\raggedleft\bfseries}p{3.5cm}@{\hspace{8pt}}X@{}}
+Manuscript ID      & \texttt{engproc-4523067}\\
+Type               & Proceeding Paper\\
+Journal            & Engineering Proceedings\\
+Proceeding Name    & ICI2ST 2026\\
+Assigned Editor    & Qingjuan Yang\\
+Manuscript Status  & Pending major revision\\
+Submission Received& 09 August 2026\\
+Cover Letter       & \texttt{coverletter.v2.pdf}\\
+\end{tabularx}
+\vspace{4pt}
+\end{minipage}}
+
+\vspace{6pt}
+\noindent\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedleft\bfseries}p{3.5cm}@{\hspace{8pt}}X@{}}
+Title (as recorded) & LegalShadow: An Ontology-Guided Digital Shadow Architecture for Semantic Validation of Judicial Digital Ecosystems\\[3pt]
+Revised title       & \rev{LegalShadow: An Ontology-Guided Digital Shadow Architecture for Semantic Validation of \textbf{LegalTech} Ecosystems} \textcolor{notegrey}{\footnotesize(see Comment~1; approved by the Academic Editor)}\\
+\end{tabularx}
+
+\vspace{4pt}
+\noindent\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedleft\bfseries}p{3.5cm}@{\hspace{8pt}}lXl@{}}
+Authors & Prof. & Patricio Michael \textbf{Paccha-Angamarca}\,* \quad \texttt{patricio.paccha@epn.edu.ec} & EC\\
+        & Dr.   & Erwin J. \textbf{Sacoto-Cabrera} \quad \texttt{esacoto@ups.edu.ec} & EC\\
+        & Prof. & Victor \textbf{Velepucha} \quad \texttt{victor.velepucha@epn.edu.ec} & EC\\
+\end{tabularx}
+
+\vspace{4pt}
+\hrule height 1pt
+\vspace{10pt}
+
+\begin{center}
+{\Large\bfseries Response to Reviewer 1 Comments}
+\end{center}
+
+%% ============================================================
+\shead{1. Summary}
+
+Thank you very much for taking the time to review this manuscript. We are grateful for the encouraging assessment and, in particular, for the structural observations: separating the discussion from the conclusions and giving the policy material a section of its own made the argument considerably easier to follow, and the abstract is a genuine improvement on what we submitted. Please find the detailed responses below.
+
+All revised passages are marked in \textcolor{blue}{blue} in the re-submitted manuscript, and the \LaTeX{} source carries \verb|%>> R1-n| comments at each change, so that every point below can be located directly. No scientific content, numerical result or claim has changed in this revision.
+
+%% ============================================================
+\shead{2. Questions for General Evaluation}
+
+\renewcommand{\arraystretch}{1.25}
+\small
+\begin{tabularx}{\textwidth}{@{}p{4.6cm}p{3.5cm}X@{}}
+\toprule
+\textbf{Question} & \textbf{Reviewer's Evaluation} & \textbf{Response and Revisions}\\
+\midrule
+Does the introduction provide sufficient background and include all relevant references?
+ & \rev{[keep the option recorded in SuSy]}
+ & The Introduction has been restructured: the three contributions, previously set as three labelled lines, are now running prose (Sec.~1, p.~2), and a new thematic block on law and legal informatics has been added to the literature review (Sec.~2, p.~3).\\
+Are all the cited references relevant to the research?
+ & \rev{[keep the option recorded in SuSy]}
+ & Every recommended reference was reviewed individually. One (Li et al., \emph{Systems} 2024) has been added where it genuinely informs the AI-integration dimension; two others were, respectfully, not included, with the reasoning given in Response~4.\\
+Is the research design appropriate?
+ & \rev{[keep the option recorded in SuSy]}
+ & Unchanged in this revision. The design was validated in the previous round and no comment in this report bears on it.\\
+Are the methods adequately described?
+ & \rev{[keep the option recorded in SuSy]}
+ & Strengthened. The anchoring rule set is described in Sec.~4 and illustrated by the JSON-LD listing in Figure~2 (p.~6), re-typeset for legibility as requested.\\
+Are the results clearly presented?
+ & \rev{[keep the option recorded in SuSy]}
+ & Improved. Both tables now carry a descriptive paragraph in the running text (p.~3 for Table~1; p.~9 for Table~2), and Figure~2 has a caption that reads the object line by line.\\
+Are the conclusions supported by the results?
+ & \rev{[keep the option recorded in SuSy]}
+ & The conclusions are now a separate section (Sec.~7, p.~11), stating three conclusions each traceable to a reported result, with interpretation kept in Sec.~6.\\
+\bottomrule
+\end{tabularx}
+\normalsize
+
+%% ============================================================
+\shead{3. Point-by-point response to Comments and Suggestions for Authors}
+
+\cmt{1}{The authors should carefully revise the manuscript title to ensure it accurately reflects the study's main focus and scope.}
+\rsp{1} Agree, and this was already acted upon between rounds. The version you reviewed was titled ``\dots Semantic Validation of Judicial Digital Ecosystems''. The revised title is:
+
+\rev{``LegalShadow: An Ontology-Guided Digital Shadow Architecture for Semantic Validation of \textbf{LegalTech} Ecosystems''} (title page).
+
+The new wording places the paper in the LegalTech research line to which it belongs and matches the governance ontology the instrument validates against, in which the LegalTech domain is one of the ten dimensions. The Academic Editor has reviewed and approved this change. Should you consider that the empirical scope ought also to be signalled, we would gladly adopt the subtitle ``: Evidence from a Judicial Institution''.
+
+\cmt{2}{The abstract currently does not meet the journal's requirements, and the figure is unclear. The authors are required to revise the manuscript to include the study's main objectives, methodology, key findings, and contributions.}
+\rsp{2} Thank you for pointing this out. We agree. The abstract has been rewritten so that the four elements appear explicitly and in order, and it now falls within the journal's limit: 185 words against 206 previously (Abstract, p.~1).
+
+\rev{\textbf{Objective:} ``This study asks to what extent the publicly observable digital surface of a judicial institution materialises, in machine-processable form, the governance semantics that its declared frameworks prescribe.'' \textbf{Methodology:} ``\dots a ten-dimension governance ontology \dots drives a read-only web acquisition protocol with per-snapshot SHA-256 provenance; the evidence is serialised as a JSON-LD knowledge graph, and a hierarchical coverage function $\Psi$ and gap function $\delta$ score it.'' \textbf{Findings:} ``\dots declarative maturity of 46/100, yet ten-dimension semantic coverage reaches only $\Psi_{\mathrm{global}}=34.9\%$ against 90.4\% for a synthetic control, with three dimensions at zero.'' \textbf{Contributions:} ``The contributions are the reference architecture, an auditable non-invasive acquisition protocol, and a coverage metric that makes ontology--artefact alignment verifiable and comparable across judicial ecosystems.''}
+
+On the figure, we have taken this together with your later comment and improved Figure~2; see Response~5.
+
+\cmt{3}{The introduction section has a fundamental structural issue that requires careful revision. The authors have used subsections for every paragraph, which is unclear and disrupts the flow. Please revise this carefully. Additionally, I recommend that the authors refer to the following paper for guidance on manuscript structure and methodology, and also cite legal papers because the research article is based on the legal system: \emph{The Risk of Global Environmental Change to Economic Sustainability and Law: Help from Digital Technology and Governance Regulation}.}
+\rsp{3} You identified something real, and we are grateful for the prompt to look, although the cause lay slightly elsewhere. The Introduction contains no subsections; the effect you describe came from two devices. First, the three contributions were set with forced line breaks and bold labels \textbf{(C1) (C2) (C3)}, so they read as three headings. Second, and more importantly, Sections~4 to~6 carried twelve bold run-in headings, one on almost every paragraph, so the manuscript looked subsectioned when skimmed.
+
+We have converted the contributions into running prose (Sec.~1, p.~2) and reduced the run-in headings from twelve to five, keeping only those that mark a genuine change of subject. The Introduction now reads as five continuous paragraphs.
+
+\rev{``The paper contributes, first, the LegalShadow reference architecture together with its coverage and gap model $\langle\Psi,\delta\rangle$; second, an auditable, non-invasive acquisition protocol with per-snapshot cryptographic provenance \dots; and third, an empirical study of the Ecuadorian Judiciary Council over 17 dated runs \dots''}
+
+On citing legal scholarship we agree entirely: this was a genuine omission in a paper about judicial systems. A new thematic block, ``Law, legal informatics and the governance of legal technology'', has been added to Section~2 (p.~3). Regarding the specific paper recommended for guidance, we consulted it; our reasoning on including it as a citation is given in Response~4, since it belongs with the other recommended references.
+
+\cmt{4}{Please replace the `Related Work and Delimitation' section with a `Literature Review' section, as that is where these topics belong. Also, please carefully add references. I have noted that some statements are missing citations. Please cite legal references and closely related research articles as well: ``Integrating Artificial Intelligence into Service Innovation, Business Development, and Legal Compliance: Insights from the Hainan Free Trade Port Era'', ``TOW environmental migrants in the international refuge law and human rights: an assessment of protection gaps and migrants' legal protection''.}
+\rsp{4} Agree. The section is now titled \textbf{Literature Review} (Sec.~2, p.~2). We retained the delimitation table, since it is what substantiates the novelty claim, but it is now one element of the review rather than its organising principle.
+
+\rev{``The legal domain has a long tradition of formal knowledge representation \dots and a parallel line of quantitative legal analytics that predicts judicial behaviour from structured case data. Both presuppose what this paper measures: that legally relevant information is already available in machine-processable form.''} (Sec.~2, p.~3)
+
+On the recommended references, we read all three carefully and have incorporated one.
+
+\textbf{Included.} Li et al., ``Integrating Artificial Intelligence into Service Innovation, Business Development, and Legal Compliance'' (\emph{Systems}, 2024), now cited in Section~2 and again in Section~8. Its treatment of legal risk, data protection and algorithmic accountability as design constraints rather than afterthoughts bears directly on the AI-integration dimension of our ontology, which is the dimension with the largest measured gap ($\delta=82.4$), and it supports the argument in Policy Implications that structured disclosure is a low-cost regulatory lever.
+
+\textbf{Respectfully not included.} Cao et al.\ on global environmental change and economic sustainability, and Khaskheli et al.\ on environmental migrants in international refugee law. We could not identify a passage where either would inform the reader: neither concerns digital twins or shadows, ontology-based conformance, open-data maturity, or the governance of judicial information systems. We followed the journal's own guidance, which asks authors to include recommended references only where they enhance the manuscript. We would gladly reconsider if you can indicate the specific passage you had in mind --- it is entirely possible that we have missed the connection.
+
+We did act on the underlying request, which we understood to be that a paper about the legal system should engage legal scholarship: hence the new legal block described above, which adds four references from the legal domain.
+
+\cmt{5}{Figure 2 is unclear and should be improved for better readability. In addition, the authors should provide a clear description for each table included in the manuscript.}
+\rsp{5} Agree on both counts. Figure~2 (the JSON-LD fragment, p.~6) has been re-typeset as a numbered listing with a larger effective size, syntax colouring that separates string values from structural keys, and highlighting of the three fields that carry the argument. Its caption now walks the reader through the object line by line.
+
+\rev{``\dots Lines~8--12 hold the \texttt{evidence} block that pins the component to one stored HTTP response, its digest and its capture time; line~13 lists the deterministic \texttt{signal}s the probes matched; lines~14--15 are the anchoring $\Gamma(v)$, whose four classes enter the coverage set $R$; line~16 records through \texttt{gap} what the rules sought and did not find.''}
+
+Both tables now have a descriptive paragraph in the running text. For Table~1 (Sec.~2, p.~3) we explain what each row and each of the three columns represents, and what reading across a row versus down the last column shows. For Table~2 (Sec.~5, p.~9) we explain every column, the ordering, the aggregate row, and how the \emph{Root} column alone already separates the three coverage regimes the metric distinguishes.
+
+While revising the figures we also found and corrected a typographic defect in Figure~3(a), p.~7: the text of two pipeline stages overflowed the boxes containing it. The boxes have been widened and the stage spacing adjusted.
+
+\cmt{6}{The Discussion and Conclusions sections should be written separately. Currently, both are very confusing and difficult to follow. Please separate them clearly.}
+\rsp{6} Agree, and this improved the paper. Section~6 (Discussion, p.~10) now retains only interpretation: the contrast between declarative maturity and semantic coverage, the reflexive finding and the measurement bound it implies, external validity with the four-step transfer protocol, and limitations. Section~7 (Conclusions, p.~11) is new and synthetic.
+
+\rev{``Three conclusions follow from the study. First, declarative maturity and machine-actionable governance are distinct quantities \dots Second, the deficit is localisable rather than diffuse \dots Third, the instrument is auditable end to end: every figure reported here is recomputable by a third party from the published rubric, rule table and dated artefacts.''}
+
+\cmt{7}{The authors need to add the following sections after the Conclusion and also revise the Conclusion: add sections Policy Implications, Future Research Directions, and Recommendations.}
+\rsp{7} Agree. All three have been added as Sections~8 (p.~11), 9 (p.~11) and 10 (p.~12), and the Conclusion has been rewritten as described in Response~6.
+
+One note on how we did it, which we hope you will find appropriate. The material these sections require already existed in the manuscript, distributed across the old combined section: the prescriptive half of the reflexive finding, the closing list of future work, and the three concrete publication acts. Rather than write new sections alongside that material, we \emph{moved} it into them, so that the paper states each point once. Section~8 draws out three implications for how judicial institutions are assessed and how they report; Section~9 sets out four directions, each traced to a specific limitation; Section~10 gives three publication acts for judicial institutions and one for oversight bodies, with the coverage dimensions each would unlock.
+
+\rev{``For judicial institutions seeking to close the gap this study measures, three publication acts carry the highest leverage at the lowest cost, and none requires modifying internal governance processes \dots For oversight bodies, the corresponding recommendation is to require machine-readable form explicitly when mandating transparency, since publication without structure is not auditable at scale.''} (Sec.~10, p.~12)
+
+The manuscript grows from 12 to 14 pages as a result. We are happy to compress further if the volume prefers a shorter format.
+
+%% ============================================================
+\shead{4. Response to Comments on the Quality of English Language}
+
+\noindent\textbf{Point 1:} Under \emph{English Language and Figures}, the review form records ``Quality of Figures: figures and tables can be improved''.
+
+\noindent\textbf{Response 1:} Addressed. Figure~2 has been re-typeset as a numbered listing with syntax colouring and a caption that reads the object line by line (p.~6). Both tables now carry a descriptive paragraph in the running text (pp.~3 and~9). We additionally corrected a typographic defect in Figure~3(a), where the text of two pipeline stages overflowed its containers, and re-centred the two panels of that figure (p.~7). No comment on the English language itself was raised; the manuscript has nevertheless been re-read in full during this revision.
+
+%% ============================================================
+\shead{5. Additional clarifications}
+
+Three clarifications we prefer to state openly.
+
+\begin{enumerate}[leftmargin=1.6em]
+  \item \textbf{Marking of revisions.} Revised passages are marked in \textcolor{blue}{blue} in the manuscript rather than red, so that they remain distinguishable from the colours already used in the figures. The \LaTeX{} source additionally carries \verb|%>> R1-n| comments at each change.
+  \item \textbf{Length.} The three new sections requested in Comment~7 take the manuscript from 12 to 14 pages. We note that the Academic Editor previously commended the 10-page format, and we are entirely willing to compress if the volume prefers it; we did not want to shorten the new material unilaterally before you had seen it.
+  \item \textbf{Recommended references.} Our decision on two of the three recommended references is set out in Response~4. We took it under the journal's guidance to include recommended references only where they enhance the manuscript, and we would revisit it immediately if you can point to the passage where you see them contributing. We have in any case added four legal references in response to the substance of your request.
+\end{enumerate}
+
+All figures reported in the paper are unchanged in value and remain recomputable by a third party from the artefacts deposited at Zenodo (DOI:~10.5281/zenodo.21942315).
+
+\vspace{10pt}
+\hrule height 0.4pt
+\vspace{8pt}
+
+\noindent Yours sincerely,\\[10pt]
+\textbf{Patricio M. Paccha-Angamarca}, on behalf of all authors\\
+\href{mailto:patricio.paccha@epn.edu.ec}{patricio.paccha@epn.edu.ec}
+
+\end{document}
